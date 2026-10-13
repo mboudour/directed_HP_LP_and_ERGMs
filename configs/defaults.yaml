@@ -1,0 +1,28 @@
+project:
+  seed: 20261013
+  data_root: data
+  results_root: results
+
+network:
+  dichotomize_rule: at_least_one_interaction
+  core_size: 100
+  remove_self_loops: true
+
+hyperarc:
+  representation: native_or_formal_concept
+  tail_cap: null
+  head_cap: null
+
+masking:
+  main_rate: 0.30
+  main_mechanisms: [mcar, mnar_out]
+  regimes: [event_first, arc_first]
+  stress_regime: footprint_free
+
+replication:
+  heuristic_and_mple_masks: 30
+  neural_and_joint_score_masks: 10
+
+evaluation:
+  negative_panels: [random, degree_matched, near_complete, non_maximal, role_corrupted, reversal]
+  primary_metrics: [roc_auc, pr_auc, precision, recall, f1, accuracy, mcc, log_loss]
