@@ -1,6 +1,6 @@
 # Reproducible environment
 
-The project deliberately keeps Python and R separate. Python handles data engineering, directed graph and hypergraph operations, masking, LP/HP methods, and evaluation. R handles ERGM fitting and conditional simulation through `statnet`. Files exchanged between them use Parquet or CSV plus a tracked metadata manifest.
+The project deliberately keeps Python and R separate. Python handles data engineering, directed graph and hypergraph operations, masking, LP/HP methods, and evaluation. R handles ERGM fitting and conditional simulation through `statnet`. Files exchanged between them use CSV plus a tracked metadata manifest; Parquet stays in the Python layer unless R Arrow is added later.
 
 ## Required local tools
 
@@ -42,9 +42,11 @@ Rscript r/bootstrap_renv.R
 
 The bootstrap installs and locks:
 
-- `network`, `ergm`, `ergm.count`, `sna`, `statnet.common` for ERGM work;
-- `data.table`, `arrow`, `jsonlite`, `yaml`, `digest`, and `optparse` for data interchange and scripts;
+- `network`, `ergm`, `sna`, and `statnet.common` for ERGM work;
+- `data.table`, `jsonlite`, `yaml`, `digest`, and `optparse` for data interchange and scripts;
 - `testthat` for R tests.
+
+The valued-ERGM (`ergm.count`) and R Arrow packages are intentionally deferred until the relevant supplementary analysis requires them. They are not necessary for the data audit or the primary binary ERGM benchmark.
 
 On Ubuntu/Debian, typical system prerequisites for source-installed R packages are:
 

@@ -25,11 +25,9 @@ renv::init(bare = TRUE)
 packages <- c(
   "network",
   "ergm",
-  "ergm.count",
   "sna",
   "statnet.common",
   "data.table",
-  "arrow",
   "jsonlite",
   "yaml",
   "digest",
