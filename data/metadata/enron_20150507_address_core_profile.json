@@ -1,0 +1,70 @@
+{
+  "candidate_rule": "A node belongs to candidate core k if it has at least k distinct observed in-neighbors and at least k distinct observed out-neighbors in the complete address-level graph. Cores are nested descriptive candidates; no threshold is selected by this profile.",
+  "dataset_id": "enron_20150507",
+  "next_decision": "Choose a core threshold after comparing candidate size, density, reciprocity, and native-event coverage. The selected core must be documented before ERGM estimation or formal-concept enumeration.",
+  "source_arcs": 360402,
+  "source_native_events": 490141,
+  "source_nodes": 86408,
+  "threshold_rows": [
+    {
+      "density_excluding_loops": 0.0017967483333863898,
+      "events_all_participants_in_core": 322942,
+      "events_with_sender_in_core": 451401,
+      "induced_arcs": 196416,
+      "minimum_unique_in_and_out_degree": 1,
+      "nodes": 10456,
+      "recipient_address_retention": 0.7544001702540842,
+      "reciprocal_unordered_pairs": 29665
+    },
+    {
+      "density_excluding_loops": 0.004016964071013872,
+      "events_all_participants_in_core": 285749,
+      "events_with_sender_in_core": 432346,
+      "induced_arcs": 176973,
+      "minimum_unique_in_and_out_degree": 2,
+      "nodes": 6638,
+      "recipient_address_retention": 0.7224960955728396,
+      "reciprocal_unordered_pairs": 27588
+    },
+    {
+      "density_excluding_loops": 0.008583776693216123,
+      "events_all_participants_in_core": 243364,
+      "events_with_sender_in_core": 401260,
+      "induced_arcs": 148726,
+      "minimum_unique_in_and_out_degree": 5,
+      "nodes": 4163,
+      "recipient_address_retention": 0.667868753609309,
+      "reciprocal_unordered_pairs": 24925
+    },
+    {
+      "density_excluding_loops": 0.015084547376904662,
+      "events_all_participants_in_core": 209885,
+      "events_with_sender_in_core": 383049,
+      "induced_arcs": 120086,
+      "minimum_unique_in_and_out_degree": 10,
+      "nodes": 2822,
+      "recipient_address_retention": 0.6074343729251669,
+      "reciprocal_unordered_pairs": 22051
+    },
+    {
+      "density_excluding_loops": 0.027235540498177918,
+      "events_all_participants_in_core": 172550,
+      "events_with_sender_in_core": 361404,
+      "induced_arcs": 85664,
+      "minimum_unique_in_and_out_degree": 20,
+      "nodes": 1774,
+      "recipient_address_retention": 0.5289021825997222,
+      "reciprocal_unordered_pairs": 17672
+    },
+    {
+      "density_excluding_loops": 0.07724369126808152,
+      "events_all_participants_in_core": 94946,
+      "events_with_sender_in_core": 296340,
+      "induced_arcs": 29263,
+      "minimum_unique_in_and_out_degree": 50,
+      "nodes": 616,
+      "recipient_address_retention": 0.3421733000362455,
+      "reciprocal_unordered_pairs": 8018
+    }
+  ]
+}
