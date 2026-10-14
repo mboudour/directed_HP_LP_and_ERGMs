@@ -28,6 +28,7 @@ PHASE2_SCRIPTS = (
     "33_summarize_masked_ergm.py",
     "34_summarize_temporal_check.py",
     "35_summarize_temporal_btergm.py",
+    "36_prepare_event_first_masks.py",
 )
 
 
