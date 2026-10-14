@@ -16,6 +16,9 @@ PHASE2_SCRIPTS = (
     "24_prepare_mathoverflow.py",
     "25_build_enron_custodian_projection.py",
     "26_run_phase2.py",
+    "27_phase2_readiness_report.py",
+    "30_run_static_benchmark.py",
+    "31_export_temporal_panel.py",
 )
 
 

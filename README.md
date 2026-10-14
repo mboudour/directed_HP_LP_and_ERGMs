@@ -75,6 +75,11 @@ manifest-driven Phase 2 preparation layer for Enron, EU-core, CAVIAR, Ciel, Jmai
 and MathOverflow. The canonical local workflow is described in
 [docs/PHASE2_AUTOMATION.md](docs/PHASE2_AUTOMATION.md).
 
+The bounded static computational pilot is documented in
+[docs/STATIC_PILOT.md](docs/STATIC_PILOT.md). It provides a single reproducible entry
+point for the initial directed LP, formal-concept fidelity, masking, and ERGM-input
+checks while retaining the plan's scientific gates.
+
 After placing the untracked source files in their registered `data/` locations, use:
 
 ```bash

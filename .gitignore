@@ -48,6 +48,8 @@ renv/staging/
 !/results/models/.gitkeep
 /results/logs/*
 !/results/logs/.gitkeep
+/results/phase2/*
+!/results/phase2/.gitkeep
 
 # Manuscript build artefacts
 /manuscript/figures/*
