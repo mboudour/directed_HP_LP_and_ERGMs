@@ -19,6 +19,11 @@ datasets:
     static_targets: [arc, footprint, concept, native_event, role_assignment]
     hard_gate: reviewed_custodian_to_address_mapping_before_primary_projection
     gate_record: data/metadata/gates/enron_custodian_projection.json
+    mcmle_feasibility_core:
+      status: approved_after_core100_M2_and_M4_mcmle_nonmixing
+      node_rule: nested_rank_1_through_50_subset_of_primary_core_100
+      scope: mcmle_feasibility_and_joint_score_sensitivity_only
+      primary_core100_results_unchanged: true
 
   email_eu_core_temporal:
     status: main_dyadic_temporal

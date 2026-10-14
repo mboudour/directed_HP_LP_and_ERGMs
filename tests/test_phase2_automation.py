@@ -32,6 +32,8 @@ PHASE2_SCRIPTS = (
     "37_run_native_event_heuristics.py",
     "38_run_native_event_hard_panels.py",
     "39_export_native_event_ergm_inputs.py",
+    "40_run_bounded_command.py",
+    "41_materialize_enron_mcmle_core50.py",
 )
 
 

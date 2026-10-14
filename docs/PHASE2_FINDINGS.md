@@ -277,6 +277,21 @@ diagnostic, whereas M2 fails by complete nonmixing and M4 fails its
 convergence/mixing gate. No additional MCMLE ladder fit is launched until a
 model-revision or reduced-core policy is chosen explicitly.
 
+### Approved response — deterministic nested Enron core-50 MCMLE feasibility module
+
+The researcher approved a fixed, nested core-50 for MCMLE feasibility and
+conditional joint-score sensitivity only. It is defined as primary strict
+core-100 ranks 1–50 under the already frozen sent-plus-received activity rule;
+there is no reranking, model-based choice, or tuning. It retains the same
+strict 1998–2002 range, custodian map, full-event participant rule, and
+message-copy policy. All primary masking, heuristic, MPLE, formal-concept, and
+native-event results remain core-100 results.
+
+The core-50 exists to test whether M2/M3/M4 MCMLE can satisfy the convergence
+and non-degeneracy gate at a transparently smaller scale. A success does not
+erase or replace the core-100 M2/M4 failures. The precise selection and scope
+are documented in `docs/ENRON_MCMLE_FEASIBILITY_CORE.md`.
+
 **Evidence.** Local technical smoke bundle:
 `results/models/enron_joint_footprint_mcmle_smoke/`, especially
 `candidate_simulation_scores.csv`, `selected_candidates.csv`,
