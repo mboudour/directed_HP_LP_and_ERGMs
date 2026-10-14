@@ -25,6 +25,9 @@ renv::init(bare = TRUE)
 packages <- c(
   "network",
   "ergm",
+  "ergm.count",
+  "tergm",
+  "btergm",
   "sna",
   "statnet.common",
   "data.table",

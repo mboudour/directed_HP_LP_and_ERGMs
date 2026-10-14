@@ -1,0 +1,67 @@
+# Dataset registry for the agreed directed HP/LP/ERGM paper.
+# Raw and derived data are deliberately excluded from Git. This file records only paths,
+# integrity expectations, and eligibility gates.
+
+datasets:
+  enron_20150507:
+    status: main_native
+    raw_input: data/external/enron_20150507/enron_mail_20150507.tar.gz
+    address_provenance_layer: true
+    primary_node_set: reviewed_custodian_mailboxes
+    required_identity_map: data/processed/enron_20150507/custodian_address_map.csv
+    core_rule: top_100_by_sent_plus_received_activity_within_primary_node_set
+    native_event_policy: singleton_sender_to_plus_cc_recipients
+    temporal_panels: calendar_month
+    static_targets: [arc, footprint, concept, native_event, role_assignment]
+    hard_gate: reviewed_custodian_to_address_mapping_before_primary_projection
+    gate_record: data/metadata/gates/enron_custodian_projection.json
+
+  email_eu_core_temporal:
+    status: main_dyadic_temporal
+    raw_input: data/raw/email_eu_core_temporal/email-Eu-core-temporal.txt
+    expected_rows: 332334
+    core_rule: top_100_by_sent_plus_received_activity
+    temporal_panels:
+      primary_days: 30
+      sensitivity_days: [14, 28]
+    static_targets: [arc, footprint, concept, dyadic_role_assignment]
+    native_event_policy: unsupported_in_primary_analysis
+
+  caviar:
+    status: main_dyadic_pending_direction_audit
+    raw_input_glob: data/raw/caviar/csv_matrices/CAVIAR*.csv
+    phases: 11
+    core_rule: whole_network
+    static_targets: [arc, footprint, concept, dyadic_role_assignment]
+    native_event_policy: unsupported
+    hard_gate: authoritative_confirmation_that_matrix_rows_mean_caller_to_receiver
+    gate_record: data/metadata/gates/caviar_direction.json
+
+  ciel:
+    status: conditional_dyadic_pending_direction_audit
+    raw_input: data/raw/ciel/csv_matrix/CSV/CIELNET.csv
+    core_rule: whole_network
+    static_targets: [arc, footprint, concept, dyadic_role_assignment]
+    native_event_policy: unsupported
+    hard_gate: authoritative_confirmation_of_relation_semantics_and_direction
+    gate_record: data/metadata/gates/ciel_direction.json
+
+  jmail_v1_2026_02:
+    status: conditional_native_pending_provenance_and_entity_audit
+    raw_input: data/raw/jmail_v1_2026_02/emails-slim.parquet
+    expected_rows: 1781028
+    core_rule: top_100_by_sent_plus_received_activity
+    native_event_policy: singleton_sender_to_plus_cc_recipients_bcc_separate
+    static_targets: [arc, footprint, concept, native_event, role_assignment]
+    hard_gate: defensible_provenance_entity_resolution_licensing_and_derived_release
+    gate_record: data/metadata/gates/jmail_v1_admissibility.json
+
+  mathoverflow_stackexchange_2024:
+    status: conditional_reconstructed_native_pending_window_decision
+    raw_input: data/raw/mathoverflow_stackexchange_2024/Posts.xml
+    optional_users_input: data/raw/mathoverflow_stackexchange_2024/Users.xml
+    core_rule: top_100_by_sent_plus_received_activity
+    native_event_policy: distinct_answerers_to_question_asker_within_declared_window
+    static_targets: [arc, footprint, concept, conditional_native_event, role_assignment]
+    hard_gate: fixed_answer_window_deleted_post_anonymous_user_and_duplicate_answerer_policy
+    gate_record: data/metadata/gates/mathoverflow_reconstruction_policy.json

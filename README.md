@@ -25,6 +25,7 @@ cd directed_HP_LP_and_ERGMs
 uv sync --extra dev
 uv run pytest
 Rscript r/bootstrap_renv.R
+make phase2-status
 ```
 
 The neural stack is intentionally optional because PyTorch installation depends on the local CPU/CUDA platform:
@@ -69,4 +70,18 @@ Do **not** commit raw email records, source archives, credentials, personal data
 
 ## Current scope
 
-This initial scaffold contains only the reproducible environment and project architecture. No empirical dataset has been collected or processed yet.
+The repository includes an audited Enron address-level provenance pipeline and a
+manifest-driven Phase 2 preparation layer for Enron, EU-core, CAVIAR, Ciel, Jmail v1,
+and MathOverflow. The canonical local workflow is described in
+[docs/PHASE2_AUTOMATION.md](docs/PHASE2_AUTOMATION.md).
+
+After placing the untracked source files in their registered `data/` locations, use:
+
+```bash
+make phase2-status
+make phase2-dry-run
+make phase2-audits
+```
+
+The batch runner executes only locally available, ungated audits. It does not silently
+approve a provenance, direction, identity, or reconstruction policy gate.

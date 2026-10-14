@@ -12,44 +12,18 @@ THRESHOLDS = (1, 2, 5, 10, 20, 50)
 BATCH_SIZE = 25_000
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ARCS = (
-    PROJECT_ROOT
-    / "data"
-    / "interim"
-    / "enron_20150507"
-    / "address_level_directed_arcs.parquet"
-)
+ARCS = PROJECT_ROOT / "data" / "interim" / "enron_20150507" / "address_level_directed_arcs.parquet"
 EVENTS = (
-    PROJECT_ROOT
-    / "data"
-    / "interim"
-    / "enron_20150507"
-    / "native_events_address_level.parquet"
+    PROJECT_ROOT / "data" / "interim" / "enron_20150507" / "native_events_address_level.parquet"
 )
 ARC_SUMMARY = (
-    PROJECT_ROOT
-    / "data"
-    / "metadata"
-    / "enron_20150507_address_level_arc_aggregation_summary.json"
+    PROJECT_ROOT / "data" / "metadata" / "enron_20150507_address_level_arc_aggregation_summary.json"
 )
 EVENT_SUMMARY = (
-    PROJECT_ROOT
-    / "data"
-    / "metadata"
-    / "enron_20150507_address_level_event_build_summary.json"
+    PROJECT_ROOT / "data" / "metadata" / "enron_20150507_address_level_event_build_summary.json"
 )
-SUMMARY = (
-    PROJECT_ROOT
-    / "data"
-    / "metadata"
-    / "enron_20150507_address_core_profile.json"
-)
-REPORT = (
-    PROJECT_ROOT
-    / "docs"
-    / "data_audits"
-    / "enron_20150507_address_core_profile.md"
-)
+SUMMARY = PROJECT_ROOT / "data" / "metadata" / "enron_20150507_address_core_profile.json"
+REPORT = PROJECT_ROOT / "docs" / "data_audits" / "enron_20150507_address_core_profile.md"
 
 
 def decimal_or_na(value: float | None, digits: int = 6) -> str:
@@ -73,34 +47,22 @@ def main() -> None:
     missing_inputs = [path for path in required_inputs if not path.is_file()]
 
     if missing_inputs:
-        rendered = "\n  ".join(
-            str(path.relative_to(PROJECT_ROOT))
-            for path in missing_inputs
-        )
+        rendered = "\n  ".join(str(path.relative_to(PROJECT_ROOT)) for path in missing_inputs)
         raise SystemExit(f"STOP: required input is missing:\n  {rendered}")
 
     existing_outputs = [path for path in (SUMMARY, REPORT) if path.exists()]
 
     if existing_outputs:
-        rendered = "\n  ".join(
-            str(path.relative_to(PROJECT_ROOT))
-            for path in existing_outputs
-        )
+        rendered = "\n  ".join(str(path.relative_to(PROJECT_ROOT)) for path in existing_outputs)
         raise SystemExit(
             "STOP: core-profile output already exists. "
             "This script will not overwrite it:\n"
             f"  {rendered}"
         )
 
-    expected_arcs = int(
-        json.loads(ARC_SUMMARY.read_text(encoding="utf-8"))[
-            "unique_directed_arcs"
-        ]
-    )
+    expected_arcs = int(json.loads(ARC_SUMMARY.read_text(encoding="utf-8"))["unique_directed_arcs"])
     expected_events = int(
-        json.loads(EVENT_SUMMARY.read_text(encoding="utf-8"))[
-            "native_events_written"
-        ]
+        json.loads(EVENT_SUMMARY.read_text(encoding="utf-8"))["native_events_written"]
     )
 
     arc_set: set[tuple[str, str]] = set()
@@ -125,9 +87,7 @@ def main() -> None:
 
     if len(arc_set) != expected_arcs:
         raise SystemExit(
-            "STOP: arc-count mismatch.\n"
-            f"Expected: {expected_arcs:,}\n"
-            f"Found:    {len(arc_set):,}"
+            f"STOP: arc-count mismatch.\nExpected: {expected_arcs:,}\nFound:    {len(arc_set):,}"
         )
 
     nodes = set(out_neighbors) | set(in_neighbors)
@@ -136,8 +96,7 @@ def main() -> None:
         threshold: {
             node
             for node in nodes
-            if len(out_neighbors[node]) >= threshold
-            and len(in_neighbors[node]) >= threshold
+            if len(out_neighbors[node]) >= threshold and len(in_neighbors[node]) >= threshold
         }
         for threshold in THRESHOLDS
     }
@@ -156,16 +115,10 @@ def main() -> None:
     }
 
     for threshold, core in core_nodes.items():
-        induced_arcs = sum(
-            tail in core and head in core
-            for tail, head in arc_set
-        )
+        induced_arcs = sum(tail in core and head in core for tail, head in arc_set)
 
         reciprocal_pairs = sum(
-            tail < head
-            and tail in core
-            and head in core
-            and (head, tail) in arc_set
+            tail < head and tail in core and head in core and (head, tail) in arc_set
             for tail, head in arc_set
         )
 
@@ -190,19 +143,15 @@ def main() -> None:
                 head_in_core = [address in core for address in head]
 
                 stats[threshold]["events_with_sender_in_core"] += sender_in_core
-                stats[threshold]["events_all_participants_in_core"] += (
-                    sender_in_core and all(head_in_core)
-                )
-                stats[threshold]["recipient_addresses_in_core"] += sum(
+                stats[threshold]["events_all_participants_in_core"] += sender_in_core and all(
                     head_in_core
                 )
+                stats[threshold]["recipient_addresses_in_core"] += sum(head_in_core)
                 stats[threshold]["recipient_addresses_total"] += len(head)
 
     if event_count != expected_events:
         raise SystemExit(
-            "STOP: event-count mismatch.\n"
-            f"Expected: {expected_events:,}\n"
-            f"Found:    {event_count:,}"
+            f"STOP: event-count mismatch.\nExpected: {expected_events:,}\nFound:    {event_count:,}"
         )
 
     rows: list[dict[str, object]] = []
@@ -220,22 +169,13 @@ def main() -> None:
                 "nodes": node_count,
                 "induced_arcs": induced_arcs,
                 "density_excluding_loops": (
-                    induced_arcs / possible_arcs
-                    if possible_arcs
-                    else None
+                    induced_arcs / possible_arcs if possible_arcs else None
                 ),
-                "reciprocal_unordered_pairs": int(
-                    stat["reciprocal_unordered_pairs"]
-                ),
-                "events_with_sender_in_core": int(
-                    stat["events_with_sender_in_core"]
-                ),
-                "events_all_participants_in_core": int(
-                    stat["events_all_participants_in_core"]
-                ),
+                "reciprocal_unordered_pairs": int(stat["reciprocal_unordered_pairs"]),
+                "events_with_sender_in_core": int(stat["events_with_sender_in_core"]),
+                "events_all_participants_in_core": int(stat["events_all_participants_in_core"]),
                 "recipient_address_retention": (
-                    int(stat["recipient_addresses_in_core"])
-                    / recipient_total
+                    int(stat["recipient_addresses_in_core"]) / recipient_total
                     if recipient_total
                     else None
                 ),
@@ -280,9 +220,7 @@ def main() -> None:
             reciprocal=row["reciprocal_unordered_pairs"],
             sender_events=row["events_with_sender_in_core"],
             complete_events=row["events_all_participants_in_core"],
-            recipient_retention=percent_or_na(
-                row["recipient_address_retention"]
-            ),
+            recipient_retention=percent_or_na(row["recipient_address_retention"]),
         )
         for row in rows
     )

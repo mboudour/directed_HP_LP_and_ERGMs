@@ -42,11 +42,14 @@ Rscript r/bootstrap_renv.R
 
 The bootstrap installs and locks:
 
-- `network`, `ergm`, `sna`, and `statnet.common` for ERGM work;
+- `network`, `ergm`, `ergm.count`, `tergm`, `btergm`, `sna`, and `statnet.common`
+  for the static ERGM ladder and the paper's bounded chronological check;
 - `data.table`, `jsonlite`, `yaml`, `digest`, and `optparse` for data interchange and scripts;
 - `testthat` for R tests.
 
-The valued-ERGM (`ergm.count`) and R Arrow packages are intentionally deferred until the relevant supplementary analysis requires them. They are not necessary for the data audit or the primary binary ERGM benchmark.
+R Arrow remains deferred: the Python preparation layer exports portable CSV interchange
+tables and recorded manifests as needed. `ergm.count` is installed now because the agreed
+plan includes a supplementary valued-ERGM sensitivity analysis on Enron and CAVIAR.
 
 On Ubuntu/Debian, typical system prerequisites for source-installed R packages are:
 

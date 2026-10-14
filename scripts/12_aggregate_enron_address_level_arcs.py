@@ -14,39 +14,18 @@ import pyarrow.parquet as pq
 BATCH_SIZE = 25_000
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-INPUT = (
-    PROJECT_ROOT
-    / "data"
-    / "interim"
-    / "enron_20150507"
-    / "native_events_address_level.parquet"
-)
+INPUT = PROJECT_ROOT / "data" / "interim" / "enron_20150507" / "native_events_address_level.parquet"
 EVENT_SUMMARY = (
-    PROJECT_ROOT
-    / "data"
-    / "metadata"
-    / "enron_20150507_address_level_event_build_summary.json"
+    PROJECT_ROOT / "data" / "metadata" / "enron_20150507_address_level_event_build_summary.json"
 )
 OUTPUT = (
-    PROJECT_ROOT
-    / "data"
-    / "interim"
-    / "enron_20150507"
-    / "address_level_directed_arcs.parquet"
+    PROJECT_ROOT / "data" / "interim" / "enron_20150507" / "address_level_directed_arcs.parquet"
 )
 TEMP_OUTPUT = OUTPUT.with_suffix(".parquet.tmp")
 SUMMARY = (
-    PROJECT_ROOT
-    / "data"
-    / "metadata"
-    / "enron_20150507_address_level_arc_aggregation_summary.json"
+    PROJECT_ROOT / "data" / "metadata" / "enron_20150507_address_level_arc_aggregation_summary.json"
 )
-REPORT = (
-    PROJECT_ROOT
-    / "docs"
-    / "data_audits"
-    / "enron_20150507_address_level_arc_aggregation.md"
-)
+REPORT = PROJECT_ROOT / "docs" / "data_audits" / "enron_20150507_address_level_arc_aggregation.md"
 
 SCHEMA = pa.schema(
     [
@@ -72,13 +51,9 @@ def main() -> None:
             "Run scripts/11_build_enron_address_level_events.py first."
         )
 
-    existing_outputs = [
-        path for path in (OUTPUT, TEMP_OUTPUT, SUMMARY, REPORT) if path.exists()
-    ]
+    existing_outputs = [path for path in (OUTPUT, TEMP_OUTPUT, SUMMARY, REPORT) if path.exists()]
     if existing_outputs:
-        rendered = "\n  ".join(
-            str(path.relative_to(PROJECT_ROOT)) for path in existing_outputs
-        )
+        rendered = "\n  ".join(str(path.relative_to(PROJECT_ROOT)) for path in existing_outputs)
         raise SystemExit(
             "STOP: address-level arc output already exists. "
             "This script will not overwrite it:\n"
@@ -86,9 +61,7 @@ def main() -> None:
         )
 
     expected_events = int(
-        json.loads(EVENT_SUMMARY.read_text(encoding="utf-8"))[
-            "native_events_written"
-        ]
+        json.loads(EVENT_SUMMARY.read_text(encoding="utf-8"))["native_events_written"]
     )
 
     arc_counts: Counter[tuple[str, str]] = Counter()
@@ -117,9 +90,7 @@ def main() -> None:
 
     if event_count != expected_events:
         raise SystemExit(
-            "STOP: event-count mismatch.\n"
-            f"Expected: {expected_events:,}\n"
-            f"Found:    {event_count:,}"
+            f"STOP: event-count mismatch.\nExpected: {expected_events:,}\nFound:    {event_count:,}"
         )
 
     if self_arcs:
@@ -134,9 +105,7 @@ def main() -> None:
     in_degree = Counter(head for _, head in arc_counts)
 
     reciprocal_pairs = sum(
-        1
-        for tail, head in arc_counts
-        if tail < head and (head, tail) in arc_counts
+        1 for tail, head in arc_counts if tail < head and (head, tail) in arc_counts
     )
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
