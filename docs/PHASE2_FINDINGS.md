@@ -183,13 +183,33 @@ candidate-specific observation constraint and conditional-simulation software
 path work locally. It is **not** evidence that M1 factorizes over a multi-dyad
 footprint, and it provides no result about M4 dependence.
 
-**Corrective design recorded.** The reproducible smoke target now requires
-exactly two unobserved footprint dyads, with both reverse arcs already observed,
-and samples at most one candidate per panel/label. For M1 this is a
-well-supported, nontrivial factorization check: the two unknown dyads are not
-reciprocal partners of each other but each has fixed reciprocal evidence. The
-next output must be reviewed for `L3-F` versus the matched-marginal `L2` with
-Monte Carlo error; no larger M4/multi-split simulation follows automatically.
+**Corrective design and result.** The revised target required exactly two
+unobserved footprint dyads, with both reverse arcs observed, and obtained one
+eligible role-exchange negative candidate:
+`mccarty-d → {corman-s, hayslett-r}`. Its M1 fit had `edges = -3.81160` and
+`mutual = 4.11895`. Because neither unknown dyad is the reverse of the other,
+the M1 conditional distribution factorizes for this candidate; the fitted
+probability for either dyad conditional on its observed reverse is
+`logit^{-1}(-3.81160 + 4.11895) = 0.57624`, with exact product `0.33205`.
+The conditional-simulation estimates were `L2 = 0.32725`, `L3-F = 0.35500`,
+and `delta_dep = 0.08139`; their raw difference is `0.02775`, only `0.82` of
+the reported (naive) `L3-F` Monte Carlo SE `0.03384`. This is fully compatible
+with the factorization expected under M1 and is **not** dependence evidence.
+
+**Precision correction.** That run used one sequential MCMC chain, so the
+printed binomial SE can understate uncertainty if draws are autocorrelated.
+The driver now restarts each completion from the same candidate-specific
+observed basis (`sequential = FALSE`), allowing the smoke-test binomial SE to
+have its stated interpretation. The completed sequential-chain run remains
+valid as an end-to-end software test and qualitative M1 check, but is not used
+as a quantified dependence estimate. The independent-chain rerun is still
+small; no M4/multi-split calculation follows automatically.
+
+**Interpretation boundary.** This single selected candidate is a negative
+role-exchange example, so it cannot evaluate discrimination. It validates only
+the M1 matched-observation `L2`/`L3-F` mechanism. The MCMLE diagnostic output
+contains no immediate red flag, but no GOF conclusion is made and no M4
+dependence conclusion is available.
 
 **Evidence.** Local technical smoke bundle:
 `results/models/enron_joint_footprint_mcmle_smoke/`, especially

@@ -56,6 +56,10 @@ performance comparison:
   arc has reciprocal evidence while the candidate does not include both arcs of
   any reciprocal pair;
 - each eligible candidate receives 200 conditional completions; and
+- each completion begins from the same candidate-specific observed basis rather
+  than continuing one Markov chain. This deliberately slower choice makes the
+  reported binomial Monte Carlo SE for `L3-F` appropriate for this small smoke
+  test; and
 - MCMLE uses five iterations at most, 256 simulated networks per iteration, and
   deliberately sets `eval.loglik = FALSE`. The latter removes bridge sampling,
   which calculates an unnecessary normalizing constant for this score-only

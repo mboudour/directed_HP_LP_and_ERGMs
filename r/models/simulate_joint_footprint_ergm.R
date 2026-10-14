@@ -275,7 +275,11 @@ joint_simulation_scores <- function(fit, nw, candidate, footprint_dyads, observe
         basis = basis,
         constraints = ~observed,
         output = "network",
-        sequential = TRUE,
+        # Each draw restarts from the same candidate-specific observed basis.
+        # This is slower than one sequential chain, but makes the binomial
+        # Monte Carlo standard error for the footprint-complete indicator
+        # appropriate for the small feasibility pilot.
+        sequential = FALSE,
         control = ergm::control.simulate.ergm(
           MCMC.burnin = mcmc_burnin,
           MCMC.interval = mcmc_interval
@@ -619,7 +623,7 @@ joint_main <- function() {
       fit = "split-specific MCMLE, selected with ergm estimate='MLE', eval.loglik=FALSE",
       fit_mcmc_burnin = fit_burnin, fit_mcmc_interval = fit_interval,
       fit_mcmc_samplesize = fit_samplesize, mcmle_maxit = mcmle_maxit,
-      candidate_simulation = "simulate(fit, basis=network_with_candidate_unknown_dyads_as_NA, constraints=~observed)",
+      candidate_simulation = "simulate(fit, basis=network_with_candidate_unknown_dyads_as_NA, constraints=~observed, sequential=FALSE)",
       simulation_draws = nsim, simulation_mcmc_burnin = mcmc_burnin, simulation_mcmc_interval = mcmc_interval,
       seed = seed
     ),

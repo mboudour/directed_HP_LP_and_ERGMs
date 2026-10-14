@@ -19,6 +19,7 @@ source(locate_driver("simulate_joint_footprint_ergm.R"))
 driver_text <- paste(readLines(locate_driver("simulate_joint_footprint_ergm.R"), warn = FALSE), collapse = "\n")
 stopifnot(grepl('estimate = "MLE"', driver_text, fixed = TRUE))
 stopifnot(grepl("eval.loglik = FALSE", driver_text, fixed = TRUE))
+stopifnot(grepl("sequential = FALSE", driver_text, fixed = TRUE))
 stopifnot(grepl('"split"', driver_text, fixed = TRUE))
 stopifnot(grepl("MCMLE.samplesize = fit_samplesize", driver_text, fixed = TRUE))
 
