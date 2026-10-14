@@ -539,3 +539,14 @@ excluded, repeated answerers are collapsed per question, and only public-dump
 rows are retained. The immutable source audit remains separate. The next gate is
 the deterministic static projection and all-participant core-100 preparation;
 this dataset is not eligible for the chronological pilot.
+
+
+### MathOverflow static projection — core-100 prepared
+
+The approved 30-day reconstruction contains 32,117 participants and 120,197
+full static directed arcs. The deterministic activity rule selected a fixed
+100-node core, retaining 1,949 all-participant reconstructed events and 1,020
+static directed core arcs. No core-size exception applies. Because core events
+require every answerer and the asker to belong to the fixed core, the native-event
+and static views have the same participant boundary. The next gate is the
+cap-first formal-concept representation audit at tail/head caps of three.
