@@ -12,6 +12,10 @@ datasets:
     core_rule: top_100_by_sent_plus_received_activity_within_primary_node_set
     native_event_policy: singleton_sender_to_plus_cc_recipients
     temporal_panels: calendar_month
+    temporal_policy: configs/enron_temporal_policy.yaml
+    timestamp_inclusion_utc:
+      start: "1998-01-01T00:00:00+00:00"
+      end: "2002-12-31T23:59:59.999999+00:00"
     static_targets: [arc, footprint, concept, native_event, role_assignment]
     hard_gate: reviewed_custodian_to_address_mapping_before_primary_projection
     gate_record: data/metadata/gates/enron_custodian_projection.json

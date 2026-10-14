@@ -1,0 +1,45 @@
+# Frozen temporal inclusion policy for the primary Enron custodian projection.
+# The custodian identity and message-copy gates remain independent and unresolved.
+
+dataset_id: enron_20150507
+policy_version: 1
+status: approved_for_timestamp_filter_only
+source_audit:
+  summary: data/metadata/enron_20150507_event_timestamp_profile.json
+  year_counts: data/metadata/enron_20150507_event_timestamp_year_counts.csv
+  audit_report: docs/data_audits/enron_20150507_event_timestamp_profile.md
+
+inclusion:
+  convention: inclusive_utc_endpoints
+  timestamp_start_utc: "1998-01-01T00:00:00+00:00"
+  timestamp_end_utc: "2002-12-31T23:59:59.999999+00:00"
+  calendar_years: [1998, 1999, 2000, 2001, 2002]
+
+observed_retention:
+  address_level_events_profiled: 490141
+  retained_events: 489752
+  excluded_events: 389
+  retained_percent: 99.920635
+  excluded_year_counts:
+    "1980": 308
+    "1986": 2
+    "1997": 1
+    "2004": 70
+    "2005": 1
+    "2007": 1
+    "2020": 2
+    "2043": 1
+    "2044": 3
+
+rationale: >-
+  Retain the contiguous 1998–2002 period, including the small 1998 portion,
+  rather than discard a potentially valid boundary year. Exclude only the
+  isolated non-contiguous years outside that interval. This removes 389 of
+  490,141 retained address-level candidates (0.079365%) while eliminating
+  the implausible 1980–2044 extrema from the primary temporal panels.
+
+remaining_independent_gates:
+  - reviewed_custodian_to_address_mapping
+  - message_copy_policy
+  - unmapped_participant_policy
+  - core_100_materialization_after_projection
