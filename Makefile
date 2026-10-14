@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -20,6 +20,7 @@ help:
 	  'phase2-enron-concepts  Audit the cap-first Enron core-100 formal-concept section (|T|,|H| <= 3).' \
 	  'phase2-enron-native-fidelity  Compare strict Enron recorded events with the capped formal-concept section.' \
 	  'phase2-enron-event-masks  Create three MCAR and three MNAR-out event-type masks for native-event evaluation.' \
+	  'phase2-enron-native-heuristics  Score native event types with lifted LP heuristics on frozen event-first masks.' \
 	  'phase2-enron-static  Run the fixed MCAR static arc-LP pilot on the validated Enron core-100.' \
 	  'phase2-enron-static-plan  Fit the plan-aligned full-network Enron static ERGM ladder by MPLE.' \
 	  'phase2-enron-score  Score frozen Enron MCAR masks with conditional probabilities from masked ERGMs.' \
@@ -84,6 +85,10 @@ phase2-enron-native-fidelity:
 phase2-enron-event-masks:
 	uv run python scripts/36_prepare_event_first_masks.py --dataset-id=enron_20150507 --events=data/processed/enron_20150507/custodian_native_events.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --event-tail-column=tail_custodian --event-head-column=head_custodians --node-column=custodian_mailbox --tail-cap=3 --head-cap=3 --mask-rate=0.30 --mechanisms=mcar,mnar_out --replicates=3 --seed=20261013 --output-dir=results/phase2/enron_event_first_type_masks --overwrite
 	@cat results/phase2/enron_event_first_type_masks/summary.md
+
+phase2-enron-native-heuristics: phase2-enron-event-masks
+	uv run python scripts/37_run_native_event_heuristics.py --dataset-id=enron_20150507 --mask-dir=results/phase2/enron_event_first_type_masks --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --node-column=custodian_mailbox --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/enron_event_first_native_heuristics --overwrite
+	@cat results/phase2/enron_event_first_native_heuristics/summary.md
 
 phase2-enron-static:
 	uv run python scripts/30_run_static_benchmark.py --dataset=enron --mechanism=mcar --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --output-dir=results/phase2/enron_static_pilot --overwrite

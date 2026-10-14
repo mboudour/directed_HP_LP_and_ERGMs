@@ -29,6 +29,7 @@ PHASE2_SCRIPTS = (
     "34_summarize_temporal_check.py",
     "35_summarize_temporal_btergm.py",
     "36_prepare_event_first_masks.py",
+    "37_run_native_event_heuristics.py",
 )
 
 
