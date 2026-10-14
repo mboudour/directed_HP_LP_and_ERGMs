@@ -430,3 +430,31 @@ structural feasibility result only: it does not supply held-out predictions,
 validate coefficients as MCMC-MLE estimates, establish MCMC mixing, or alter
 the restriction against phase-series, native-event, or temporal claims. The
 result clears only the static masked conditional-score feasibility check.
+
+**Masked ERGM conditional-score pilot.** All 12 model-by-replicate fits (four
+models across the three frozen MCAR masks) succeeded and produced conditional
+probabilities. Relative to the M1 mutuality model, the M3 degree-plus-OTP
+extension produced a substantial score lift: mean ROC-AUC `0.8590` (SD
+`0.0047`), PR-AUC `0.8770` (SD `0.0126`), and log loss `1.3645` (SD `0.0060`),
+versus M1's `0.7216`, `0.7164`, and `1.4584`, respectively. It also exceeds the
+best uncalibrated arc heuristic (total directed Adamic--Adar: ROC-AUC `0.7389`,
+PR-AUC `0.7645`) on this fixed balanced panel. The M3–M1 differences are
+`+0.1374` ROC-AUC, `+0.1606` PR-AUC, and `−0.0939` log loss; against total
+directed Adamic--Adar, the rank-metric differences are `+0.120127` and
+`+0.112467`.
+
+M4c's added OSP/ISP closure and cyclic-triple terms change rank discrimination
+only slightly relative to M3 (ROC-AUC `0.8639`, PR-AUC `0.8828`) while worsening
+mean log loss to `1.3835` and reducing threshold-0.5 recall and F1. With only
+three fixed pilot masks, this is not evidence that M4c is inferior in general;
+it does mean that its additional terms do **not** earn a clear incremental
+conditional-score benefit in the CAVIAR pilot. The density-only M0 and mutuality
+M1 models produce no 0.5-threshold positives, so their threshold precision/MCC
+are undefined; their threshold-free AUC and log-loss values remain valid.
+
+**Interpretation.** The supported CAVIAR conclusion is narrow but useful:
+under static MCAR arc masking and MPLE, the planned directed structural ERGM
+extension improves conditional discrimination and log loss beyond the baseline
+and local heuristic pilot. It remains a pseudolikelihood, static-dyadic result,
+not MCMC-MLE inference, a group-event result, a temporal forecast, or a result
+about the excluded phase series.
