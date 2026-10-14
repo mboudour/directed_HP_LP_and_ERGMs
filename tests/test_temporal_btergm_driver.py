@@ -52,6 +52,8 @@ def test_temporal_btergm_source_contract() -> None:
     assert "ii <- t(lag) %*% lag" in source
     assert "btergm::btergm(formula, R = config" in source
     assert "ncpus = config$ncpus, verbose = FALSE" in source
+    assert "fit@boot$t" in source
+    assert 'methods::slot(fit, "boot")$t' not in source
     assert 'stats::confint(fit, level = 0.95, type = "perc", invlogit = FALSE)' in source
     assert 'c("btergm", "network", "jsonlite")' in source
     assert "failure_missing_packages" in source
@@ -126,7 +128,10 @@ def test_temporal_btergm_missing_package_manifest(tmp_path: Path) -> None:
         text=True,
         check=True,
     )
-    missing = probe.stdout.strip().split(",") if probe.stdout.strip() else []
+    package_names = ("btergm", "network", "jsonlite")
+    # renv may emit a status notice before the comma-delimited probe result.
+    # Retain only the requested package names, in the probe's declared order.
+    missing = [package for package in package_names if package in probe.stdout]
     if not missing:
         pytest.skip("All modeling packages are installed; this is the missing-package test")
     nodes = tmp_path / "nodes.csv"

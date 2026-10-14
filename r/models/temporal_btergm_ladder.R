@@ -270,7 +270,10 @@ tbe_empty_coefficients <- function() {
 tbe_extract_coefficients <- function(model, fit, reps) {
   co <- stats::coef(fit)
   if (!length(co) || is.null(names(co))) stop("Fit supplied no named coefficients.", call. = FALSE)
-  samples <- tryCatch(methods::slot(fit, "boot")$t, error = function(e) NULL)
+  # btergm 1.11.x stores a formal `boot` object in its S4 fit. Accessing it
+  # through methods::slot() followed by `$` fails; use the package's own
+  # documented object@boot$t access pattern instead.
+  samples <- tryCatch(fit@boot$t, error = function(e) NULL)
   se <- rep(NA_real_, length(co))
   finite_reps <- rep(NA_integer_, length(co))
   if (is.matrix(samples) && ncol(samples) == length(co)) {
