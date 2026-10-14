@@ -80,6 +80,10 @@ The bounded static computational pilot is documented in
 point for the initial directed LP, formal-concept fidelity, masking, and ERGM-input
 checks while retaining the plan's scientific gates.
 
+The paper's deliberately limited chronological component is documented in
+[docs/BOUNDED_TEMPORAL_CHECK.md](docs/BOUNDED_TEMPORAL_CHECK.md). It keeps the full
+TERGM/STERGM and relational-hyperevent forecasting study in the deferred second paper.
+
 After placing the untracked source files in their registered `data/` locations, use:
 
 ```bash

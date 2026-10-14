@@ -131,7 +131,8 @@ prepare_output_dir <- function(output_dir, overwrite) {
 
 read_node_ids <- function(nodes_path, node_col) {
   if (!file.exists(nodes_path)) stop("--nodes does not exist: ", nodes_path, call. = FALSE)
-  nodes <- utils::read.csv(nodes_path, stringsAsFactors = FALSE, check.names = FALSE)
+  nodes <- utils::read.csv(nodes_path, stringsAsFactors = FALSE, check.names = FALSE,
+                           colClasses = "character", na.strings = "NA")
   if (!(node_col %in% names(nodes))) stop("Node CSV is missing --node-col '", node_col, "'.", call. = FALSE)
   ids <- as.character(nodes[[node_col]])
   if (anyNA(ids) || any(!nzchar(ids))) stop("Node IDs may not be missing or empty.", call. = FALSE)
@@ -148,7 +149,8 @@ order_time_values <- function(values, time_order) {
 
 read_panel_edges <- function(input_path, time_col, source_col, target_col, drop_loops, node_ids = NULL, time_order = "lexical") {
   if (!file.exists(input_path)) stop("--input does not exist: ", input_path, call. = FALSE)
-  raw <- utils::read.csv(input_path, stringsAsFactors = FALSE, check.names = FALSE)
+  raw <- utils::read.csv(input_path, stringsAsFactors = FALSE, check.names = FALSE,
+                         colClasses = "character", na.strings = "NA")
   required <- c(time_col, source_col, target_col)
   if (!all(required %in% names(raw))) {
     stop("Panel CSV must contain --time-col '", time_col, "', --source-col '", source_col,

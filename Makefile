@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-static phase2-export-masks phase2-eu-core-score phase2-temporal-export
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-static phase2-export-masks phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal
 
 help:
 	@printf '%s\n' \
@@ -19,6 +19,7 @@ help:
 	  'phase2-export-masks  Export existing pilot masks; pass options in ARGS="...".' \
 	  'phase2-eu-core-score  Export pilot masks and score them with masked ERGM fits.' \
 	  'phase2-temporal-export  Export a bounded chronological panel; pass options in ARGS="...".' \
+	  'phase2-eu-core-temporal  Run the bounded EU-core lagged chronological check.' \
 	  'clean   Remove local Python test and lint caches.'
 
 python:
@@ -67,6 +68,11 @@ phase2-eu-core-score:
 
 phase2-temporal-export:
 	uv run python scripts/31_export_temporal_panel.py $(ARGS)
+
+phase2-eu-core-temporal:
+	uv run python scripts/31_export_temporal_panel.py --dataset eu_core --panel-count 3 --output-dir results/phase2/eu_core_temporal_check
+	Rscript r/models/temporal_lagged_check.R --input=results/phase2/eu_core_temporal_check/panel_edges.csv --nodes=results/phase2/eu_core_temporal_check/nodes.csv --output-dir=results/models/eu_core_temporal_lagged --time-col=time --source-col=from --target-col=to --time-order=numeric --max-nodes=100 --max-transitions=2 --max-dyads=50000 --btergm=check --tergm=check --seed=20261013
+	uv run python scripts/34_summarize_temporal_check.py --model-dir results/models/eu_core_temporal_lagged --panel-dir results/phase2/eu_core_temporal_check
 
 clean:
 	rm -rf .pytest_cache .ruff_cache .coverage htmlcov

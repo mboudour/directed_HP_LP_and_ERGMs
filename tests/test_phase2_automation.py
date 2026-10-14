@@ -22,6 +22,7 @@ PHASE2_SCRIPTS = (
     "31_export_temporal_panel.py",
     "32_export_static_pilot_masks.py",
     "33_summarize_masked_ergm.py",
+    "34_summarize_temporal_check.py",
 )
 
 
