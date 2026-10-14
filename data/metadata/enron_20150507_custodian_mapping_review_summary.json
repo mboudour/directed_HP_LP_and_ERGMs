@@ -1,0 +1,14 @@
+{
+  "automatic_high_confidence_candidates": 110,
+  "custodians_requiring_review": 40,
+  "dataset_id": "enron_20150507",
+  "local_review_table_rows": 102,
+  "mapping_status": "No mapping is assigned by this script. The local review table is an evidence bundle, not a final identity map.",
+  "review_reason_counts": {
+    "no_rank_one_candidate": 1,
+    "support_below_90_percent": 37,
+    "top_address_shared_across_custodians": 2
+  },
+  "source_custodian_mailboxes": 150,
+  "support_threshold": 0.9
+}
