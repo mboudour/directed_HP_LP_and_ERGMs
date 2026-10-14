@@ -124,14 +124,14 @@ conditional probabilities to the exported candidate dyads and reports:
 |---|---|---|
 | `L1` | Arithmetic mean of footprint dyad probabilities | Conditional graph-footprint support |
 | `L1g` | Geometric mean of footprint dyad probabilities | Size-normalized conditional support |
-| `L2` | Product of footprint dyad probabilities | Factorized footprint-completion score |
+| `L2` | Product of footprint dyad probabilities | Single-dyad conditional-pseudolikelihood ranking score |
 
 Metrics use `log_L2`, a monotone numerically stable form of `L2`. The labels
 remain recorded native event types, so the outputs report **ranking metrics
 only**—ROC-AUC, PR-AUC, precision@k, recall@k. They do not report accuracy,
-F1, MCC, log loss, or a probability that a native email event occurred. `L2`
-is not the plan's joint ERGM simulation score `L3-F`; it deliberately imposes
-dyadic factorization.
+F1, MCC, log loss, or a probability that a native email event occurred. This
+`L2` is not the plan's matched-marginal `L2` or joint ERGM simulation score
+`L3-F`: it multiplies single-dyad conditional-pseudolikelihood scores.
 
 The driver writes `event_footprint_scores.csv`, `ranking_metrics.csv`,
 `metric_summary.csv`, `model_status.csv`, `split_status.csv`,
@@ -140,7 +140,33 @@ visible by split and model. See
 [`docs/NATIVE_EVENT_ERGM_FOOTPRINTS.md`](../../docs/NATIVE_EVENT_ERGM_FOOTPRINTS.md)
 for the native-event interpretation and Make target.
 
-## 4. Exploratory lagged-only temporal baseline
+## 4. Conditional joint-footprint ERGM simulation
+
+`simulate_joint_footprint_ergm.R` implements the plan's graph-footprint
+completion score `L3-F` through candidate-specific conditional MCMC simulation.
+It requires the same frozen native-event input export as the factorized ranking
+pilot but has a different scientific role:
+
+```bash
+make phase2-enron-joint-footprints
+```
+
+For each bounded candidate, every observed split dyad remains fixed. Only that
+candidate's footprint dyads not already present in the observed split
+projection are marked missing, and Statnet simulates them under `constraints =
+~observed`. From the same draws, it reports `L1`, `L1g`, the product of
+candidate-specific marginals `L2`, the joint footprint-completion frequency
+`L3-F`, and `log(L3-F)-log(L2)` where estimable.
+
+The first run deliberately fits split-specific MCMLE `M1` and `M4` models but
+limits eligibility to candidates with at most two unknown footprint dyads. It
+samples at most five candidates per panel/label and uses 500 conditional draws
+per candidate. It is a computational and dependence diagnostic—not a final
+ranking evaluation, a native-event probability, or automatic MCMC/GOF approval.
+See [`docs/JOINT_FOOTPRINT_SIMULATION.md`](../../docs/JOINT_FOOTPRINT_SIMULATION.md)
+for the exact conditioning, zero-score handling, and output interpretation.
+
+## 5. Exploratory lagged-only temporal baseline
 
 ```bash
 Rscript r/models/temporal_lagged_check.R \
@@ -180,7 +206,7 @@ Both options default to `check`, which writes `package_placeholder_status.csv`.
 
 Temporal outputs are `factorized_model_specs.csv`, `factorized_model_status.csv`, `factorized_coefficients.csv`, `feature_summary.csv`, `proposition6_identity.csv`, `package_placeholder_status.csv`, RDS objects, and `temporal_manifest.json`.
 
-## 5. Planned bounded temporal btergm ladder
+## 6. Planned bounded temporal btergm ladder
 
 `temporal_btergm_ladder.R` is a separate, portable implementation of the plan's
 `T_tt`, `T0`, `T1`, `T2`, and `T2_minus_H` specifications. It requires explicit

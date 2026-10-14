@@ -30,11 +30,16 @@ For a candidate footprint \(T \times H\) with conditional dyad probabilities
 |---|---|---|
 | `L1` | \(\operatorname{mean}_{t,h} p_{th}\) | Arithmetic conditional support across footprint arcs. |
 | `L1g` | \(\exp[\operatorname{mean}_{t,h}\log p_{th}]\) | Size-normalized geometric support. |
-| `L2` | \(\prod_{t,h}p_{th}\) | Footprint-completion score under dyadic factorization. |
+| `L2` | \(\prod_{t,h}p_{th}\) | Single-dyad conditional-pseudolikelihood product used for the ranking pilot. |
 
 The ranking evaluation uses `log_L2`, which is a strictly monotonic, numerically stable
-representation of `L2`. `L2` is **not** the plan's joint simulation score \(L3\)-F.
-The latter requires conditional ERGM simulations and will be added separately.
+representation of `L2`. More precisely, this initial `L2` is a product of **single-dyad
+conditional-pseudolikelihood scores**, each conditioned on the split-specific training
+network. It is a useful factorized ranking pilot, but it is **not** the matched-marginal
+`L2` in the plan's dependence increment and is not the plan's joint simulation score
+\(L3\)-F. The latter uses one candidate-specific observation constraint, conditional
+simulation, and the same-draw marginal product; see
+[`JOINT_FOOTPRINT_SIMULATION.md`](JOINT_FOOTPRINT_SIMULATION.md).
 
 Although `L1`, `L1g`, and `L2` use ERGM conditional probabilities, none is a probability
 that a recorded native email event occurred. Exact matching between a graph footprint and

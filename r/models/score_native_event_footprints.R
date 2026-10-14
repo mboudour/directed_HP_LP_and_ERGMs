@@ -336,7 +336,7 @@ native_write_summary <- function(path, dataset_id, split_status, metric_summary)
     "",
     paste0("- Dataset: `", dataset_id, "`"),
     "- Each static ERGM is fit separately to a frozen event-first observed projection.",
-    "- L1 is the arithmetic mean of conditional dyad probabilities; L1g is their geometric mean; L2 is their product.",
+    "- L1 is the arithmetic mean of conditional-pseudolikelihood dyad scores; L1g is their geometric mean; L2 is their product.",
     "- L2 metrics use `log_L2`, a strictly monotone numeric representation of the L2 product.",
     "- These scores estimate **graph-footprint completion**, not the probability that a recorded email group event occurred.",
     "",
@@ -369,7 +369,7 @@ native_write_summary <- function(path, dataset_id, split_status, metric_summary)
   lines <- c(
     lines,
     "",
-    "No L3-F joint simulation, L3-C concept score, or native-event probability is reported here. Those require separate conditional simulation and target-specific analysis.",
+    "This L2 is a product of single-dyad conditional-pseudolikelihood scores, not the matched-marginal L2 used for the plan's dependence increment. No L3-F joint simulation, L3-C concept score, or native-event probability is reported here. Those require separate conditional simulation and target-specific analysis.",
     ""
   )
   writeLines(lines, path, useBytes = TRUE)
@@ -582,7 +582,7 @@ native_score_main <- function() {
     estimation = list(estimate = estimate, seed = seed),
     conditional_prediction = list(
       call = "predict(fit, conditional=TRUE, type='response', output='data.frame')",
-      aggregation = "L1=mean(p); L1g=exp(mean(log(p))); L2=product(p); metrics use log_L2 as a monotone numerically stable L2 representation"
+      aggregation = "L1=mean(p); L1g=exp(mean(log(p))); L2=product(p) of single-dyad conditional-pseudolikelihood scores; metrics use log_L2 as a monotone numerically stable representation"
     ),
     metrics = list(
       scope = "ranking only: ROC-AUC, PR-AUC, precision@k, recall@k",
@@ -596,7 +596,7 @@ native_score_main <- function() {
     limitations = c(
       "Every model is fit to one split's observed projection only; full-network coefficients are not reused.",
       "L1, L1g, and L2 describe conditional dyadic graph-footprint completion, not a probability of a recorded native email event.",
-      "L2 is a dyad-factorization score. It is not L3-F, which requires joint conditional ERGM simulation.",
+      "L2 is a product of single-dyad conditional-pseudolikelihood scores. It is not the matched-marginal L2 or L3-F required for the plan's joint conditional ERGM simulation.",
       "Model fit, conditional prediction, and aggregation failures remain visible in model_status.csv."
     )
   )
