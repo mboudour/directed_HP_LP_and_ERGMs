@@ -43,6 +43,16 @@ A successful fit there does not erase the recorded core-100 M2/M4 MCMC failures.
 make phase2-enron-mcmle-core50
 ```
 
+To prepare six isolated event-first splits, their heuristic and hard-negative
+panels, and the fixed joint-score input bundle, run:
+
+```zsh
+make phase2-enron-mcmle-core50-inputs
+```
+
+All resulting paths include `enron_mcmle_core50`; they never overwrite the
+primary core-100 mask or score bundles.
+
 The builder writes ignored local data to:
 
 ```text

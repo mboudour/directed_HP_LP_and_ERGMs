@@ -292,6 +292,15 @@ and non-degeneracy gate at a transparently smaller scale. A success does not
 erase or replace the core-100 M2/M4 failures. The precise selection and scope
 are documented in `docs/ENRON_MCMLE_FEASIBILITY_CORE.md`.
 
+**Materialization result.** The nested core-50 contains 6,168 all-participant
+recorded events (78.874680% of the primary core-100 event count), 287 static
+directed arcs (45.196850% of the primary arc count), and a binary directed
+density of 11.714286%. It therefore retains substantial repeated-event and
+dyadic structure while reducing the state space from 9,900 to 2,450 possible
+nonloop dyads. It is adequate for the approved bounded feasibility module;
+its mask, candidate-panel, and joint-score inputs remain entirely separate
+from the core-100 bundles.
+
 **Evidence.** Local technical smoke bundle:
 `results/models/enron_joint_footprint_mcmle_smoke/`, especially
 `candidate_simulation_scores.csv`, `selected_candidates.csv`,
