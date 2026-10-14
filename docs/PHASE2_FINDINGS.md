@@ -143,3 +143,24 @@ Values are means over three replicates; replicate SDs remain in the local summar
 **Interpretation recorded for Phase 2.** The random-panel performance does **not** transfer wholesale to directed role discrimination. The hard panels show that native-event recovery requires a genuinely directional and role-sensitive evaluation: a score that ranks random true non-events well can be near chance, or even anti-ranked, when the comparator preserves the same participants or reverses their roles. These panels therefore pass as valid target-specific stress tests and motivate the planned ERGM score comparison; they do not yet establish a stable preferred heuristic or a general role-recovery claim.
 
 **Evidence.** Local result bundle: `results/phase2/enron_event_first_native_hard_panels/`, particularly `summary.md`, `split_summary.csv`, `metric_summary.csv`, each split's panel-specific `candidate_predictions.csv` and `metrics.csv`, and the top-level `manifest.json`.
+
+## 2026-10-14 — Enron native-event ERGM conditional footprint-score pilot
+
+**Design.** The six frozen event-first splits were used unchanged. For each split, `M0`, `M1`, `M3`, and `M4c` were independently fit by MPLE to the split-specific observed dyadic projection; no full-network coefficients were reused. Exact conditional ERGM dyad probabilities were then aggregated over each predeclared native-event candidate footprint as `L1` (arithmetic mean), `L1g` (geometric mean), and factorized `L2` (product). The random, reversal/orientation, and role-exchange panels retain their own candidate universes and are evaluated separately using ROC-AUC, PR-AUC, precision@k, and recall@k only.
+
+**Completion result.** All 24 model/split combinations completed: four models for each of six frozen splits. No split or model failure was reported. This is a software-and-data-contract success, not MPLE goodness-of-fit evidence.
+
+| Panel | Mechanism | Best pilot specification/score by ROC-AUC | ROC-AUC | PR-AUC | Reading |
+|---|---|---|---:|---:|---|
+| Random | MCAR | M4c / L1g | **0.8509** | 0.8648 | Strong footprint ranking; closure and cycle terms add a modest lift over M3. |
+| Random | MNAR-out | M3 / L1g | **0.8195** | 0.8422 | Strong ranking under the activity-biased stress split; M4c has slightly higher PR-AUC (0.8460) but lower ROC-AUC. |
+| Reversal/orientation | MCAR | M4c / L1 | 0.4732 | 0.4907 | Near-chance to anti-ranked; random-panel gains do not transfer to role reversal. |
+| Reversal/orientation | MNAR-out | M1 / L2 | **0.6395** | 0.5895 | Modest directional separation; the mutuality-only factorized footprint score is strongest by ROC-AUC. |
+| Role exchange | MCAR | M4c / L2 | 0.4743 | 0.4866 | Near-chance to anti-ranked after preserving actor set and role arities. |
+| Role exchange | MNAR-out | M1 / L2 | **0.5988** | 0.5590 | Small but positive role-sensitive separation; later closure terms do not improve it. |
+
+**Nested comparison.** On random panels, M1 alone is already informative because reciprocal ties are common: its L1 ROC-AUC is 0.7800 under MCAR and 0.8078 under MNAR-out, exactly matching the reverse-arc heuristic's ranking in this pilot. Under MCAR, M3/L1g raises ROC-AUC by `+0.0626` over M1 and M4c/L1g by `+0.0709`; their PR-AUCs are 0.8569 and 0.8648, respectively, compared with 0.7589 for M1. Under MNAR-out, the lift is smaller: M3/L1g is `+0.0117` ROC-AUC over M1 and M4c/L1g is `+0.0109`. This coherence is expected because M1 varies principally with the same reciprocal-dyad information captured by the reverse-arc heuristic; it is a useful implementation cross-check, not independent evidence.
+
+**Interpretation recorded for Phase 2.** The static directed ERGM ladder supplies a clear **factorized graph-footprint** ranking lift over density and mutuality in the random, arity-matched native-event panel. The higher-order terms do not yield a stable role-recovery result: both MCAR hard panels remain below chance for every model/score combination, while MNAR-out produces only modest M1-driven separation. This strengthens the earlier target-ladder conclusion: good dyadic-footprint completion does not constitute recovery of a recorded email event or correct sender/recipient roles. `L2` is a product of conditional dyad probabilities, not the plan's joint conditional simulation score `L3-F`; no native-event probability, exact event recovery, joint footprint probability, formal-concept score, coefficient inference, or MPLE goodness-of-fit conclusion may be drawn from this pilot.
+
+**Evidence.** Local result bundle: `results/models/enron_native_event_ergm_footprints/`, specifically `summary.md`, `metric_summary.csv`, `ranking_metrics.csv`, `event_footprint_scores.csv`, `model_status.csv`, `split_status.csv`, `network_summary.csv`, and `run_manifest.json`. The inputs are preserved locally in `results/phase2/enron_native_event_ergm_inputs/` and derive exclusively from the six frozen event-first split/panel artifacts.
