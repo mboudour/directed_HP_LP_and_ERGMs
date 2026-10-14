@@ -49,20 +49,24 @@ performance comparison:
 - it fits `M1` only, on frozen split `mcar_replicate_001`;
 - `M1` is the dyad-factorizing validation model;
 - it selects at most one candidate per panel/label (six candidates at most);
-- only candidates with at most two footprint dyads unobserved in the split are
-  eligible; this avoids presenting a zero count from naive Monte Carlo as an
-  estimate of an extremely rare large-footprint probability;
-- each eligible candidate receives 100 conditional completions; and
+- eligible candidates have **exactly two** unobserved footprint dyads, so the
+  calculation is genuinely joint rather than a one-dyad tautology;
+- each unknown dyad's reverse must already be observed. For `M1`, this yields a
+  deliberately well-supported, nontrivial factorization check: each unknown
+  arc has reciprocal evidence while the candidate does not include both arcs of
+  any reciprocal pair;
+- each eligible candidate receives 200 conditional completions; and
 - MCMLE uses five iterations at most, 256 simulated networks per iteration, and
   deliberately sets `eval.loglik = FALSE`. The latter removes bridge sampling,
   which calculates an unnecessary normalizing constant for this score-only
   diagnostic.
 
 This smoke test first establishes that the observation constraint, MCMLE fit,
-and conditional simulation work end-to-end on the local machine. It does not
-test higher-order dependence: `M4` and multi-split / larger-draw calculations
-remain separate, explicitly scaled computations only after this check has been
-reviewed.
+and conditional simulation work end-to-end on a **multi-dyad** footprint. Its
+M1 result should have `L3-F` close to the same-draw `L2`, within Monte Carlo
+error. It does not test higher-order dependence: `M4` and multi-split /
+larger-draw calculations remain separate, explicitly scaled computations only
+after this check has been reviewed.
 
 A candidate with a wholly observed footprint has `L3_F = L2 = 1` by conditioning,
 without simulation. If a simulated `L3_F` is zero, it is **not** reported as an

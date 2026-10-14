@@ -21,7 +21,9 @@ joint_usage <- function() {
     "  --models=M1,M4                    MCMLE specifications; M1 is the factorization check.",
     "  --split=all                       One exact split ID, or all available splits.",
     "  --max-candidates-per-label=5       Maximum deterministic sample per panel and label.",
+    "  --min-unobserved-dyads=0           Require at least this many unknown footprint arcs.",
     "  --max-unobserved-dyads=2           Admit only candidates with at most this many unknown arcs.",
+    "  --require-reverse-observed=FALSE   Require every unknown arc's reverse to be observed.",
     "  --nsim=500                         Conditional completions per simulated candidate.",
     "  --mcmc-burnin=1000                 Conditional-simulation MCMC burn-in.",
     "  --mcmc-interval=100                Conditional-simulation MCMC interval.",
@@ -155,6 +157,9 @@ joint_candidate_table <- function(footprints, observed_edges) {
     }
     dyad_keys <- paste(group$candidate_tail, group$candidate_head, sep = "\r")
     observed <- dyad_keys %in% observed_keys
+    reverse_keys <- paste(group$candidate_head, group$candidate_tail, sep = "\r")
+    unknown_with_reverse_observed <- sum(!observed & reverse_keys %in% observed_keys)
+    unknown_count <- sum(!observed)
     data.frame(
       panel = group$panel[[1L]],
       candidate_id = group$candidate_id[[1L]],
@@ -165,16 +170,38 @@ joint_candidate_table <- function(footprints, observed_edges) {
       head_arity = group$head_arity[[1L]],
       footprint_size = group$footprint_size[[1L]],
       observed_footprint_arcs = sum(observed),
-      unobserved_footprint_arcs = sum(!observed),
+      unobserved_footprint_arcs = unknown_count,
+      unknown_dyads_with_reverse_observed = unknown_with_reverse_observed,
+      all_unknown_dyads_reverse_observed = unknown_count > 0L &&
+        unknown_with_reverse_observed == unknown_count,
       stringsAsFactors = FALSE
     )
   })
   do.call(rbind, rows)
 }
 
-joint_select_candidates <- function(candidates, max_unknown, max_per_label, seed) {
-  if (max_unknown < 0L || max_per_label < 1L) stop("Invalid candidate-selection bounds.", call. = FALSE)
-  eligible <- candidates[candidates$unobserved_footprint_arcs <= max_unknown, , drop = FALSE]
+joint_eligible_candidates <- function(candidates, min_unknown, max_unknown, require_reverse_observed) {
+  if (min_unknown < 0L || max_unknown < min_unknown) {
+    stop("Invalid unknown-dyad selection bounds.", call. = FALSE)
+  }
+  eligible <- candidates[
+    candidates$unobserved_footprint_arcs >= min_unknown &
+      candidates$unobserved_footprint_arcs <= max_unknown,
+    ,
+    drop = FALSE
+  ]
+  if (require_reverse_observed) {
+    eligible <- eligible[eligible$all_unknown_dyads_reverse_observed, , drop = FALSE]
+  }
+  eligible
+}
+
+joint_select_candidates <- function(candidates, min_unknown, max_unknown, max_per_label, seed,
+                                    require_reverse_observed = FALSE) {
+  if (max_per_label < 1L) stop("Invalid candidate-selection bounds.", call. = FALSE)
+  eligible <- joint_eligible_candidates(
+    candidates, min_unknown, max_unknown, require_reverse_observed
+  )
   if (nrow(eligible) == 0L) return(eligible)
   group_id <- paste(eligible$panel, eligible$label, sep = "\r")
   groups <- split(seq_len(nrow(eligible)), group_id)
@@ -330,8 +357,15 @@ joint_write_summary <- function(path, dataset_id, model_status, split_status, sc
     paste0("- Dataset/input bundle: `", dataset_id, "`"),
     "- Model fits are split-specific MCMLE fits; candidate simulations condition on every observed split dyad.",
     "- A candidate arc already present because another event type induced it remains fixed at one.",
-    paste0("- Bounded eligibility: at most ", options$max_unknown, " unobserved footprint dyads; at most ",
-           options$max_per_label, " selected candidates per panel/label."),
+    paste0(
+      "- Bounded eligibility: ", options$min_unknown, " to ", options$max_unknown,
+      " unobserved footprint dyads; at most ", options$max_per_label,
+      " selected candidates per panel/label."
+    ),
+    paste0(
+      "- Require reverse arc observed for every unknown footprint dyad: ",
+      if (options$require_reverse_observed) "yes." else "no."
+    ),
     paste0("- Conditional completions per sampled candidate: ", options$nsim, "."),
     "- `L2` is the product of candidate-specific simulation marginals; `L3-F` is the joint completion frequency from the same draws.",
     "",
@@ -364,9 +398,10 @@ joint_main <- function() {
     stop("Missing required options: ", paste(paste0("--", missing), collapse = ", "), call. = FALSE)
   }
   allowed <- c(
-    required, "models", "split", "max-candidates-per-label", "max-unobserved-dyads", "nsim",
-    "mcmc-burnin", "mcmc-interval", "fit-mcmc-burnin", "fit-mcmc-interval",
-    "fit-mcmc-samplesize", "mcmle-maxit", "seed", "overwrite"
+    required, "models", "split", "max-candidates-per-label", "min-unobserved-dyads",
+    "max-unobserved-dyads", "require-reverse-observed", "nsim", "mcmc-burnin",
+    "mcmc-interval", "fit-mcmc-burnin", "fit-mcmc-interval", "fit-mcmc-samplesize",
+    "mcmle-maxit", "seed", "overwrite"
   )
   unknown <- setdiff(names(options), allowed)
   if (length(unknown) > 0L) stop("Unknown option(s): ", paste(paste0("--", unknown), collapse = ", "), call. = FALSE)
@@ -375,8 +410,15 @@ joint_main <- function() {
   models_text <- option_value(options, "models", "M1,M4")
   selected_specs <- score_select_models(models_text)
   max_per_label <- as_positive_number(option_value(options, "max-candidates-per-label", "5"), "max-candidates-per-label", integer = TRUE)
+  min_unknown <- suppressWarnings(as.integer(option_value(options, "min-unobserved-dyads", "0")))
   max_unknown <- suppressWarnings(as.integer(option_value(options, "max-unobserved-dyads", "2")))
-  if (is.na(max_unknown) || max_unknown < 0L) stop("--max-unobserved-dyads must be a nonnegative integer.", call. = FALSE)
+  if (is.na(min_unknown) || min_unknown < 0L || is.na(max_unknown) || max_unknown < min_unknown) {
+    stop("Unknown-dyad bounds must be nonnegative integers with min <= max.", call. = FALSE)
+  }
+  require_reverse_observed <- as_flag(
+    option_value(options, "require-reverse-observed", "FALSE"),
+    "require-reverse-observed"
+  )
   nsim <- as_positive_number(option_value(options, "nsim", "500"), "nsim", integer = TRUE)
   mcmc_burnin <- as_positive_number(option_value(options, "mcmc-burnin", "1000"), "mcmc-burnin", integer = TRUE)
   mcmc_interval <- as_positive_number(option_value(options, "mcmc-interval", "100"), "mcmc-interval", integer = TRUE)
@@ -462,8 +504,12 @@ joint_main <- function() {
       )
       next
     }
+    eligible <- joint_eligible_candidates(
+      candidates, min_unknown, max_unknown, require_reverse_observed
+    )
     selected <- joint_select_candidates(
-      candidates, max_unknown, max_per_label, seed + 1009L * split_index
+      candidates, min_unknown, max_unknown, max_per_label, seed + 1009L * split_index,
+      require_reverse_observed
     )
     candidate_export <- cbind(
       data.frame(split = split, mechanism = identity$mechanism, replicate = identity$replicate, stringsAsFactors = FALSE),
@@ -538,7 +584,7 @@ joint_main <- function() {
       status = if (length(model_outcomes) > 0L && all(model_outcomes == "scored")) "completed" else "completed_with_model_or_simulation_failures",
       message = if (length(model_outcomes) > 0L && all(model_outcomes == "scored")) "" else "Inspect model_status.csv and candidate_simulation_scores.csv.",
       nodes = length(node_ids), training_edges = nrow(edges$edges), candidate_footprints = nrow(candidates),
-      candidates_eligible = sum(candidates$unobserved_footprint_arcs <= max_unknown),
+      candidates_eligible = nrow(eligible),
       candidates_selected = nrow(selected), stringsAsFactors = FALSE
     )
   }
@@ -551,7 +597,13 @@ joint_main <- function() {
   utils::write.csv(model_status, file.path(output_dir, "model_status.csv"), row.names = FALSE, na = "")
   utils::write.csv(split_status, file.path(output_dir, "split_status.csv"), row.names = FALSE, na = "")
   utils::write.csv(selected_candidates, file.path(output_dir, "selected_candidates.csv"), row.names = FALSE, na = "")
-  summary_options <- list(max_unknown = max_unknown, max_per_label = max_per_label, nsim = nsim)
+  summary_options <- list(
+    min_unknown = min_unknown,
+    max_unknown = max_unknown,
+    max_per_label = max_per_label,
+    require_reverse_observed = require_reverse_observed,
+    nsim = nsim
+  )
   joint_write_summary(file.path(output_dir, "summary.md"), basename(input_dir), model_status, split_status, scores, summary_options)
   manifest <- list(
     status = if (nrow(split_status) > 0L && all(split_status$status == "completed")) "completed" else "completed_with_failures",
@@ -571,7 +623,12 @@ joint_main <- function() {
       simulation_draws = nsim, simulation_mcmc_burnin = mcmc_burnin, simulation_mcmc_interval = mcmc_interval,
       seed = seed
     ),
-    selection = list(max_candidates_per_panel_label = max_per_label, max_unobserved_footprint_dyads = max_unknown),
+    selection = list(
+      max_candidates_per_panel_label = max_per_label,
+      min_unobserved_footprint_dyads = min_unknown,
+      max_unobserved_footprint_dyads = max_unknown,
+      require_reverse_observed = require_reverse_observed
+    ),
     scores = list(
       L2 = "product of conditional-simulation marginal probabilities; observed footprint arcs contribute one",
       L3_F = "conditional-simulation footprint-completion frequency; observed footprint arcs remain fixed",

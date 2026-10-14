@@ -108,7 +108,7 @@ phase2-enron-native-ergm-footprints: phase2-enron-native-ergm-inputs
 	@cat results/models/enron_native_event_ergm_footprints/summary.md
 
 phase2-enron-joint-footprints: phase2-enron-native-ergm-inputs
-	Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_native_event_ergm_inputs --output-dir=results/models/enron_joint_footprint_mcmle_smoke --models=M1 --split=mcar_replicate_001 --max-candidates-per-label=1 --max-unobserved-dyads=2 --nsim=100 --mcmc-burnin=500 --mcmc-interval=50 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --seed=20261013 --overwrite=TRUE
+	Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_native_event_ergm_inputs --output-dir=results/models/enron_joint_footprint_mcmle_smoke --models=M1 --split=mcar_replicate_001 --max-candidates-per-label=1 --min-unobserved-dyads=2 --max-unobserved-dyads=2 --require-reverse-observed=TRUE --nsim=200 --mcmc-burnin=500 --mcmc-interval=50 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --seed=20261013 --overwrite=TRUE
 	@cat results/models/enron_joint_footprint_mcmle_smoke/summary.md
 
 phase2-enron-static:

@@ -23,32 +23,47 @@ stopifnot(grepl('"split"', driver_text, fixed = TRUE))
 stopifnot(grepl("MCMLE.samplesize = fit_samplesize", driver_text, fixed = TRUE))
 
 footprints <- data.frame(
-  panel = c("random", "random", "random", "random"),
-  candidate_id = c("positive", "positive", "negative", "negative"),
-  label = c(1L, 1L, 0L, 0L),
-  tail_nodes_json = c('["a"]', '["a"]', '["a"]', '["a"]'),
-  head_nodes_json = c('["b","c"]', '["b","c"]', '["b","d"]', '["b","d"]'),
-  tail_arity = c(1L, 1L, 1L, 1L),
-  head_arity = c(2L, 2L, 2L, 2L),
-  footprint_size = c(2L, 2L, 2L, 2L),
-  candidate_tail = c("a", "a", "a", "a"),
-  candidate_head = c("b", "c", "b", "d"),
+  panel = c("random", "random", "random", "random", "multi_dyad", "multi_dyad"),
+  candidate_id = c("positive", "positive", "negative", "negative", "multi", "multi"),
+  label = c(1L, 1L, 0L, 0L, 1L, 1L),
+  tail_nodes_json = c('["a"]', '["a"]', '["a"]', '["a"]', '["x"]', '["x"]'),
+  head_nodes_json = c('["b","c"]', '["b","c"]', '["b","d"]', '["b","d"]', '["c","e"]', '["c","e"]'),
+  tail_arity = c(1L, 1L, 1L, 1L, 1L, 1L),
+  head_arity = c(2L, 2L, 2L, 2L, 2L, 2L),
+  footprint_size = c(2L, 2L, 2L, 2L, 2L, 2L),
+  candidate_tail = c("a", "a", "a", "a", "x", "x"),
+  candidate_head = c("b", "c", "b", "d", "c", "e"),
   stringsAsFactors = FALSE
 )
-observed <- data.frame(from = c("a", "a"), to = c("b", "d"), stringsAsFactors = FALSE)
+observed <- data.frame(
+  from = c("a", "a", "c", "c", "e"),
+  to = c("b", "d", "a", "x", "x"),
+  stringsAsFactors = FALSE
+)
 
 candidates <- joint_candidate_table(footprints, observed)
 positive <- candidates[candidates$candidate_id == "positive", , drop = FALSE]
 negative <- candidates[candidates$candidate_id == "negative", , drop = FALSE]
 stopifnot(positive$observed_footprint_arcs == 1L)
 stopifnot(positive$unobserved_footprint_arcs == 1L)
+stopifnot(positive$all_unknown_dyads_reverse_observed)
 stopifnot(negative$observed_footprint_arcs == 2L)
 stopifnot(negative$unobserved_footprint_arcs == 0L)
 
-selected <- joint_select_candidates(candidates, max_unknown = 1L, max_per_label = 1L, seed = 5L)
+selected <- joint_select_candidates(
+  candidates, min_unknown = 0L, max_unknown = 1L, max_per_label = 1L, seed = 5L
+)
 stopifnot(nrow(selected) == 2L)
 stopifnot(identical(sort(selected$label), c(0L, 1L)))
 stopifnot(all(selected$unobserved_footprint_arcs <= 1L))
+
+multi_selected <- joint_select_candidates(
+  candidates, min_unknown = 2L, max_unknown = 2L, max_per_label = 1L, seed = 5L,
+  require_reverse_observed = TRUE
+)
+stopifnot(nrow(multi_selected) == 1L)
+stopifnot(identical(multi_selected$candidate_id, "multi"))
+stopifnot(multi_selected$unknown_dyads_with_reverse_observed == 2L)
 
 positive_dyads <- joint_candidate_dyads(footprints, positive)
 stopifnot(identical(positive_dyads$candidate_head, c("b", "c")))

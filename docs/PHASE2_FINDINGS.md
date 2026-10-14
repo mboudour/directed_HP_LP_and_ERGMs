@@ -164,3 +164,35 @@ Values are means over three replicates; replicate SDs remain in the local summar
 **Interpretation recorded for Phase 2.** The static directed ERGM ladder supplies a clear **factorized graph-footprint** ranking lift over density and mutuality in the random, arity-matched native-event panel. The higher-order terms do not yield a stable role-recovery result: both MCAR hard panels remain below chance for every model/score combination, while MNAR-out produces only modest M1-driven separation. This strengthens the earlier target-ladder conclusion: good dyadic-footprint completion does not constitute recovery of a recorded email event or correct sender/recipient roles. The reported `L2` is a product of single-dyad conditional-pseudolikelihood scores. It is **not** the matched-marginal `L2` in the plan’s dependence identity, because it does not place every unknown arc of a candidate footprint under one shared observation constraint. The subsequent MCMLE conditional-simulation workflow supplies this matched `L2` and `L3-F`. No native-event probability, exact event recovery, joint footprint probability, formal-concept score, coefficient inference, or MPLE goodness-of-fit conclusion may be drawn from this pilot.
 
 **Evidence.** Local result bundle: `results/models/enron_native_event_ergm_footprints/`, specifically `summary.md`, `metric_summary.csv`, `ranking_metrics.csv`, `event_footprint_scores.csv`, `model_status.csv`, `split_status.csv`, `network_summary.csv`, and `run_manifest.json`. The inputs are preserved locally in `results/phase2/enron_native_event_ergm_inputs/` and derive exclusively from the six frozen event-first split/panel artifacts.
+
+## 2026-10-14 — Enron conditional joint-footprint MCMLE smoke test
+
+**Technical completion.** The initial one-split M1 smoke test completed on
+`mcar_replicate_001`: the split-specific `edges + mutual` MCMLE fit converged
+within four iterations, all six sampled candidate calculations returned, and no
+joint Monte Carlo estimate was zero. The unavailable `Rglpk` solver caused a
+visible fallback to `lpSolveAPI`; Statnet reports this as suitable for the
+small two-parameter fit. The deliberately disabled likelihood normalizing
+constant is reflected by the expected message that AIC/BIC were not estimated.
+
+**Crucial limitation discovered.** The random sampler selected six singleton
+`(1,1)` footprints. Therefore, for every candidate, `L1 = L1g = L2 = L3-F` and
+`delta_dep = 0` (up to floating-point roundoff) by arithmetic: one unknown dyad
+has no within-footprint joint dependence to estimate. This confirms that the
+candidate-specific observation constraint and conditional-simulation software
+path work locally. It is **not** evidence that M1 factorizes over a multi-dyad
+footprint, and it provides no result about M4 dependence.
+
+**Corrective design recorded.** The reproducible smoke target now requires
+exactly two unobserved footprint dyads, with both reverse arcs already observed,
+and samples at most one candidate per panel/label. For M1 this is a
+well-supported, nontrivial factorization check: the two unknown dyads are not
+reciprocal partners of each other but each has fixed reciprocal evidence. The
+next output must be reviewed for `L3-F` versus the matched-marginal `L2` with
+Monte Carlo error; no larger M4/multi-split simulation follows automatically.
+
+**Evidence.** Local technical smoke bundle:
+`results/models/enron_joint_footprint_mcmle_smoke/`, especially
+`candidate_simulation_scores.csv`, `selected_candidates.csv`,
+`model_status.csv`, `split_status.csv`, and
+`diagnostics/mcar_replicate_001__M1.txt`.
