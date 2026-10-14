@@ -80,3 +80,17 @@ def test_static_benchmark_writes_reproducible_local_bundle(tmp_path: Path) -> No
     predictions = pq.read_table(output_dir / "arc_lp_predictions.parquet")
     assert predictions.num_rows > 0
     assert set(predictions.column("label").to_pylist()) == {0, 1}
+
+    rerun = subprocess.run(
+        [
+            *completed.args,
+            "--overwrite",
+        ],
+        cwd=PROJECT_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert rerun.returncode == 0, rerun.stderr
+    rerun_manifest = json.loads((output_dir / "run_manifest.json").read_text(encoding="utf-8"))
+    assert rerun_manifest == manifest

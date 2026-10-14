@@ -38,9 +38,23 @@ After the EU-core preparation audit has completed, the standard bounded pilot is
 make phase2-static ARGS="--dataset eu_core --mechanism mcar --replicates 3 --mask-rate 0.30 --tail-cap 2 --head-cap 2"
 ```
 
+After the approved strict Enron projection and the Enron cap-3 representation audit have
+completed, its fixed primary arc-level pilot is:
+
+```zsh
+make phase2-enron-static
+```
+
+This runs three deterministic 30% MCAR arc-first masks over the strict Enron core-100,
+using the representation-screening cap pair `(|T|,|H|) <= (3,3)`. It replaces only the
+dedicated `results/phase2/enron_static_pilot/` bundle. It is still an **arc-level** pilot;
+it does not replace the later event-first native-event or concept-level evaluations.
+
 It will refuse to overwrite an existing output bundle. Pass an explicit new
 `--output-dir` for a new configuration; use `--overwrite` only for an intentionally
-repeated, already archived configuration.
+repeated, already archived configuration. When `--overwrite` is supplied, the driver
+replaces the complete named pilot bundle before recreating it, rather than mixing files
+from two runs.
 
 For a static ERGM ladder on the bundle that this command creates:
 

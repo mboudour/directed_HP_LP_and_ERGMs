@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import shutil
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any
@@ -243,6 +244,20 @@ def write_r_inputs(
         writer.writerows({"id": node} for node in nodes)
 
 
+def prepare_output_dir(output_dir: Path, overwrite: bool) -> None:
+    """Create a fresh pilot bundle, replacing it only on an explicit request."""
+    if output_dir.exists() and not output_dir.is_dir():
+        raise SystemExit(f"STOP: output path is not a directory: {output_dir}")
+    if output_dir.exists() and any(output_dir.iterdir()):
+        if not overwrite:
+            raise SystemExit(
+                f"STOP: output directory is nonempty: {output_dir}\n"
+                "Pass --overwrite only after preserving or removing the previous run."
+            )
+        shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+
 def write_concept_fidelity(
     output_dir: Path,
     arcs: tuple[tuple[str, str], ...],
@@ -386,12 +401,7 @@ def main() -> None:
     )
     output_dir = output_dir if output_dir.is_absolute() else PROJECT_ROOT / output_dir
 
-    if output_dir.exists() and any(output_dir.iterdir()) and not args.overwrite:
-        raise SystemExit(
-            f"STOP: output directory is nonempty: {output_dir}\n"
-            "Pass --overwrite only after preserving or removing the previous run."
-        )
-    output_dir.mkdir(parents=True, exist_ok=True)
+    prepare_output_dir(output_dir, args.overwrite)
 
     arcs = read_arcs(arc_path, tail_column, head_column)
     nodes = read_nodes(node_path, node_column, arcs)
