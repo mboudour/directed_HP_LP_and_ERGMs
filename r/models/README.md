@@ -84,16 +84,18 @@ selects only candidate dyads. It does not emit non-candidate dyads.
 | Output | Contents |
 |---|---|
 | `conditional_predictions.csv` | Exactly `replicate`, `model`, `candidate_tail`, `candidate_head`, `label`, and `conditional_probability`; rows appear only for successfully fitted and scored model/replicate pairs. |
-| `metrics.csv` | Per replicate/model `roc_auc` and `pr_auc`, a numeric value when defined, and a visible status/message otherwise. ROC-AUC uses average ranks (tie half-credit); PR-AUC is threshold-step average precision with score ties pooled. |
+| `metrics.csv` | Per replicate/model accuracy, precision, recall, F1, Matthews correlation, ROC-AUC, PR-AUC, and log loss; every metric has a numeric value when defined and a visible status/message otherwise. Accuracy/precision/recall/F1/Matthews use a fixed conditional-probability threshold of 0.5. ROC-AUC uses average ranks (tie half-credit); PR-AUC is threshold-step average precision with score ties pooled; log loss is binary cross-entropy. |
 | `replicate_status.csv` | Input/network status plus training, candidate, and label counts for each replicate. |
 | `model_status.csv` | Per replicate/model formula, fit/prediction status, errors, warnings, and requested/predicted candidate counts. A failed model does not prevent later models or replicates from running. |
 | `replicate_network_summary.csv` | Structural summary of each masked training network. |
 | `run_manifest.json` | Paths, selected models, prediction method, package versions, counts, and limitations. |
 
-If a candidate panel has no positives or no negatives, both metrics are written
+If a candidate panel has no positives or no negatives, all metrics are written
 as `NA` with status `not_defined_degenerate_labels`; this does not create an
-artificial metric. A failed fit or prediction also gets its own visible status
-and `NA` metrics, rather than a substituted model or score.
+artificial metric. Precision and Matthews correlation are also visibly `NA`
+when a 0.5-threshold prediction contains only one class. A failed fit or
+prediction gets its own visible status and `NA` metrics, rather than a
+substituted model or score.
 
 These are **exact conditional tie probabilities under the fitted ERGM and the
 masked training network**. They are not unconditional probabilities, simulated

@@ -136,11 +136,20 @@ score_empty_metrics <- function() {
     value = numeric(),
     status = character(),
     message = character(),
+    decision_threshold = numeric(),
     candidates = integer(),
     positives = integer(),
     negatives = integer(),
     stringsAsFactors = FALSE
   )
+}
+
+score_metric_names <- function() {
+  c("accuracy", "precision", "recall", "f1", "matthews_correlation", "roc_auc", "pr_auc", "log_loss")
+}
+
+score_threshold_metrics <- function() {
+  c("accuracy", "precision", "recall", "f1", "matthews_correlation")
 }
 
 score_discover_replicates <- function(input_dir) {
@@ -339,11 +348,13 @@ score_predict_candidates <- function(fit, candidates, node_ids) {
   list(status = "prediction_succeeded", message = "", warnings = warnings, predictions = extracted)
 }
 
-score_binary_metrics <- function(replicate, model, labels, probabilities) {
+score_binary_metrics <- function(replicate, model, labels, probabilities, decision_threshold = 0.5) {
   candidate_count <- length(labels)
   positive_count <- sum(labels == 1L)
   negative_count <- sum(labels == 0L)
-  metric_names <- c("roc_auc", "pr_auc")
+  metric_names <- score_metric_names()
+  threshold_metrics <- score_threshold_metrics()
+  metric_thresholds <- ifelse(metric_names %in% threshold_metrics, decision_threshold, NA_real_)
   if (positive_count == 0L || negative_count == 0L) {
     return(data.frame(
       replicate = rep(replicate, length(metric_names)),
@@ -352,6 +363,7 @@ score_binary_metrics <- function(replicate, model, labels, probabilities) {
       value = NA_real_,
       status = "not_defined_degenerate_labels",
       message = "ROC-AUC and PR-AUC require at least one positive and one negative candidate label.",
+      decision_threshold = metric_thresholds,
       candidates = rep(as.integer(candidate_count), length(metric_names)),
       positives = rep(as.integer(positive_count), length(metric_names)),
       negatives = rep(as.integer(negative_count), length(metric_names)),
@@ -373,13 +385,61 @@ score_binary_metrics <- function(replicate, model, labels, probabilities) {
   precision <- cumulative_positive / group_end
   recall <- cumulative_positive / positive_count
   pr_auc <- sum((recall - c(0, head(recall, -1L))) * precision)
+  predicted_positive <- probabilities >= decision_threshold
+  true_positive <- sum(predicted_positive & labels == 1L)
+  false_positive <- sum(predicted_positive & labels == 0L)
+  true_negative <- sum(!predicted_positive & labels == 0L)
+  false_negative <- sum(!predicted_positive & labels == 1L)
+  predicted_positive_count <- true_positive + false_positive
+  accuracy <- (true_positive + true_negative) / candidate_count
+  classification_precision <- if (predicted_positive_count > 0L) {
+    true_positive / predicted_positive_count
+  } else {
+    NA_real_
+  }
+  classification_recall <- true_positive / positive_count
+  f1 <- if (2L * true_positive + false_positive + false_negative > 0L) {
+    2L * true_positive / (2L * true_positive + false_positive + false_negative)
+  } else {
+    NA_real_
+  }
+  mcc_denominator <- sqrt(
+    (true_positive + false_positive) * (true_positive + false_negative) *
+      (true_negative + false_positive) * (true_negative + false_negative)
+  )
+  matthews_correlation <- if (mcc_denominator > 0) {
+    (true_positive * true_negative - false_positive * false_negative) / mcc_denominator
+  } else {
+    NA_real_
+  }
+  clipped_probabilities <- pmin(pmax(probabilities, .Machine$double.eps), 1 - .Machine$double.eps)
+  log_loss <- -mean(labels * log(clipped_probabilities) + (1L - labels) * log(1 - clipped_probabilities))
+  metric_values <- c(
+    accuracy = accuracy,
+    precision = classification_precision,
+    recall = classification_recall,
+    f1 = f1,
+    matthews_correlation = matthews_correlation,
+    roc_auc = roc_auc,
+    pr_auc = pr_auc,
+    log_loss = log_loss
+  )
+  metric_status <- rep("calculated", length(metric_names))
+  metric_message <- rep("", length(metric_names))
+  undefined_precision <- is.na(classification_precision)
+  undefined_mcc <- is.na(matthews_correlation)
+  metric_status[metric_names == "precision" & undefined_precision] <- "not_defined_no_predicted_positive"
+  metric_message[metric_names == "precision" & undefined_precision] <- "No candidate probability meets the predeclared 0.5 decision threshold."
+  metric_status[metric_names == "matthews_correlation" & undefined_mcc] <- "not_defined_single_predicted_class"
+  metric_message[metric_names == "matthews_correlation" & undefined_mcc] <- "Matthews correlation requires both predicted classes at the decision threshold."
   data.frame(
     replicate = rep(replicate, length(metric_names)),
     model = rep(model, length(metric_names)),
     metric = metric_names,
-    value = c(roc_auc, pr_auc),
-    status = "calculated",
-    message = "",
+    value = unname(metric_values[metric_names]),
+    status = metric_status,
+    message = metric_message,
+    decision_threshold = metric_thresholds,
     candidates = rep(as.integer(candidate_count), length(metric_names)),
     positives = rep(as.integer(positive_count), length(metric_names)),
     negatives = rep(as.integer(negative_count), length(metric_names)),
@@ -389,16 +449,19 @@ score_binary_metrics <- function(replicate, model, labels, probabilities) {
 
 score_not_scored_metrics <- function(replicate, model, status, message, candidates) {
   labels <- if (is.null(candidates)) integer() else candidates$label
+  metric_names <- score_metric_names()
+  metric_thresholds <- ifelse(metric_names %in% score_threshold_metrics(), 0.5, NA_real_)
   data.frame(
-    replicate = rep(replicate, 2L),
-    model = rep(model, 2L),
-    metric = c("roc_auc", "pr_auc"),
+    replicate = rep(replicate, length(metric_names)),
+    model = rep(model, length(metric_names)),
+    metric = metric_names,
     value = NA_real_,
     status = status,
     message = message,
-    candidates = rep(as.integer(length(labels)), 2L),
-    positives = rep(as.integer(sum(labels == 1L)), 2L),
-    negatives = rep(as.integer(sum(labels == 0L)), 2L),
+    decision_threshold = metric_thresholds,
+    candidates = rep(as.integer(length(labels)), length(metric_names)),
+    positives = rep(as.integer(sum(labels == 1L)), length(metric_names)),
+    negatives = rep(as.integer(sum(labels == 0L)), length(metric_names)),
     stringsAsFactors = FALSE
   )
 }
@@ -658,6 +721,8 @@ score_masked_ergm_main <- function() {
     metrics = list(
       roc_auc = "Average-rank ROC-AUC; ties receive half-credit.",
       pr_auc = "Threshold-step average precision with equal-score rows pooled.",
+      classification = "Accuracy, precision, recall, F1, and Matthews correlation use the predeclared conditional-probability threshold 0.5.",
+      log_loss = "Mean binary cross-entropy of conditional probabilities; exact 0/1 probabilities are machine-epsilon clipped only for the logarithm.",
       degenerate_labels = "Both values are NA with status not_defined_degenerate_labels when a replicate has no positives or no negatives."
     ),
     package_versions = lapply(package_names, function(package) as.character(utils::packageVersion(package))),

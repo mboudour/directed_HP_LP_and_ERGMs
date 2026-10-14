@@ -99,3 +99,16 @@ successful masked conditional score from a model-specific fit or prediction fail
 The target refuses to overwrite an existing full-network or scoring directory. It reuses
 the already frozen masks and does not use the completed full-network ladder as a substitute
 for masked fits.
+
+For the validated Enron primary pilot, run:
+
+```zsh
+make phase2-enron-score
+```
+
+This first re-exports the exact three frozen MCAR mask splits from the Enron pilot, then fits
+`M0`, `M1`, `M3`, and `M4c` independently to each masked training network and scores only
+that replicate's positive/true-nonedge candidates using exact ERGM conditional probabilities.
+The summary includes **accuracy, precision, recall, F1, Matthews correlation, ROC-AUC,
+PR-AUC, and log loss**. The predeclared decision threshold for the first five measures is
+0.5; threshold-free discrimination and calibration measures remain distinct.

@@ -87,3 +87,12 @@ def test_mask_export_reconstructs_pilot_heldout_positives(tmp_path: Path) -> Non
         ) as handle:
             actual = {(row["from"], row["to"]) for row in csv.DictReader(handle)}
         assert actual == expected
+
+    rerun = subprocess.run(
+        [sys.executable, str(MASK_DRIVER), "--pilot-dir", str(pilot_dir), "--overwrite"],
+        cwd=PROJECT_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert rerun.returncode == 0, rerun.stderr

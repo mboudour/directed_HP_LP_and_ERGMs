@@ -69,14 +69,29 @@ stopifnot(identical(extracted_fixture$candidate_head, candidate_fixture$candidat
 tie_metrics <- score_binary_metrics(
   "replicate_001", "M0", c(1L, 0L), c(0.5, 0.5)
 )
-stopifnot(identical(tie_metrics$status, c("calculated", "calculated")))
-stopifnot(isTRUE(all.equal(tie_metrics$value, c(0.5, 0.5))))
+stopifnot(identical(tie_metrics$metric, score_metric_names()))
+stopifnot(isTRUE(all.equal(
+  tie_metrics$value[tie_metrics$metric %in% c("roc_auc", "pr_auc")],
+  c(0.5, 0.5)
+)))
+stopifnot(isTRUE(all.equal(
+  tie_metrics$value[tie_metrics$metric %in% c("accuracy", "precision", "recall", "f1")],
+  c(0.5, 0.5, 1, 2 / 3)
+)))
+stopifnot(identical(
+  tie_metrics$status[tie_metrics$metric == "matthews_correlation"],
+  "not_defined_single_predicted_class"
+))
+stopifnot(isTRUE(all.equal(
+  tie_metrics$value[tie_metrics$metric == "log_loss"],
+  log(2)
+)))
 degenerate_metrics <- score_binary_metrics(
   "replicate_001", "M0", c(1L, 1L), c(0.8, 0.2)
 )
 stopifnot(identical(
   degenerate_metrics$status,
-  c("not_defined_degenerate_labels", "not_defined_degenerate_labels")
+  rep("not_defined_degenerate_labels", length(score_metric_names()))
 ))
 stopifnot(all(is.na(degenerate_metrics$value)))
 

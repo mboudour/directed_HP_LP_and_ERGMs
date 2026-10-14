@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import shutil
 from pathlib import Path
 
 import pyarrow.parquet as pq
@@ -100,8 +101,10 @@ def main() -> None:
         ) from error
 
     masks_dir = pilot_dir / "masks"
-    if masks_dir.exists() and any(masks_dir.iterdir()) and not args.overwrite:
-        raise SystemExit(f"STOP: mask directory is nonempty: {masks_dir}")
+    if masks_dir.exists() and any(masks_dir.iterdir()):
+        if not args.overwrite:
+            raise SystemExit(f"STOP: mask directory is nonempty: {masks_dir}")
+        shutil.rmtree(masks_dir)
     masks_dir.mkdir(parents=True, exist_ok=True)
     arcs = read_arcs(arcs_path, tail_column, head_column)
     prediction_table = pq.read_table(

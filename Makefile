@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-enron-concepts phase2-enron-static phase2-enron-static-plan phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-enron-concepts phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -20,6 +20,7 @@ help:
 	  'phase2-enron-concepts  Audit the cap-first Enron core-100 formal-concept section (|T|,|H| <= 3).' \
 	  'phase2-enron-static  Run the fixed MCAR static arc-LP pilot on the validated Enron core-100.' \
 	  'phase2-enron-static-plan  Fit the plan-aligned full-network Enron static ERGM ladder by MPLE.' \
+	  'phase2-enron-score  Score frozen Enron MCAR masks with conditional probabilities from masked ERGMs.' \
 	  'phase2-static  Run one static Phase 2 pilot; pass options in ARGS="...".' \
 	  'phase2-export-masks  Export existing pilot masks; pass options in ARGS="...".' \
 	  'phase2-eu-core-static-plan  Fit the plan-aligned EU-core static ERGM ladder.' \
@@ -79,6 +80,11 @@ phase2-enron-static:
 
 phase2-enron-static-plan:
 	Rscript r/models/static_directed_ergm_ladder.R --input=results/phase2/enron_static_pilot/r_inputs/static_edges.csv --nodes=results/phase2/enron_static_pilot/r_inputs/nodes.csv --output-dir=results/models/enron_static_ladder_plan --source-col=from --target-col=to --node-col=id --estimate=MPLE --degree-decay=0.5 --esp-decay=0.5 --seed=20261013 --overwrite=TRUE
+
+phase2-enron-score:
+	uv run python scripts/32_export_static_pilot_masks.py --pilot-dir=results/phase2/enron_static_pilot --overwrite
+	Rscript r/models/score_masked_ergm.R --input-dir=results/phase2/enron_static_pilot --output-dir=results/models/enron_masked_ergm_plan --models=M0,M1,M3,M4c --estimate=MPLE --seed=20261013 --overwrite=TRUE
+	uv run python scripts/33_summarize_masked_ergm.py --input-dir=results/models/enron_masked_ergm_plan
 
 phase2-static:
 	uv run python scripts/30_run_static_benchmark.py $(ARGS)
