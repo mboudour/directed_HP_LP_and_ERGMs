@@ -101,3 +101,26 @@ Values are means over three replicates. The output retains their SDs and every m
 **Interpretation recorded for Phase 2.** The realised-rate reporting works as intended and shows why nominal 30% masking cannot be used as a common severity label across mechanisms. Event recurrence and dyadic projection create substantial survival of held-out native-event footprints, especially under MCAR. The MNAR-out stress test targets high-activity senders, causing much greater record-level loss but similar distinct-arc loss and more concentrated outgoing disruption. Every event-first result must therefore report the type, record, and arc realised rates, the already-observed-footprint baseline, and its mechanism separately. These masks are valid inputs for native-event, footprint, and role-assignment scoring; they contain no candidate negatives or predictive scores themselves.
 
 **Evidence.** Local result bundle: `results/phase2/enron_event_first_type_masks/`, especially `summary.md`, `split_summary.csv`, the top-level `manifest.json`, and each split's `heldout_event_types.csv`, `observed_event_types.csv`, `observed_arcs.csv`, `removed_arcs.csv`, and `removal_strata.csv`.
+
+## 2026-10-14 — Enron event-first native-event heuristic pilot
+
+**Design.** Each of the six frozen event-first splits was evaluated on a leakage-safe, 1:1 random negative panel of non-event types exactly matched to each positive's tail and head arities. Every candidate's participants had to be pairwise within weak distance two in that split's observed projection. All observed and held-out native event types were excluded from the negative pool. The uncalibrated scores are lifted arithmetic means across the candidate footprint of reverse-arc, degree-product, directed common-neighbor, and directed Adamic–Adar components; the already-observed-footprint indicator is a descriptive baseline, not a predictor.
+
+**Candidate coverage.** The candidate universe retains a mean 93.9535% of held-out native types under MCAR (minimum 91.6279%) and 95.6489% under MNAR-out (minimum 92.3810%). The excluded held-out types are reported per split rather than relabelled or replaced.
+
+| Mechanism | Score | ROC-AUC | PR-AUC | Precision@k / recall@k |
+|---|---|---:|---:|---:|
+| MCAR | Already-observed-footprint baseline | 0.6511 | 0.6444 | 0.5907 |
+| MCAR | Reverse-arc mean | **0.7800** | 0.7589 | 0.7158 |
+| MCAR | Total directed Adamic–Adar mean | 0.7752 | **0.7988** | **0.7234** |
+| MCAR | Total common-neighbor mean | 0.7575 | 0.7718 | 0.7005 |
+| MNAR-out | Already-observed-footprint baseline | 0.5786 | 0.5677 | 0.5445 |
+| MNAR-out | Reverse-arc mean | **0.8078** | **0.7884** | **0.7474** |
+| MNAR-out | II Adamic–Adar mean | 0.7707 | 0.7854 | 0.7148 |
+| MNAR-out | Total common-neighbor mean | 0.6997 | 0.7111 | 0.6451 |
+
+Values are means over three replicates; replicate SDs remain in the local summary. In this 1:1 panel, `k` equals the number of positives, so precision@k and recall@k are numerically identical by construction.
+
+**Interpretation recorded for Phase 2.** The surviving-footprint baseline is informative but not sufficient: under MCAR, the total directed Adamic–Adar score improves on it by `+0.1241` ROC-AUC and `+0.1544` PR-AUC; under MNAR-out, reverse arcs improve on it by `+0.2292` ROC-AUC and `+0.2207` PR-AUC. Reciprocity is the leading single native-event signal in both mechanisms, while the combined directed Adamic–Adar score is strongest by PR-AUC under MCAR. Under MNAR-out, the II Adamic–Adar component is competitive with reverse arcs in PR-AUC, but three replicates do not resolve their difference. The results are descriptive ranking evidence for this **random, arity-matched case-control panel only**; they do not establish calibrated event probabilities, performance at native prevalence, robustness across mechanisms, or results on the planned hard-negative panels.
+
+**Evidence.** Local result bundle: `results/phase2/enron_event_first_native_heuristics/`, particularly `summary.md`, `metric_summary.csv`, `split_summary.csv`, each split's `candidate_predictions.csv` and `metrics.csv`, and the top-level `manifest.json`.
