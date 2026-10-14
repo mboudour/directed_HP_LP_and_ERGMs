@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -16,6 +16,7 @@ help:
 	  'phase2-dry-run  Show which Phase 2 source audits would run.' \
 	  'phase2-report  Write one local report from completed audit metadata.' \
 	  'phase2-enron-timestamps  Profile retained Enron event dates before selecting a study interval.' \
+	  'phase2-enron-primary  Build the approved strict Enron custodian projection, core-100, and monthly panels.' \
 	  'phase2-static  Run one static Phase 2 pilot; pass options in ARGS="...".' \
 	  'phase2-export-masks  Export existing pilot masks; pass options in ARGS="...".' \
 	  'phase2-eu-core-static-plan  Fit the plan-aligned EU-core static ERGM ladder.' \
@@ -62,6 +63,10 @@ phase2-report:
 
 phase2-enron-timestamps:
 	uv run python scripts/14_profile_enron_event_timestamps.py --overwrite
+
+phase2-enron-primary:
+	uv run python scripts/15_materialize_enron_strict_mapping.py --overwrite
+	uv run python scripts/25_build_enron_custodian_projection.py --overwrite
 
 phase2-static:
 	uv run python scripts/30_run_static_benchmark.py $(ARGS)

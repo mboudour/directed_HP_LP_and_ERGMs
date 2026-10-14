@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 from collections import Counter
@@ -49,6 +50,31 @@ MONTH_SCHEMA = pa.schema(
         pa.field("interaction_count", pa.int32()),
     ]
 )
+
+
+def parse_args() -> argparse.Namespace:
+    """Parse an explicit deterministic output-refresh request."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Replace only derived outputs produced by this projection driver.",
+    )
+    return parser.parse_args()
+
+
+def prepare_outputs(overwrite: bool) -> None:
+    """Protect prior projected data unless the approved policy is intentionally rerun."""
+    outputs = [PROJECTED_EVENTS, CORE_NODES, CORE_ARCS, MONTHLY_ARCS, SUMMARY, REPORT]
+    existing = [path for path in outputs if path.exists()]
+    if existing and not overwrite:
+        rendered = "\n  ".join(str(path.relative_to(PROJECT_ROOT)) for path in existing)
+        raise SystemExit(
+            "STOP: custodian-projection output already exists. Pass --overwrite to replace only "
+            f"this driver's outputs:\n  {rendered}"
+        )
+    for path in existing:
+        path.unlink()
 
 
 def read_policy() -> tuple[datetime, datetime, str]:
@@ -117,15 +143,11 @@ def month_label(timestamp: datetime) -> str:
 def main() -> None:
     if not INPUT.is_file():
         raise SystemExit(f"STOP: address-level Enron events are missing: {INPUT}")
-    outputs = [PROJECTED_EVENTS, CORE_NODES, CORE_ARCS, MONTHLY_ARCS, SUMMARY, REPORT]
-    existing = [path for path in outputs if path.exists()]
-    if existing:
-        raise SystemExit(
-            "STOP: custodian-projection output already exists; it will not be overwritten"
-        )
 
+    args = parse_args()
     start, end, message_copy_policy = read_policy()
     mapping = read_mapping()
+    prepare_outputs(args.overwrite)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     SUMMARY.parent.mkdir(parents=True, exist_ok=True)
     REPORT.parent.mkdir(parents=True, exist_ok=True)
@@ -284,6 +306,7 @@ def main() -> None:
 
 - Address-level events read: `{source_events:,}`
 - Approved address-to-custodian mappings: `{len(mapping):,}`
+- Timestamp inclusion interval: `{start.isoformat()}` through `{end.isoformat()}` inclusive
 - Projected native events retained: `{projected_events:,}`
 - Projected custodian nodes: `{len(nodes):,}`
 - Core-100 all-participant events: `{core_event_count:,}`

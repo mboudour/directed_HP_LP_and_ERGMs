@@ -18,6 +18,16 @@ This versioned log records observed pilot results and their permitted interpreta
 
 **Decision.** The primary Enron custodian projection and all derived monthly panels will retain the inclusive UTC interval `1998-01-01T00:00:00+00:00` through `2002-12-31T23:59:59.999999+00:00`. This preserves 489,752 events (99.920635%) and excludes 389 events (0.079365%) from isolated, non-contiguous years. The small 1998 segment is retained rather than discarded as a possible valid boundary period.
 
-**Boundary.** This resolves the timestamp-only gate. It does not approve the custodian-address map, a message-copy/retransmission policy, or the treatment of events containing an unmapped participant. Those remain independent preconditions for the primary custodian-node projection.
+**Boundary.** This resolves the timestamp-only gate. The related identity and projection policy was subsequently approved below; its materialized local map and projected outputs still require a reproducible build.
 
 **Evidence.** Versioned policy: `configs/enron_temporal_policy.yaml`; locally generated profile: `data/metadata/enron_20150507_event_timestamp_profile.json`, `data/metadata/enron_20150507_event_timestamp_year_counts.csv`, and `docs/data_audits/enron_20150507_event_timestamp_profile.md`.
+
+## 2026-10-14 — Enron strict primary custodian projection
+
+**Decision.** The researcher approved the strict primary policy. It automatically accepts only custodian-address mappings with a unique rank-one sent-folder candidate, at least 90% support, and no rank-one address shared by another custodian. The previous audit implies 110 automatic mappings and 40 excluded/unresolved custodians.
+
+**Event rule.** A primary Enron native event must have an approved mapped sender and approved mapped identities for every `To`/`Cc` recipient. If any participant is unmapped, the entire event is excluded. A recipient mapping to the sender's custodian is removed. Distinct maildir records are retained after the raw-SHA and Message-ID duplicate audits.
+
+**Why strict.** This preserves complete internally observed recipient heads among the approved custodian universe. A clipped-head alternative could retain more internal ties, but it would censor members of the group event and therefore create a projected-event, rather than native-event, target.
+
+**Implementation status.** `scripts/15_materialize_enron_strict_mapping.py` creates the ignored, address-bearing local map and non-sensitive gate metadata. `scripts/25_build_enron_custodian_projection.py` then creates the local primary event, core-100 arc, and monthly-panel objects. The next run will quantify retention and determine whether the primary Enron gate passes.
