@@ -78,6 +78,7 @@ phase2-enron-concepts:
 
 phase2-enron-native-fidelity:
 	uv run python scripts/29_audit_native_event_fidelity.py --dataset-id=enron_20150507 --events=data/processed/enron_20150507/custodian_native_events.parquet --arcs=data/processed/enron_20150507/custodian_core100_static_arcs.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --event-tail-column=tail_custodian --event-head-column=head_custodians --arc-tail-column=tail_custodian --arc-head-column=head_custodian --node-column=custodian_mailbox --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --output-dir=results/phase2/enron_native_event_fidelity_tail3_head3 --overwrite
+	@cat results/phase2/enron_native_event_fidelity_tail3_head3/summary.md
 
 phase2-enron-static:
 	uv run python scripts/30_run_static_benchmark.py --dataset=enron --mechanism=mcar --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --output-dir=results/phase2/enron_static_pilot --overwrite
