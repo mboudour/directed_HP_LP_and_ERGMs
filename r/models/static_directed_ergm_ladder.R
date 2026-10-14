@@ -132,7 +132,10 @@ prepare_output_dir <- function(output_dir, overwrite) {
 
 read_node_ids <- function(nodes_path, node_col) {
   if (!file.exists(nodes_path)) stop("--nodes does not exist: ", nodes_path, call. = FALSE)
-  nodes <- utils::read.csv(nodes_path, stringsAsFactors = FALSE, check.names = FALSE)
+  # IDs are labels, not quantities: preserving character input avoids silently
+  # changing labels such as "001" before an edge/candidate join.
+  nodes <- utils::read.csv(nodes_path, stringsAsFactors = FALSE, check.names = FALSE,
+                           colClasses = "character", na.strings = "NA")
   if (!(node_col %in% names(nodes))) {
     stop("Node CSV is missing --node-col '", node_col, "'.", call. = FALSE)
   }
@@ -144,7 +147,10 @@ read_node_ids <- function(nodes_path, node_col) {
 
 read_directed_edges <- function(input_path, source_col, target_col, drop_loops, node_ids = NULL) {
   if (!file.exists(input_path)) stop("--input does not exist: ", input_path, call. = FALSE)
-  edges <- utils::read.csv(input_path, stringsAsFactors = FALSE, check.names = FALSE)
+  # Endpoint values are opaque actor IDs. Read them as character before
+  # validation so leading zeros and other nonnumeric labels remain exact.
+  edges <- utils::read.csv(input_path, stringsAsFactors = FALSE, check.names = FALSE,
+                           colClasses = "character", na.strings = "NA")
   if (!all(c(source_col, target_col) %in% names(edges))) {
     stop("Edge CSV must contain --source-col '", source_col, "' and --target-col '", target_col, "'.",
          call. = FALSE)

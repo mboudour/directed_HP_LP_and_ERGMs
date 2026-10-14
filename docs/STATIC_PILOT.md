@@ -54,3 +54,20 @@ Rscript r/models/static_directed_ergm_ladder.R \
 
 The R driver produces all specified models (`M0` through `M4c`), but records individual
 model failures visibly in `model_status.csv`; it never silently changes the specification.
+
+## Masked ERGM score lift
+
+After the static pilot exists, the following single Make target first reconstructs its
+already-recorded masks and candidate panels, then fits `M0`, `M1`, `M3a`, and `M4c` to
+each **masked training network** and exports their exact conditional ERGM probabilities
+for those candidates:
+
+```zsh
+make phase2-eu-core-score
+```
+
+It writes `results/models/eu_core_masked_ergm/`. In particular,
+`conditional_predictions.csv`, `metrics.csv`, and `model_status.csv` distinguish a
+successful masked conditional score from a model-specific fit or prediction failure.
+The target refuses to overwrite an existing mask or scoring directory. It does not use
+the completed full-network ladder as a substitute for these masked fits.

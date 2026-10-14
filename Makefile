@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-static phase2-temporal-export
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-static phase2-export-masks phase2-eu-core-score phase2-temporal-export
 
 help:
 	@printf '%s\n' \
@@ -16,6 +16,8 @@ help:
 	  'phase2-dry-run  Show which Phase 2 source audits would run.' \
 	  'phase2-report  Write one local report from completed audit metadata.' \
 	  'phase2-static  Run one static Phase 2 pilot; pass options in ARGS="...".' \
+	  'phase2-export-masks  Export existing pilot masks; pass options in ARGS="...".' \
+	  'phase2-eu-core-score  Export pilot masks and score them with masked ERGM fits.' \
 	  'phase2-temporal-export  Export a bounded chronological panel; pass options in ARGS="...".' \
 	  'clean   Remove local Python test and lint caches.'
 
@@ -54,6 +56,13 @@ phase2-report:
 
 phase2-static:
 	uv run python scripts/30_run_static_benchmark.py $(ARGS)
+
+phase2-export-masks:
+	uv run python scripts/32_export_static_pilot_masks.py $(ARGS)
+
+phase2-eu-core-score:
+	uv run python scripts/32_export_static_pilot_masks.py --pilot-dir results/phase2/eu_core_static_pilot
+	Rscript r/models/score_masked_ergm.R --input-dir=results/phase2/eu_core_static_pilot --output-dir=results/models/eu_core_masked_ergm --models=M0,M1,M3a,M4c --estimate=MPLE --seed=20261013
 
 phase2-temporal-export:
 	uv run python scripts/31_export_temporal_panel.py $(ARGS)
