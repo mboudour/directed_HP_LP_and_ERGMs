@@ -456,8 +456,8 @@ joint_main <- function() {
   }
   diagnostics_dir <- file.path(output_dir, "diagnostics")
   fitted_dir <- file.path(output_dir, "fitted_models")
-  dir.create(diagnostics_dir)
-  dir.create(fitted_dir)
+  dir.create(diagnostics_dir, showWarnings = FALSE)
+  dir.create(fitted_dir, showWarnings = FALSE)
   fit_control <- do.call(ergm::control.ergm, list(
     MCMLE.burnin = fit_burnin,
     MCMLE.interval = fit_interval,
