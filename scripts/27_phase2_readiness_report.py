@@ -22,8 +22,8 @@ SOURCES = (
     ),
     (
         "CAVIAR",
-        "data/metadata/caviar_matrix_preparation.json",
-        "Requires direction evidence and resolution of any duplicate actor labels.",
+        "data/metadata/caviar_full_static_preparation.json",
+        "Approved only for the unique-labelled full static matrix; phase series remains excluded.",
     ),
     (
         "Ciel",

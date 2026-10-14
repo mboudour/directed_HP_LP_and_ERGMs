@@ -37,13 +37,15 @@ datasets:
     native_event_policy: unsupported_in_primary_analysis
 
   caviar:
-    status: main_dyadic_pending_direction_audit
+    status: main_dyadic_static_full_only
     raw_input_glob: data/raw/caviar/csv_matrices/CAVIAR*.csv
+    approved_matrix: data/raw/caviar/csv_matrices/CAVIAR_FULL.csv
     phases: 11
     core_rule: whole_network
     static_targets: [arc, footprint, concept, dyadic_role_assignment]
     native_event_policy: unsupported
-    hard_gate: authoritative_confirmation_that_matrix_rows_mean_caller_to_receiver
+    temporal_phase_policy: excluded_pending_source_correction_for_CAVIAR7_duplicate_label_9
+    hard_gate: evidence_backed_caller_to_receiver_orientation_and_unique_full_matrix_labels
     gate_record: data/metadata/gates/caviar_direction.json
 
   ciel:

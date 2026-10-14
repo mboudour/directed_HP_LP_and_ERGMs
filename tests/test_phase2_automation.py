@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib.util
 import py_compile
+import sys
 from pathlib import Path
 
 import yaml
@@ -72,3 +73,20 @@ def test_readiness_report_recognizes_prepared_temporal_source() -> None:
         )
         == "prepared_static_and_temporal"
     )
+
+
+def test_caviar_gate_is_limited_to_unique_labelled_full_static_scope() -> None:
+    """Prevent a direction record from silently approving the defective phase series."""
+    script_path = PROJECT_ROOT / "scripts" / "22_prepare_covert_matrices.py"
+    spec = importlib.util.spec_from_file_location("prepare_covert_matrices", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+
+    full_static = module.dataset_spec("caviar", "full_static")
+    phase_series = module.dataset_spec("caviar", "all_matrices")
+    assert full_static.permitted_directed_build is True
+    assert full_static.directed_scope_token == "caviar_full_static"
+    assert phase_series.permitted_directed_build is False
+    assert phase_series.directed_scope_token is None

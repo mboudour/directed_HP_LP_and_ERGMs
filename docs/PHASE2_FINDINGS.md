@@ -360,3 +360,25 @@ dependence estimate.
 `candidate_simulation_scores.csv`, `selected_candidates.csv`,
 `model_status.csv`, `split_status.csv`, and
 `diagnostics/mcar_replicate_001__M1.txt`.
+
+### CAVIAR direction and phase-label gate — static full matrix approved
+
+The UCINET publisher documents directed, valued police-wiretap communication
+matrices but does not specify the row-to-column orientation. A peer-reviewed
+study using Project Caviar states explicitly that its directed links point from
+caller to receiver. The local source record therefore approves the exact
+unique-labelled 110-node `CAVIAR_FULL.csv` matrix with **rows as callers/senders
+and columns as receivers**.
+
+The approval does not extend to the 11 phase matrices. `CAVIAR7` repeats actor
+label `9` at positions 9 and 15 in both the CSV and paired UCINET header. There
+is no source-level correction identifying the second position, so it remains
+unaltered and is excluded from all directed and temporal inference. We will not
+merge, impute, or silently rename the duplicate actor.
+
+**Decision.** CAVIAR is now eligible only as a **static dyadic** benchmark from
+the full matrix: arc, footprint, formal-concept, and dyadic-role targets are
+allowed; native-event and chronology targets are not. The reproducible build
+requires `make phase2-caviar-static-prep`. The supporting source note and
+scope-specific gate are `docs/research_caviar_direction_sources.md` and
+`data/metadata/gates/caviar_direction.json`.

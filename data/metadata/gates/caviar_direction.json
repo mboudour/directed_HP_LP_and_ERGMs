@@ -1,0 +1,31 @@
+{
+  "approved": true,
+  "approved_scopes": [
+    "caviar_full_static"
+  ],
+  "dataset_id": "caviar",
+  "row_direction": "caller_to_receiver",
+  "decision": "Approve the unique-labelled 110-node CAVIAR_FULL matrix for static directed analysis only.",
+  "evidence": [
+    {
+      "url": "https://sites.google.com/site/ucinetsoftware/datasets/covert-networks/caviar",
+      "role": "publisher dataset documentation",
+      "supports": "The archive supplies 11 phase matrices and one 110-by-110 complete person-by-person matrix; ties are directed, valued communication exchanges from police wiretapping."
+    },
+    {
+      "url": "https://www.mdpi.com/2078-2489/15/2/84",
+      "role": "explicit peer-reviewed CAVIAR data description",
+      "supports": "Section 3.1 states that all CAVIAR networks are directed and weighted and that link direction points from caller to receiver."
+    }
+  ],
+  "source_label_integrity": {
+    "full_static_matrix": "passed: CAVIAR_FULL has 110 unique row/column labels",
+    "phase_series": "not approved for directed processing: CAVIAR7 repeats actor label 9 at positions 9 and 15 in both the CSV and paired UCINET header"
+  },
+  "scope_limitations": [
+    "No phase-specific or temporal directed analysis is permitted from the current source representation.",
+    "The CAVIAR7 duplicate-label defect is preserved and not imputed, merged, or silently renamed.",
+    "The approved full matrix supports static dyadic arc, footprint, formal-concept, and dyadic-role targets only; it supplies no native events."
+  ],
+  "recorded_on": "2026-10-14"
+}

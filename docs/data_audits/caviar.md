@@ -33,19 +33,23 @@
 
 ## Direction and use condition
 
-The publisher confirms directed, valued communication ties but does not state on the download page whether matrix rows represent caller-to-receiver or receiver-to-caller.
+The publisher confirms directed, valued communication ties but does not state on the download page whether matrix rows represent caller-to-receiver or receiver-to-caller. A peer-reviewed analysis of the same Project Caviar data states explicitly that links point from the caller to the receiver: Anastasiadis and Antoniou (2024), Section 3.1, https://www.mdpi.com/2078-2489/15/2/84.
 
-Therefore, caller-to-receiver orientation is currently unconfirmed. The data are retained for audit, but they are not eligible for directed evaluation until the orientation is verified from the underlying documentation or an authoritative source.
+The local gate record `data/metadata/gates/caviar_direction.json` therefore approves **only** the full 110-node static matrix `CAVIAR_FULL.csv` with rows as callers/senders and columns as receivers. It records the provenance and exact source limitation.
+
+The 11-phase sequence is not approved for directed or temporal processing. `CAVIAR7.csv` repeats actor label `9` at two positions, and the paired UCINET header repeats the same label. No authoritative correction identifies the duplicated position, so the source is preserved unchanged and no labels are merged, imputed, or silently renamed.
 
 ## Provisional supported targets
 
-Once direction is verified:
+For the approved full static matrix:
 
 - Directed arc recovery: yes.
 - Directed footprint completion: yes.
 - Formal-concept recovery: yes, after binary aggregation.
 - Native-event recovery: no.
 - Conditional role assignment: directed dyadic form only.
+
+For the phase series: no directed, temporal, or panel-based target is currently supported.
 
 ## Processing constraints
 

@@ -48,8 +48,8 @@ DATASET_DEFAULTS: dict[str, dict[str, str]] = {
     },
     "caviar": {
         "arcs": "data/processed/caviar/directed_valued_arcs.parquet",
-        "nodes": "",
-        "node_column": "",
+        "nodes": "data/processed/caviar/nodes.csv",
+        "node_column": "id",
         "tail_column": "tail",
         "head_column": "head",
     },
