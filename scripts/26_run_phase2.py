@@ -82,6 +82,7 @@ def main() -> None:
     completed = 0
     skipped = 0
     run = 0
+    failed = 0
 
     for task in tasks():
         if task.summary.exists():
@@ -98,7 +99,11 @@ def main() -> None:
             continue
         print(f"RUN: {task.name}")
         if not args.dry_run:
-            subprocess.run(task.command, cwd=PROJECT_ROOT, check=True)
+            completed_process = subprocess.run(task.command, cwd=PROJECT_ROOT, check=False)
+            if completed_process.returncode:
+                print(f"FAILED: {task.name} (exit code {completed_process.returncode})")
+                failed += 1
+                continue
         run += 1
         completed += not args.dry_run
 
@@ -106,7 +111,10 @@ def main() -> None:
     print(f"Tasks run: {run:,}")
     print(f"Tasks completed in this invocation: {completed:,}")
     print(f"Tasks skipped: {skipped:,}")
+    print(f"Tasks failed: {failed:,}")
     print("Run `make phase2-status` to inspect remaining scientific gates.")
+    if failed:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

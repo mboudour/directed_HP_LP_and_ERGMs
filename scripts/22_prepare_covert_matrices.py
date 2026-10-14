@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -69,7 +70,7 @@ def direction_approved(path: Path) -> bool:
     return record.get("approved") is True and record.get("row_direction") == "caller_to_receiver"
 
 
-def read_matrix(path: Path) -> tuple[list[str], list[list[float]]]:
+def read_matrix(path: Path) -> tuple[list[str], list[list[float]], int]:
     """Read the UCINET CSV export format with labels in the first row and column."""
     with path.open(encoding="utf-8-sig", newline="") as handle:
         rows = list(csv.reader(handle))
@@ -79,8 +80,7 @@ def read_matrix(path: Path) -> tuple[list[str], list[list[float]]]:
     labels = [value.strip() for value in rows[0][1:]]
     if not labels:
         raise ValueError(f"matrix has no column labels: {path}")
-    if len(set(labels)) != len(labels):
-        raise ValueError(f"matrix has duplicate column labels: {path}")
+    duplicate_label_occurrences = sum(count - 1 for count in Counter(labels).values() if count > 1)
     if len(rows) - 1 != len(labels):
         raise ValueError(f"matrix is not square: {path}")
 
@@ -97,7 +97,7 @@ def read_matrix(path: Path) -> tuple[list[str], list[list[float]]]:
 
     if row_labels != labels:
         raise ValueError(f"matrix row and column labels do not agree: {path}")
-    return labels, values
+    return labels, values, duplicate_label_occurrences
 
 
 def phase_number(path: Path) -> int | None:
@@ -156,7 +156,7 @@ def main() -> None:
     matrix_summaries: list[dict[str, object]] = []
 
     for path in spec.matrix_paths:
-        labels, values = read_matrix(path)
+        labels, values, duplicate_label_occurrences = read_matrix(path)
         nonzero = 0
         loops = 0
         weight_sum = 0.0
@@ -192,6 +192,7 @@ def main() -> None:
                 "positive_off_diagonal_cells": nonzero,
                 "positive_tie_weight_sum": weight_sum,
                 "nonzero_diagonal_cells": loops,
+                "duplicate_label_occurrences": duplicate_label_occurrences,
                 "phase": current_phase,
             }
         )
@@ -201,6 +202,14 @@ def main() -> None:
         if phases != list(range(1, 12)):
             raise SystemExit(f"STOP: CAVIAR phases are not exactly 1–11: {phases}")
 
+    labels_unique = all(item["duplicate_label_occurrences"] == 0 for item in matrix_summaries)
+    if args.build_directed and not labels_unique:
+        raise SystemExit(
+            "STOP: directed build is blocked because at least one source matrix has "
+            "duplicate actor labels. Run the audit-only command and resolve the source "
+            "label-integrity issue before constructing directed arcs."
+        )
+
     spec.summary.parent.mkdir(parents=True, exist_ok=True)
     spec.report.parent.mkdir(parents=True, exist_ok=True)
     summary = {
@@ -209,21 +218,29 @@ def main() -> None:
         "direction_gate_approved": approved,
         "directed_output_built": args.build_directed,
         "matrix_summaries": matrix_summaries,
+        "matrix_label_integrity_passed": labels_unique,
         "positive_off_diagonal_cells_total": total_positive_cells,
         "positive_tie_weight_total": total_nonzero_weight,
         "dichotomization_rule": "value_greater_than_zero",
         "analysis_status": (
-            "eligible_for_directed_processing" if approved else "blocked_pending_direction_audit"
+            "blocked_pending_label_integrity"
+            if not labels_unique
+            else "eligible_for_directed_processing"
+            if approved
+            else "blocked_pending_direction_audit"
         ),
     }
     spec.summary.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     table = "\n".join(
         f"| `{item['matrix_id']}` | {item['nodes']:,} | "
-        f"{item['positive_off_diagonal_cells']:,} | {item['nonzero_diagonal_cells']:,} |"
+        f"{item['positive_off_diagonal_cells']:,} | {item['nonzero_diagonal_cells']:,} | "
+        f"{item['duplicate_label_occurrences']:,} |"
         for item in matrix_summaries
     )
-    status = "approved" if approved else "pending; no directed output has been created"
+    status = (
+        "approved" if approved and labels_unique else "pending; no directed output has been created"
+    )
     spec.report.write_text(
         f"""# {spec.dataset_id.upper()} matrix-preparation audit
 
@@ -234,11 +251,12 @@ Status: **{status}**.
 The source matrices are directed and valued, but row-to-column semantics are not inferred
 from matrix shape. The local approval record must document authoritative evidence that rows
 mean caller/sender and columns mean receiver before a directed analysis is eligible.
+Duplicate actor labels are also an integrity failure: they are reported, never merged.
 
 ## Matrix integrity
 
-| Matrix | Nodes | Positive off-diagonal cells | Nonzero diagonal cells |
-|---|---:|---:|---:|
+| Matrix | Nodes | Positive off-diagonal cells | Nonzero diagonal cells | Duplicate labels |
+|---|---:|---:|---:|---:|
 {table}
 
 Values greater than zero define the documented binary sensitivity graph; original values are

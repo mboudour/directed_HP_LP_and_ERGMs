@@ -50,7 +50,7 @@ The processing registry records each source's current status.
 |---|---|---|---|
 | Enron | Main native-event dataset | Header audit and address-level provenance events | Reviewed custodian–address map before the primary core-100 projection |
 | EU-core | Main dyadic temporal dataset | Row audit, static graph, core-100, 30-day and sensitivity panels | No native-event target in the main analysis |
-| CAVIAR | Main dyadic covert dataset | Matrix integrity and dichotomization preparation | Direction must be verified as caller → receiver |
+| CAVIAR | Main dyadic covert dataset | Matrix integrity and dichotomization preparation | Direction must be verified as caller → receiver; duplicate actor labels must be resolved |
 | Ciel | Conditional dyadic covert dataset | Matrix integrity and dichotomization preparation | Relation semantics and direction must be verified |
 | Jmail v1 | Conditional native-event dataset | Schema, identifier, timestamp, and recipient-array audit | Provenance, entity resolution, licensing, and derived-release decision |
 | MathOverflow | Conditional reconstructed-event dataset | Streaming post audit and question-answer reconstruction preview | Answer-window and record-treatment policy must be fixed |
