@@ -138,18 +138,27 @@ joint_mcmle_gate <- function(fit_result, estimate) {
   nonmixing_patterns <- c(
     "Post-burnin sample is constant",
     "MCMC sampling did not mix",
-    "MCMLE estimation stuck",
-    "MCMLE estimation did not converge",
     "strong indicator of model degeneracy"
   )
-  matched <- unlist(lapply(nonmixing_patterns, function(pattern) {
+  nonmixing_messages <- unlist(lapply(nonmixing_patterns, function(pattern) {
     diagnostic_messages[grepl(pattern, diagnostic_messages, fixed = TRUE)]
   }), use.names = FALSE)
-  if (length(matched) > 0L) {
+  if (length(nonmixing_messages) > 0L) {
     return(list(
       passed = FALSE,
       status = "mcmle_gate_failed_nonmixing",
-      message = paste(unique(matched), collapse = " | ")
+      message = paste(unique(nonmixing_messages), collapse = " | ")
+    ))
+  }
+  nonconvergence_patterns <- c("MCMLE estimation stuck", "MCMLE estimation did not converge")
+  nonconvergence_messages <- unlist(lapply(nonconvergence_patterns, function(pattern) {
+    diagnostic_messages[grepl(pattern, diagnostic_messages, fixed = TRUE)]
+  }), use.names = FALSE)
+  if (length(nonconvergence_messages) > 0L) {
+    return(list(
+      passed = FALSE,
+      status = "mcmle_gate_failed_nonconvergence",
+      message = paste(unique(nonconvergence_messages), collapse = " | ")
     ))
   }
   list(passed = TRUE, status = "mcmle_gate_passed", message = "")

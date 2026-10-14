@@ -88,6 +88,21 @@ writes its raw execution log separately from the model output directory. A
 timeout, explicit nonmixing error, or any non-convergence diagnostic is a gate
 failure and must be recorded before deciding whether M3 or M4 is attempted.
 
+## Completed M2 outcome
+
+The fixed core-50 M2 run on `mcar_replicate_002` reached all five permitted
+MCMLE iterations in 8.251 seconds but did not enter the convergence tolerance
+region. Statnet explicitly reported `MCMLE estimation did not converge after 5
+iterations.` The run selected three eligible candidates, but the gate withheld
+all conditional scores and saved no model object for inference or simulation.
+
+This is a **bounded nonconvergence** result, not an MCMC-nonmixing result and
+not a local-computer failure. Under the approved policy, the core-50 MCMC-MLE
+ladder stops here: no M3/M4 MCMLE retry, tuning change, or extension is allowed
+unless the estimation policy is explicitly revised. The paper may retain the
+M1 MCMLE factorization check and the separately labelled M4 MPLE sensitivity,
+but cannot claim a converged higher-order Enron MCMLE dependence estimate.
+
 The builder writes ignored local data to:
 
 ```text

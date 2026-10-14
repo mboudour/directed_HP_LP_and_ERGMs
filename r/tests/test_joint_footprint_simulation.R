@@ -32,6 +32,12 @@ mcmle_gate <- joint_mcmle_gate(
 )
 stopifnot(!mcmle_gate$passed)
 stopifnot(identical(mcmle_gate$status, "mcmle_gate_failed_nonmixing"))
+nonconvergence_gate <- joint_mcmle_gate(
+  list(messages = "MCMLE estimation did not converge after 5 iterations.", warnings = character()),
+  estimate = "MCMLE"
+)
+stopifnot(!nonconvergence_gate$passed)
+stopifnot(identical(nonconvergence_gate$status, "mcmle_gate_failed_nonconvergence"))
 mple_gate <- joint_mcmle_gate(
   list(messages = character(), warnings = character()),
   estimate = "MPLE"

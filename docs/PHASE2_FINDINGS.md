@@ -328,6 +328,33 @@ five strict). The bounded M2 gate is therefore fixed to
 `mcar_replicate_002`, retaining the reciprocal two-dyad rule rather than
 relaxing it. This availability rule was chosen before any M2 fit or score.
 
+### Enron core-50 M2 MCMLE feasibility gate — failed nonconvergence
+
+The bounded M2 run on the preselected `mcar_replicate_002` strict class began
+with MPLE and proceeded through all five permitted MCMLE iterations in 8.251
+seconds. The estimating equations remained outside the tolerance region. In
+iteration 3, Statnet reported a convergence-test p-value of 0.9292 and increased
+the sample size; after iteration 4, it reported that the equations had not moved
+closer to the tolerance region more than once in four steps. It then terminated
+the bounded fit with `MCMLE estimation did not converge after 5 iterations.`
+
+Three candidates had been selected for conditional scoring, but the gate
+correctly produced zero scores and saved no fitted-model or diagnostic object.
+This is **nonconvergence within the predeclared bounded fitting budget**, not a
+claim that the chain mixed poorly, a computer fault, or proof that a longer or
+retuned MCMLE run could never converge. The prior generic status label has been
+corrected in the code: future instances of this message are recorded as
+`mcmle_gate_failed_nonconvergence`, distinct from a constant-sample or explicit
+MCMC-nonmixing failure.
+
+**Decision.** The deterministic core-50 does not pass the M2 MCMLE feasibility
+gate. No M3 or M4 MCMLE fit follows under this paper's bounded-computing policy,
+and no retry with altered tuning or a longer iteration budget will be launched
+without an explicitly revised estimation policy. The Enron record remains: M1
+validates the factorization mechanism; the M4 MPLE joint simulation is a marked
+parameter-plug-in sensitivity; neither supplies a converged higher-order MCMLE
+dependence estimate.
+
 **Evidence.** Local technical smoke bundle:
 `results/models/enron_joint_footprint_mcmle_smoke/`, especially
 `candidate_simulation_scores.csv`, `selected_candidates.csv`,
