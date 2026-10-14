@@ -1,0 +1,31 @@
+{
+  "candidate_addresses_shared_by_multiple_custodians": 1,
+  "custodians_in_shared_address_collisions": 2,
+  "custodians_with_rank_one_candidate": 149,
+  "custodians_without_rank_one_candidate": 1,
+  "dataset_id": "enron_20150507",
+  "evidence_input": "data/interim/enron_20150507/audits/enron_20150507_custodian_address_evidence.csv",
+  "mapping_status": "Profile only. No candidate address is assigned to a custodian, and no alias-resolution rule is applied.",
+  "median_support_share": 1.0,
+  "minimum_support_share": 0.42069,
+  "minimum_top_minus_second_support_gap": 3,
+  "next_decision": "Use the support distribution and collision result to choose a documented custodian-address inclusion and ambiguity policy.",
+  "source_custodian_mailboxes": 150,
+  "support_share_bins": {
+    "100%": 79,
+    "50\u2013<75%": 14,
+    "75\u2013<90%": 22,
+    "90\u2013<95%": 5,
+    "95\u2013<99%": 4,
+    "99\u2013<100%": 24,
+    "<50%": 1
+  },
+  "threshold_counts": {
+    "100%": 79,
+    "50%": 148,
+    "75%": 134,
+    "90%": 112,
+    "95%": 107,
+    "99%": 103
+  }
+}
