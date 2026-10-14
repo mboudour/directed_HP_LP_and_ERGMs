@@ -166,6 +166,14 @@ def test_temporal_btergm_missing_package_manifest(tmp_path: Path) -> None:
     assert summary["first_time"] == "001"
 
 
+def test_fixed_temporal_pilot_target_is_rerunnable() -> None:
+    """The seeded EU-core target must replace its own partial output on retry."""
+    makefile = (PROJECT_ROOT / "Makefile").read_text(encoding="utf-8")
+    target = makefile.split("phase2-eu-core-btergm:\n", maxsplit=1)[1].split("\n\n", maxsplit=1)[0]
+    assert "--output-dir=results/models/eu_core_temporal_btergm_v3" in target
+    assert "--overwrite=TRUE" in target
+
+
 def test_temporal_btergm_output_protection(tmp_path: Path) -> None:
     """An invalid rerun without overwrite cannot replace a previous manifest."""
     rscript = shutil.which("Rscript")

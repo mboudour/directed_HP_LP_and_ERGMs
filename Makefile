@@ -82,7 +82,7 @@ phase2-eu-core-temporal:
 phase2-eu-core-btergm:
 	$(MAKE) r
 	$(MAKE) r-model-test
-	Rscript r/models/temporal_btergm_ladder.R --input=results/phase2/eu_core_temporal_check/panel_edges.csv --nodes=results/phase2/eu_core_temporal_check/nodes.csv --output-dir=results/models/eu_core_temporal_btergm_v3 --bootstrap-reps=20 --degree-decay=0.5 --esp-decay=0.5 --models=all --parallel=no --ncpus=1 --seed=20261013
+	Rscript r/models/temporal_btergm_ladder.R --input=results/phase2/eu_core_temporal_check/panel_edges.csv --nodes=results/phase2/eu_core_temporal_check/nodes.csv --output-dir=results/models/eu_core_temporal_btergm_v3 --bootstrap-reps=20 --degree-decay=0.5 --esp-decay=0.5 --models=all --parallel=no --ncpus=1 --seed=20261013 --overwrite=TRUE
 	uv run python scripts/35_summarize_temporal_btergm.py --model-dir results/models/eu_core_temporal_btergm_v3 --panel-dir results/phase2/eu_core_temporal_check
 
 clean:
