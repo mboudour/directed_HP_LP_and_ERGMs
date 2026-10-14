@@ -35,3 +35,15 @@ This versioned log records observed pilot results and their permitted interpreta
 **Interpretation recorded for Phase 2.** The Enron **data-preparation and primary-input gate passes**: the strict result has more than the required 100 actors, thousands of complete recorded internal events, a non-degenerate directed core graph, and a longitudinal monthly panel. The severe event loss is an explicit consequence of preserving fully observed recipient heads within the approved custodian universe; it must be reported as a selection boundary, not described as a full Enron communication system. The retained object is a conservative internal-custodian native-event benchmark.
 
 **Implementation status.** `scripts/15_materialize_enron_strict_mapping.py` creates the ignored, address-bearing local map and non-sensitive gate metadata. `scripts/25_build_enron_custodian_projection.py` creates the local primary event, core-100 arc, and monthly-panel objects. Local evidence: `data/metadata/enron_20150507_custodian_projection.json` and `docs/data_audits/enron_20150507_custodian_projection.md`.
+
+## 2026-10-14 — Enron cap-3 formal-concept screening audit
+
+**Input.** The approved strict Enron core has 100 fixed custodian nodes and 635 binary directed arcs. The deterministic audit enumerated directed formal concepts with cap-first bounds `|T| <= 3` and `|H| <= 3`.
+
+**Observed result.** The capped section has 232 concepts, all with at least one role of arity greater than one, and none with a node in both tail and head roles. It covers 551 of 635 directed arcs (86.771654%), leaving 84 arcs outside the capped concept footprints. The concepts generate 1,409 footprint-arc occurrences: an average footprint size of 6.073276 arcs and 2.557169 concept memberships per covered arc. Arc membership has minimum zero, median two, 95th percentile five, and maximum ten.
+
+**Arity composition.** The section contains 1 `(1,2)`, 8 `(1,3)`, 4 `(2,1)`, 46 `(2,2)`, 52 `(2,3)`, 5 `(3,1)`, 60 `(3,2)`, and 56 `(3,3)` concepts. Thus 92.241379% of concepts have at least two nodes in both roles; the section is not driven by one-to-many or many-to-one stars.
+
+**Interpretation recorded for Phase 2.** The Enron **cap-3 representation gate passes** for the main paper. Unlike EU-core's cap-3 section, Enron offers a substantial, high-coverage derived concept section with moderate and explicitly measurable footprint overlap. It is therefore eligible for the paper's exploratory formal-concept and footprint recovery targets as well as its primary recorded-native-event target. Formal concepts remain algebraically derived structures, not observed email groups; all reporting must retain this distinction. The cap-3 audit is the computationally bounded primary screen, not an assertion that larger caps are unneeded or that this is the final sensitivity analysis.
+
+**Evidence.** Local result bundle: `results/phase2/enron_formal_concepts_tail3_head3/`, especially `summary.md`, `arity_distribution.csv`, and `arc_multiplicity.csv`.
