@@ -69,6 +69,18 @@ Rscript r/models/static_directed_ergm_ladder.R \
 The R driver produces all specified models (`M0` through `M4c`), but records individual
 model failures visibly in `model_status.csv`; it never silently changes the specification.
 
+For the completed Enron primary pilot, use the fixed target:
+
+```zsh
+make phase2-enron-static-plan
+```
+
+It fits the plan-aligned full-network `M0`–`M4c` ladder by MPLE to the frozen Enron
+core-100 edge list and writes `results/models/enron_static_ladder_plan/`. This is a
+**structural diagnostic**: it checks term availability, estimates, warnings, and potential
+degeneracy on the full cross-section. It does not score held-out arcs and must not be
+reported as a prediction result.
+
 ## Masked ERGM score lift
 
 After the static pilot exists, the following single Make target first fits the plan-aligned

@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-enron-concepts phase2-enron-static phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-enron-concepts phase2-enron-static phase2-enron-static-plan phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -19,6 +19,7 @@ help:
 	  'phase2-enron-primary  Build the approved strict Enron custodian projection, core-100, and monthly panels.' \
 	  'phase2-enron-concepts  Audit the cap-first Enron core-100 formal-concept section (|T|,|H| <= 3).' \
 	  'phase2-enron-static  Run the fixed MCAR static arc-LP pilot on the validated Enron core-100.' \
+	  'phase2-enron-static-plan  Fit the plan-aligned full-network Enron static ERGM ladder by MPLE.' \
 	  'phase2-static  Run one static Phase 2 pilot; pass options in ARGS="...".' \
 	  'phase2-export-masks  Export existing pilot masks; pass options in ARGS="...".' \
 	  'phase2-eu-core-static-plan  Fit the plan-aligned EU-core static ERGM ladder.' \
@@ -75,6 +76,9 @@ phase2-enron-concepts:
 
 phase2-enron-static:
 	uv run python scripts/30_run_static_benchmark.py --dataset=enron --mechanism=mcar --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --output-dir=results/phase2/enron_static_pilot --overwrite
+
+phase2-enron-static-plan:
+	Rscript r/models/static_directed_ergm_ladder.R --input=results/phase2/enron_static_pilot/r_inputs/static_edges.csv --nodes=results/phase2/enron_static_pilot/r_inputs/nodes.csv --output-dir=results/models/enron_static_ladder_plan --source-col=from --target-col=to --node-col=id --estimate=MPLE --degree-decay=0.5 --esp-decay=0.5 --seed=20261013 --overwrite=TRUE
 
 phase2-static:
 	uv run python scripts/30_run_static_benchmark.py $(ARGS)
