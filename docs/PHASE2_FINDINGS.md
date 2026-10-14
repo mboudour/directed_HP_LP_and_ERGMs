@@ -47,3 +47,30 @@ This versioned log records observed pilot results and their permitted interpreta
 **Interpretation recorded for Phase 2.** The Enron **cap-3 representation gate passes** for the main paper. Unlike EU-core's cap-3 section, Enron offers a substantial, high-coverage derived concept section with moderate and explicitly measurable footprint overlap. It is therefore eligible for the paper's exploratory formal-concept and footprint recovery targets as well as its primary recorded-native-event target. Formal concepts remain algebraically derived structures, not observed email groups; all reporting must retain this distinction. The cap-3 audit is the computationally bounded primary screen, not an assertion that larger caps are unneeded or that this is the final sensitivity analysis.
 
 **Evidence.** Local result bundle: `results/phase2/enron_formal_concepts_tail3_head3/`, especially `summary.md`, `arity_distribution.csv`, and `arc_multiplicity.csv`.
+
+## 2026-10-14 — Enron full-network static ERGM ladder feasibility check
+
+**Observed result.** Every plan-aligned MPLE specification (`M0` through `M4c`) fit successfully with no recorded warnings or unavailable terms. The supplied strict core has 100 nodes, 635 of 9,900 possible directed arcs (6.414141% density), 217 reciprocal pairs, and a reciprocated-arc fraction of 68.346457%.
+
+**Interpretation recorded for Phase 2.** This passes the **static ERGM software and structural-feasibility gate** for Enron: the directed degree, mutuality, OTP, OSP, ISP, and cyclic-triple terms can all be evaluated on the stated core. It is not evidence of model adequacy or a prediction result. The fits are MPLE, so they do not provide MCMLE convergence or simulation goodness-of-fit evidence; coefficient interpretation remains separate from masked score evaluation.
+
+**Evidence.** Local result bundle: `results/models/enron_static_ladder_plan/`, especially `model_status.csv`, `network_summary.csv`, `coefficients.csv`, and `diagnostics.txt`.
+
+## 2026-10-14 — Enron masked conditional ERGM arc-score pilot
+
+**Design.** Three deterministic, 30% arc-first MCAR masks of the strict Enron core-100 were generated from the fixed pilot seed. `M0`, `M1`, `M3`, and `M4c` were each fitted only to their corresponding masked training graph, then used to produce exact conditional ERGM probabilities for that replicate's balanced held-out-arc/true-nonedge panel. All 12 model-replicate fits and scores completed.
+
+| Model | Accuracy | Precision | Recall | F1 | Matthews | ROC-AUC | PR-AUC | Log loss |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| M0 | 0.5000 | — | 0.0000 | 0.0000 | — | 0.5000 | 0.5000 | 1.5741 |
+| M1 | 0.5000 | — | 0.0000 | 0.0000 | — | 0.7263 | 0.7184 | 1.1741 |
+| M3 | 0.6325 | 0.9867 | 0.2684 | 0.4216 | 0.3861 | 0.9190 | 0.9242 | 0.9623 |
+| M4c | 0.6281 | 0.9864 | 0.2596 | 0.4110 | 0.3788 | 0.9186 | 0.9243 | 0.9636 |
+
+Values are means over three replicates. The output retains their SDs and every metric status in the local score bundle.
+
+**Interpretation recorded for Phase 2.** Adding mutuality (`M1`) improves threshold-free ranking relative to density alone (ROC-AUC `+0.2263`, PR-AUC `+0.2184`) but yields no 0.5-threshold positive classifications because fitted conditional probabilities remain below 0.5. Adding degree heterogeneity and outgoing-two-path closure (`M3`) produces the material score lift: relative to `M1`, ROC-AUC rises `+0.1927`, PR-AUC `+0.2058`, and log loss falls `-0.2118`; its 0.5-threshold precision is 0.9867 but recall is 0.2684. The more complex closure-plus-cycle model `M4c` supplies no meaningful improvement over `M3` in this three-replicate pilot: its PR-AUC difference is `+0.0001`, while ROC-AUC, F1, Matthews correlation, and log loss are slightly worse. `M3` is therefore the current parsimonious candidate for this **static arc-level conditional-score** task, pending the preregistered larger experiment and target-specific evaluations.
+
+**Caution.** The 0.5 threshold is a fixed diagnostic, not an optimized decision rule. The candidate panel is deliberately balanced, whereas the full graph is sparse; threshold-dependent metrics and log loss are therefore panel-specific and must not be generalized to a deployment prevalence. The three replicates quantify only the fixed-split Monte Carlo variation and do not establish statistical significance.
+
+**Evidence.** Local result bundle: `results/models/enron_masked_ergm_plan/`, especially `summary.md`, `metrics.csv`, `model_status.csv`, `replicate_status.csv`, and `conditional_predictions.csv`.
