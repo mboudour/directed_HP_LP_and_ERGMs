@@ -1,0 +1,38 @@
+{
+  "dataset_id": "enron_20150507",
+  "event_time_span_utc": {
+    "maximum": "2044-01-04T22:48:58+00:00",
+    "minimum": "1980-01-01T00:00:00+00:00"
+  },
+  "events_with_sender_removed_from_head": 38704,
+  "head_arity_bins": {
+    "1": 274380,
+    "2": 53094,
+    "3": 28912,
+    "4": 19043,
+    "5+": 114712
+  },
+  "header_policy": {
+    "alias_resolution": "Not performed; nodes are canonical email addresses.",
+    "bcc": "Excluded because the audited archive duplicates every non-empty Bcc field exactly in Cc.",
+    "event_deduplication": "Not performed because archive and Message-ID audits found no duplicates.",
+    "included_recipient_fields": [
+      "To",
+      "Cc"
+    ],
+    "sender_in_head": "Removed to enforce a disjoint tail and head, while retaining other recipients in the same message."
+  },
+  "input": "data/interim/enron_20150507/parsed_headers.parquet",
+  "input_records": 517401,
+  "native_events_written": 490141,
+  "next_processing_step": "Construct explicit address-level arcs and then define a reproducible core-selection or custodian-projection policy.",
+  "output": "data/interim/enron_20150507/native_events_address_level.parquet",
+  "sequential_exclusion_counts": {
+    "date_not_timezone_aware": 12,
+    "head_empty_after_sender_removal": 6774,
+    "no_to_or_cc_recipient": 20400,
+    "sender_not_exactly_one_clean_address": 3,
+    "to_or_cc_address_parse_issue": 71
+  },
+  "unique_address_level_nodes": 86408
+}
