@@ -238,6 +238,24 @@ M4 MPLE parameter-plug-in conditional-simulation sensitivity, using the same
 two-dyad candidate and independent conditional chains. It can validate score
 mechanics under closure terms but cannot substitute for a converged MCMLE result.
 
+### Enron M4 MPLE joint-footprint sensitivity — completed, technical result only
+
+On the same preselected two-dyad role-exchange negative candidate used for the
+M1 factorization check, the M4 **MPLE parameter-plug-in** fit completed in
+6.2 seconds. The two conditional simulation marginals gave `L2 = 0.412800`.
+The joint conditional completion frequency was `L3-F = 0.520000`, producing an
+absolute gap of `0.107200` and `delta_dep = 0.230866`. The 1,000-resample
+bootstrap Monte Carlo interval for `delta_dep` was `[0.153023, 0.309244]`,
+equivalent to a joint/product ratio of `1.260` with interval `[1.165, 1.362]`.
+
+**Interpretation.** Unlike M1, the M4 parameter vector induces a clear positive
+within-footprint association in this bounded conditional calculation. This
+validates the score-gap machinery under the closure-capable specification and
+supports its substantive rationale. It is **not** evidence that the final M4
+MCMLE model has been estimated successfully: the MCMLE gate above remains
+failed, the candidate is one selected negative, and no discrimination or
+population-level conclusion follows.
+
 **Evidence.** Local technical smoke bundle:
 `results/models/enron_joint_footprint_mcmle_smoke/`, especially
 `candidate_simulation_scores.csv`, `selected_candidates.csv`,
