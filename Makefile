@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-ciel-audit phase2-jmail-audit phase2-mathoverflow-audit phase2-mathoverflow-profile phase2-mathoverflow-primary phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-ciel-audit phase2-jmail-audit phase2-mathoverflow-audit phase2-mathoverflow-profile phase2-mathoverflow-primary phase2-mathoverflow-static-prep phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -25,6 +25,7 @@ help:
 	  'phase2-mathoverflow-audit  Audit MathOverflow posts without reconstructing events.' \
 	  'phase2-mathoverflow-profile  Profile answer windows without reconstructing MathOverflow events.' \
 	  'phase2-mathoverflow-primary  Build approved 30-day MathOverflow reconstructed events.' \
+	  'phase2-mathoverflow-static-prep  Build MathOverflow static arcs and all-participant core-100 views.' \
 	  'phase2-enron-timestamps  Profile retained Enron event dates before selecting a study interval.' \
 	  'phase2-enron-primary  Build the approved strict Enron custodian projection, core-100, and monthly panels.' \
 	  'phase2-enron-mcmle-core50  Materialize the approved nested Enron core-50 for MCMLE feasibility only.' \
@@ -165,6 +166,18 @@ phase2-mathoverflow-primary:
 	else \
 		uv run python scripts/24_prepare_mathoverflow.py --build-reconstructed-events && \
 		cat docs/data_audits/mathoverflow_stackexchange_2024_reconstruction.md; \
+	fi
+
+phase2-mathoverflow-static-prep:
+	@if test -f data/processed/mathoverflow_stackexchange_2024/static_arcs.parquet && test -f data/processed/mathoverflow_stackexchange_2024/core100_static_arcs.parquet && test -f data/processed/mathoverflow_stackexchange_2024/core100_native_events.parquet && test -f data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv && test -f data/metadata/mathoverflow_stackexchange_2024_static_projection.json && test -f docs/data_audits/mathoverflow_stackexchange_2024_static_projection.md; then \
+		echo 'MathOverflow static projection already exists; preserving the prior immutable build.'; \
+		cat docs/data_audits/mathoverflow_stackexchange_2024_static_projection.md; \
+	elif test -e data/processed/mathoverflow_stackexchange_2024/static_arcs.parquet || test -e data/processed/mathoverflow_stackexchange_2024/core100_static_arcs.parquet || test -e data/processed/mathoverflow_stackexchange_2024/core100_native_events.parquet || test -e data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv || test -e data/metadata/mathoverflow_stackexchange_2024_static_projection.json || test -e docs/data_audits/mathoverflow_stackexchange_2024_static_projection.md; then \
+		echo 'STOP: inconsistent partial MathOverflow static-projection outputs; inspect them rather than overwriting.'; \
+		exit 1; \
+	else \
+		uv run python scripts/44_prepare_mathoverflow_static_projection.py && \
+		cat docs/data_audits/mathoverflow_stackexchange_2024_static_projection.md; \
 	fi
 
 phase2-enron-timestamps:

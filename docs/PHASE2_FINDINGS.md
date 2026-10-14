@@ -521,3 +521,21 @@ answerers per question, and retain only rows present in the public dump. The
 approval is recorded in `data/metadata/gates/mathoverflow_reconstruction_policy.json`.
 The primary event build remains to be materialized as a separate reproducible
 step.
+
+
+### MathOverflow primary reconstruction — approved 30-day events materialized
+
+The approved 30-day construction completed successfully. It read 341,167 public
+dump posts and produced 91,161 reconstructed question-answer events, exactly
+matching the 30-day response-window profile's count of answered eligible
+questions. The build retained 145,121 eligible answer records before duplicate
+answerer collapse; after collapse, the profile documented 142,958 distinct
+question-answerer pairs across those events. Source dates were fully parseable,
+and no answer lacked a parent ID.
+
+Each event is labelled as an analyst-defined reconstruction of distinct eligible,
+non-self answerers to a question asker. Comments and ownerless users are
+excluded, repeated answerers are collapsed per question, and only public-dump
+rows are retained. The immutable source audit remains separate. The next gate is
+the deterministic static projection and all-participant core-100 preparation;
+this dataset is not eligible for the chronological pilot.

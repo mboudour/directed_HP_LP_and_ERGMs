@@ -68,7 +68,7 @@ datasets:
     gate_record: data/metadata/gates/jmail_v1_admissibility.json
 
   mathoverflow_stackexchange_2024:
-    status: approved_reconstructed_native_pending_materialization
+    status: approved_reconstructed_native_pending_static_core
     raw_input: data/raw/mathoverflow_stackexchange_2024/Posts.xml
     optional_users_input: data/raw/mathoverflow_stackexchange_2024/Users.xml
     core_rule: top_100_by_sent_plus_received_activity
