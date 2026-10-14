@@ -301,6 +301,15 @@ nonloop dyads. It is adequate for the approved bounded feasibility module;
 its mask, candidate-panel, and joint-score inputs remain entirely separate
 from the core-100 bundles.
 
+**Input preparation result.** The core-50 event-first pipeline completed six
+frozen splits (three MCAR and three MNAR-out). It contains 6,164 cap-eligible
+event records, 351 cap-eligible ordered tail/head event types, and 286
+cap-eligible projection arcs. Random, reversal/orientation, and role-exchange
+candidate panels were exported for every split to the isolated joint-score
+bundle. This confirms that the selected feasibility core supports the same
+candidate contract as the primary benchmark; it does not produce a primary
+prediction result.
+
 **Evidence.** Local technical smoke bundle:
 `results/models/enron_joint_footprint_mcmle_smoke/`, especially
 `candidate_simulation_scores.csv`, `selected_candidates.csv`,

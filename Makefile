@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-native-ergm-footprints phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-native-ergm-footprints phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -19,6 +19,7 @@ help:
 	  'phase2-enron-primary  Build the approved strict Enron custodian projection, core-100, and monthly panels.' \
 	  'phase2-enron-mcmle-core50  Materialize the approved nested Enron core-50 for MCMLE feasibility only.' \
 	  'phase2-enron-mcmle-core50-inputs  Build separate core-50 masks and joint-score candidate inputs.' \
+	  'phase2-enron-mcmle-core50-m2-gate  Run the 120-second bounded core-50 M2 MCMLE feasibility gate.' \
 	  'phase2-enron-concepts  Audit the cap-first Enron core-100 formal-concept section (|T|,|H| <= 3).' \
 	  'phase2-enron-native-fidelity  Compare strict Enron recorded events with the capped formal-concept section.' \
 	  'phase2-enron-event-masks  Create three MCAR and three MNAR-out event-type masks for native-event evaluation.' \
@@ -93,6 +94,12 @@ phase2-enron-mcmle-core50-inputs: phase2-enron-mcmle-core50
 	uv run python scripts/38_run_native_event_hard_panels.py --dataset-id=enron_20150507_mcmle_core50 --mask-dir=results/phase2/enron_mcmle_core50_event_masks --nodes=data/processed/enron_20150507/custodian_mcmle_core50_nodes.csv --node-column=custodian_mailbox --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/enron_mcmle_core50_native_hard_panels --overwrite
 	uv run python scripts/39_export_native_event_ergm_inputs.py --dataset-id=enron_20150507_mcmle_core50 --mask-dir=results/phase2/enron_mcmle_core50_event_masks --heuristic-dir=results/phase2/enron_mcmle_core50_native_heuristics --hard-panel-dir=results/phase2/enron_mcmle_core50_native_hard_panels --nodes=data/processed/enron_20150507/custodian_mcmle_core50_nodes.csv --node-column=custodian_mailbox --output-dir=results/phase2/enron_mcmle_core50_joint_inputs --overwrite
 	@cat results/phase2/enron_mcmle_core50_joint_inputs/manifest.json
+
+phase2-enron-mcmle-core50-m2-gate:
+	@test -f results/phase2/enron_mcmle_core50_joint_inputs/manifest.json || (echo 'STOP: run make phase2-enron-mcmle-core50-inputs first.' && exit 1)
+	python3 scripts/40_run_bounded_command.py --timeout-seconds=120 --log=results/models/enron_mcmle_core50_m2_gate_run.txt -- Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_mcmle_core50_joint_inputs --output-dir=results/models/enron_mcmle_core50_m2_gate --models=M2 --estimate=MCMLE --split=mcar_replicate_001 --max-candidates-per-label=1 --min-unobserved-dyads=2 --max-unobserved-dyads=2 --require-reverse-observed=TRUE --nsim=200 --mcmc-burnin=100 --mcmc-interval=10 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --bootstrap-reps=1000 --seed=20261013 --overwrite=TRUE
+	@cat results/models/enron_mcmle_core50_m2_gate/summary.md
+	@cat results/models/enron_mcmle_core50_m2_gate/model_status.csv
 
 phase2-enron-concepts:
 	uv run python scripts/28_audit_formal_concepts.py --dataset=enron_20150507 --edges=data/processed/enron_20150507/custodian_core100_static_arcs.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --source-col=tail_custodian --target-col=head_custodian --node-col=custodian_mailbox --output-dir=results/phase2/enron_formal_concepts_tail3_head3 --tail-cap=3 --head-cap=3 --max-candidates=250000 --overwrite

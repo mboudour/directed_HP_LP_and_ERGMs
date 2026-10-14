@@ -53,6 +53,23 @@ make phase2-enron-mcmle-core50-inputs
 All resulting paths include `enron_mcmle_core50`; they never overwrite the
 primary core-100 mask or score bundles.
 
+## First MCMC-MLE gate
+
+After the isolated inputs exist, the first computational gate is M2 (edges,
+mutuality, geometrically weighted in-degree, and geometrically weighted
+out-degree) on `mcar_replicate_001`:
+
+```zsh
+make phase2-enron-mcmle-core50-m2-gate
+```
+
+The target uses the repository’s cross-platform bounded-command runner with a
+120-second hard wall-clock limit. It selects only candidates with exactly two
+unknown footprint dyads and observed reverse arcs, fits no other model, and
+writes its raw execution log separately from the model output directory. A
+timeout, explicit nonmixing error, or any non-convergence diagnostic is a gate
+failure and must be recorded before deciding whether M3 or M4 is attempted.
+
 The builder writes ignored local data to:
 
 ```text
