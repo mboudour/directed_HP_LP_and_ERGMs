@@ -22,6 +22,7 @@ stopifnot(grepl("eval.loglik = FALSE", driver_text, fixed = TRUE))
 stopifnot(grepl("sequential = FALSE", driver_text, fixed = TRUE))
 stopifnot(grepl('"split"', driver_text, fixed = TRUE))
 stopifnot(grepl("MCMLE.samplesize = fit_samplesize", driver_text, fixed = TRUE))
+stopifnot(grepl('"bootstrap-reps"', driver_text, fixed = TRUE))
 
 footprints <- data.frame(
   panel = c("random", "random", "random", "random", "multi_dyad", "multi_dyad"),
@@ -79,11 +80,26 @@ fixed_outcome <- joint_simulation_scores(
   nsim = 5L,
   mcmc_burnin = 1L,
   mcmc_interval = 1L,
+  bootstrap_reps = 20L,
   seed = 1L
 )
 stopifnot(identical(fixed_outcome$status, "fixed_complete_footprint"))
 stopifnot(fixed_outcome$L3_F == 1)
 stopifnot(fixed_outcome$L2 == 1)
 stopifnot(fixed_outcome$delta_dep == 0)
+
+states <- matrix(c(
+  TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, TRUE, FALSE,
+  TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE
+), nrow = 2L)
+bootstrap <- joint_dependence_bootstrap(states, bootstrap_reps = 200L, seed = 9L)
+stopifnot(is.finite(bootstrap$mcse), bootstrap$mcse >= 0)
+stopifnot(is.finite(bootstrap$ci_low), is.finite(bootstrap$ci_high))
+stopifnot(bootstrap$ci_low <= bootstrap$ci_high)
+draw_rows <- joint_draw_rows(
+  data.frame(candidate_tail = c("a", "b"), candidate_head = c("c", "d")), states
+)
+stopifnot(nrow(draw_rows) == length(states))
+stopifnot(identical(sort(unique(draw_rows$simulation_draw)), seq_len(ncol(states))))
 
 cat("PASS: joint footprint candidate constraints and fixed-observation scoring contract.\n")

@@ -36,6 +36,7 @@ and reports:
 | `L2` | Product of the candidate-specific marginal probabilities. |
 | `L3_F` | Fraction of conditional completions with the entire footprint present. |
 | `delta_dep` | `log(L3_F) - log(L2)` when both Monte Carlo estimates are positive. |
+| `delta_dep_mcse`, interval | Nonparametric bootstrap uncertainty for `delta_dep`, resampling the independent conditional completions. |
 
 Thus `L2` and `L3_F` share precisely the same observation constraints. Their
 contrast is interpretable as within-footprint dependence rather than a difference
@@ -72,6 +73,13 @@ error. It does not test higher-order dependence: `M4` and multi-split /
 larger-draw calculations remain separate, explicitly scaled computations only
 after this check has been reviewed.
 
+The next deliberately bounded stage is a separate `M4` run on the **same
+single split and candidate-selection rule**. It is a computational calibration:
+it asks whether the first closure-capable model can be fit and conditionally
+simulated locally, and reports a bootstrap uncertainty interval for its
+within-footprint dependence increment. It is not a comparison across targets,
+models, or missingness mechanisms.
+
 A candidate with a wholly observed footprint has `L3_F = L2 = 1` by conditioning,
 without simulation. If a simulated `L3_F` is zero, it is **not** reported as an
 exact zero probability or supplied with a finite log-dependence score. Instead,
@@ -91,6 +99,13 @@ After the frozen event-first inputs are available:
 make phase2-enron-joint-footprints
 ```
 
+Only after the M1 factorization check has completed should the one-candidate M4
+calibration be invoked:
+
+```zsh
+make phase2-enron-joint-m4-smoke
+```
+
 The target regenerates the deterministic frozen input export and replaces only the
 ignored local smoke-test output bundle:
 
@@ -103,7 +118,10 @@ The most important files are:
 - `summary.md` — completion and interpretation boundary;
 - `model_status.csv` — separate MCMLE outcomes for every split and model;
 - `candidate_simulation_scores.csv` — candidate-specific `L1`, `L1g`, `L2`,
-  `L3_F`, Monte Carlo SE, zero-score bound, and dependence increment;
+  `L3_F`, Monte Carlo SE, zero-score bound, dependence increment, and bootstrap
+  uncertainty summaries;
+- `candidate_simulation_draws.csv` — dyad states from the independent conditional
+  completions, retained to audit the bootstrap calculation;
 - `selected_candidates.csv` — the actual bounded candidate subset; and
 - `diagnostics/` plus `fitted_models/` — MCMLE diagnostic output and reproducible
   fitted model objects.

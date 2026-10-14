@@ -31,11 +31,13 @@ joint_usage <- function() {
     "  --fit-mcmc-interval=500            MCMLE fit interval.",
     "  --fit-mcmc-samplesize=512          MCMLE fit sample size per iteration.",
     "  --mcmle-maxit=10                   Maximum MCMLE iterations.",
+    "  --bootstrap-reps=1000              Resamples for delta_dep uncertainty.",
     "  --seed=20261013                    Reproducibility seed.",
     "  --overwrite=FALSE                  Refuse a nonempty output directory unless TRUE.",
     "",
-    "Outputs: candidate_simulation_scores.csv, selected_candidates.csv, model_status.csv,",
-    "split_status.csv, diagnostics/, fitted_models/, summary.md, and run_manifest.json.",
+    "Outputs: candidate_simulation_scores.csv, candidate_simulation_draws.csv,",
+    "selected_candidates.csv, model_status.csv, split_status.csv, diagnostics/,",
+    "fitted_models/, summary.md, and run_manifest.json.",
     "",
     "This is a bounded dependence/feasibility pilot. It deliberately does not emit",
     "ranking metrics: candidate sampling and low-probability Monte Carlo truncation",
@@ -124,7 +126,18 @@ joint_empty_scores <- function() {
     model = character(), status = character(), simulation_draws = integer(), L1 = numeric(),
     L1g = numeric(), L2 = numeric(), log_L2 = numeric(), L3_F = numeric(), L3_F_mcse = numeric(),
     L3_F_zero_upper95 = numeric(), delta_dep = numeric(), delta_dep_status = character(),
+    delta_dep_mcse = numeric(), delta_dep_ci_low = numeric(), delta_dep_ci_high = numeric(),
+    delta_dep_bootstrap_reps = integer(), delta_dep_bootstrap_valid_reps = integer(),
     factorization_gap = numeric(), message = character(), stringsAsFactors = FALSE
+  )
+}
+
+joint_empty_draws <- function() {
+  data.frame(
+    split = character(), mechanism = character(), replicate = integer(), panel = character(),
+    candidate_id = character(), label = integer(), model = character(), simulation_draw = integer(),
+    dyad_index = integer(), candidate_tail = character(), candidate_head = character(),
+    tie_present = integer(), stringsAsFactors = FALSE
   )
 }
 
@@ -250,8 +263,52 @@ joint_network_list <- function(simulations) {
   result
 }
 
+joint_dependence_bootstrap <- function(states, bootstrap_reps, seed) {
+  if (bootstrap_reps < 1L) {
+    return(list(mcse = NA_real_, ci_low = NA_real_, ci_high = NA_real_, valid_reps = 0L))
+  }
+  draws <- ncol(states)
+  if (draws < 2L) {
+    return(list(mcse = NA_real_, ci_low = NA_real_, ci_high = NA_real_, valid_reps = 0L))
+  }
+  set.seed(seed)
+  deltas <- rep(NA_real_, bootstrap_reps)
+  for (replicate in seq_len(bootstrap_reps)) {
+    indices <- sample.int(draws, size = draws, replace = TRUE)
+    resampled <- states[, indices, drop = FALSE]
+    marginal <- rowMeans(resampled)
+    l2 <- prod(marginal)
+    l3_f <- mean(colSums(resampled) == nrow(resampled))
+    if (l2 > 0 && l3_f > 0) deltas[[replicate]] <- log(l3_f) - log(l2)
+  }
+  valid <- deltas[is.finite(deltas)]
+  if (length(valid) < 2L) {
+    return(list(mcse = NA_real_, ci_low = NA_real_, ci_high = NA_real_, valid_reps = length(valid)))
+  }
+  interval <- stats::quantile(valid, probs = c(0.025, 0.975), names = FALSE, type = 8)
+  list(
+    mcse = stats::sd(valid),
+    ci_low = interval[[1L]],
+    ci_high = interval[[2L]],
+    valid_reps = length(valid)
+  )
+}
+
+joint_draw_rows <- function(unknown_dyads, states) {
+  draws <- ncol(states)
+  dyads <- nrow(states)
+  data.frame(
+    simulation_draw = rep(seq_len(draws), each = dyads),
+    dyad_index = rep(seq_len(dyads), times = draws),
+    candidate_tail = rep(unknown_dyads$candidate_tail, times = draws),
+    candidate_head = rep(unknown_dyads$candidate_head, times = draws),
+    tie_present = as.integer(as.vector(states)),
+    stringsAsFactors = FALSE
+  )
+}
+
 joint_simulation_scores <- function(fit, nw, candidate, footprint_dyads, observed_edges, node_ids,
-                                    nsim, mcmc_burnin, mcmc_interval, seed) {
+                                    nsim, mcmc_burnin, mcmc_interval, bootstrap_reps, seed) {
   observed_keys <- paste(observed_edges$from, observed_edges$to, sep = "\r")
   footprint_keys <- paste(footprint_dyads$candidate_tail, footprint_dyads$candidate_head, sep = "\r")
   observed <- footprint_keys %in% observed_keys
@@ -262,7 +319,10 @@ joint_simulation_scores <- function(fit, nw, candidate, footprint_dyads, observe
     return(list(
       status = "fixed_complete_footprint", simulation_draws = 0L, L1 = 1, L1g = 1, L2 = 1,
       log_L2 = 0, L3_F = 1, L3_F_mcse = 0, L3_F_zero_upper95 = NA_real_, delta_dep = 0,
-      delta_dep_status = "exact_fixed_observation", factorization_gap = 0, message = ""
+      delta_dep_status = "exact_fixed_observation", delta_dep_mcse = 0,
+      delta_dep_ci_low = 0, delta_dep_ci_high = 0, delta_dep_bootstrap_reps = 0L,
+      delta_dep_bootstrap_valid_reps = 0L, factorization_gap = 0, message = "",
+      draw_rows = joint_empty_draws()
     ))
   }
   basis <- joint_mark_missing(nw, unknown_dyads, node_ids)
@@ -294,7 +354,9 @@ joint_simulation_scores <- function(fit, nw, candidate, footprint_dyads, observe
       status = "simulation_failed", simulation_draws = 0L, L1 = NA_real_, L1g = NA_real_,
       L2 = NA_real_, log_L2 = NA_real_, L3_F = NA_real_, L3_F_mcse = NA_real_,
       L3_F_zero_upper95 = NA_real_, delta_dep = NA_real_, delta_dep_status = "not_estimable",
-      factorization_gap = NA_real_, message = conditionMessage(simulation)
+      delta_dep_mcse = NA_real_, delta_dep_ci_low = NA_real_, delta_dep_ci_high = NA_real_,
+      delta_dep_bootstrap_reps = 0L, delta_dep_bootstrap_valid_reps = 0L,
+      factorization_gap = NA_real_, message = conditionMessage(simulation), draw_rows = joint_empty_draws()
     ))
   }
   simulations <- tryCatch(joint_network_list(simulation), error = function(error) error)
@@ -303,7 +365,9 @@ joint_simulation_scores <- function(fit, nw, candidate, footprint_dyads, observe
       status = "simulation_failed", simulation_draws = 0L, L1 = NA_real_, L1g = NA_real_,
       L2 = NA_real_, log_L2 = NA_real_, L3_F = NA_real_, L3_F_mcse = NA_real_,
       L3_F_zero_upper95 = NA_real_, delta_dep = NA_real_, delta_dep_status = "not_estimable",
-      factorization_gap = NA_real_, message = conditionMessage(simulations)
+      delta_dep_mcse = NA_real_, delta_dep_ci_low = NA_real_, delta_dep_ci_high = NA_real_,
+      delta_dep_bootstrap_reps = 0L, delta_dep_bootstrap_valid_reps = 0L,
+      factorization_gap = NA_real_, message = conditionMessage(simulations), draw_rows = joint_empty_draws()
     ))
   }
   tails <- match(unknown_dyads$candidate_tail, node_ids)
@@ -323,14 +387,23 @@ joint_simulation_scores <- function(fit, nw, candidate, footprint_dyads, observe
   l1 <- (known_count + sum(marginal)) / candidate$footprint_size
   l1g <- exp(sum(log(marginal)) / candidate$footprint_size)
   estimable_delta <- l3_f > 0 && l2 > 0 && is.finite(log_l2)
+  dependence_bootstrap <- if (estimable_delta) {
+    joint_dependence_bootstrap(states, bootstrap_reps, seed + 1L)
+  } else {
+    list(mcse = NA_real_, ci_low = NA_real_, ci_high = NA_real_, valid_reps = 0L)
+  }
   list(
     status = "simulated", simulation_draws = as.integer(length(footprint_complete)), L1 = l1,
     L1g = l1g, L2 = l2, log_L2 = log_l2, L3_F = l3_f, L3_F_mcse = l3_mcse,
     L3_F_zero_upper95 = if (l3_f == 0) 3 / length(footprint_complete) else NA_real_,
     delta_dep = if (estimable_delta) log(l3_f) - log_l2 else NA_real_,
     delta_dep_status = if (estimable_delta) "estimated" else "not_estimable_zero_monte_carlo_score",
-    factorization_gap = l3_f - l2,
-    message = ""
+    delta_dep_mcse = dependence_bootstrap$mcse,
+    delta_dep_ci_low = dependence_bootstrap$ci_low,
+    delta_dep_ci_high = dependence_bootstrap$ci_high,
+    delta_dep_bootstrap_reps = as.integer(bootstrap_reps),
+    delta_dep_bootstrap_valid_reps = as.integer(dependence_bootstrap$valid_reps),
+    factorization_gap = l3_f - l2, message = "", draw_rows = joint_draw_rows(unknown_dyads, states)
   )
 }
 
@@ -346,8 +419,11 @@ joint_score_row <- function(split, identity, candidate, model, outcome) {
     L1 = outcome$L1, L1g = outcome$L1g, L2 = outcome$L2, log_L2 = outcome$log_L2,
     L3_F = outcome$L3_F, L3_F_mcse = outcome$L3_F_mcse,
     L3_F_zero_upper95 = outcome$L3_F_zero_upper95, delta_dep = outcome$delta_dep,
-    delta_dep_status = outcome$delta_dep_status, factorization_gap = outcome$factorization_gap,
-    message = outcome$message, stringsAsFactors = FALSE
+    delta_dep_status = outcome$delta_dep_status, delta_dep_mcse = outcome$delta_dep_mcse,
+    delta_dep_ci_low = outcome$delta_dep_ci_low, delta_dep_ci_high = outcome$delta_dep_ci_high,
+    delta_dep_bootstrap_reps = outcome$delta_dep_bootstrap_reps,
+    delta_dep_bootstrap_valid_reps = outcome$delta_dep_bootstrap_valid_reps,
+    factorization_gap = outcome$factorization_gap, message = outcome$message, stringsAsFactors = FALSE
   )
 }
 
@@ -371,6 +447,7 @@ joint_write_summary <- function(path, dataset_id, model_status, split_status, sc
       if (options$require_reverse_observed) "yes." else "no."
     ),
     paste0("- Conditional completions per sampled candidate: ", options$nsim, "."),
+    paste0("- Dependence uncertainty bootstrap replicates: ", options$bootstrap_reps, "."),
     "- `L2` is the product of candidate-specific simulation marginals; `L3-F` is the joint completion frequency from the same draws.",
     "",
     "## Completion status",
@@ -379,7 +456,7 @@ joint_write_summary <- function(path, dataset_id, model_status, split_status, sc
     paste0("- Candidate/model rows: ", nrow(scores), "; simulated rows: ", nrow(simulated), "."),
     paste0("- Simulated rows with a zero Monte Carlo joint score: ", nrow(zero_scores), "."),
     "",
-    "`delta_dep = log(L3-F) - log(L2)` is reported only when both Monte Carlo estimates are positive. A zero L3-F is not treated as an exact zero probability; `L3_F_zero_upper95` records the rule-of-three upper bound (3/nsim).",
+    "`delta_dep = log(L3-F) - log(L2)` is reported only when both Monte Carlo estimates are positive. `delta_dep_mcse` and the percentile interval are nonparametric bootstrap summaries over independent candidate-specific conditional draws. A zero L3-F is not treated as an exact zero probability; `L3_F_zero_upper95` records the rule-of-three upper bound (3/nsim).",
     "",
     "## Required interpretation boundary",
     "",
@@ -405,7 +482,7 @@ joint_main <- function() {
     required, "models", "split", "max-candidates-per-label", "min-unobserved-dyads",
     "max-unobserved-dyads", "require-reverse-observed", "nsim", "mcmc-burnin",
     "mcmc-interval", "fit-mcmc-burnin", "fit-mcmc-interval", "fit-mcmc-samplesize",
-    "mcmle-maxit", "seed", "overwrite"
+    "mcmle-maxit", "bootstrap-reps", "seed", "overwrite"
   )
   unknown <- setdiff(names(options), allowed)
   if (length(unknown) > 0L) stop("Unknown option(s): ", paste(paste0("--", unknown), collapse = ", "), call. = FALSE)
@@ -430,6 +507,7 @@ joint_main <- function() {
   fit_interval <- as_positive_number(option_value(options, "fit-mcmc-interval", "500"), "fit-mcmc-interval", integer = TRUE)
   fit_samplesize <- as_positive_number(option_value(options, "fit-mcmc-samplesize", "512"), "fit-mcmc-samplesize", integer = TRUE)
   mcmle_maxit <- as_positive_number(option_value(options, "mcmle-maxit", "10"), "mcmle-maxit", integer = TRUE)
+  bootstrap_reps <- as_positive_number(option_value(options, "bootstrap-reps", "1000"), "bootstrap-reps", integer = TRUE)
   seed <- as_positive_number(option_value(options, "seed", "20261013"), "seed", integer = TRUE)
   set.seed(seed)
 
@@ -472,6 +550,7 @@ joint_main <- function() {
   all_model_status <- list()
   all_split_status <- list()
   all_selected <- list()
+  all_draws <- list()
 
   for (split_index in seq_len(nrow(split_files))) {
     split <- split_files$split[[split_index]]
@@ -562,16 +641,29 @@ joint_main <- function() {
           list(
             status = "input_failed", simulation_draws = 0L, L1 = NA_real_, L1g = NA_real_, L2 = NA_real_,
             log_L2 = NA_real_, L3_F = NA_real_, L3_F_mcse = NA_real_, L3_F_zero_upper95 = NA_real_,
-            delta_dep = NA_real_, delta_dep_status = "not_estimable", factorization_gap = NA_real_,
-            message = conditionMessage(dyads)
+            delta_dep = NA_real_, delta_dep_status = "not_estimable", delta_dep_mcse = NA_real_,
+            delta_dep_ci_low = NA_real_, delta_dep_ci_high = NA_real_, delta_dep_bootstrap_reps = 0L,
+            delta_dep_bootstrap_valid_reps = 0L, factorization_gap = NA_real_,
+            message = conditionMessage(dyads), draw_rows = joint_empty_draws()
           )
         } else {
           joint_simulation_scores(
             fit_result$fit, nw, candidate, dyads, edges$edges, node_ids, nsim, mcmc_burnin,
-            mcmc_interval, seed + 10000000L * split_index + 10000L * model_index + candidate_index
+            mcmc_interval, bootstrap_reps,
+            seed + 10000000L * split_index + 10000L * model_index + candidate_index
           )
         }
         all_scores[[length(all_scores) + 1L]] <- joint_score_row(split, identity, candidate, spec$model, outcome)
+        if (nrow(outcome$draw_rows) > 0L) {
+          all_draws[[length(all_draws) + 1L]] <- cbind(
+            data.frame(
+              split = split, mechanism = identity$mechanism, replicate = identity$replicate,
+              panel = candidate$panel, candidate_id = candidate$candidate_id, label = candidate$label,
+              model = spec$model, stringsAsFactors = FALSE
+            ),
+            outcome$draw_rows
+          )
+        }
         if (outcome$status %in% c("simulated", "fixed_complete_footprint")) scored <- scored + 1L
       }
       all_model_status[[length(all_model_status) + 1L]] <- data.frame(
@@ -597,7 +689,9 @@ joint_main <- function() {
   model_status <- if (length(all_model_status) > 0L) do.call(rbind, all_model_status) else joint_empty_model_status()
   split_status <- if (length(all_split_status) > 0L) do.call(rbind, all_split_status) else joint_empty_split_status()
   selected_candidates <- if (length(all_selected) > 0L) do.call(rbind, all_selected) else data.frame()
+  simulation_draws <- if (length(all_draws) > 0L) do.call(rbind, all_draws) else joint_empty_draws()
   utils::write.csv(scores, file.path(output_dir, "candidate_simulation_scores.csv"), row.names = FALSE, na = "")
+  utils::write.csv(simulation_draws, file.path(output_dir, "candidate_simulation_draws.csv"), row.names = FALSE, na = "")
   utils::write.csv(model_status, file.path(output_dir, "model_status.csv"), row.names = FALSE, na = "")
   utils::write.csv(split_status, file.path(output_dir, "split_status.csv"), row.names = FALSE, na = "")
   utils::write.csv(selected_candidates, file.path(output_dir, "selected_candidates.csv"), row.names = FALSE, na = "")
@@ -606,7 +700,8 @@ joint_main <- function() {
     max_unknown = max_unknown,
     max_per_label = max_per_label,
     require_reverse_observed = require_reverse_observed,
-    nsim = nsim
+    nsim = nsim,
+    bootstrap_reps = bootstrap_reps
   )
   joint_write_summary(file.path(output_dir, "summary.md"), basename(input_dir), model_status, split_status, scores, summary_options)
   manifest <- list(
@@ -625,7 +720,7 @@ joint_main <- function() {
       fit_mcmc_samplesize = fit_samplesize, mcmle_maxit = mcmle_maxit,
       candidate_simulation = "simulate(fit, basis=network_with_candidate_unknown_dyads_as_NA, constraints=~observed, sequential=FALSE)",
       simulation_draws = nsim, simulation_mcmc_burnin = mcmc_burnin, simulation_mcmc_interval = mcmc_interval,
-      seed = seed
+      delta_dep_bootstrap_reps = bootstrap_reps, seed = seed
     ),
     selection = list(
       max_candidates_per_panel_label = max_per_label,
@@ -636,7 +731,8 @@ joint_main <- function() {
     scores = list(
       L2 = "product of conditional-simulation marginal probabilities; observed footprint arcs contribute one",
       L3_F = "conditional-simulation footprint-completion frequency; observed footprint arcs remain fixed",
-      delta_dep = "log(L3_F)-log(L2), reported only when both Monte Carlo estimates are positive"
+      delta_dep = "log(L3_F)-log(L2), reported only when both Monte Carlo estimates are positive",
+      delta_dep_uncertainty = "nonparametric bootstrap across independent candidate-specific conditional draws"
     ),
     limitations = c(
       "A candidate subset and unknown-dyad cap are computational pilot bounds, not the final evaluation universe.",

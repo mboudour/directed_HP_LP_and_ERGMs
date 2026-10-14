@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-native-ergm-footprints phase2-enron-joint-footprints phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-enron-primary phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-native-ergm-footprints phase2-enron-joint-footprints phase2-enron-joint-m4-smoke phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -25,6 +25,7 @@ help:
 	  'phase2-enron-native-ergm-inputs  Export frozen native-event panels for split-specific ERGM footprint scoring.' \
 	  'phase2-enron-native-ergm-footprints  Fit masked ERGMs and score L1/L1g/L2 footprint completion on native-event panels.' \
 	  'phase2-enron-joint-footprints  Run the one-split M1 conditional-simulation smoke test for L3-F.' \
+	  'phase2-enron-joint-m4-smoke  Run one bounded M4 conditional-dependence smoke test.' \
 	  'phase2-enron-static  Run the fixed MCAR static arc-LP pilot on the validated Enron core-100.' \
 	  'phase2-enron-static-plan  Fit the plan-aligned full-network Enron static ERGM ladder by MPLE.' \
 	  'phase2-enron-score  Score frozen Enron MCAR masks with conditional probabilities from masked ERGMs.' \
@@ -108,8 +109,12 @@ phase2-enron-native-ergm-footprints: phase2-enron-native-ergm-inputs
 	@cat results/models/enron_native_event_ergm_footprints/summary.md
 
 phase2-enron-joint-footprints: phase2-enron-native-ergm-inputs
-	Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_native_event_ergm_inputs --output-dir=results/models/enron_joint_footprint_mcmle_smoke --models=M1 --split=mcar_replicate_001 --max-candidates-per-label=1 --min-unobserved-dyads=2 --max-unobserved-dyads=2 --require-reverse-observed=TRUE --nsim=200 --mcmc-burnin=500 --mcmc-interval=50 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --seed=20261013 --overwrite=TRUE
+	Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_native_event_ergm_inputs --output-dir=results/models/enron_joint_footprint_mcmle_smoke --models=M1 --split=mcar_replicate_001 --max-candidates-per-label=1 --min-unobserved-dyads=2 --max-unobserved-dyads=2 --require-reverse-observed=TRUE --nsim=200 --mcmc-burnin=500 --mcmc-interval=50 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --bootstrap-reps=1000 --seed=20261013 --overwrite=TRUE
 	@cat results/models/enron_joint_footprint_mcmle_smoke/summary.md
+
+phase2-enron-joint-m4-smoke: phase2-enron-native-ergm-inputs
+	Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_native_event_ergm_inputs --output-dir=results/models/enron_joint_footprint_m4_smoke --models=M4 --split=mcar_replicate_001 --max-candidates-per-label=1 --min-unobserved-dyads=2 --max-unobserved-dyads=2 --require-reverse-observed=TRUE --nsim=200 --mcmc-burnin=500 --mcmc-interval=50 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --bootstrap-reps=1000 --seed=20261013 --overwrite=TRUE
+	@cat results/models/enron_joint_footprint_m4_smoke/summary.md
 
 phase2-enron-static:
 	uv run python scripts/30_run_static_benchmark.py --dataset=enron --mechanism=mcar --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --output-dir=results/phase2/enron_static_pilot --overwrite
