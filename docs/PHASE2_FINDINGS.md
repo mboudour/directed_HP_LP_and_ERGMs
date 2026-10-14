@@ -310,6 +310,15 @@ bundle. This confirms that the selected feasibility core supports the same
 candidate contract as the primary benchmark; it does not produce a primary
 prediction result.
 
+**Prefit correction.** The first core-50 M2 command stopped before fitting an
+ERGM: under the deliberately strict rule of exactly two unknown footprint arcs
+*and* an observed reverse for each, `mcar_replicate_001` selected zero
+candidates. The joint driver then exposed an empty-table concatenation bug.
+That bug is corrected, and a privacy-preserving aggregate candidate-eligibility
+audit now precedes every MCMC run. This is neither an M2 fit failure nor a
+nonmixing result; it is a selection-contract issue that must be resolved from
+the frozen panels before M2 is attempted.
+
 **Evidence.** Local technical smoke bundle:
 `results/models/enron_joint_footprint_mcmle_smoke/`, especially
 `candidate_simulation_scores.csv`, `selected_candidates.csv`,

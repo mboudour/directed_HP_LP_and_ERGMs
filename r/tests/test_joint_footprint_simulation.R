@@ -24,6 +24,7 @@ stopifnot(grepl('"split"', driver_text, fixed = TRUE))
 stopifnot(grepl('"estimate"', driver_text, fixed = TRUE))
 stopifnot(grepl('estimate = "MPLE"', driver_text, fixed = TRUE))
 stopifnot(grepl("MCMLE.samplesize = fit_samplesize", driver_text, fixed = TRUE))
+stopifnot(grepl("if (nrow(selected) > 0L)", driver_text, fixed = TRUE))
 
 mcmle_gate <- joint_mcmle_gate(
   list(messages = "Post-burnin sample is constant; returning.", warnings = character()),

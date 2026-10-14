@@ -34,6 +34,7 @@ PHASE2_SCRIPTS = (
     "39_export_native_event_ergm_inputs.py",
     "40_run_bounded_command.py",
     "41_materialize_enron_mcmle_core50.py",
+    "42_audit_joint_candidate_eligibility.py",
 )
 
 

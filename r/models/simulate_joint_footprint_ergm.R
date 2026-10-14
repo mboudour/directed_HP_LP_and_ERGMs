@@ -633,11 +633,16 @@ joint_main <- function() {
       candidates, min_unknown, max_unknown, max_per_label, seed + 1009L * split_index,
       require_reverse_observed
     )
-    candidate_export <- cbind(
-      data.frame(split = split, mechanism = identity$mechanism, replicate = identity$replicate, stringsAsFactors = FALSE),
-      selected
-    )
-    if (nrow(candidate_export) > 0L) all_selected[[length(all_selected) + 1L]] <- candidate_export
+    if (nrow(selected) > 0L) {
+      candidate_export <- cbind(
+        data.frame(
+          split = split, mechanism = identity$mechanism, replicate = identity$replicate,
+          stringsAsFactors = FALSE
+        ),
+        selected
+      )
+      all_selected[[length(all_selected) + 1L]] <- candidate_export
+    }
     model_outcomes <- character(nrow(selected_specs))
 
     for (model_index in seq_len(nrow(selected_specs))) {

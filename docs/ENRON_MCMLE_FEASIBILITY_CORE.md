@@ -55,9 +55,20 @@ primary core-100 mask or score bundles.
 
 ## First MCMC-MLE gate
 
-After the isolated inputs exist, the first computational gate is M2 (edges,
-mutuality, geometrically weighted in-degree, and geometrically weighted
-out-degree) on `mcar_replicate_001`:
+Before fitting any MCMC-MLE model, audit the available candidate footprints:
+
+```zsh
+make phase2-enron-mcmle-core50-candidates
+```
+
+It reports only aggregate candidate counts. In particular, it distinguishes
+the exact-two-unknown-dyad rule from the stricter requirement that every
+unknown arc has an observed reverse. The M2 target is launched only after this
+audit identifies a nonempty, predeclared candidate class.
+
+The first computational gate is then M2 (edges, mutuality, geometrically
+weighted in-degree, and geometrically weighted out-degree) on
+`mcar_replicate_001`:
 
 ```zsh
 make phase2-enron-mcmle-core50-m2-gate
