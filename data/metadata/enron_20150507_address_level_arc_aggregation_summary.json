@@ -1,0 +1,20 @@
+{
+  "aggregation_policy": "Each native event contributes one directed arc from its sender to each recipient in its disjoint To-plus-Cc head.",
+  "dataset_id": "enron_20150507",
+  "directed_density_excluding_loops": 4.827077953084335e-05,
+  "event_to_arc_occurrences": 3608724,
+  "input": "data/interim/enron_20150507/native_events_address_level.parquet",
+  "interaction_count_total": 3608724,
+  "maximum_unique_in_degree": 1346,
+  "maximum_unique_out_degree": 1566,
+  "median_unique_in_degree": 1.0,
+  "median_unique_out_degree": 2.0,
+  "native_events_read": 490141,
+  "next_processing_step": "Select and audit a reproducible Enron core before ERGM estimation or formal-concept enumeration.",
+  "output": "data/interim/enron_20150507/address_level_directed_arcs.parquet",
+  "reciprocal_directed_arcs": 59330,
+  "reciprocal_unordered_pairs": 29665,
+  "self_arcs": 0,
+  "unique_address_level_nodes": 86408,
+  "unique_directed_arcs": 360402
+}
