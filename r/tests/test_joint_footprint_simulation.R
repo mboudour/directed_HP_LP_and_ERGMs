@@ -24,6 +24,18 @@ stopifnot(grepl('"split"', driver_text, fixed = TRUE))
 stopifnot(grepl('"estimate"', driver_text, fixed = TRUE))
 stopifnot(grepl('estimate = "MPLE"', driver_text, fixed = TRUE))
 stopifnot(grepl("MCMLE.samplesize = fit_samplesize", driver_text, fixed = TRUE))
+
+mcmle_gate <- joint_mcmle_gate(
+  list(messages = "Post-burnin sample is constant; returning.", warnings = character()),
+  estimate = "MCMLE"
+)
+stopifnot(!mcmle_gate$passed)
+stopifnot(identical(mcmle_gate$status, "mcmle_gate_failed_nonmixing"))
+mple_gate <- joint_mcmle_gate(
+  list(messages = character(), warnings = character()),
+  estimate = "MPLE"
+)
+stopifnot(mple_gate$passed)
 stopifnot(grepl('"bootstrap-reps"', driver_text, fixed = TRUE))
 
 footprints <- data.frame(

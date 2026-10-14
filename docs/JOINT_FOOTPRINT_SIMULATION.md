@@ -79,6 +79,11 @@ the interactive run was stopped after more than nine minutes. This is recorded
 as an MCMLE mixing/convergence gate failure, not as a result and not as a
 computer-performance problem.
 
+The driver also treats Statnet's `Post-burnin sample is constant` message as an
+MCMLE nonmixing failure. A process exit code of zero is therefore insufficient:
+such a fit is blocked before any candidate can receive a joint score. This is
+required by the plan's non-degenerate-simulation gate.
+
 The next deliberately bounded stage is therefore a separate `M4` **MPLE
 parameter-plug-in sensitivity** on the same single split and candidate-selection
 rule. It tests whether a closure-capable fitted parameter vector can be

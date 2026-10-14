@@ -76,7 +76,9 @@ source(joint_locate_driver("score_native_event_footprints.R"))
 
 joint_fit_model <- function(spec, nw, estimate, control) {
   if (identical(estimate, "MPLE")) {
-    return(fit_one_ergm(spec, nw, estimate = "MPLE", control = control))
+    result <- fit_one_ergm(spec, nw, estimate = "MPLE", control = control)
+    result$messages <- character()
+    return(result)
   }
   # `MCMLE` names the estimation algorithm, but `ergm()` selects it with
   # `estimate = "MLE"`. Disabling bridge likelihood calculation is essential:
@@ -87,6 +89,7 @@ joint_fit_model <- function(spec, nw, estimate, control) {
   formula_environment <- list2env(list(nw = nw), parent = parent.frame())
   model_formula <- stats::as.formula(formula_text, env = formula_environment)
   warnings <- character()
+  messages <- character()
   fit <- withCallingHandlers(
     tryCatch(
       ergm::ergm(
@@ -100,6 +103,9 @@ joint_fit_model <- function(spec, nw, estimate, control) {
     warning = function(warning) {
       warnings <<- c(warnings, conditionMessage(warning))
       invokeRestart("muffleWarning")
+    },
+    message = function(message) {
+      messages <<- c(messages, conditionMessage(message))
     }
   )
   if (inherits(fit, "error")) {
@@ -109,6 +115,7 @@ joint_fit_model <- function(spec, nw, estimate, control) {
       status = "fit_failed",
       message = conditionMessage(fit),
       warnings = warnings,
+      messages = messages,
       fit = NULL
     ))
   }
@@ -118,8 +125,34 @@ joint_fit_model <- function(spec, nw, estimate, control) {
     status = "fit_succeeded",
     message = "",
     warnings = warnings,
+    messages = messages,
     fit = fit
   )
+}
+
+joint_mcmle_gate <- function(fit_result, estimate) {
+  if (!identical(estimate, "MCMLE")) {
+    return(list(passed = TRUE, status = "not_applicable_mple", message = ""))
+  }
+  diagnostic_messages <- c(fit_result$messages, fit_result$warnings)
+  nonmixing_patterns <- c(
+    "Post-burnin sample is constant",
+    "MCMC sampling did not mix",
+    "MCMLE estimation stuck",
+    "MCMLE estimation did not converge",
+    "strong indicator of model degeneracy"
+  )
+  matched <- unlist(lapply(nonmixing_patterns, function(pattern) {
+    diagnostic_messages[grepl(pattern, diagnostic_messages, fixed = TRUE)]
+  }), use.names = FALSE)
+  if (length(matched) > 0L) {
+    return(list(
+      passed = FALSE,
+      status = "mcmle_gate_failed_nonmixing",
+      message = paste(unique(matched), collapse = " | ")
+    ))
+  }
+  list(passed = TRUE, status = "mcmle_gate_passed", message = "")
 }
 
 joint_empty_scores <- function() {
@@ -625,15 +658,28 @@ joint_main <- function() {
       safe_id <- gsub("[^A-Za-z0-9_.-]", "_", paste(split, spec$model, sep = "__"))
       diagnostics_file <- file.path("diagnostics", paste0(safe_id, ".txt"))
       fitted_file <- file.path("fitted_models", paste0(safe_id, ".rds"))
+      diagnostic_text <- paste(unique(c(fit_result$warnings, fit_result$messages)), collapse = " | ")
       if (!identical(fit_result$status, "fit_succeeded")) {
         all_model_status[[length(all_model_status) + 1L]] <- data.frame(
           split = split, mechanism = identity$mechanism, replicate = identity$replicate,
           model = spec$model, formula = fit_result$formula, status = "fit_failed", message = fit_result$message,
-          warnings = paste(unique(fit_result$warnings), collapse = " | "), selected_candidates = nrow(selected),
+          warnings = diagnostic_text, selected_candidates = nrow(selected),
           candidates_requiring_simulation = sum(selected$unobserved_footprint_arcs > 0L), candidates_scored = 0L,
           diagnostics_file = "", fitted_model_file = "", stringsAsFactors = FALSE
         )
         model_outcomes[[model_index]] <- "fit_failed"
+        next
+      }
+      mcmle_gate <- joint_mcmle_gate(fit_result, estimate)
+      if (!mcmle_gate$passed) {
+        all_model_status[[length(all_model_status) + 1L]] <- data.frame(
+          split = split, mechanism = identity$mechanism, replicate = identity$replicate,
+          model = spec$model, formula = fit_result$formula, status = mcmle_gate$status,
+          message = mcmle_gate$message, warnings = diagnostic_text, selected_candidates = nrow(selected),
+          candidates_requiring_simulation = sum(selected$unobserved_footprint_arcs > 0L), candidates_scored = 0L,
+          diagnostics_file = "", fitted_model_file = "", stringsAsFactors = FALSE
+        )
+        model_outcomes[[model_index]] <- mcmle_gate$status
         next
       }
       diagnostics <- capture_fit_diagnostics(spec$model, fit_result$fit, estimate)
@@ -675,7 +721,7 @@ joint_main <- function() {
       all_model_status[[length(all_model_status) + 1L]] <- data.frame(
         split = split, mechanism = identity$mechanism, replicate = identity$replicate,
         model = spec$model, formula = fit_result$formula, status = "scored", message = "",
-        warnings = paste(unique(fit_result$warnings), collapse = " | "), selected_candidates = nrow(selected),
+        warnings = diagnostic_text, selected_candidates = nrow(selected),
         candidates_requiring_simulation = sum(selected$unobserved_footprint_arcs > 0L), candidates_scored = scored,
         diagnostics_file = diagnostics_file, fitted_model_file = fitted_file, stringsAsFactors = FALSE
       )
