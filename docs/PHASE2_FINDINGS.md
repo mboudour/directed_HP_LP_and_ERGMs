@@ -86,3 +86,18 @@ Values are means over three replicates. The output retains their SDs and every m
 **Interpretation recorded for Phase 2.** This is a direct empirical demonstration of the paper's target ladder and non-identifiability claim. **High footprint overlap does not imply event recovery:** the aggregate dyadic relation is sufficiently shared to support concepts and their footprints, but it does not retain a recorded sender–recipient group as an exact formal concept. Enron must therefore report native-event recovery, concept recovery, and footprint completion as separate targets; concept scores must never be presented as recovering an email event. At the same time, the cap retains almost all core message records, so the native-event target itself remains viable for event-first evaluation. This first fidelity audit is descriptive; a degree-preserving-rewiring comparison remains required before making chance-corrected fidelity claims.
 
 **Evidence.** Local result bundle: `results/phase2/enron_native_event_fidelity_tail3_head3/`, especially `summary.md`, `summary.json`, `event_to_concept_matches.csv`, and `concept_to_event_aggregation.csv`.
+
+## 2026-10-14 — Enron primary event-first native-event-type masks
+
+**Design.** The six fixed pilot splits sample the 719 cap-eligible strict Enron tail/head event types, holding out every repeated message record of each selected type. The observed arc graph is reconstructed solely from the observed types. Three MCAR splits use fixed-count sampling; three MNAR-out splits use the plan's oracle inclusion probabilities proportional to full-data sender activity. The requested type-level masking rate is 0.30 in both mechanisms.
+
+| Mechanism | Mean type rate | Mean record rate | Mean arc-removal rate | Mean held-out types with an already observed complete footprint |
+|---|---:|---:|---:|---:|
+| MCAR | 0.2990 | 0.2908 | 0.2336 | 0.2977 |
+| MNAR-out | 0.3009 | 0.4988 | 0.2277 | 0.1789 |
+
+**Observed result.** Both mechanisms achieve the intended approximately 30% **event-type** masking rate. The activity-biased MNAR-out design removes 20.80 percentage points more message records on average than MCAR (49.88% versus 29.08%) but a slightly smaller proportion of distinct projection arcs (22.77% versus 23.36%). The mean fraction of held-out types whose full footprint survives through other observed types is 29.77% under MCAR and 17.89% under MNAR-out. On average, MCAR causes 71.67 nodes to lose at least one outgoing arc and 75.00 to lose an incoming arc; MNAR-out concentrates outgoing losses in fewer nodes (42.67) while producing a comparable number of incoming-loss nodes (73.33).
+
+**Interpretation recorded for Phase 2.** The realised-rate reporting works as intended and shows why nominal 30% masking cannot be used as a common severity label across mechanisms. Event recurrence and dyadic projection create substantial survival of held-out native-event footprints, especially under MCAR. The MNAR-out stress test targets high-activity senders, causing much greater record-level loss but similar distinct-arc loss and more concentrated outgoing disruption. Every event-first result must therefore report the type, record, and arc realised rates, the already-observed-footprint baseline, and its mechanism separately. These masks are valid inputs for native-event, footprint, and role-assignment scoring; they contain no candidate negatives or predictive scores themselves.
+
+**Evidence.** Local result bundle: `results/phase2/enron_event_first_type_masks/`, especially `summary.md`, `split_summary.csv`, the top-level `manifest.json`, and each split's `heldout_event_types.csv`, `observed_event_types.csv`, `observed_arcs.csv`, `removed_arcs.csv`, and `removal_strata.csv`.
