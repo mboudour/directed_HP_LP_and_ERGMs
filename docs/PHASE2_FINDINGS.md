@@ -400,10 +400,10 @@ formal-concept target as a clearly labelled static representation sensitivity.
 It is not a native-event result: aggregate wiretap dyads cannot establish that
 the concepts were recorded group interactions.
 
-**Next gate.** Run the fixed three-replicate, 30% arc-first MCAR static LP pilot
-on the full 110-node CAVIAR matrix, with the same cap pair. The pilot will
-evaluate directed arc recovery and report concept-footprint coverage; it cannot
-evaluate native-event recovery or chronology.
+**Pilot contract.** The fixed three-replicate, 30% arc-first MCAR static LP
+pilot uses the full 110-node CAVIAR matrix and the same cap pair. It evaluates
+directed arc recovery and reports concept-footprint coverage; it cannot evaluate
+native-event recovery or chronology.
 
 **Static arc-LP pilot result.** The deterministic three-replicate MCAR pilot
 completed on the full 110-node, 295-arc matrix. Each replicate masked 88 arcs
@@ -420,3 +420,13 @@ defective CAVIAR phase series. The formal-concept coverage in the pilot matches
 the independent representation audit: 80 formal concepts cover 181 of 295 arcs
 (61.356%), with an augmented section of 374 tail/head pairs used only to ensure
 arc coverage in the diagnostic.
+
+**Static ERGM ladder feasibility.** All six plan-aligned models—M0, M1, M2, M3,
+M4, and M4c—completed maximum pseudolikelihood estimation on the full CAVIAR
+network with `fit_succeeded` status and no recorded warnings. This establishes
+that the full static graph, its direction convention, and the planned directed
+term specifications are computationally compatible under MPLE. It is a
+structural feasibility result only: it does not supply held-out predictions,
+validate coefficients as MCMC-MLE estimates, establish MCMC mixing, or alter
+the restriction against phase-series, native-event, or temporal claims. The
+result clears only the static masked conditional-score feasibility check.
