@@ -458,3 +458,20 @@ extension improves conditional discrimination and log loss beyond the baseline
 and local heuristic pilot. It remains a pseudolikelihood, static-dyadic result,
 not MCMC-MLE inference, a group-event result, a temporal forecast, or a result
 about the excluded phase series.
+
+### Ciel direction-semantics gate — remains blocked
+
+The official CielNet page and a later published reuse both establish a 25-person
+directed, valued wiretap-communication relation, but neither maps the published
+matrix rows and columns to caller/initiator and receiver/recipient. The primary
+book preview identifies a "Direction of Contact" section, but does not expose
+the needed coding pages. General UCINET matrix conventions cannot safely supply
+the missing source-specific semantics.
+
+**Decision.** The Ciel gate is explicitly recorded as unapproved in
+`data/metadata/gates/ciel_direction.json`. No static directed graph, formal
+concept section, LP/HP panel, or ERGM result will be built from Ciel in this
+paper without a source that states the orientation. The data remain preserved
+for provenance and may be reassessed if the primary Appendix or an authoritative
+replication codebook becomes available. Supporting evidence is recorded in
+`docs/research_ciel_direction_sources.md`.

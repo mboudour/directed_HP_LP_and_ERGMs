@@ -49,12 +49,12 @@ datasets:
     gate_record: data/metadata/gates/caviar_direction.json
 
   ciel:
-    status: conditional_dyadic_pending_direction_audit
+    status: blocked_pending_source_specific_direction_evidence
     raw_input: data/raw/ciel/csv_matrix/CSV/CIELNET.csv
     core_rule: whole_network
     static_targets: [arc, footprint, concept, dyadic_role_assignment]
     native_event_policy: unsupported
-    hard_gate: authoritative_confirmation_of_relation_semantics_and_direction
+    hard_gate: source_specific_confirmation_that_rows_are_callers_and_columns_are_receivers
     gate_record: data/metadata/gates/ciel_direction.json
 
   jmail_v1_2026_02:

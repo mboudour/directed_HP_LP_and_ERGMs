@@ -1,0 +1,9 @@
+{
+  "approved": false,
+  "dataset_id": "ciel",
+  "decision": "blocked_pending_source_specific_row_to_column_direction_evidence",
+  "reviewed_at": "2026-10-14",
+  "required_for_approval": "A source that explicitly maps CIELNET matrix rows and columns to communication initiator/caller and recipient/receiver.",
+  "review_note": "General UCINET matrix conventions and sources calling the relation directed are insufficient to infer this source-specific encoding.",
+  "approved_scopes": []
+}

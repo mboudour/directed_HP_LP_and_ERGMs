@@ -34,9 +34,20 @@
 
 ## Direction and use condition
 
-The source confirms directed, valued communication ties, but it does not explicitly state whether rows are caller-to-receiver or receiver-to-caller.
+The source confirms directed, valued communication ties, but it does not
+explicitly state whether rows are caller-to-receiver or receiver-to-caller. The
+primary book's accessible preview identifies a section on "The Direction of
+Contact" but does not expose the relevant coding pages; a later published reuse
+also calls the empirical relation directed without defining the matrix
+orientation. General UCINET input conventions are not source-specific evidence
+for `CIELNET.csv`.
 
-Therefore, caller-to-receiver orientation is currently unconfirmed. The data are retained for audit, but are not eligible for directed evaluation until this semantic direction is verified from an authoritative source.
+Therefore, caller-to-receiver orientation is currently unconfirmed. The data are
+retained for audit, but are not eligible for directed evaluation until this
+semantic direction is verified from an authoritative source. The explicit
+unapproved gate and source assessment are
+`data/metadata/gates/ciel_direction.json` and
+`docs/research_ciel_direction_sources.md`.
 
 ## Provisional supported targets
 
