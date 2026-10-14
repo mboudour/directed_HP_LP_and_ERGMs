@@ -43,18 +43,26 @@ in what information is conditioned on.
 
 ## Bounded pilot design
 
-The initial Enron run is a **feasibility and dependence diagnostic**, not a final
+The initial Enron run is a deliberately small **smoke test**, not a final
 performance comparison:
 
-- model fits are split-specific MCMLE fits for `M1` and `M4`;
+- it fits `M1` only, on frozen split `mcar_replicate_001`;
 - `M1` is the dyad-factorizing validation model;
-- `M4` is the plan’s degree-plus-OTP/OSP/ISP closure specification;
+- it selects at most one candidate per panel/label (six candidates at most);
 - only candidates with at most two footprint dyads unobserved in the split are
   eligible; this avoids presenting a zero count from naive Monte Carlo as an
   estimate of an extremely rare large-footprint probability;
-- at most five deterministic candidates are sampled per panel and label in each
-  split; and
-- each eligible candidate receives 500 conditional completions.
+- each eligible candidate receives 100 conditional completions; and
+- MCMLE uses five iterations at most, 256 simulated networks per iteration, and
+  deliberately sets `eval.loglik = FALSE`. The latter removes bridge sampling,
+  which calculates an unnecessary normalizing constant for this score-only
+  diagnostic.
+
+This smoke test first establishes that the observation constraint, MCMLE fit,
+and conditional simulation work end-to-end on the local machine. It does not
+test higher-order dependence: `M4` and multi-split / larger-draw calculations
+remain separate, explicitly scaled computations only after this check has been
+reviewed.
 
 A candidate with a wholly observed footprint has `L3_F = L2 = 1` by conditioning,
 without simulation. If a simulated `L3_F` is zero, it is **not** reported as an
@@ -76,10 +84,10 @@ make phase2-enron-joint-footprints
 ```
 
 The target regenerates the deterministic frozen input export and replaces only the
-ignored local output bundle:
+ignored local smoke-test output bundle:
 
 ```text
-results/models/enron_joint_footprint_mcmle_pilot/
+results/models/enron_joint_footprint_mcmle_smoke/
 ```
 
 The most important files are:

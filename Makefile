@@ -24,7 +24,7 @@ help:
 	  'phase2-enron-native-hard-panels  Score reversal and role-exchange negatives for directed native-event recovery.' \
 	  'phase2-enron-native-ergm-inputs  Export frozen native-event panels for split-specific ERGM footprint scoring.' \
 	  'phase2-enron-native-ergm-footprints  Fit masked ERGMs and score L1/L1g/L2 footprint completion on native-event panels.' \
-	  'phase2-enron-joint-footprints  Run the bounded MCMLE conditional-simulation L3-F and dependence pilot.' \
+	  'phase2-enron-joint-footprints  Run the one-split M1 conditional-simulation smoke test for L3-F.' \
 	  'phase2-enron-static  Run the fixed MCAR static arc-LP pilot on the validated Enron core-100.' \
 	  'phase2-enron-static-plan  Fit the plan-aligned full-network Enron static ERGM ladder by MPLE.' \
 	  'phase2-enron-score  Score frozen Enron MCAR masks with conditional probabilities from masked ERGMs.' \
@@ -108,8 +108,8 @@ phase2-enron-native-ergm-footprints: phase2-enron-native-ergm-inputs
 	@cat results/models/enron_native_event_ergm_footprints/summary.md
 
 phase2-enron-joint-footprints: phase2-enron-native-ergm-inputs
-	Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_native_event_ergm_inputs --output-dir=results/models/enron_joint_footprint_mcmle_pilot --models=M1,M4 --max-candidates-per-label=5 --max-unobserved-dyads=2 --nsim=500 --mcmc-burnin=1000 --mcmc-interval=100 --fit-mcmc-burnin=5000 --fit-mcmc-interval=500 --mcmle-maxit=10 --seed=20261013 --overwrite=TRUE
-	@cat results/models/enron_joint_footprint_mcmle_pilot/summary.md
+	Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_native_event_ergm_inputs --output-dir=results/models/enron_joint_footprint_mcmle_smoke --models=M1 --split=mcar_replicate_001 --max-candidates-per-label=1 --max-unobserved-dyads=2 --nsim=100 --mcmc-burnin=500 --mcmc-interval=50 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --seed=20261013 --overwrite=TRUE
+	@cat results/models/enron_joint_footprint_mcmle_smoke/summary.md
 
 phase2-enron-static:
 	uv run python scripts/30_run_static_benchmark.py --dataset=enron --mechanism=mcar --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --output-dir=results/phase2/enron_static_pilot --overwrite

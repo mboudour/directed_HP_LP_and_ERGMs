@@ -17,8 +17,10 @@ locate_driver <- function(filename) {
 source(locate_driver("simulate_joint_footprint_ergm.R"))
 
 driver_text <- paste(readLines(locate_driver("simulate_joint_footprint_ergm.R"), warn = FALSE), collapse = "\n")
-stopifnot(grepl('fit_one_ergm\\(spec, nw, "MLE", fit_control\\)', driver_text, fixed = FALSE))
-stopifnot(!grepl('fit_one_ergm\\(spec, nw, "MCMLE", fit_control\\)', driver_text, fixed = FALSE))
+stopifnot(grepl('estimate = "MLE"', driver_text, fixed = TRUE))
+stopifnot(grepl("eval.loglik = FALSE", driver_text, fixed = TRUE))
+stopifnot(grepl('"split"', driver_text, fixed = TRUE))
+stopifnot(grepl("MCMLE.samplesize = fit_samplesize", driver_text, fixed = TRUE))
 
 footprints <- data.frame(
   panel = c("random", "random", "random", "random"),

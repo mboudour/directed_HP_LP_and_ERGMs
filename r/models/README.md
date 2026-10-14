@@ -158,11 +158,13 @@ projection are marked missing, and Statnet simulates them under `constraints =
 candidate-specific marginals `L2`, the joint footprint-completion frequency
 `L3-F`, and `log(L3-F)-log(L2)` where estimable.
 
-The first run deliberately fits split-specific MCMLE `M1` and `M4` models but
-limits eligibility to candidates with at most two unknown footprint dyads. It
-samples at most five candidates per panel/label and uses 500 conditional draws
-per candidate. It is a computational and dependence diagnostic—not a final
-ranking evaluation, a native-event probability, or automatic MCMC/GOF approval.
+The first run deliberately fits split-specific MCMLE `M1` for one frozen split
+only. It limits eligibility to candidates with at most two unknown footprint
+dyads, samples one candidate per panel/label, and uses 100 conditional draws per
+candidate. It also sets `eval.loglik = FALSE`, so bridge sampling is not run for
+a score-only workflow. It is an interactive computational smoke test—not a
+dependence conclusion, final ranking evaluation, native-event probability, or
+automatic MCMC/GOF approval.
 See [`docs/JOINT_FOOTPRINT_SIMULATION.md`](../../docs/JOINT_FOOTPRINT_SIMULATION.md)
 for the exact conditioning, zero-score handling, and output interpretation.
 

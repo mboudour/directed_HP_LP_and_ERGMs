@@ -19,13 +19,15 @@ joint_usage <- function() {
     "",
     "Bounded pilot options:",
     "  --models=M1,M4                    MCMLE specifications; M1 is the factorization check.",
+    "  --split=all                       One exact split ID, or all available splits.",
     "  --max-candidates-per-label=5       Maximum deterministic sample per panel and label.",
     "  --max-unobserved-dyads=2           Admit only candidates with at most this many unknown arcs.",
     "  --nsim=500                         Conditional completions per simulated candidate.",
     "  --mcmc-burnin=1000                 Conditional-simulation MCMC burn-in.",
     "  --mcmc-interval=100                Conditional-simulation MCMC interval.",
-    "  --fit-mcmc-burnin=5000             MCMLE MCMC burn-in.",
-    "  --fit-mcmc-interval=500            MCMLE MCMC interval.",
+    "  --fit-mcmc-burnin=5000             MCMLE fit burn-in (not conditional simulation burn-in).",
+    "  --fit-mcmc-interval=500            MCMLE fit interval.",
+    "  --fit-mcmc-samplesize=512          MCMLE fit sample size per iteration.",
     "  --mcmle-maxit=10                   Maximum MCMLE iterations.",
     "  --seed=20261013                    Reproducibility seed.",
     "  --overwrite=FALSE                  Refuse a nonempty output directory unless TRUE.",
@@ -66,6 +68,51 @@ joint_locate_driver <- function(filename) {
 # and native-event split/footprint parsing. All are pure definitions while this
 # file is sourced for its smoke tests.
 source(joint_locate_driver("score_native_event_footprints.R"))
+
+joint_fit_mcmle <- function(spec, nw, control) {
+  # `MCMLE` names the estimation algorithm, but `ergm()` selects it with
+  # `estimate = "MLE"`. Disabling bridge likelihood calculation is essential:
+  # L3-F requires a fitted parameter vector and conditional samples, not AIC,
+  # BIC, or a normalizing-constant estimate. Bridge sampling is otherwise an
+  # avoidable, expensive post-fit calculation.
+  formula_text <- paste("nw ~", spec$rhs)
+  formula_environment <- list2env(list(nw = nw), parent = parent.frame())
+  model_formula <- stats::as.formula(formula_text, env = formula_environment)
+  warnings <- character()
+  fit <- withCallingHandlers(
+    tryCatch(
+      ergm::ergm(
+        model_formula,
+        estimate = "MLE",
+        control = control,
+        eval.loglik = FALSE
+      ),
+      error = function(error) error
+    ),
+    warning = function(warning) {
+      warnings <<- c(warnings, conditionMessage(warning))
+      invokeRestart("muffleWarning")
+    }
+  )
+  if (inherits(fit, "error")) {
+    return(list(
+      model = spec$model,
+      formula = formula_text,
+      status = "fit_failed",
+      message = conditionMessage(fit),
+      warnings = warnings,
+      fit = NULL
+    ))
+  }
+  list(
+    model = spec$model,
+    formula = formula_text,
+    status = "fit_succeeded",
+    message = "",
+    warnings = warnings,
+    fit = fit
+  )
+}
 
 joint_empty_scores <- function() {
   data.frame(
@@ -317,9 +364,9 @@ joint_main <- function() {
     stop("Missing required options: ", paste(paste0("--", missing), collapse = ", "), call. = FALSE)
   }
   allowed <- c(
-    required, "models", "max-candidates-per-label", "max-unobserved-dyads", "nsim",
-    "mcmc-burnin", "mcmc-interval", "fit-mcmc-burnin", "fit-mcmc-interval", "mcmle-maxit",
-    "seed", "overwrite"
+    required, "models", "split", "max-candidates-per-label", "max-unobserved-dyads", "nsim",
+    "mcmc-burnin", "mcmc-interval", "fit-mcmc-burnin", "fit-mcmc-interval",
+    "fit-mcmc-samplesize", "mcmle-maxit", "seed", "overwrite"
   )
   unknown <- setdiff(names(options), allowed)
   if (length(unknown) > 0L) stop("Unknown option(s): ", paste(paste0("--", unknown), collapse = ", "), call. = FALSE)
@@ -335,6 +382,7 @@ joint_main <- function() {
   mcmc_interval <- as_positive_number(option_value(options, "mcmc-interval", "100"), "mcmc-interval", integer = TRUE)
   fit_burnin <- as_positive_number(option_value(options, "fit-mcmc-burnin", "5000"), "fit-mcmc-burnin", integer = TRUE)
   fit_interval <- as_positive_number(option_value(options, "fit-mcmc-interval", "500"), "fit-mcmc-interval", integer = TRUE)
+  fit_samplesize <- as_positive_number(option_value(options, "fit-mcmc-samplesize", "512"), "fit-mcmc-samplesize", integer = TRUE)
   mcmle_maxit <- as_positive_number(option_value(options, "mcmle-maxit", "10"), "mcmle-maxit", integer = TRUE)
   seed <- as_positive_number(option_value(options, "seed", "20261013"), "seed", integer = TRUE)
   set.seed(seed)
@@ -354,13 +402,24 @@ joint_main <- function() {
 
   node_ids <- read_node_ids(file.path(input_dir, "nodes.csv"), "id")
   split_files <- native_discover_splits(input_dir)
+  requested_split <- option_value(options, "split", "all")
+  if (!identical(requested_split, "all")) {
+    if (!requested_split %in% split_files$split) {
+      stop(
+        "Unknown --split=", requested_split, ". Available split IDs: ",
+        paste(split_files$split, collapse = ", "), call. = FALSE
+      )
+    }
+    split_files <- split_files[split_files$split == requested_split, , drop = FALSE]
+  }
   diagnostics_dir <- file.path(output_dir, "diagnostics")
   fitted_dir <- file.path(output_dir, "fitted_models")
   dir.create(diagnostics_dir)
   dir.create(fitted_dir)
   fit_control <- do.call(ergm::control.ergm, list(
-    MCMC.burnin = fit_burnin,
-    MCMC.interval = fit_interval,
+    MCMLE.burnin = fit_burnin,
+    MCMLE.interval = fit_interval,
+    MCMLE.samplesize = fit_samplesize,
     MCMLE.maxit = mcmle_maxit
   ))
   all_scores <- list()
@@ -427,10 +486,7 @@ joint_main <- function() {
         next
       }
       set.seed(seed + 100000L * split_index + model_index)
-      # Statnet's ergm() selects Monte Carlo maximum likelihood with
-      # estimate = "MLE"; "MCMLE" is the algorithm name, not an accepted
-      # estimate argument value.
-      fit_result <- fit_one_ergm(spec, nw, "MLE", fit_control)
+      fit_result <- joint_fit_mcmle(spec, nw, fit_control)
       safe_id <- gsub("[^A-Za-z0-9_.-]", "_", paste(split, spec$model, sep = "__"))
       diagnostics_file <- file.path("diagnostics", paste0(safe_id, ".txt"))
       fitted_file <- file.path("fitted_models", paste0(safe_id, ".rds"))
@@ -501,11 +557,17 @@ joint_main <- function() {
     status = if (nrow(split_status) > 0L && all(split_status$status == "completed")) "completed" else "completed_with_failures",
     script = "r/models/simulate_joint_footprint_ergm.R",
     generated_at_utc = format(Sys.time(), tz = "UTC", usetz = TRUE),
-    input = list(input_dir = input_dir, contract = "native-event ERGM export; split-specific observed projection and candidate footprints"),
+    input = list(
+      input_dir = input_dir,
+      requested_split = requested_split,
+      contract = "native-event ERGM export; split-specific observed projection and candidate footprints"
+    ),
     models = as.list(selected_specs$model),
     estimation = list(
-      fit = "split-specific MCMLE", fit_mcmc_burnin = fit_burnin, fit_mcmc_interval = fit_interval,
-      mcmle_maxit = mcmle_maxit, candidate_simulation = "simulate(fit, basis=network_with_candidate_unknown_dyads_as_NA, constraints=~observed)",
+      fit = "split-specific MCMLE, selected with ergm estimate='MLE', eval.loglik=FALSE",
+      fit_mcmc_burnin = fit_burnin, fit_mcmc_interval = fit_interval,
+      fit_mcmc_samplesize = fit_samplesize, mcmle_maxit = mcmle_maxit,
+      candidate_simulation = "simulate(fit, basis=network_with_candidate_unknown_dyads_as_NA, constraints=~observed)",
       simulation_draws = nsim, simulation_mcmc_burnin = mcmc_burnin, simulation_mcmc_interval = mcmc_interval,
       seed = seed
     ),
@@ -517,6 +579,7 @@ joint_main <- function() {
     ),
     limitations = c(
       "A candidate subset and unknown-dyad cap are computational pilot bounds, not the final evaluation universe.",
+      "The likelihood normalizing constant is deliberately not evaluated; no AIC, BIC, or likelihood-based model comparison is available in this pilot.",
       "A zero Monte Carlo L3-F is not interpreted as an exact zero probability; its rule-of-three upper bound is retained.",
       "MCMLE diagnostic text is captured per split/model but no automatic goodness-of-fit approval is claimed.",
       "Scores concern graph-footprint completion, never the probability of a recorded native event."
