@@ -102,7 +102,45 @@ masked training network**. They are not unconditional probabilities, simulated
 future ties, forecasts, or scores from a full-network fit. The driver reads no
 raw data and never infers or opens a full pilot edge list.
 
-## 3. Exploratory lagged-only temporal baseline
+## 3. Native-event ERGM conditional footprint scoring
+
+`score_native_event_footprints.R` uses the same exact conditional-response
+call as the masked arc scorer, but aggregates the fitted dyad probabilities
+over predeclared tail/head candidate footprints. It requires the strict export
+contract from `scripts/39_export_native_event_ergm_inputs.py`:
+
+```bash
+Rscript r/models/score_native_event_footprints.R \
+  --input-dir=results/phase2/enron_native_event_ergm_inputs \
+  --output-dir=results/models/enron_native_event_ergm_footprints \
+  --models=M0,M1,M3,M4c --estimate=MPLE --seed=20261013 --overwrite=TRUE
+```
+
+For every frozen event-first split, the driver fits each selected model only to
+the corresponding observed-projection `train_edges.csv`. It maps Statnet's
+conditional probabilities to the exported candidate dyads and reports:
+
+| Score | Definition | Scope |
+|---|---|---|
+| `L1` | Arithmetic mean of footprint dyad probabilities | Conditional graph-footprint support |
+| `L1g` | Geometric mean of footprint dyad probabilities | Size-normalized conditional support |
+| `L2` | Product of footprint dyad probabilities | Factorized footprint-completion score |
+
+Metrics use `log_L2`, a monotone numerically stable form of `L2`. The labels
+remain recorded native event types, so the outputs report **ranking metrics
+only**—ROC-AUC, PR-AUC, precision@k, recall@k. They do not report accuracy,
+F1, MCC, log loss, or a probability that a native email event occurred. `L2`
+is not the plan's joint ERGM simulation score `L3-F`; it deliberately imposes
+dyadic factorization.
+
+The driver writes `event_footprint_scores.csv`, `ranking_metrics.csv`,
+`metric_summary.csv`, `model_status.csv`, `split_status.csv`,
+`network_summary.csv`, `summary.md`, and `run_manifest.json`. Failures remain
+visible by split and model. See
+[`docs/NATIVE_EVENT_ERGM_FOOTPRINTS.md`](../../docs/NATIVE_EVENT_ERGM_FOOTPRINTS.md)
+for the native-event interpretation and Make target.
+
+## 4. Exploratory lagged-only temporal baseline
 
 ```bash
 Rscript r/models/temporal_lagged_check.R \
@@ -142,7 +180,7 @@ Both options default to `check`, which writes `package_placeholder_status.csv`.
 
 Temporal outputs are `factorized_model_specs.csv`, `factorized_model_status.csv`, `factorized_coefficients.csv`, `feature_summary.csv`, `proposition6_identity.csv`, `package_placeholder_status.csv`, RDS objects, and `temporal_manifest.json`.
 
-## 4. Planned bounded temporal btergm ladder
+## 5. Planned bounded temporal btergm ladder
 
 `temporal_btergm_ladder.R` is a separate, portable implementation of the plan's
 `T_tt`, `T0`, `T1`, `T2`, and `T2_minus_H` specifications. It requires explicit

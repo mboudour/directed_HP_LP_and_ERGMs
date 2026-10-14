@@ -31,6 +31,7 @@ PHASE2_SCRIPTS = (
     "36_prepare_event_first_masks.py",
     "37_run_native_event_heuristics.py",
     "38_run_native_event_hard_panels.py",
+    "39_export_native_event_ergm_inputs.py",
 )
 
 
