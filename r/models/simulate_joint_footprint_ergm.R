@@ -427,7 +427,10 @@ joint_main <- function() {
         next
       }
       set.seed(seed + 100000L * split_index + model_index)
-      fit_result <- fit_one_ergm(spec, nw, "MCMLE", fit_control)
+      # Statnet's ergm() selects Monte Carlo maximum likelihood with
+      # estimate = "MLE"; "MCMLE" is the algorithm name, not an accepted
+      # estimate argument value.
+      fit_result <- fit_one_ergm(spec, nw, "MLE", fit_control)
       safe_id <- gsub("[^A-Za-z0-9_.-]", "_", paste(split, spec$model, sep = "__"))
       diagnostics_file <- file.path("diagnostics", paste0(safe_id, ".txt"))
       fitted_file <- file.path("fitted_models", paste0(safe_id, ".rds"))
