@@ -124,3 +124,22 @@ Values are means over three replicates; replicate SDs remain in the local summar
 **Interpretation recorded for Phase 2.** The surviving-footprint baseline is informative but not sufficient: under MCAR, the total directed Adamic–Adar score improves on it by `+0.1241` ROC-AUC and `+0.1544` PR-AUC; under MNAR-out, reverse arcs improve on it by `+0.2292` ROC-AUC and `+0.2207` PR-AUC. Reciprocity is the leading single native-event signal in both mechanisms, while the combined directed Adamic–Adar score is strongest by PR-AUC under MCAR. Under MNAR-out, the II Adamic–Adar component is competitive with reverse arcs in PR-AUC, but three replicates do not resolve their difference. The results are descriptive ranking evidence for this **random, arity-matched case-control panel only**; they do not establish calibrated event probabilities, performance at native prevalence, robustness across mechanisms, or results on the planned hard-negative panels.
 
 **Evidence.** Local result bundle: `results/phase2/enron_event_first_native_heuristics/`, particularly `summary.md`, `metric_summary.csv`, `split_summary.csv`, each split's `candidate_predictions.csv` and `metrics.csv`, and the top-level `manifest.json`.
+
+## 2026-10-14 — Enron directed native-event hard-negative pilot
+
+**Design.** The same six frozen event-first splits support two separate 1:1 hard panels. `reversal_orientation` contrasts a held-out `(T,H)` native event type with `(H,T)` only when the reversal is an unseen native event type. `role_exchange` exchanges one tail actor with one head actor while preserving the actor set and both role arities, again requiring the transformed group to be an unseen native event type. Both require the split-specific weak-two-hop candidate universe. No unavailable positive was replaced by an easy random negative.
+
+**Panel coverage.** Of the candidate-eligible held-out types, valid reversal pairs cover 276 of 606 (45.5446%) under MCAR and 281 of 621 (45.2496%) under MNAR-out. Valid role-exchange pairs cover 260 of 606 (42.9043%) under MCAR and 252 of 621 (40.5797%) under MNAR-out. Hence these are deliberately difficult but selected subsets of the full native-event target; coverage must accompany every reported hard-panel metric.
+
+| Panel | Mechanism | Most discriminating score | ROC-AUC | PR-AUC | Reading |
+|---|---|---|---:|---:|---|
+| Reversal/orientation | MCAR | Degree-product mean | 0.5667 | 0.5707 | Small lift over the footprint baseline; no strong orientation discrimination. |
+| Reversal/orientation | MNAR-out | Reverse-arc mean | 0.6147 | 0.5823 | Clearer but still modest directional signal. |
+| Role exchange | MCAR | Degree-product mean | 0.5779 | 0.5762 | Small discrimination after preserving actor set and role arities. |
+| Role exchange | MNAR-out | Reverse-arc mean | 0.5571 | 0.5497 | Modest signal; II Adamic–Adar has a similar PR-AUC (0.5515). |
+
+**Observed structure.** Several shared-neighbor components are exactly or close to chance in the reversal panel—II and OO have ROC-AUC 0.5000 in both mechanisms—consistent with their role-symmetry for this particular transformed contrast. Under MCAR, the reverse-arc mean is below chance in both hard panels (reversal ROC-AUC 0.4465; role-exchange ROC-AUC 0.4455), whereas under MNAR-out it becomes the strongest or near-strongest directional score. The mechanism-dependent sign and modest three-replicate effects require reporting the complete score table, rather than selecting a single favorable hard-panel result.
+
+**Interpretation recorded for Phase 2.** The random-panel performance does **not** transfer wholesale to directed role discrimination. The hard panels show that native-event recovery requires a genuinely directional and role-sensitive evaluation: a score that ranks random true non-events well can be near chance, or even anti-ranked, when the comparator preserves the same participants or reverses their roles. These panels therefore pass as valid target-specific stress tests and motivate the planned ERGM score comparison; they do not yet establish a stable preferred heuristic or a general role-recovery claim.
+
+**Evidence.** Local result bundle: `results/phase2/enron_event_first_native_hard_panels/`, particularly `summary.md`, `split_summary.csv`, `metric_summary.csv`, each split's panel-specific `candidate_predictions.csv` and `metrics.csv`, and the top-level `manifest.json`.
