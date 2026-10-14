@@ -481,3 +481,20 @@ with 45 positive off-diagonal cells, no nonzero diagonal entries, and no
 duplicate labels. Those checks establish that the local matrix is structurally
 usable, but they do not resolve its row-to-column communication semantics. No
 directed derived data were created.
+
+### Jmail v1 header audit — technically viable, policy gate remains closed
+
+The no-body Jmail audit processed all 1,781,028 structured rows and found every
+message ID nonempty and unique. It found 180,572 missing senders (10.139%) and
+5,023 invalid or missing timestamps (0.282%). Under the provisional
+singleton-sender, distinct-To-plus-Cc rule, 1,120,328 records (62.903%) are
+candidate native events; no restricted event file was built.
+
+**Decision.** Unique IDs and recipient arrays make a filtered header-based
+native-event view technically feasible. They do not settle admissibility. The
+provider combines House Oversight, DOJ, and Yahoo/DDoSecrets provenance streams;
+the gate therefore remains unapproved pending source-stream inclusion/release
+policy, inspection of the full recipient-malformation audit, entity-resolution
+scope, missing-sender handling, and final To/Cc/Bcc policy. The explicit block
+is `data/metadata/gates/jmail_v1_admissibility.json`; the provenance assessment
+is `docs/research_jmail_admissibility_sources.md`.

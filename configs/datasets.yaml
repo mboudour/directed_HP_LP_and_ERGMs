@@ -58,7 +58,7 @@ datasets:
     gate_record: data/metadata/gates/ciel_direction.json
 
   jmail_v1_2026_02:
-    status: conditional_native_pending_provenance_and_entity_audit
+    status: conditional_native_pending_source_stream_entity_and_recipient_policy
     raw_input: data/raw/jmail_v1_2026_02/emails-slim.parquet
     expected_rows: 1781028
     core_rule: top_100_by_sent_plus_received_activity

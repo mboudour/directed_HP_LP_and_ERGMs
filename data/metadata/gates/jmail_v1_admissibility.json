@@ -1,0 +1,14 @@
+{
+  "approved": false,
+  "dataset_id": "jmail_v1_2026_02",
+  "decision": "blocked_pending_provenance_stream_entity_and_recipient_policy",
+  "reviewed_at": "2026-10-14",
+  "audit_summary": "data/metadata/jmail_v1_2026_02_audit.json",
+  "remaining_requirements": [
+    "Inspect malformed-recipient counts and source-stream composition in the completed audit metadata.",
+    "Adopt a source-stream policy that separates or excludes records whose provenance and reuse status cannot support the paper's analysis and release policy.",
+    "Approve an entity-resolution policy beyond strip/casefold or explicitly retain addresses as opaque nodes.",
+    "Approve the To-plus-Cc recipient policy, Bcc exclusion, timestamp rule, and treatment of records with missing senders."
+  ],
+  "approved_scopes": []
+}
