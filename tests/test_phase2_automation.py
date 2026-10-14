@@ -36,6 +36,7 @@ PHASE2_SCRIPTS = (
     "40_run_bounded_command.py",
     "41_materialize_enron_mcmle_core50.py",
     "42_audit_joint_candidate_eligibility.py",
+    "43_profile_mathoverflow_reconstruction.py",
 )
 
 

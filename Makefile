@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-ciel-audit phase2-jmail-audit phase2-mathoverflow-audit phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-ciel-audit phase2-jmail-audit phase2-mathoverflow-audit phase2-mathoverflow-profile phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -23,6 +23,7 @@ help:
 	  'phase2-ciel-audit  Audit Ciel matrix integrity without creating directed outputs.' \
 	  'phase2-jmail-audit  Audit Jmail IDs, headers, and candidate events without building events.' \
 	  'phase2-mathoverflow-audit  Audit MathOverflow posts without reconstructing events.' \
+	  'phase2-mathoverflow-profile  Profile answer windows without reconstructing MathOverflow events.' \
 	  'phase2-enron-timestamps  Profile retained Enron event dates before selecting a study interval.' \
 	  'phase2-enron-primary  Build the approved strict Enron custodian projection, core-100, and monthly panels.' \
 	  'phase2-enron-mcmle-core50  Materialize the approved nested Enron core-50 for MCMLE feasibility only.' \
@@ -139,6 +140,17 @@ phase2-mathoverflow-audit:
 		exit 1; \
 	else \
 		uv run python scripts/24_prepare_mathoverflow.py; \
+	fi
+
+phase2-mathoverflow-profile:
+	@if test -f data/metadata/mathoverflow_reconstruction_profile.json && test -f docs/data_audits/mathoverflow_stackexchange_2024_reconstruction_profile.md; then \
+		echo 'MathOverflow reconstruction profile already exists; preserving the prior immutable profile.'; \
+		cat docs/data_audits/mathoverflow_stackexchange_2024_reconstruction_profile.md; \
+	elif test -e data/metadata/mathoverflow_reconstruction_profile.json || test -e docs/data_audits/mathoverflow_stackexchange_2024_reconstruction_profile.md; then \
+		echo 'STOP: inconsistent partial MathOverflow profile outputs; inspect them rather than overwriting.'; \
+		exit 1; \
+	else \
+		uv run python scripts/43_profile_mathoverflow_reconstruction.py; \
 	fi
 
 phase2-enron-timestamps:

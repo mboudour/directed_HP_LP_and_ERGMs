@@ -1,0 +1,14 @@
+{
+  "approved": false,
+  "dataset_id": "mathoverflow_stackexchange_2024",
+  "decision": "blocked_pending_window_and_reconstruction_policy",
+  "reviewed_at": "2026-10-14",
+  "audit_summary": "data/metadata/mathoverflow_stackexchange_2024_audit.json",
+  "profile_summary": "data/metadata/mathoverflow_reconstruction_profile.json",
+  "remaining_requirements": [
+    "Review the descriptive response-window and duplicate-answerer profile.",
+    "Choose one primary answer-window length and planned sensitivity windows.",
+    "Confirm comments excluded, anonymous users excluded, duplicate answerers collapsed per question, and only rows present in the public dump retained."
+  ],
+  "approved_scopes": []
+}
