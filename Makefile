@@ -107,7 +107,15 @@ phase2-caviar-score:
 	uv run python scripts/33_summarize_masked_ergm.py --input-dir=results/models/caviar_masked_ergm_plan
 
 phase2-ciel-audit:
-	uv run python scripts/22_prepare_covert_matrices.py ciel --scope=static
+	@if test -f data/metadata/ciel_matrix_preparation.json && test -f docs/data_audits/ciel_matrix_preparation.md; then \
+		echo 'Ciel audit already exists; preserving the prior immutable audit record.'; \
+		cat docs/data_audits/ciel_matrix_preparation.md; \
+	elif test -e data/metadata/ciel_matrix_preparation.json || test -e docs/data_audits/ciel_matrix_preparation.md; then \
+		echo 'STOP: inconsistent partial Ciel audit outputs; inspect them rather than overwriting.'; \
+		exit 1; \
+	else \
+		uv run python scripts/22_prepare_covert_matrices.py ciel --scope=static; \
+	fi
 
 phase2-enron-timestamps:
 	uv run python scripts/14_profile_enron_event_timestamps.py --overwrite
