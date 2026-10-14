@@ -390,3 +390,17 @@ zero nonzero diagonal entries, and binary directed density 2.460384%. The next
 gate is the cap-first formal-concept representation audit at `(|T|,|H|) ≤ (3,3)`;
 it is a static representation diagnostic, not a claim that aggregate CAVIAR
 communication ties encode recorded group events.
+
+**Representation-screening result.** The cap-first `(|T|,|H|) ≤ (3,3)` audit
+completed with 80 concepts, 79 involving a multi-actor tail or head, and no
+concept with an actor in both roles. The capped concept footprints cover 181 of
+295 observed arcs (61.356%), and arc multiplicity is 0 / 1 / 4 / 12 at the
+minimum / median / 95th-percentile / maximum. This is adequate to carry the
+formal-concept target as a clearly labelled static representation sensitivity.
+It is not a native-event result: aggregate wiretap dyads cannot establish that
+the concepts were recorded group interactions.
+
+**Next gate.** Run the fixed three-replicate, 30% arc-first MCAR static LP pilot
+on the full 110-node CAVIAR matrix, with the same cap pair. The pilot will
+evaluate directed arc recovery and report concept-footprint coverage; it cannot
+evaluate native-event recovery or chronology.
