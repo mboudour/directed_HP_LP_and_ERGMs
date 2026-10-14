@@ -404,3 +404,19 @@ the concepts were recorded group interactions.
 on the full 110-node CAVIAR matrix, with the same cap pair. The pilot will
 evaluate directed arc recovery and report concept-footprint coverage; it cannot
 evaluate native-event recovery or chronology.
+
+**Static arc-LP pilot result.** The deterministic three-replicate MCAR pilot
+completed on the full 110-node, 295-arc matrix. Each replicate masked 88 arcs
+(29.830508% of the graph) and evaluated them against 88 sampled true nonedges.
+The best uncalibrated heuristic was total directed Adamic--Adar: mean ROC-AUC
+`0.738873` (SD `0.005685`) and mean PR-AUC `0.764533` (SD `0.006538`). The
+unweighted total-common-neighbor score gave mean ROC-AUC `0.718879` (SD
+`0.003404`) and PR-AUC `0.716096` (SD `0.013305`).
+
+These values are bounded **arc-recovery pilot** results on balanced random
+true-nonedge panels. They are not calibrated probabilities, no ERGM has entered
+this result, and they do not test native events, temporal forecasting, or the
+defective CAVIAR phase series. The formal-concept coverage in the pilot matches
+the independent representation audit: 80 formal concepts cover 181 of 295 arcs
+(61.356%), with an augmented section of 374 tail/head pairs used only to ensure
+arc coverage in the diagnostic.
