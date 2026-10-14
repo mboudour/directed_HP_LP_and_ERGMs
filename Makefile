@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-enron-timestamps phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -15,6 +15,7 @@ help:
 	  'phase2-audits  Run all locally available, ungated Phase 2 source audits.' \
 	  'phase2-dry-run  Show which Phase 2 source audits would run.' \
 	  'phase2-report  Write one local report from completed audit metadata.' \
+	  'phase2-enron-timestamps  Profile retained Enron event dates before selecting a study interval.' \
 	  'phase2-static  Run one static Phase 2 pilot; pass options in ARGS="...".' \
 	  'phase2-export-masks  Export existing pilot masks; pass options in ARGS="...".' \
 	  'phase2-eu-core-static-plan  Fit the plan-aligned EU-core static ERGM ladder.' \
@@ -58,6 +59,9 @@ phase2-dry-run:
 
 phase2-report:
 	uv run python scripts/27_phase2_readiness_report.py
+
+phase2-enron-timestamps:
+	uv run python scripts/14_profile_enron_event_timestamps.py --overwrite
 
 phase2-static:
 	uv run python scripts/30_run_static_benchmark.py $(ARGS)

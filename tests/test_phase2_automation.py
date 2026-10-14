@@ -10,6 +10,7 @@ import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PHASE2_SCRIPTS = (
+    "14_profile_enron_event_timestamps.py",
     "20_phase2_status.py",
     "21_prepare_eu_core.py",
     "22_prepare_covert_matrices.py",
