@@ -475,3 +475,9 @@ paper without a source that states the orientation. The data remain preserved
 for provenance and may be reassessed if the primary Appendix or an authoritative
 replication codebook becomes available. Supporting evidence is recorded in
 `docs/research_ciel_direction_sources.md`.
+
+**Local integrity audit.** The preserved source audit confirms a 25-node matrix
+with 45 positive off-diagonal cells, no nonzero diagonal entries, and no
+duplicate labels. Those checks establish that the local matrix is structurally
+usable, but they do not resolve its row-to-column communication semantics. No
+directed derived data were created.
