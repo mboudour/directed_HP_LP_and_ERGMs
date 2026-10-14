@@ -66,19 +66,26 @@ performance comparison:
   which calculates an unnecessary normalizing constant for this score-only
   diagnostic.
 
-This smoke test first establishes that the observation constraint, MCMLE fit,
+This smoke test first establishes that the observation constraint, M1 MCMLE fit,
 and conditional simulation work end-to-end on a **multi-dyad** footprint. Its
 M1 result should have `L3-F` close to the same-draw `L2`, within Monte Carlo
 error. It does not test higher-order dependence: `M4` and multi-split /
 larger-draw calculations remain separate, explicitly scaled computations only
 after this check has been reviewed.
 
-The next deliberately bounded stage is a separate `M4` run on the **same
-single split and candidate-selection rule**. It is a computational calibration:
-it asks whether the first closure-capable model can be fit and conditionally
-simulated locally, and reports a bootstrap uncertainty interval for its
-within-footprint dependence increment. It is not a comparison across targets,
-models, or missingness mechanisms.
+The M4 MCMLE feasibility gate failed on the 100-node Enron split: after four
+non-converged iterations, Statnet adaptively increased the fifth MCMC sample and
+the interactive run was stopped after more than nine minutes. This is recorded
+as an MCMLE mixing/convergence gate failure, not as a result and not as a
+computer-performance problem.
+
+The next deliberately bounded stage is therefore a separate `M4` **MPLE
+parameter-plug-in sensitivity** on the same single split and candidate-selection
+rule. It tests whether a closure-capable fitted parameter vector can be
+conditionally simulated and reports a bootstrap interval for its
+within-footprint increment. It is explicitly not an MCMLE estimate, not a
+substantive M4 result, and not a comparison across targets, models, or
+missingness mechanisms.
 
 A candidate with a wholly observed footprint has `L3_F = L2 = 1` by conditioning,
 without simulation. If a simulated `L3_F` is zero, it is **not** reported as an
@@ -86,8 +93,8 @@ exact zero probability or supplied with a finite log-dependence score. Instead,
 `L3_F_zero_upper95 = 3/nsim` is given as a standard rule-of-three upper bound.
 
 No ROC-AUC, PR-AUC, coefficient inference, native-event probability, or automatic
-MCMLE adequacy claim is emitted by this pilot. `diagnostics/` stores the full
-MCMC-diagnostic text for manual review. Simulation feasibility is not a substitute
+fit-adequacy claim is emitted by this pilot. `diagnostics/` stores the available
+fit diagnostic text for manual review. Simulation feasibility is not a substitute
 for the planned GOF checks (degree, reciprocity, triad census, and shared partners)
 before any model-based result is interpreted substantively.
 
@@ -99,11 +106,11 @@ After the frozen event-first inputs are available:
 make phase2-enron-joint-footprints
 ```
 
-Only after the M1 factorization check has completed should the one-candidate M4
-calibration be invoked:
+Only after the M1 factorization check has completed should the bounded M4 MPLE
+sensitivity be invoked:
 
 ```zsh
-make phase2-enron-joint-m4-smoke
+make phase2-enron-joint-m4-mple-sensitivity
 ```
 
 The target regenerates the deterministic frozen input export and replaces only the
@@ -116,15 +123,15 @@ results/models/enron_joint_footprint_mcmle_smoke/
 The most important files are:
 
 - `summary.md` — completion and interpretation boundary;
-- `model_status.csv` — separate MCMLE outcomes for every split and model;
+- `model_status.csv` — separate fit outcomes for every split and model;
 - `candidate_simulation_scores.csv` — candidate-specific `L1`, `L1g`, `L2`,
   `L3_F`, Monte Carlo SE, zero-score bound, dependence increment, and bootstrap
   uncertainty summaries;
 - `candidate_simulation_draws.csv` — dyad states from the independent conditional
   completions, retained to audit the bootstrap calculation;
 - `selected_candidates.csv` — the actual bounded candidate subset; and
-- `diagnostics/` plus `fitted_models/` — MCMLE diagnostic output and reproducible
-  fitted model objects.
+- `diagnostics/` plus `fitted_models/` — available diagnostic output and
+  reproducible fitted model objects.
 
 ## Relation to the prior factorized pilot
 

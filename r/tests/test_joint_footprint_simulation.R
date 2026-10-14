@@ -21,6 +21,8 @@ stopifnot(grepl('estimate = "MLE"', driver_text, fixed = TRUE))
 stopifnot(grepl("eval.loglik = FALSE", driver_text, fixed = TRUE))
 stopifnot(grepl("sequential = FALSE", driver_text, fixed = TRUE))
 stopifnot(grepl('"split"', driver_text, fixed = TRUE))
+stopifnot(grepl('"estimate"', driver_text, fixed = TRUE))
+stopifnot(grepl('estimate = "MPLE"', driver_text, fixed = TRUE))
 stopifnot(grepl("MCMLE.samplesize = fit_samplesize", driver_text, fixed = TRUE))
 stopifnot(grepl('"bootstrap-reps"', driver_text, fixed = TRUE))
 

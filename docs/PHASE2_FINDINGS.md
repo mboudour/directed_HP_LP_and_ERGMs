@@ -221,6 +221,23 @@ calculates a bootstrap uncertainty interval for `delta_dep`; that extension is
 used for the subsequent one-candidate M4 calibration rather than recasting this
 M1 confirmation as a substantive result.
 
+### Enron M4 MCMLE feasibility gate — failed without a usable fit
+
+The one-candidate M4 conditional-simulation attempt was intentionally stopped
+after `9:22` of CPU time. The interruption occurred during adaptive MCMC
+sampling in MCMLE iteration 5. Iterations 1–4 were not within the convergence
+tolerance region; the MCMC sampling work became progressively slower, with the
+last displayed estimated time remaining exceeding five minutes. No M4 fit,
+candidate score, coefficient table, or dependence conclusion was produced.
+
+**Decision.** This is an M4 MCMLE mixing/convergence failure on the current
+100-node Enron pilot specification, **not** evidence of a local-computer fault
+and not a reason to keep increasing interactive waiting time. The MCMLE target
+is retired for this pilot. The next bounded calculation is an explicitly marked
+M4 MPLE parameter-plug-in conditional-simulation sensitivity, using the same
+two-dyad candidate and independent conditional chains. It can validate score
+mechanics under closure terms but cannot substitute for a converged MCMLE result.
+
 **Evidence.** Local technical smoke bundle:
 `results/models/enron_joint_footprint_mcmle_smoke/`, especially
 `candidate_simulation_scores.csv`, `selected_candidates.csv`,

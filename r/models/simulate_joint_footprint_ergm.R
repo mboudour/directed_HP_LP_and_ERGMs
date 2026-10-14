@@ -18,7 +18,8 @@ joint_usage <- function() {
     "  DIR/splits/<split>/candidate_footprints.csv",
     "",
     "Bounded pilot options:",
-    "  --models=M1,M4                    MCMLE specifications; M1 is the factorization check.",
+    "  --models=M1,M4                    Static ERGM specifications; M1 is the factorization check.",
+    "  --estimate=MCMLE                  MCMLE (default) or explicitly labelled MPLE sensitivity mode.",
     "  --split=all                       One exact split ID, or all available splits.",
     "  --max-candidates-per-label=5       Maximum deterministic sample per panel and label.",
     "  --min-unobserved-dyads=0           Require at least this many unknown footprint arcs.",
@@ -73,7 +74,10 @@ joint_locate_driver <- function(filename) {
 # file is sourced for its smoke tests.
 source(joint_locate_driver("score_native_event_footprints.R"))
 
-joint_fit_mcmle <- function(spec, nw, control) {
+joint_fit_model <- function(spec, nw, estimate, control) {
+  if (identical(estimate, "MPLE")) {
+    return(fit_one_ergm(spec, nw, estimate = "MPLE", control = control))
+  }
   # `MCMLE` names the estimation algorithm, but `ergm()` selects it with
   # `estimate = "MLE"`. Disabling bridge likelihood calculation is essential:
   # L3-F requires a fitted parameter vector and conditional samples, not AIC,
@@ -435,7 +439,7 @@ joint_write_summary <- function(path, dataset_id, model_status, split_status, sc
     "# Conditional joint ERGM footprint-simulation pilot",
     "",
     paste0("- Dataset/input bundle: `", dataset_id, "`"),
-    "- Model fits are split-specific MCMLE fits; candidate simulations condition on every observed split dyad.",
+    paste0("- Model fitting method: `", options$estimate, "`. Candidate simulations condition on every observed split dyad."),
     "- A candidate arc already present because another event type induced it remains fixed at one.",
     paste0(
       "- Bounded eligibility: ", options$min_unknown, " to ", options$max_unknown,
@@ -460,7 +464,7 @@ joint_write_summary <- function(path, dataset_id, model_status, split_status, sc
     "",
     "## Required interpretation boundary",
     "",
-    "This output is a bounded conditional-simulation and MCMLE-feasibility diagnostic. It is not a final ranking comparison, native-event probability, model goodness-of-fit approval, or coefficient-inference table. Inspect `model_status.csv`, `diagnostics/`, and every nonempty `message` before interpreting any candidate value.",
+    "This output is a bounded conditional-simulation diagnostic. It is not a final ranking comparison, native-event probability, model goodness-of-fit approval, or coefficient-inference table. An MPLE result is a parameter-plug-in sensitivity calculation, not an MCMLE result. Inspect `model_status.csv`, `diagnostics/`, and every nonempty `message` before interpreting any candidate value.",
     ""
   )
   writeLines(lines, path, useBytes = TRUE)
@@ -479,7 +483,7 @@ joint_main <- function() {
     stop("Missing required options: ", paste(paste0("--", missing), collapse = ", "), call. = FALSE)
   }
   allowed <- c(
-    required, "models", "split", "max-candidates-per-label", "min-unobserved-dyads",
+    required, "models", "estimate", "split", "max-candidates-per-label", "min-unobserved-dyads",
     "max-unobserved-dyads", "require-reverse-observed", "nsim", "mcmc-burnin",
     "mcmc-interval", "fit-mcmc-burnin", "fit-mcmc-interval", "fit-mcmc-samplesize",
     "mcmle-maxit", "bootstrap-reps", "seed", "overwrite"
@@ -490,6 +494,8 @@ joint_main <- function() {
   input_dir <- normalizePath(option_value(options, "input-dir"), winslash = "/", mustWork = TRUE)
   models_text <- option_value(options, "models", "M1,M4")
   selected_specs <- score_select_models(models_text)
+  estimate <- toupper(option_value(options, "estimate", "MCMLE"))
+  if (!estimate %in% c("MCMLE", "MPLE")) stop("--estimate must be MCMLE or MPLE.", call. = FALSE)
   max_per_label <- as_positive_number(option_value(options, "max-candidates-per-label", "5"), "max-candidates-per-label", integer = TRUE)
   min_unknown <- suppressWarnings(as.integer(option_value(options, "min-unobserved-dyads", "0")))
   max_unknown <- suppressWarnings(as.integer(option_value(options, "max-unobserved-dyads", "2")))
@@ -615,7 +621,7 @@ joint_main <- function() {
         next
       }
       set.seed(seed + 100000L * split_index + model_index)
-      fit_result <- joint_fit_mcmle(spec, nw, fit_control)
+      fit_result <- joint_fit_model(spec, nw, estimate, fit_control)
       safe_id <- gsub("[^A-Za-z0-9_.-]", "_", paste(split, spec$model, sep = "__"))
       diagnostics_file <- file.path("diagnostics", paste0(safe_id, ".txt"))
       fitted_file <- file.path("fitted_models", paste0(safe_id, ".rds"))
@@ -630,7 +636,7 @@ joint_main <- function() {
         model_outcomes[[model_index]] <- "fit_failed"
         next
       }
-      diagnostics <- capture_fit_diagnostics(spec$model, fit_result$fit, "MCMLE")
+      diagnostics <- capture_fit_diagnostics(spec$model, fit_result$fit, estimate)
       writeLines(diagnostics$text, file.path(output_dir, diagnostics_file), useBytes = TRUE)
       saveRDS(fit_result$fit, file.path(output_dir, fitted_file))
       scored <- 0L
@@ -696,6 +702,7 @@ joint_main <- function() {
   utils::write.csv(split_status, file.path(output_dir, "split_status.csv"), row.names = FALSE, na = "")
   utils::write.csv(selected_candidates, file.path(output_dir, "selected_candidates.csv"), row.names = FALSE, na = "")
   summary_options <- list(
+    estimate = estimate,
     min_unknown = min_unknown,
     max_unknown = max_unknown,
     max_per_label = max_per_label,
@@ -715,7 +722,12 @@ joint_main <- function() {
     ),
     models = as.list(selected_specs$model),
     estimation = list(
-      fit = "split-specific MCMLE, selected with ergm estimate='MLE', eval.loglik=FALSE",
+      fit = if (identical(estimate, "MCMLE")) {
+        "split-specific MCMLE, selected with ergm estimate='MLE', eval.loglik=FALSE"
+      } else {
+        "split-specific MPLE parameter-plug-in sensitivity fit"
+      },
+      fit_method = estimate,
       fit_mcmc_burnin = fit_burnin, fit_mcmc_interval = fit_interval,
       fit_mcmc_samplesize = fit_samplesize, mcmle_maxit = mcmle_maxit,
       candidate_simulation = "simulate(fit, basis=network_with_candidate_unknown_dyads_as_NA, constraints=~observed, sequential=FALSE)",
