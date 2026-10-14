@@ -382,3 +382,11 @@ allowed; native-event and chronology targets are not. The reproducible build
 requires `make phase2-caviar-static-prep`. The supporting source note and
 scope-specific gate are `docs/research_caviar_direction_sources.md` and
 `data/metadata/gates/caviar_direction.json`.
+
+**Materialization confirmation.** The local CAVIAR static build completed with
+the approved full-matrix scope and direction gate. The pinned full matrix has
+110 nodes, 295 positive nonloop directed arcs, total communication weight 3,546,
+zero nonzero diagonal entries, and binary directed density 2.460384%. The next
+gate is the cap-first formal-concept representation audit at `(|T|,|H|) ≤ (3,3)`;
+it is a static representation diagnostic, not a claim that aggregate CAVIAR
+communication ties encode recorded group events.
