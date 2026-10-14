@@ -28,8 +28,16 @@ OUTPUT = (
     / "native_events.parquet"
 )
 TEMP_OUTPUT = OUTPUT.with_suffix(".parquet.tmp")
-SUMMARY = PROJECT_ROOT / "data" / "metadata" / "mathoverflow_stackexchange_2024_audit.json"
-REPORT = PROJECT_ROOT / "docs" / "data_audits" / "mathoverflow_stackexchange_2024_preparation.md"
+AUDIT_SUMMARY = PROJECT_ROOT / "data" / "metadata" / "mathoverflow_stackexchange_2024_audit.json"
+AUDIT_REPORT = (
+    PROJECT_ROOT / "docs" / "data_audits" / "mathoverflow_stackexchange_2024_preparation.md"
+)
+RECONSTRUCTION_SUMMARY = (
+    PROJECT_ROOT / "data" / "metadata" / "mathoverflow_stackexchange_2024_reconstruction.json"
+)
+RECONSTRUCTION_REPORT = (
+    PROJECT_ROOT / "docs" / "data_audits" / "mathoverflow_stackexchange_2024_reconstruction.md"
+)
 
 EVENT_SCHEMA = pa.schema(
     [
@@ -62,6 +70,14 @@ def iter_post_attributes(path: Path):
             element.clear()
 
 
+def display_path(path: Path) -> str:
+    """Return a project-relative path when available, otherwise preserve an explicit path."""
+    try:
+        return str(path.relative_to(PROJECT_ROOT))
+    except ValueError:
+        return str(path)
+
+
 def required_policy() -> int:
     """Read and validate the user-reviewed reconstruction policy record."""
     if not GATE.is_file():
@@ -89,10 +105,15 @@ def required_policy() -> int:
     return days
 
 
-def build_question_database() -> tuple[int, int, int]:
+def build_question_database(overwrite: bool) -> tuple[int, int, int]:
     """Store valid questions locally for an exact streaming answer join."""
     if QUESTION_DB.exists():
-        raise SystemExit(f"STOP: temporary question database already exists: {QUESTION_DB}")
+        if not overwrite:
+            raise SystemExit(
+                f"STOP: temporary question database already exists: {QUESTION_DB}. "
+                "Pass --overwrite to replace a prior interrupted or completed reconstruction."
+            )
+        QUESTION_DB.unlink()
     WORK_DIR.mkdir(parents=True, exist_ok=True)
     connection = sqlite3.connect(QUESTION_DB)
     connection.execute(
@@ -132,7 +153,7 @@ def build_question_database() -> tuple[int, int, int]:
     return question_rows, valid_questions, invalid_questions + anonymous_questions * 0
 
 
-def reconstruct_events(answer_window_days: int) -> int:
+def reconstruct_events(answer_window_days: int) -> tuple[int, int]:
     """Join answers to questions and write distinct-answerer directed events."""
     connection = sqlite3.connect(QUESTION_DB)
     connection.execute(
@@ -226,17 +247,26 @@ def reconstruct_events(answer_window_days: int) -> int:
         TEMP_OUTPUT.replace(OUTPUT)
     finally:
         connection.close()
-    return accepted_answers
+    return accepted_answers, events
 
 
-def audit(build_events: bool) -> None:
+def audit(build_events: bool, overwrite: bool) -> None:
     """Create a streaming post audit and optionally the explicitly reconstructed events."""
     if not INPUT.is_file():
         raise SystemExit(f"STOP: MathOverflow Posts.xml is missing: {INPUT}")
-    if SUMMARY.exists() or REPORT.exists() or (build_events and OUTPUT.exists()):
+    summary_path = RECONSTRUCTION_SUMMARY if build_events else AUDIT_SUMMARY
+    report_path = RECONSTRUCTION_REPORT if build_events else AUDIT_REPORT
+    outputs = (summary_path, report_path, OUTPUT) if build_events else (summary_path, report_path)
+    if not overwrite and any(path.exists() for path in outputs):
         raise SystemExit(
             "STOP: MathOverflow output already exists; this script will not overwrite it"
         )
+    if overwrite:
+        for path in outputs:
+            if path.exists():
+                path.unlink()
+        if TEMP_OUTPUT.exists():
+            TEMP_OUTPUT.unlink()
 
     post_types: Counter[str] = Counter()
     missing_owner = 0
@@ -255,13 +285,14 @@ def audit(build_events: bool) -> None:
 
     answer_window_days: int | None = None
     accepted_answers: int | None = None
+    reconstructed_events: int | None = None
     if build_events:
         answer_window_days = required_policy()
-        _, _, _ = build_question_database()
-        accepted_answers = reconstruct_events(answer_window_days)
+        _, _, _ = build_question_database(overwrite)
+        accepted_answers, reconstructed_events = reconstruct_events(answer_window_days)
 
-    SUMMARY.parent.mkdir(parents=True, exist_ok=True)
-    REPORT.parent.mkdir(parents=True, exist_ok=True)
+    summary_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.parent.mkdir(parents=True, exist_ok=True)
     summary = {
         "dataset_id": "mathoverflow_stackexchange_2024",
         "posts_rows_read": total_rows,
@@ -272,16 +303,38 @@ def audit(build_events: bool) -> None:
         "reconstructed_events_built": build_events,
         "answer_window_days": answer_window_days,
         "accepted_answers_within_window": accepted_answers,
+        "reconstructed_events": reconstructed_events,
+        "policy_record_used": display_path(GATE) if build_events else None,
         "analysis_status": (
             "reconstructed_events_built_after_approved_policy"
             if build_events
             else "audit_only_pending_reconstruction_policy"
         ),
     }
-    SUMMARY.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    summary_path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     type_rows = "\n".join(f"| {kind} | {count:,} |" for kind, count in sorted(post_types.items()))
-    REPORT.write_text(
-        f"""# MathOverflow preparation audit
+    if build_events:
+        report_text = f"""# MathOverflow reconstructed-event build
+
+- Primary answer window: `{answer_window_days}` calendar days
+- Eligible answer records within the window before duplicate collapse: `{accepted_answers:,}`
+- Reconstructed question-answer events: `{reconstructed_events:,}`
+- Missing owner IDs in source posts: `{missing_owner:,}`
+- Invalid creation dates in source posts: `{invalid_dates:,}`
+- Answers missing a parent ID: `{answer_missing_parent:,}`
+
+The original immutable source audit remains at
+`docs/data_audits/mathoverflow_stackexchange_2024_preparation.md`.
+
+Each output event is an analyst-defined reconstruction of distinct eligible,
+non-self answerers to one eligible question asker within the approved 30-day
+window. Comments and users without an owner ID are excluded; repeated answers by
+the same user to a question are collapsed; only rows present in the public dump
+are retained. This is not a directly observed multi-recipient communication
+event.
+"""
+    else:
+        report_text = f"""# MathOverflow preparation audit
 
 - Post rows read: `{total_rows:,}`
 - Missing owner IDs: `{missing_owner:,}`
@@ -296,21 +349,23 @@ def audit(build_events: bool) -> None:
 Comments are excluded. A question-answer group is an analyst-defined reconstruction, not
 a recorded multi-recipient event. It is built only after an approved answer-window and
 post/user-treatment policy record exists.
-""",
-        encoding="utf-8",
-    )
-    print("MathOverflow audit passed.")
+"""
+    report_path.write_text(report_text, encoding="utf-8")
+    print("MathOverflow reconstruction passed." if build_events else "MathOverflow audit passed.")
     print(f"Post rows read: {total_rows:,}.")
     print(f"Reconstructed events built: {build_events}.")
-    print(f"Summary: {SUMMARY.relative_to(PROJECT_ROOT)}")
-    print(f"Audit report: {REPORT.relative_to(PROJECT_ROOT)}")
+    if build_events:
+        print(f"Reconstructed events: {reconstructed_events:,}.")
+    print(f"Summary: {display_path(summary_path)}")
+    print(f"Report: {display_path(report_path)}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--build-reconstructed-events", action="store_true")
+    parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
-    audit(args.build_reconstructed_events)
+    audit(args.build_reconstructed_events, args.overwrite)
 
 
 if __name__ == "__main__":

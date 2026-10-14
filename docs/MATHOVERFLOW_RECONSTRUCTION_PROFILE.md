@@ -20,9 +20,9 @@ is 985.838 days. A 365-day profile remains descriptive rather than an analytic
 sensitivity because it can pool much later, potentially distinct, answer cycles
 into the same reconstructed group.
 
-The recommended policy retains only public-dump rows, excludes comments and
+The approved policy retains only public-dump rows, excludes comments and
 anonymous users, excludes self-answers, and collapses repeated answers by the
-same user to the same question. It is recorded but not approved in
+same user to the same question. The approval record is
 `data/metadata/gates/mathoverflow_reconstruction_policy.json`.
 
 This evidence is used to choose one declared reconstruction rule later. If that
@@ -39,6 +39,13 @@ Run:
 
 ```bash
 make phase2-mathoverflow-profile
+```
+
+After the profile-based policy approval, materialize the 30-day primary
+reconstruction with:
+
+```bash
+make phase2-mathoverflow-primary
 ```
 
 The tracked code and documentation are versioned. Source XML, audit JSON, and

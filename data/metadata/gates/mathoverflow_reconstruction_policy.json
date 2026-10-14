@@ -1,23 +1,18 @@
 {
-  "approved": false,
+  "approved": true,
+  "approved_at": "2026-10-14",
   "dataset_id": "mathoverflow_stackexchange_2024",
-  "decision": "blocked_pending_window_and_reconstruction_policy",
-  "reviewed_at": "2026-10-14",
+  "decision": "approved_reconstructed_native_events_30_day_primary",
   "audit_summary": "data/metadata/mathoverflow_stackexchange_2024_audit.json",
   "profile_summary": "data/metadata/mathoverflow_reconstruction_profile.json",
-  "recommended_policy": {
-    "answer_window_days": 30,
-    "sensitivity_window_days": [7, 90],
-    "descriptive_long_window_days": [365],
-    "policies": {
-      "comments": "excluded",
-      "anonymous_user": "exclude",
-      "duplicate_answerer": "collapse_per_question",
-      "deleted_post": "retain_rows_present_in_public_dump"
-    }
+  "answer_window_days": 30,
+  "policies": {
+    "comments": "excluded",
+    "anonymous_user": "exclude",
+    "duplicate_answerer": "collapse_per_question",
+    "deleted_post": "retain_rows_present_in_public_dump"
   },
-  "remaining_requirements": [
-    "Approve or revise the recorded recommended policy before reconstructed events can be materialized."
-  ],
-  "approved_scopes": []
+  "sensitivity_window_days": [7, 90],
+  "descriptive_long_window_days": [365],
+  "source_note": "The event is an analyst-defined reconstruction: distinct eligible answerers within the fixed window point to the eligible question asker."
 }

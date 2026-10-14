@@ -514,10 +514,10 @@ days, and 95th percentile 985.838 days. A 30-day window retains 142,958 pairs
 365-day descriptive count). It adds useful short-to-medium response coverage
 beyond 7 days without treating years-late answers as part of the same group.
 
-**Recommendation, pending approval.** Use 30 days as the primary reconstructed
-event window, use 7 and 90 days as bounded sensitivities, leave 365 days
-descriptive only, exclude comments, anonymous users, and self-answers, collapse
-duplicate answerers per question, and retain only rows present in the public
-dump. The policy remains unapproved in
-`data/metadata/gates/mathoverflow_reconstruction_policy.json`; creating native
-events therefore remains blocked.
+**Approved policy.** Use 30 days as the primary reconstructed event window, use
+7 and 90 days as bounded sensitivities, leave 365 days descriptive only,
+exclude comments, anonymous users, and self-answers, collapse duplicate
+answerers per question, and retain only rows present in the public dump. The
+approval is recorded in `data/metadata/gates/mathoverflow_reconstruction_policy.json`.
+The primary event build remains to be materialized as a separate reproducible
+step.
