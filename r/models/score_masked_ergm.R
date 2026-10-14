@@ -9,7 +9,7 @@
 # Rscript r/models/score_masked_ergm.R \
 #   --input-dir=results/phase2/eu_core_static_pilot \
 #   --output-dir=results/models/eu_core_masked_ergm \
-#   --models=M0,M1,M3a,M4c --estimate=MPLE --seed=20261013
+#   --models=M0,M1,M3,M4c --estimate=MPLE --seed=20261013
 
 score_masked_ergm_usage <- function() {
   paste(
@@ -24,7 +24,7 @@ score_masked_ergm_usage <- function() {
     "",
     "Options:",
     "  --output-dir=DIR             New or explicitly overwritable output directory.",
-    "  --models=M0,M1,M3a,M4c       Comma-separated static ladder model IDs.",
+    "  --models=M0,M1,M3,M4c        Comma-separated static ladder model IDs.",
     "  --estimate=MPLE              MPLE (default) or MCMLE.",
     "  --seed=20261013              Random seed used before fitting masked networks.",
     "  --overwrite=FALSE            Refuse a non-empty output directory unless TRUE.",
@@ -428,7 +428,7 @@ score_masked_ergm_main <- function() {
   overwrite <- as_flag(option_value(options, "overwrite", "FALSE"), "overwrite")
   output_dir <- prepare_output_dir(option_value(options, "output-dir"), overwrite)
   input_dir <- normalizePath(option_value(options, "input-dir"), winslash = "/", mustWork = TRUE)
-  models_text <- option_value(options, "models", "M0,M1,M3a,M4c")
+  models_text <- option_value(options, "models", "M0,M1,M3,M4c")
   selected_specs <- score_select_models(models_text)
   estimate <- toupper(option_value(options, "estimate", "MPLE"))
   if (!estimate %in% c("MPLE", "MCMLE")) stop("--estimate must be MPLE or MCMLE.", call. = FALSE)

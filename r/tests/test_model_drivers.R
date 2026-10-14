@@ -21,10 +21,12 @@ score_driver <- locate_driver("score_masked_ergm.R")
 source(score_driver)
 
 specs <- static_ladder_specs()
-stopifnot(identical(specs$model, c("M0", "M1", "M2", "M3a", "M3b", "M3c", "M4a", "M4b", "M4c")))
+stopifnot(identical(specs$model, c("M0", "M1", "M2", "M3", "M4", "M4c")))
 stopifnot(grepl("mutual", specs$rhs[specs$model == "M1"], fixed = TRUE))
 stopifnot(grepl("gwodegree", specs$rhs[specs$model == "M2"], fixed = TRUE))
-stopifnot(grepl("gwesp", specs$rhs[specs$model == "M3a"], fixed = TRUE))
+stopifnot(grepl("type='OTP'", specs$rhs[specs$model == "M3"], fixed = TRUE))
+stopifnot(grepl("type='OSP'", specs$rhs[specs$model == "M4"], fixed = TRUE))
+stopifnot(grepl("type='ISP'", specs$rhs[specs$model == "M4"], fixed = TRUE))
 stopifnot(grepl("ctriple", specs$rhs[specs$model == "M4c"], fixed = TRUE))
 
 identity <- proposition6_lagged_cn_identity()
@@ -34,8 +36,8 @@ stopifnot(isTRUE(identity$rank_identity))
 stopifnot(isTRUE(identity$odds_step_identity))
 stopifnot(identical(identity$table$lagged_common_neighbors, c(2, 1, 1, 0)))
 
-masked_specs <- score_select_models("M0, M1, M3a, M4c")
-stopifnot(identical(masked_specs$model, c("M0", "M1", "M3a", "M4c")))
+masked_specs <- score_select_models("M0, M1, M3, M4c")
+stopifnot(identical(masked_specs$model, c("M0", "M1", "M3", "M4c")))
 stopifnot(identical(
   names(score_empty_predictions()),
   c("replicate", "model", "candidate_tail", "candidate_head", "label", "conditional_probability")

@@ -1,13 +1,13 @@
 #!/usr/bin/env Rscript
 
-# Bounded temporal check for an analysis-ready directed panel edge list.
+# Bounded temporal LP baseline for an analysis-ready directed panel edge list.
 # The factorized models intentionally use lagged regressors only:
-#   T_tt: y_ij,t (the observed tie at time t)
-#   T0:   logit P(T_tt=1) = beta_0
-#   T1:   T0 + beta_1 * y_ij,t-1
-#   T2:   T1 + beta_2 * CN_out(i,j,t-1)
+#   L0:       logit P(y_ij,t=1) = beta_0
+#   L1:       L0 + beta_1 * y_ij,t-1
+#   L2_oo:    L1 + beta_2 * CN_out(i,j,t-1)
 # No contemporaneous network statistic is placed on a right-hand side. This is
-# a diagnostic/factorized conditional model, not a temporal ERGM simulation.
+# an exploratory diagnostic/factorized conditional model, not the plan's T0--T2
+# TERGM ladder and not a temporal ERGM simulation.
 #
 # Example:
 # Rscript r/models/temporal_lagged_check.R \
@@ -228,7 +228,7 @@ build_lagged_design <- function(panels, times) {
 
 factorized_model_specs <- function() {
   data.frame(
-    model = c("T0", "T1", "T2"),
+    model = c("L0", "L1_persistence", "L2_persistence_lagged_oo"),
     formula = c("y_tt ~ 1", "y_tt ~ lag_tie", "y_tt ~ lag_tie + lag_cn_out"),
     right_hand_side = c(
       "Intercept only.",
@@ -501,15 +501,15 @@ main <- function() {
     bounds = list(max_nodes = max_nodes, max_transitions = max_transitions, max_dyads = max_dyads),
     factorization = list(
       response = "T_tt = y_ij,t",
-      T0 = "logit P(y_ij,t=1) = beta_0",
-      T1 = "T0 + beta_1*y_ij,t-1",
-      T2 = "T1 + beta_2*CN_out(i,j,t-1)",
+      L0 = "logit P(y_ij,t=1) = beta_0",
+      L1_persistence = "L0 + beta_1*y_ij,t-1",
+      L2_persistence_lagged_oo = "L1 + beta_2*CN_out(i,j,t-1)",
       common_neighbor_definition = "CN_out(i,j,t-1) = sum_k y_i,k,t-1 * y_j,k,t-1"
     ),
     package_placeholders = list(btergm_mode = btergm_mode, btergm_reps = btergm_reps, tergm_mode = tergm_mode),
     proposition6_identity_pass = proposition$pass,
     limitations = c(
-      "The factorized logistic fits condition on observed lagged panels and do not represent a jointly normalized temporal ERGM or a causal effect.",
+      "This exploratory lagged-only logistic baseline conditions on observed panels and does not represent the planned T0--T2 joint TERGM ladder, a causal effect, or a forecast.",
       "Without --nodes, the actor universe is the union of observed endpoints; actors absent from all supplied ties cannot be recovered.",
       "btergm bootstrap coefficients, when explicitly fitted, are labelled descriptive estimates and are never simulated forecasts.",
       "The tergm path is an intentionally visible placeholder because a defensible Form/Diss specification and dynamic-network object cannot be inferred from an edge-list CSV."

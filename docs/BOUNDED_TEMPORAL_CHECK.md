@@ -19,19 +19,22 @@ transitions. It then fits the bounded factorized ladder and writes a concise loc
 The deterministic earliest-window rule is a screening choice for this bounded check; it is
 not a claim that those windows constitute a final forecasting test set.
 
-## Models
+## Exploratory lagged-only baseline
 
 For each ordered non-self dyad and each transition, the response is
 \(T_{tt}=y_{ij,t}\). The right-hand side is progressively expanded:
 
-- `T0`: intercept only;
-- `T1`: `T0` plus the lagged tie \(y_{ij,t-1}\);
-- `T2`: `T1` plus the lagged shared-outgoing-neighbour count
+- `L0`: intercept only;
+- `L1_persistence`: `L0` plus the lagged tie \(y_{ij,t-1}\);
+- `L2_persistence_lagged_oo`: `L1_persistence` plus the lagged shared-outgoing-neighbour count
   \(\sum_k y_{ik,t-1}y_{jk,t-1}\).
 
 All covariates are lagged. Thus these are factorized logistic diagnostic models, not jointly
-normalized TERGMs, STERGMs, fitted formation/dissolution processes, or forecasts. The
-exported `proposition6_identity.csv` checks the planned ranking identity numerically.
+normalized TERGMs, STERGMs, fitted formation/dissolution processes, or forecasts. They
+are an exploratory numerical check of the Proposition 6 logic, not the plan's full temporal
+ladder: `T_tt`, `T0`, `T1`, `T2`, and `T2−H` require the separately implemented btergm
+estimation batch once its R packages are available. The exported `proposition6_identity.csv`
+checks the planned ranking identity numerically.
 
 ## Outputs
 

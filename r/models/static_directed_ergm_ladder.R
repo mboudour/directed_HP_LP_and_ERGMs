@@ -196,38 +196,32 @@ static_ladder_specs <- function(degree_decay = 0.5, esp_decay = 0.5) {
   e <- number(esp_decay)
   degree_terms <- paste0("gwodegree(", d, ", fixed=TRUE) + gwidegree(", d, ", fixed=TRUE)")
   base <- paste("edges + mutual +", degree_terms)
+  otp <- paste0("gwesp(", e, ", fixed=TRUE, type='OTP')")
+  osp <- paste0("gwesp(", e, ", fixed=TRUE, type='OSP')")
+  isp <- paste0("gwesp(", e, ", fixed=TRUE, type='ISP')")
   data.frame(
-    model = c("M0", "M1", "M2", "M3a", "M3b", "M3c", "M4a", "M4b", "M4c"),
+    model = c("M0", "M1", "M2", "M3", "M4", "M4c"),
     rhs = c(
       "edges",
       "edges + mutual",
       base,
-      paste(base, "+ gwesp(", e, ", fixed=TRUE, type='OTP')", sep = ""),
-      paste(base, "+ gwesp(", e, ", fixed=TRUE, type='ITP')", sep = ""),
-      paste(base, "+ gwesp(", e, ", fixed=TRUE, type='RTP')", sep = ""),
-      paste(base, "+ gwesp(", e, ", fixed=TRUE, type='OTP') + ttriple", sep = ""),
-      paste(base, "+ gwesp(", e, ", fixed=TRUE, type='OTP') + ctriple", sep = ""),
-      paste(base, "+ gwesp(", e, ", fixed=TRUE, type='OTP') + ttriple + ctriple", sep = "")
+      paste(base, "+", otp),
+      paste(base, "+", otp, "+", osp, "+", isp),
+      paste(base, "+", otp, "+", osp, "+", isp, "+ ctriple")
     ),
     description = c(
       "Density baseline.",
       "Density plus mutual directed ties.",
       "Mutuality plus fixed-decay in- and out-degree heterogeneity.",
       "M2 plus outgoing two-path (OTP) directed edgewise shared partners.",
-      "M2 plus incoming two-path (ITP) directed edgewise shared partners.",
-      "M2 plus reciprocated two-path (RTP) directed edgewise shared partners.",
-      "M3a plus directed transitive triples.",
-      "M3a plus directed cyclic triples.",
-      "M3a plus directed transitive and cyclic triples."
+      "M3 plus outgoing and incoming shared-partner (OSP and ISP) closure.",
+      "M4 plus cyclic directed triples as a sensitivity specification."
     ),
     required_terms = c(
       "edges", "edges; mutual", "edges; mutual; gwodegree; gwidegree",
       "edges; mutual; gwodegree; gwidegree; gwesp(OTP)",
-      "edges; mutual; gwodegree; gwidegree; gwesp(ITP)",
-      "edges; mutual; gwodegree; gwidegree; gwesp(RTP)",
-      "edges; mutual; gwodegree; gwidegree; gwesp(OTP); ttriple",
-      "edges; mutual; gwodegree; gwidegree; gwesp(OTP); ctriple",
-      "edges; mutual; gwodegree; gwidegree; gwesp(OTP); ttriple; ctriple"
+      "edges; mutual; gwodegree; gwidegree; gwesp(OTP); gwesp(OSP); gwesp(ISP)",
+      "edges; mutual; gwodegree; gwidegree; gwesp(OTP); gwesp(OSP); gwesp(ISP); ctriple"
     ),
     stringsAsFactors = FALSE
   )

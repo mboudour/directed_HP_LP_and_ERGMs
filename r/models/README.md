@@ -30,12 +30,9 @@ All decay parameters are fixed and recorded, avoiding an unbounded curved-term s
 | M0 | `edges` | Directed density baseline |
 | M1 | `mutual` | Reciprocal ties |
 | M2 | `gwodegree`, `gwidegree` | Sender/receiver degree heterogeneity |
-| M3a | `gwesp(..., type="OTP")` | Outgoing-two-path directed edgewise shared partners |
-| M3b | `gwesp(..., type="ITP")` | Incoming-two-path directed edgewise shared partners |
-| M3c | `gwesp(..., type="RTP")` | Reciprocated-two-path directed edgewise shared partners |
-| M4a | M3a + `ttriple` | Directed transitive triples |
-| M4b | M3a + `ctriple` | Directed cyclic triples |
-| M4c | M3a + `ttriple + ctriple` | Joint transitive/cyclic specification |
+| M3 | `gwesp(..., type="OTP")` | Outgoing-two-path closure, matched to the OI LP component |
+| M4 | M3 + `gwesp(..., type="OSP") + gwesp(..., type="ISP")` | Adds shared targets and shared sources, matched to OO and II |
+| M4c | M4 + `ctriple` | Cyclic-closure sensitivity specification |
 
 The exact directed shared-partner and triple terms are version dependent in `ergm`. The driver does not substitute another statistic: if a supplied `ergm` lacks a term or cannot estimate it, that model is recorded as `fit_failed` with its original formula and error. This is the meaning of “where available.”
 
@@ -52,7 +49,7 @@ full node universe so that isolates remain in the masked network.
 Rscript r/models/score_masked_ergm.R \
   --input-dir=results/phase2/eu_core_static_pilot \
   --output-dir=results/models/eu_core_masked_ergm \
-  --models=M0,M1,M3a,M4c --estimate=MPLE --seed=20261013
+  --models=M0,M1,M3,M4c --estimate=MPLE --seed=20261013
 ```
 
 The required layout beneath `--input-dir` is:
@@ -68,7 +65,7 @@ must occur in `nodes.csv`; duplicate candidates, self-loops, nonbinary labels,
 and missing pair files are rejected. Actor IDs are treated as character labels,
 so IDs such as `001` are not coerced to numeric values.
 
-`--models` defaults to `M0,M1,M3a,M4c` and accepts any unique comma-separated
+`--models` defaults to `M0,M1,M3,M4c` and accepts any unique comma-separated
 subset of the static ladder labels. `--estimate` defaults to `MPLE` and may be
 `MCMLE`; `--overwrite=TRUE` is required when reusing a non-empty output
 directory. The driver requires `ergm` 4.12.0 or newer and records package
@@ -103,7 +100,7 @@ masked training network**. They are not unconditional probabilities, simulated
 future ties, forecasts, or scores from a full-network fit. The driver reads no
 raw data and never infers or opens a full pilot edge list.
 
-## 3. Bounded temporal lagged-only check
+## 3. Exploratory lagged-only temporal baseline
 
 ```bash
 Rscript r/models/temporal_lagged_check.R \
@@ -118,19 +115,18 @@ The panel CSV has one binary directed tie per row and requires time, source, and
 
 The check is bounded: it rejects rather than silently subsets an input exceeding `--max-nodes`, `--max-transitions`, or `--max-dyads`. Defaults are 100 nodes, two adjacent transitions, and 50,000 dyad-time rows.
 
-For every ordered non-self dyad, the factorized conditional models are:
+For every ordered non-self dyad, the factorized conditional baseline models are:
 
 \[
 \begin{aligned}
-T_{tt}&=y_{ij,t},\\
-T_0&:\ \operatorname{logit}\Pr(y_{ij,t}=1)=\beta_0,\\
-T_1&:\ T_0+\beta_1 y_{ij,t-1},\\
-T_2&:\ T_1+\beta_2\operatorname{CN}^{out}_{ij,t-1},\\
+L_0&:\ \operatorname{logit}\Pr(y_{ij,t}=1)=\beta_0,\\
+L_1&:\ L_0+\beta_1 y_{ij,t-1},\\
+L_{2,OO}&:\ L_1+\beta_2\operatorname{CN}^{out}_{ij,t-1},\\
 \operatorname{CN}^{out}_{ij,t-1}&=\sum_k y_{ik,t-1}y_{jk,t-1}.
 \end{aligned}
 \]
 
-Thus every right-hand-side network quantity is lagged. The output `factorized_coefficients.csv` is a GLM diagnostic; it is **not** a jointly normalized temporal ERGM, a causal estimate, or a simulated forecast.
+Thus every right-hand-side network quantity is lagged. The output `factorized_coefficients.csv` is an exploratory GLM diagnostic; it is **not** the planned `T_tt`/`T0`–`T2` TERGM ladder, a jointly normalized temporal ERGM, a causal estimate, or a simulated forecast.
 
 The driver always writes `proposition6_identity.csv`, a numerical toy-panel check of the Proposition 6 logistic ranking identity: for positive \(\beta\), `plogis(alpha + beta * CN)` has exactly the same strict ordering as the lagged common-neighbor count. It also verifies the one-unit common-neighbor odds multiplier is `exp(beta)`.
 
@@ -143,6 +139,23 @@ Both options default to `check`, which writes `package_placeholder_status.csv`.
 - Missing selected packages are recorded as `failure_missing_package`; requested `btergm=fit` also terminates nonzero rather than pretending to fit. A missing CSV or a violated input bound terminates nonzero with a failure manifest.
 
 Temporal outputs are `factorized_model_specs.csv`, `factorized_model_status.csv`, `factorized_coefficients.csv`, `feature_summary.csv`, `proposition6_identity.csv`, `package_placeholder_status.csv`, RDS objects, and `temporal_manifest.json`.
+
+## 4. Planned bounded temporal btergm ladder
+
+`temporal_btergm_ladder.R` is a separate, portable implementation of the plan's
+`T_tt`, `T0`, `T1`, `T2`, and `T2_minus_H` specifications. It requires explicit
+`time,from,to` and `id` CSVs, validates at least two exact consecutive periods,
+retains one fixed actor universe, and fits by **btergm MPLE/temporal bootstrap
+only**. The default bootstrap replication count is 20 for a bounded pilot.
+
+**T1/T2/T2_minus_H are MPLE conditional score estimators only, never forecasts;
+no simulated probabilities are produced.** Temporal bootstrap is an estimator,
+not a prediction competitor. This ladder is distinct from the exploratory
+lagged-only GLMs above; its contemporaneous terms are not forecasting regressors.
+
+See [`docs/TEMPORAL_BTERGM_LADDER.md`](../../docs/TEMPORAL_BTERGM_LADDER.md) for the
+exact formulas, lagged OI/OO/II and degree matrices, btergm list-alignment contract,
+CLI options, failure manifests, coefficient/interval artifacts, and base-R tests.
 
 ## Limitations
 

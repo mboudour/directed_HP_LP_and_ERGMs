@@ -23,6 +23,7 @@ PHASE2_SCRIPTS = (
     "32_export_static_pilot_masks.py",
     "33_summarize_masked_ergm.py",
     "34_summarize_temporal_check.py",
+    "35_summarize_temporal_btergm.py",
 )
 
 

@@ -48,7 +48,7 @@ For a static ERGM ladder on the bundle that this command creates:
 Rscript r/models/static_directed_ergm_ladder.R \
   --input=results/phase2/eu_core_static_pilot/r_inputs/static_edges.csv \
   --nodes=results/phase2/eu_core_static_pilot/r_inputs/nodes.csv \
-  --output-dir=results/models/eu_core_static_ladder \
+  --output-dir=results/models/eu_core_static_ladder_plan \
   --estimate=MPLE
 ```
 
@@ -57,17 +57,19 @@ model failures visibly in `model_status.csv`; it never silently changes the spec
 
 ## Masked ERGM score lift
 
-After the static pilot exists, the following single Make target first reconstructs its
-already-recorded masks and candidate panels, then fits `M0`, `M1`, `M3a`, and `M4c` to
-each **masked training network** and exports their exact conditional ERGM probabilities
+After the static pilot exists, the following single Make target first fits the plan-aligned
+full-network ladder, then fits `M0`, `M1`, `M3`, and `M4c` to each **masked training
+network** and exports their exact conditional ERGM probabilities
 for those candidates:
 
 ```zsh
 make phase2-eu-core-score
 ```
 
-It writes `results/models/eu_core_masked_ergm/`. In particular,
+It writes `results/models/eu_core_static_ladder_plan/` and
+`results/models/eu_core_masked_ergm_plan/`. In particular,
 `conditional_predictions.csv`, `metrics.csv`, and `model_status.csv` distinguish a
 successful masked conditional score from a model-specific fit or prediction failure.
-The target refuses to overwrite an existing mask or scoring directory. It does not use
-the completed full-network ladder as a substitute for these masked fits.
+The target refuses to overwrite an existing full-network or scoring directory. It reuses
+the already frozen masks and does not use the completed full-network ladder as a substitute
+for masked fits.
