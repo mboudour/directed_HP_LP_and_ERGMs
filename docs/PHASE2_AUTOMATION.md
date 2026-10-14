@@ -68,6 +68,11 @@ primary projection require a reviewed custodian–address mapping file. The prev
 created reciprocal-activity profile remains a robustness diagnostic; it does not replace
 the primary core-100 rule.
 
+The Enron projection gate also records an explicit **quoted-copy/retransmission policy**.
+The current executable implementation supports retaining distinct maildir files after the
+completed raw-SHA and Message-ID duplicate audits; selecting a different policy requires
+an auditable deduplication implementation before projection.
+
 Temporal panels follow the plan:
 
 - Enron: calendar months;

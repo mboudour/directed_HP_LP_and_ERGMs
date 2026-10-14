@@ -51,7 +51,7 @@ MONTH_SCHEMA = pa.schema(
 )
 
 
-def read_policy() -> tuple[datetime, datetime]:
+def read_policy() -> tuple[datetime, datetime, str]:
     """Validate the explicit gate and its timestamp inclusion window."""
     if not GATE.is_file():
         raise SystemExit(
@@ -65,6 +65,7 @@ def read_policy() -> tuple[datetime, datetime]:
     expected = {
         "unmapped_participant": "exclude_entire_event",
         "self_custodian_in_head": "remove",
+        "message_copy_policy": "retain_distinct_maildir_records_after_duplicate_audit",
     }
     if {key: policy.get(key) for key in expected} != expected:
         raise SystemExit(f"STOP: required Enron projection policy is {expected}")
@@ -77,7 +78,7 @@ def read_policy() -> tuple[datetime, datetime]:
         ) from error
     if start.tzinfo is None or end.tzinfo is None or end < start:
         raise SystemExit("STOP: Enron timestamp policy must be ordered and timezone-aware")
-    return start, end
+    return start, end, str(policy["message_copy_policy"])
 
 
 def read_mapping() -> dict[str, str]:
@@ -123,7 +124,7 @@ def main() -> None:
             "STOP: custodian-projection output already exists; it will not be overwritten"
         )
 
-    start, end = read_policy()
+    start, end, message_copy_policy = read_policy()
     mapping = read_mapping()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     SUMMARY.parent.mkdir(parents=True, exist_ok=True)
@@ -267,6 +268,7 @@ def main() -> None:
         "approved_mappings": len(mapping),
         "projection_timestamp_start_utc": start.isoformat(),
         "projection_timestamp_end_utc": end.isoformat(),
+        "message_copy_policy": message_copy_policy,
         "custodian_events_retained": projected_events,
         "projection_exclusions": dict(exclusions),
         "projected_nodes": len(nodes),
