@@ -49,6 +49,8 @@ def compact_status(payload: dict[str, object]) -> str:
         value = payload.get(key)
         if value is not None:
             return str(value)
+    if "core_static_directed_arcs" in payload and "window_width_days" in payload:
+        return "prepared_static_and_temporal"
     if payload.get("matrix_label_integrity_passed") is False:
         return "blocked_pending_label_integrity"
     return "audit_present_status_not_standardized"

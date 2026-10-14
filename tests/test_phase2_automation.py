@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib.util
 import py_compile
 from pathlib import Path
 
@@ -41,3 +42,18 @@ def test_phase2_scripts_compile() -> None:
     """Catch syntax regressions before local source data are needed."""
     for script in PHASE2_SCRIPTS:
         py_compile.compile(PROJECT_ROOT / "scripts" / script, doraise=True)
+
+
+def test_readiness_report_recognizes_prepared_temporal_source() -> None:
+    """EU-core preparation metadata should not be reported as an unknown audit state."""
+    report_path = PROJECT_ROOT / "scripts" / "27_phase2_readiness_report.py"
+    spec = importlib.util.spec_from_file_location("phase2_readiness_report", report_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    assert (
+        module.compact_status(
+            {"core_static_directed_arcs": 2_682, "window_width_days": [14, 28, 30]}
+        )
+        == "prepared_static_and_temporal"
+    )
