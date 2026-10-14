@@ -63,6 +63,7 @@ phase2-export-masks:
 phase2-eu-core-score:
 	uv run python scripts/32_export_static_pilot_masks.py --pilot-dir results/phase2/eu_core_static_pilot
 	Rscript r/models/score_masked_ergm.R --input-dir=results/phase2/eu_core_static_pilot --output-dir=results/models/eu_core_masked_ergm --models=M0,M1,M3a,M4c --estimate=MPLE --seed=20261013
+	uv run python scripts/33_summarize_masked_ergm.py --input-dir results/models/eu_core_masked_ergm
 
 phase2-temporal-export:
 	uv run python scripts/31_export_temporal_panel.py $(ARGS)
