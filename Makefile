@@ -97,9 +97,14 @@ phase2-enron-mcmle-core50-inputs: phase2-enron-mcmle-core50
 
 phase2-enron-mcmle-core50-m2-gate:
 	@test -f results/phase2/enron_mcmle_core50_joint_inputs/manifest.json || (echo 'STOP: run make phase2-enron-mcmle-core50-inputs first.' && exit 1)
-	python3 scripts/40_run_bounded_command.py --timeout-seconds=120 --log=results/models/enron_mcmle_core50_m2_gate_run.txt -- Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_mcmle_core50_joint_inputs --output-dir=results/models/enron_mcmle_core50_m2_gate --models=M2 --estimate=MCMLE --split=mcar_replicate_001 --max-candidates-per-label=1 --min-unobserved-dyads=2 --max-unobserved-dyads=2 --require-reverse-observed=TRUE --nsim=200 --mcmc-burnin=100 --mcmc-interval=10 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --bootstrap-reps=1000 --seed=20261013 --overwrite=TRUE
-	@cat results/models/enron_mcmle_core50_m2_gate/summary.md
-	@cat results/models/enron_mcmle_core50_m2_gate/model_status.csv
+	@set +e; \
+	python3 scripts/40_run_bounded_command.py --timeout-seconds=120 --log=results/models/enron_mcmle_core50_m2_gate_run.txt -- Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_mcmle_core50_joint_inputs --output-dir=results/models/enron_mcmle_core50_m2_gate --models=M2 --estimate=MCMLE --split=mcar_replicate_001 --max-candidates-per-label=1 --min-unobserved-dyads=2 --max-unobserved-dyads=2 --require-reverse-observed=TRUE --nsim=200 --mcmc-burnin=100 --mcmc-interval=10 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --bootstrap-reps=1000 --seed=20261013 --overwrite=TRUE; \
+	run_status=$$?; \
+	echo "===== bounded core-50 M2 runner exit code: $$run_status ====="; \
+	cat results/models/enron_mcmle_core50_m2_gate_run.txt; \
+	if [ -f results/models/enron_mcmle_core50_m2_gate/summary.md ]; then cat results/models/enron_mcmle_core50_m2_gate/summary.md; fi; \
+	if [ -f results/models/enron_mcmle_core50_m2_gate/model_status.csv ]; then cat results/models/enron_mcmle_core50_m2_gate/model_status.csv; fi; \
+	exit $$run_status
 
 phase2-enron-concepts:
 	uv run python scripts/28_audit_formal_concepts.py --dataset=enron_20150507 --edges=data/processed/enron_20150507/custodian_core100_static_arcs.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --source-col=tail_custodian --target-col=head_custodian --node-col=custodian_mailbox --output-dir=results/phase2/enron_formal_concepts_tail3_head3 --tail-cap=3 --head-cap=3 --max-candidates=250000 --overwrite
