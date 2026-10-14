@@ -147,10 +147,11 @@ phase2-mathoverflow-profile:
 		echo 'MathOverflow reconstruction profile already exists; preserving the prior immutable profile.'; \
 		cat docs/data_audits/mathoverflow_stackexchange_2024_reconstruction_profile.md; \
 	elif test -e data/metadata/mathoverflow_reconstruction_profile.json || test -e docs/data_audits/mathoverflow_stackexchange_2024_reconstruction_profile.md; then \
-		echo 'STOP: inconsistent partial MathOverflow profile outputs; inspect them rather than overwriting.'; \
-		exit 1; \
+		 echo 'STOP: inconsistent partial MathOverflow profile outputs; inspect them rather than overwriting.'; \
+		 exit 1; \
 	else \
-		uv run python scripts/43_profile_mathoverflow_reconstruction.py; \
+		uv run python scripts/43_profile_mathoverflow_reconstruction.py && \
+		cat docs/data_audits/mathoverflow_stackexchange_2024_reconstruction_profile.md; \
 	fi
 
 phase2-enron-timestamps:
