@@ -66,9 +66,16 @@ the exact-two-unknown-dyad rule from the stricter requirement that every
 unknown arc has an observed reverse. The M2 target is launched only after this
 audit identifies a nonempty, predeclared candidate class.
 
+The completed core-50 audit found no strict candidate in
+`mcar_replicate_001`, but found five in `mcar_replicate_002`. The M2 target
+therefore uses **the earliest MCAR replicate with a nonempty strict class**:
+`mcar_replicate_002`. This is a data-availability rule applied before any M2
+fit or score is inspected; it preserves the original exactly-two-unknown-dyad
+and observed-reverse-arc design without relaxing it.
+
 The first computational gate is then M2 (edges, mutuality, geometrically
 weighted in-degree, and geometrically weighted out-degree) on
-`mcar_replicate_001`:
+`mcar_replicate_002`:
 
 ```zsh
 make phase2-enron-mcmle-core50-m2-gate

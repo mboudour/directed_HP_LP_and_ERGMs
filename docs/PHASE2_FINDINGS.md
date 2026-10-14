@@ -319,6 +319,15 @@ audit now precedes every MCMC run. This is neither an M2 fit failure nor a
 nonmixing result; it is a selection-contract issue that must be resolved from
 the frozen panels before M2 is attempted.
 
+**Candidate-audit decision.** Across the six frozen core-50 splits, 193 of
+1,980 candidate footprints have exactly two unknown dyads and 54 additionally
+have observed reverse arcs for both. The initial `mcar_replicate_001` has seven
+exact-two candidates but zero satisfying the reciprocal condition. The earliest
+MCAR split with a nonempty strict class is `mcar_replicate_002` (15 exact-two,
+five strict). The bounded M2 gate is therefore fixed to
+`mcar_replicate_002`, retaining the reciprocal two-dyad rule rather than
+relaxing it. This availability rule was chosen before any M2 fit or score.
+
 **Evidence.** Local technical smoke bundle:
 `results/models/enron_joint_footprint_mcmle_smoke/`, especially
 `candidate_simulation_scores.csv`, `selected_candidates.csv`,

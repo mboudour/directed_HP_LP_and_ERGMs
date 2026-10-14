@@ -105,7 +105,7 @@ phase2-enron-mcmle-core50-candidates:
 phase2-enron-mcmle-core50-m2-gate:
 	@test -f results/phase2/enron_mcmle_core50_joint_inputs/manifest.json || (echo 'STOP: run make phase2-enron-mcmle-core50-inputs first.' && exit 1)
 	@set +e; \
-	python3 scripts/40_run_bounded_command.py --timeout-seconds=120 --log=results/models/enron_mcmle_core50_m2_gate_run.txt -- Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_mcmle_core50_joint_inputs --output-dir=results/models/enron_mcmle_core50_m2_gate --models=M2 --estimate=MCMLE --split=mcar_replicate_001 --max-candidates-per-label=1 --min-unobserved-dyads=2 --max-unobserved-dyads=2 --require-reverse-observed=TRUE --nsim=200 --mcmc-burnin=100 --mcmc-interval=10 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --bootstrap-reps=1000 --seed=20261013 --overwrite=TRUE; \
+	python3 scripts/40_run_bounded_command.py --timeout-seconds=120 --log=results/models/enron_mcmle_core50_m2_gate_run.txt -- Rscript r/models/simulate_joint_footprint_ergm.R --input-dir=results/phase2/enron_mcmle_core50_joint_inputs --output-dir=results/models/enron_mcmle_core50_m2_gate --models=M2 --estimate=MCMLE --split=mcar_replicate_002 --max-candidates-per-label=1 --min-unobserved-dyads=2 --max-unobserved-dyads=2 --require-reverse-observed=TRUE --nsim=200 --mcmc-burnin=100 --mcmc-interval=10 --fit-mcmc-burnin=1000 --fit-mcmc-interval=100 --fit-mcmc-samplesize=256 --mcmle-maxit=5 --bootstrap-reps=1000 --seed=20261013 --overwrite=TRUE; \
 	run_status=$$?; \
 	echo "===== bounded core-50 M2 runner exit code: $$run_status ====="; \
 	cat results/models/enron_mcmle_core50_m2_gate_run.txt; \
