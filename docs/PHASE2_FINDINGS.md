@@ -498,3 +498,26 @@ policy, inspection of the full recipient-malformation audit, entity-resolution
 scope, missing-sender handling, and final To/Cc/Bcc policy. The explicit block
 is `data/metadata/gates/jmail_v1_admissibility.json`; the provenance assessment
 is `docs/research_jmail_admissibility_sources.md`.
+
+### MathOverflow reconstruction profile — 30-day primary recommended
+
+The audit found 341,167 posts, no invalid timestamps, and no answer lacking a
+parent ID. It retained 148,432 eligible question askers, while excluding 4,461
+ownerless questions (2.918%) and 2,881 ownerless answers (1.542%). It also
+identified 7,773 self-answers and 3,111 duplicate eligible answers, leaving
+168,004 distinct eligible question-answerer pairs after duplicate collapse.
+
+Response latency is strongly right-skewed: the first distinct-answerer latency
+has median 0.317 days, 75th percentile 2.355 days, 90th percentile 216.407
+days, and 95th percentile 985.838 days. A 30-day window retains 142,958 pairs
+(85.092%) and 91,161 questions with one or more answerer (96.172% of the
+365-day descriptive count). It adds useful short-to-medium response coverage
+beyond 7 days without treating years-late answers as part of the same group.
+
+**Recommendation, pending approval.** Use 30 days as the primary reconstructed
+event window, use 7 and 90 days as bounded sensitivities, leave 365 days
+descriptive only, exclude comments, anonymous users, and self-answers, collapse
+duplicate answerers per question, and retain only rows present in the public
+dump. The policy remains unapproved in
+`data/metadata/gates/mathoverflow_reconstruction_policy.json`; creating native
+events therefore remains blocked.

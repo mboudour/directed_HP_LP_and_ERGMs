@@ -5,10 +5,19 @@
   "reviewed_at": "2026-10-14",
   "audit_summary": "data/metadata/mathoverflow_stackexchange_2024_audit.json",
   "profile_summary": "data/metadata/mathoverflow_reconstruction_profile.json",
+  "recommended_policy": {
+    "answer_window_days": 30,
+    "sensitivity_window_days": [7, 90],
+    "descriptive_long_window_days": [365],
+    "policies": {
+      "comments": "excluded",
+      "anonymous_user": "exclude",
+      "duplicate_answerer": "collapse_per_question",
+      "deleted_post": "retain_rows_present_in_public_dump"
+    }
+  },
   "remaining_requirements": [
-    "Review the descriptive response-window and duplicate-answerer profile.",
-    "Choose one primary answer-window length and planned sensitivity windows.",
-    "Confirm comments excluded, anonymous users excluded, duplicate answerers collapsed per question, and only rows present in the public dump retained."
+    "Approve or revise the recorded recommended policy before reconstructed events can be materialized."
   ],
   "approved_scopes": []
 }
