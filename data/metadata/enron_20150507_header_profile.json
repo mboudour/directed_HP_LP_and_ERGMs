@@ -1,0 +1,74 @@
+{
+  "anomaly_records_total": 12,
+  "anomaly_row_limit": 500,
+  "anomaly_rows_written": 12,
+  "dataset_id": "enron_20150507",
+  "header_truncated_count": 0,
+  "header_unterminated_count": 0,
+  "input": "data/interim/enron_20150507/message_headers.parquet",
+  "interpretation": "Raw SHA-256 duplicates indicate byte-identical message files. Repeated Message-ID values are recorded separately because they can represent copies, legitimate retransmissions, or identifier reuse; they are not automatically deduplicated.",
+  "message_id_duplicates_nonmissing_only": {
+    "duplicate_groups": 0,
+    "extra_records_beyond_first": 0,
+    "largest_group_size": 1,
+    "records_in_duplicate_groups": 0,
+    "unique_values": 517389
+  },
+  "missing_header_counts": {
+    "bcc_raw": 389529,
+    "cc_raw": 389529,
+    "date_raw": 12,
+    "from_raw": 12,
+    "message_id_raw": 12,
+    "to_raw": 21859
+  },
+  "missingness_patterns": [
+    {
+      "missing_fields": [
+        "cc_raw",
+        "bcc_raw"
+      ],
+      "records": 369135
+    },
+    {
+      "missing_fields": [],
+      "records": 126407
+    },
+    {
+      "missing_fields": [
+        "to_raw",
+        "cc_raw",
+        "bcc_raw"
+      ],
+      "records": 20382
+    },
+    {
+      "missing_fields": [
+        "to_raw"
+      ],
+      "records": 1465
+    },
+    {
+      "missing_fields": [
+        "message_id_raw",
+        "date_raw",
+        "from_raw",
+        "to_raw",
+        "cc_raw",
+        "bcc_raw"
+      ],
+      "records": 12
+    }
+  ],
+  "next_processing_step": "Define and implement an explicit message-level deduplication policy after inspecting these aggregate results.",
+  "parse_error_count": 12,
+  "parser_defect_total": 30,
+  "raw_sha256_duplicates": {
+    "duplicate_groups": 0,
+    "extra_records_beyond_first": 0,
+    "largest_group_size": 1,
+    "records_in_duplicate_groups": 0,
+    "unique_values": 517401
+  },
+  "records_profiled": 517401
+}

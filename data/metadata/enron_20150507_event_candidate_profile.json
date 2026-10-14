@@ -1,0 +1,49 @@
+{
+  "address_parse_issues": {
+    "issues_total": 98,
+    "records_with_one_or_more_issues": 72
+  },
+  "bcc_recipient_cardinality_bins": {
+    "0": 389537,
+    "1": 47615,
+    "2": 24913,
+    "3": 13868,
+    "4": 8355,
+    "5+": 33113
+  },
+  "candidate_definition": "A strict primary candidate has a timezone-aware timestamp, exactly one syntactically usable sender, one or more To-or-Cc recipients, no sender in its own primary recipient set, and no address parsing issue. This is an audit count only; it performs no filtering.",
+  "dataset_id": "enron_20150507",
+  "input": "data/interim/enron_20150507/parsed_headers.parquet",
+  "next_processing_step": "Review aggregate recipient overlap and candidate counts, then freeze the header policy before constructing native-event records.",
+  "policy_status": {
+    "alias_resolution": "not performed",
+    "bcc_policy": "kept separate, pending this profile review",
+    "custodian_node_mapping": "not performed",
+    "deduplication": "not performed",
+    "primary_recipient_policy": "To plus Cc, pending this profile review"
+  },
+  "primary_to_cc_recipient_cardinality_bins": {
+    "0": 20442,
+    "1": 277870,
+    "2": 53929,
+    "3": 30195,
+    "4": 19424,
+    "5+": 115541
+  },
+  "recipient_header_overlap": {
+    "cc_bcc_any_overlap": 127864,
+    "cc_bcc_exactly_equal_when_both_nonempty": 127864,
+    "messages_with_both_cc_and_bcc": 127864,
+    "to_bcc_any_overlap": 11454,
+    "to_cc_any_overlap": 11454
+  },
+  "records_profiled": 517401,
+  "sender_cardinality_bins": {
+    "0": 15,
+    "1": 517386
+  },
+  "sender_in_primary_to_cc_head": 38708,
+  "strict_bcc_event_candidates": 108449,
+  "strict_primary_to_cc_event_candidates": 458211,
+  "timezone_aware_dates": 517389
+}

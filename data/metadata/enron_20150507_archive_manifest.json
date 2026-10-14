@@ -1,0 +1,56 @@
+{
+  "archive_bytes": 443254787,
+  "archive_path": "data/external/enron_20150507/enron_mail_20150507.tar.gz",
+  "archive_sha256": "b3da1b3fe0369ec3140bb4fbce94702c33b7da810ec15d718b3fadf5cd748ca7",
+  "custodian_mailboxes": 150,
+  "dataset_id": "enron_20150507",
+  "maildir_message_files": 517401,
+  "maildir_uncompressed_bytes": 1421183736,
+  "next_processing_step": "Extract to data/interim and parse message headers without modifying the archive.",
+  "source_status": "verified_downloaded_archive",
+  "tar_directory_members": 3500,
+  "tar_members_total": 520901,
+  "tar_regular_file_members": 517401,
+  "top_10_custodian_mailboxes_by_file_count": [
+    [
+      "kaminski-v",
+      28465
+    ],
+    [
+      "dasovich-j",
+      28234
+    ],
+    [
+      "kean-s",
+      25351
+    ],
+    [
+      "mann-k",
+      23381
+    ],
+    [
+      "jones-t",
+      19950
+    ],
+    [
+      "shackleton-s",
+      18687
+    ],
+    [
+      "taylor-m",
+      13875
+    ],
+    [
+      "farmer-d",
+      13032
+    ],
+    [
+      "germany-c",
+      12436
+    ],
+    [
+      "beck-s",
+      11830
+    ]
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "custodian_mailboxes": 150,
+  "custodians_with_one_or_more_sent_like_files": 149,
+  "dataset_id": "enron_20150507",
+  "input": "data/interim/enron_20150507/message_headers.parquet",
+  "next_processing_step": "Inspect the observed folder taxonomy, then define the sent-folder rule used to collect evidence for a custodian-to-address mapping.",
+  "records_profiled": 517401,
+  "sent_folder_token_rule": [
+    "sent",
+    "sentitem",
+    "sentitems",
+    "sentmail"
+  ],
+  "sent_like_folder_paths": 7,
+  "sent_like_message_files": 126591,
+  "unique_folder_paths": 1940,
+  "unique_top_level_folder_labels": 1426
+}

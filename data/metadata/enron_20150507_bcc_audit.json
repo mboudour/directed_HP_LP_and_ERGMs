@@ -1,0 +1,14 @@
+{
+  "all_nonempty_bcc_values_duplicate_cc": true,
+  "bcc_nonempty": 127872,
+  "bcc_only": 0,
+  "both_cc_and_bcc_nonempty": 127872,
+  "cc_nonempty": 127872,
+  "cc_only": 0,
+  "dataset_id": "enron_20150507",
+  "exact_cleaned_raw_cc_bcc_equal_when_both_nonempty": 127872,
+  "input": "data/interim/enron_20150507/message_headers.parquet",
+  "interpretation": "The fields compared here are the extracted Cc and Bcc header values before address parsing. Equality therefore cannot have been introduced by the syntactic address normalizer.",
+  "policy_implication": "If all_nonempty_bcc_values_duplicate_cc is true, Bcc is not an independent information field in this archive and is excluded from the primary and sensitivity event definitions.",
+  "records_profiled": 517401
+}

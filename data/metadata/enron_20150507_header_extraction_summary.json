@@ -1,0 +1,22 @@
+{
+  "body_handling": "Bodies are neither stored nor emitted; full raw-message SHA-256 values were calculated for later exact-duplicate analysis.",
+  "custodian_mailboxes": 150,
+  "dataset_id": "enron_20150507",
+  "header_truncated_count": 0,
+  "header_unterminated_count": 0,
+  "missing_header_counts": {
+    "bcc_raw": 389529,
+    "cc_raw": 389529,
+    "date_raw": 12,
+    "from_raw": 12,
+    "message_id_raw": 12,
+    "to_raw": 21859
+  },
+  "next_processing_step": "Profile header completeness, parse addresses and timestamps, then define the message-level deduplication policy.",
+  "output_parquet": "data/interim/enron_20150507/message_headers.parquet",
+  "parse_error_count": 12,
+  "parser_defect_count": 30,
+  "record_unit": "one regular maildir message file",
+  "records_written": 517401,
+  "source_archive": "data/external/enron_20150507/enron_mail_20150507.tar.gz"
+}

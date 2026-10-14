@@ -1,0 +1,23 @@
+{
+  "custodian_mailboxes": 150,
+  "custodians_with_eligible_sender_evidence": 149,
+  "custodians_with_sent_like_files": 149,
+  "custodians_with_tied_top_candidate": 0,
+  "custodians_with_unique_top_candidate": 149,
+  "custodians_with_unique_top_support_at_least_90_percent": 112,
+  "custodians_without_eligible_sender_evidence": 1,
+  "dataset_id": "enron_20150507",
+  "eligible_sender_evidence_messages": 126588,
+  "ineligible_sent_like_message_files": 3,
+  "input": "data/interim/enron_20150507/parsed_headers.parquet",
+  "mapping_status": "Evidence audit only. Candidate addresses have not been assigned to custodians, and aliases have not been resolved.",
+  "next_processing_step": "Review support and ambiguity distributions, then freeze a documented custodian-address mapping rule with an explicit treatment of unresolved or low-confidence custodians.",
+  "records_profiled": 517401,
+  "sent_folder_token_rule": [
+    "sent",
+    "sentitem",
+    "sentitems",
+    "sentmail"
+  ],
+  "sent_like_message_files": 126591
+}
