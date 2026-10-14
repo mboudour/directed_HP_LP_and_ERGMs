@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-static phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-native-ergm-footprints phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-native-ergm-footprints phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -18,6 +18,8 @@ help:
 	  'phase2-caviar-static-prep  Build the approved unique-labelled CAVIAR full static matrix.' \
 	  'phase2-caviar-concepts  Audit CAVIAR full static formal concepts (|T|,|H| <= 3).' \
 	  'phase2-caviar-static  Run the fixed CAVIAR full static arc-LP pilot.' \
+	  'phase2-caviar-static-plan  Fit the full-network CAVIAR static ERGM ladder by MPLE.' \
+	  'phase2-caviar-score  Score CAVIAR frozen MCAR masks using conditional ERGM probabilities.' \
 	  'phase2-enron-timestamps  Profile retained Enron event dates before selecting a study interval.' \
 	  'phase2-enron-primary  Build the approved strict Enron custodian projection, core-100, and monthly panels.' \
 	  'phase2-enron-mcmle-core50  Materialize the approved nested Enron core-50 for MCMLE feasibility only.' \
@@ -91,6 +93,17 @@ phase2-caviar-concepts:
 
 phase2-caviar-static:
 	uv run python scripts/30_run_static_benchmark.py --dataset=caviar --mechanism=mcar --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --output-dir=results/phase2/caviar_static_pilot --overwrite
+
+phase2-caviar-static-plan:
+	@test -f results/phase2/caviar_static_pilot/r_inputs/static_edges.csv || (echo 'STOP: run make phase2-caviar-static first.' && exit 1)
+	Rscript r/models/static_directed_ergm_ladder.R --input=results/phase2/caviar_static_pilot/r_inputs/static_edges.csv --nodes=results/phase2/caviar_static_pilot/r_inputs/nodes.csv --output-dir=results/models/caviar_static_ladder_plan --source-col=from --target-col=to --node-col=id --estimate=MPLE --degree-decay=0.5 --esp-decay=0.5 --seed=20261013 --overwrite=TRUE
+	@cat results/models/caviar_static_ladder_plan/model_status.csv
+
+phase2-caviar-score:
+	@test -f results/phase2/caviar_static_pilot/run_manifest.json || (echo 'STOP: run make phase2-caviar-static first.' && exit 1)
+	uv run python scripts/32_export_static_pilot_masks.py --pilot-dir=results/phase2/caviar_static_pilot --overwrite
+	Rscript r/models/score_masked_ergm.R --input-dir=results/phase2/caviar_static_pilot --output-dir=results/models/caviar_masked_ergm_plan --models=M0,M1,M3,M4c --estimate=MPLE --seed=20261013 --overwrite=TRUE
+	uv run python scripts/33_summarize_masked_ergm.py --input-dir=results/models/caviar_masked_ergm_plan
 
 phase2-enron-timestamps:
 	uv run python scripts/14_profile_enron_event_timestamps.py --overwrite

@@ -112,3 +112,28 @@ that replicate's positive/true-nonedge candidates using exact ERGM conditional p
 The summary includes **accuracy, precision, recall, F1, Matthews correlation, ROC-AUC,
 PR-AUC, and log loss**. The predeclared decision threshold for the first five measures is
 0.5; threshold-free discrimination and calibration measures remain distinct.
+
+## CAVIAR static-only branch
+
+CAVIAR is eligible only through the approved unique-labelled full static matrix. Its 11-phase
+series remains excluded because phase 7 repeats an actor label, and it has no native-event or
+chronological branch. After `make phase2-caviar-static` has created the frozen MCAR pilot,
+run the following structural MPLE diagnostic:
+
+```zsh
+make phase2-caviar-static-plan
+```
+
+It fits the plan-aligned `M0`–`M4c` static ladder to the 110-node full network and writes
+`results/models/caviar_static_ladder_plan/`. It does not score withheld arcs.
+
+The subsequent score-lift target re-exports the frozen pilot masks and independently fits
+`M0`, `M1`, `M3`, and `M4c` by MPLE to each masked training graph:
+
+```zsh
+make phase2-caviar-score
+```
+
+Its conditional probabilities, discrimination metrics, and log loss are **static dyadic**
+results only. They do not validate CAVIAR phase chronology, reconstruct group events, or
+estimate an MCMC-MLE model.
