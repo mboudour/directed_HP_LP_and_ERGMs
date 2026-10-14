@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -19,6 +19,7 @@ help:
 	  'phase2-export-masks  Export existing pilot masks; pass options in ARGS="...".' \
 	  'phase2-eu-core-static-plan  Fit the plan-aligned EU-core static ERGM ladder.' \
 	  'phase2-eu-core-score  Fit and score the plan-aligned EU-core masked ERGM ladder.' \
+	  'phase2-eu-core-concepts  Audit the cap-first EU-core formal-concept section (|T|,|H| <= 3).' \
 	  'phase2-temporal-export  Export a bounded chronological panel; pass options in ARGS="...".' \
 	  'phase2-eu-core-temporal  Run the exploratory lagged-only EU-core baseline.' \
 	  'phase2-eu-core-btergm  Install temporal R packages and run the planned bounded btergm ladder.' \
@@ -70,6 +71,9 @@ phase2-eu-core-static-plan:
 phase2-eu-core-score: phase2-eu-core-static-plan
 	Rscript r/models/score_masked_ergm.R --input-dir=results/phase2/eu_core_static_pilot --output-dir=results/models/eu_core_masked_ergm_plan --models=M0,M1,M3,M4c --estimate=MPLE --seed=20261013
 	uv run python scripts/33_summarize_masked_ergm.py --input-dir results/models/eu_core_masked_ergm_plan
+
+phase2-eu-core-concepts:
+	uv run python scripts/28_audit_formal_concepts.py --dataset=email_eu_core_temporal --edges=data/processed/email_eu_core_temporal/core100_static_arcs.parquet --nodes=data/processed/email_eu_core_temporal/core100_nodes.csv --output-dir=results/phase2/eu_core_formal_concepts_tail3_head3 --tail-cap=3 --head-cap=3 --max-candidates=250000 --overwrite
 
 phase2-temporal-export:
 	uv run python scripts/31_export_temporal_panel.py $(ARGS)
