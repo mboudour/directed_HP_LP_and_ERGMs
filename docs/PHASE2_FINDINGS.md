@@ -211,6 +211,16 @@ the M1 matched-observation `L2`/`L3-F` mechanism. The MCMLE diagnostic output
 contains no immediate red flag, but no GOF conclusion is made and no M4
 dependence conclusion is available.
 
+**Independent-chain confirmation.** Repeating the same M1 calculation with
+each of 200 conditional completions independently restarted from the identical
+candidate-specific observed basis returned `L2 = 0.336175`, `L3-F = 0.350000`,
+and `delta_dep = 0.040301`; the raw gap is `0.013825`, versus a binomial
+`L3-F` Monte Carlo SE of `0.033727`. This again agrees with the expected M1
+factorization. The code now additionally saves each conditional dyad state and
+calculates a bootstrap uncertainty interval for `delta_dep`; that extension is
+used for the subsequent one-candidate M4 calibration rather than recasting this
+M1 confirmation as a substantive result.
+
 **Evidence.** Local technical smoke bundle:
 `results/models/enron_joint_footprint_mcmle_smoke/`, especially
 `candidate_simulation_scores.csv`, `selected_candidates.csv`,
