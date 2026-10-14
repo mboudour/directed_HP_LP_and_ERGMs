@@ -52,9 +52,11 @@ def test_temporal_btergm_source_contract() -> None:
     assert "ii <- t(lag) %*% lag" in source
     assert "btergm::btergm(formula, R = config" in source
     assert "ncpus = config$ncpus, verbose = FALSE" in source
-    assert "fit@boot$t" in source
-    assert 'methods::slot(fit, "boot")$t' not in source
-    assert 'stats::confint(fit, level = 0.95, type = "perc", invlogit = FALSE)' in source
+    assert 'methods::slot(fit, "coef")' in source
+    assert 'boot_object[["t"]]' in source
+    assert "stats::quantile(finite, probs = c(0.025, 0.975)" in source
+    assert "fit@boot$t" not in source
+    assert 'stats::confint(fit, level = 0.95, type = "perc", invlogit = FALSE)' not in source
     assert 'c("btergm", "network", "jsonlite")' in source
     assert "failure_missing_packages" in source
     assert "never forecasts; no simulated probabilities" in source

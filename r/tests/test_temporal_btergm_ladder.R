@@ -124,29 +124,33 @@ stopifnot(grepl('"missing_packages": ["btergm","network","jsonlite"]', json, fix
 stopifnot(grepl("\\u000a", json, fixed = TRUE), grepl("\\u0009", json, fixed = TRUE))
 unlink(fixture, recursive = TRUE)
 
-# Test the extractor against an S3 fixture, not a package fit or fabricated TERGM.
-coef.tbe_contract_fit <- function(object, ...) c(edges = -1.2, mutual = 0.4)
-confint.tbe_contract_fit <- function(object, level, type, invlogit, ...) {
-  stopifnot(identical(level, 0.95), identical(type, "perc"), identical(invlogit, FALSE))
-  if (object$fail_ci) stop("No bootstrap interval is extractable.")
-  matrix(c(-1.2, -1.1, -2, -0.5, 0.4, 0.45, 0.1, 0.8), nrow = 2L, byrow = TRUE,
-         dimnames = list(c("edges", "mutual"), c("Estimate", "Boot mean", "2.5%", "97.5%")))
-}
-fixture_fit <- structure(list(fail_ci = FALSE), class = "tbe_contract_fit")
+# Test direct S4 coefficient and bootstrap-slot extraction without btergm.
+methods::setClass("tbe_contract_boot", representation(t = "matrix"))
+methods::setClass("tbe_contract_fit", representation(coef = "numeric", boot = "tbe_contract_boot"))
+fixture_boot <- methods::new(
+  "tbe_contract_boot",
+  t = matrix(c(-1.4, 0.2, -1.2, 0.4, -1.0, 0.6), ncol = 2L, byrow = TRUE,
+             dimnames = list(NULL, c("edges", "mutual")))
+)
+fixture_fit <- methods::new("tbe_contract_fit", coef = c(edges = -1.2, mutual = 0.4), boot = fixture_boot)
 extracted <- env$tbe_extract_coefficients("T0", fixture_fit, 20L)
-stopifnot(identical(extracted$ci_status, c("extracted", "extracted")),
-          identical(extracted$ci_lower, c(-2, 0.1)), identical(extracted$ci_upper, c(-0.5, 0.8)))
-fixture_fit$fail_ci <- TRUE
-failed_ci <- env$tbe_extract_coefficients("T0", fixture_fit, 20L)
+stopifnot(identical(extracted$ci_status, c("empirical_percentile", "empirical_percentile")),
+          all(is.finite(extracted$ci_lower)), all(is.finite(extracted$ci_upper)),
+          identical(extracted$bootstrap_reps_finite, c(3L, 3L)))
+empty_boot <- methods::new("tbe_contract_boot", t = matrix(numeric(), nrow = 0L, ncol = 0L))
+failed_fit <- methods::new("tbe_contract_fit", coef = c(edges = -1.2, mutual = 0.4), boot = empty_boot)
+failed_ci <- env$tbe_extract_coefficients("T0", failed_fit, 20L)
 stopifnot(all(failed_ci$ci_status == "not_extractable"), all(is.na(failed_ci$ci_lower)),
           all(is.na(failed_ci$ci_upper)), identical(failed_ci$estimate, extracted$estimate))
-rm(coef.tbe_contract_fit, confint.tbe_contract_fit)
 
 # Pin the package API and forbid prediction/simulation/alternative estimators.
 source_text <- paste(readLines(driver, warn = FALSE), collapse = "\n")
 stopifnot(grepl("btergm::btergm(formula, R = config[[\"bootstrap-reps\"]], parallel = config$parallel", source_text, fixed = TRUE))
 stopifnot(grepl("ncpus = config$ncpus, verbose = FALSE", source_text, fixed = TRUE))
-stopifnot(grepl('stats::confint(fit, level = 0.95, type = "perc", invlogit = FALSE)', source_text, fixed = TRUE))
+stopifnot(grepl('methods::slot(fit, "coef")', source_text, fixed = TRUE))
+stopifnot(grepl('boot_object[["t"]]', source_text, fixed = TRUE))
+stopifnot(grepl('stats::quantile(finite, probs = c(0.025, 0.975)', source_text, fixed = TRUE))
+stopifnot(!grepl('stats::confint(fit', source_text, fixed = TRUE))
 stopifnot(grepl('c("btergm", "network", "jsonlite")', source_text, fixed = TRUE))
 stopifnot(!grepl("(^|[^[:alnum:]_])(predict|simulate|gof|mtergm|tbergm|tergm|ergm)::", source_text))
 stopifnot(!grepl("(stats::)?predict[[:space:]]*\\(|simulate[[:space:]]*\\(|ergm::ergm[[:space:]]*\\(", source_text))

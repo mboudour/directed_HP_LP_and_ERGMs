@@ -267,44 +267,58 @@ tbe_empty_coefficients <- function() {
              bootstrap_reps_finite = integer(), interpretation = character(), stringsAsFactors = FALSE)
 }
 
+tbe_bootstrap_matrix <- function(fit) {
+  # btergm is an S4 object. Across supported R / boot combinations, its
+  # `boot` slot can retain either an S3 boot list or an S4-compatible boot
+  # wrapper. `[["t"]]` supports the former without using `$`; the two formal
+  # slot fallbacks cover the latter. Return NULL—not an error—when bootstrap
+  # draws are unavailable, so finite point estimates remain reportable.
+  boot_object <- methods::slot(fit, "boot")
+  samples <- tryCatch(boot_object[["t"]], error = function(e) NULL)
+  if (is.null(samples) && isS4(boot_object) && "t" %in% methods::slotNames(boot_object)) {
+    samples <- tryCatch(methods::slot(boot_object, "t"), error = function(e) NULL)
+  }
+  if (is.null(samples) && isS4(boot_object) && ".Data" %in% methods::slotNames(boot_object)) {
+    data_slot <- tryCatch(methods::slot(boot_object, ".Data"), error = function(e) NULL)
+    samples <- tryCatch(data_slot[["t"]], error = function(e) NULL)
+  }
+  if (is.null(samples) || !is.matrix(samples)) return(NULL)
+  samples
+}
+
 tbe_extract_coefficients <- function(model, fit, reps) {
-  co <- stats::coef(fit)
+  # Read btergm's numeric S4 coefficient slot directly. This avoids a generic
+  # dispatch path that can apply `$` to an S4 boot object under R 4.5.
+  co <- methods::slot(fit, "coef")
   if (!length(co) || is.null(names(co))) stop("Fit supplied no named coefficients.", call. = FALSE)
-  # btergm 1.11.x stores a formal `boot` object in its S4 fit. Accessing it
-  # through methods::slot() followed by `$` fails; use the package's own
-  # documented object@boot$t access pattern instead.
-  samples <- tryCatch(fit@boot$t, error = function(e) NULL)
+  samples <- tbe_bootstrap_matrix(fit)
   se <- rep(NA_real_, length(co))
   finite_reps <- rep(NA_integer_, length(co))
+  lower <- upper <- rep(NA_real_, length(co))
+  ci_status <- rep("not_extractable", length(co))
+  ci_message <- rep("Bootstrap matrix was unavailable.", length(co))
   if (is.matrix(samples) && ncol(samples) == length(co)) {
     for (i in seq_along(co)) {
       finite <- samples[is.finite(samples[, i]), i]
       finite_reps[[i]] <- length(finite)
-      if (length(finite) >= 2L) se[[i]] <- stats::sd(finite)
+      if (length(finite) >= 2L) {
+        se[[i]] <- stats::sd(finite)
+        interval <- stats::quantile(finite, probs = c(0.025, 0.975), names = FALSE, type = 7)
+        lower[[i]] <- interval[[1L]]
+        upper[[i]] <- interval[[2L]]
+        ci_status[[i]] <- "empirical_percentile"
+        ci_message[[i]] <- ""
+      } else {
+        ci_message[[i]] <- "Fewer than two finite bootstrap draws for this term."
+      }
     }
+  } else if (is.matrix(samples)) {
+    ci_message[] <- "Bootstrap matrix column count did not match coefficient count."
   }
-  warnings <- character()
-  ci <- withCallingHandlers(
-    tryCatch(stats::confint(fit, level = 0.95, type = "perc", invlogit = FALSE), error = function(e) e),
-    warning = function(w) { warnings <<- c(warnings, conditionMessage(w)); invokeRestart("muffleWarning") }
-  )
-  lower <- upper <- rep(NA_real_, length(co))
-  if (inherits(ci, "error")) {
-    ci_message <- conditionMessage(ci)
-  } else if (is.matrix(ci) && all(c("2.5%", "97.5%") %in% colnames(ci)) && !is.null(rownames(ci))) {
-    idx <- match(names(co), rownames(ci))
-    lower <- as.numeric(ci[idx, "2.5%"])
-    upper <- as.numeric(ci[idx, "97.5%"])
-    ci_message <- ""
-  } else {
-    ci_message <- "confint returned an unsupported shape; no interval was substituted."
-  }
-  extracted <- is.finite(lower) & is.finite(upper)
   data.frame(model = model, term = names(co), estimate = unname(as.numeric(co)),
              bootstrap_std_error = se, ci_lower = lower, ci_upper = upper, ci_level = 0.95,
-             ci_method = "btergm percentile bootstrap (confint type=perc)",
-             ci_status = ifelse(extracted, "extracted", "not_extractable"),
-             ci_message = paste(c(ci_message, unique(warnings)), collapse = " | "),
+             ci_method = "empirical percentile from btergm bootstrap draws",
+             ci_status = ci_status, ci_message = ci_message,
              bootstrap_reps_requested = reps, bootstrap_reps_finite = finite_reps,
              interpretation = "MPLE conditional score estimator only; never forecasts; no simulated probabilities",
              stringsAsFactors = FALSE)
