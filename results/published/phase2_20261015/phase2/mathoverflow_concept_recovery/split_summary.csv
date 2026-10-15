@@ -1,0 +1,7 @@
+mechanism,replicate,heldout_arcs,observed_arcs,lost_full_concepts,eligible_positive_concepts,random_positive_concepts,random_negative_concepts,degree_matched_positive_concepts,degree_matched_negative_concepts,nonmaximal_complete_positive_concepts,nonmaximal_complete_negative_concepts
+mcar,1,306,714,175,145,145,145,145,145,145,145
+mcar,2,306,714,184,162,162,162,162,162,162,162
+mcar,3,306,714,191,167,167,167,167,167,167,167
+mnar_out,1,306,714,185,150,150,150,150,150,150,150
+mnar_out,2,306,714,189,160,160,160,160,160,155,155
+mnar_out,3,306,714,194,162,162,162,162,162,160,160

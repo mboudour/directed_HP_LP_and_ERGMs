@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-publish-aggregate phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-ciel-audit phase2-jmail-audit phase2-mathoverflow-audit phase2-mathoverflow-profile phase2-mathoverflow-primary phase2-mathoverflow-static-prep phase2-mathoverflow-concepts phase2-mathoverflow-native-fidelity phase2-mathoverflow-event-masks phase2-mathoverflow-native-heuristics phase2-mathoverflow-native-hard-panels phase2-mathoverflow-native-ergm-inputs phase2-mathoverflow-native-ergm-footprints phase2-mathoverflow-static phase2-mathoverflow-static-plan phase2-mathoverflow-score phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-publish-aggregate phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-concept-recovery phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-ciel-audit phase2-jmail-audit phase2-mathoverflow-audit phase2-mathoverflow-profile phase2-mathoverflow-primary phase2-mathoverflow-static-prep phase2-mathoverflow-concepts phase2-mathoverflow-concept-recovery phase2-mathoverflow-native-fidelity phase2-mathoverflow-event-masks phase2-mathoverflow-native-heuristics phase2-mathoverflow-native-hard-panels phase2-mathoverflow-native-ergm-inputs phase2-mathoverflow-native-ergm-footprints phase2-mathoverflow-static phase2-mathoverflow-static-plan phase2-mathoverflow-score phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-concept-recovery phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-eu-core-concepts phase2-eu-core-concept-recovery phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm
 
 help:
 	@printf '%s\n' \
@@ -18,6 +18,7 @@ help:
 	  'phase2-publish-aggregate  Collect non-sensitive aggregate output tables for the private repository.' \
 	  'phase2-caviar-static-prep  Build the approved unique-labelled CAVIAR full static matrix.' \
 	  'phase2-caviar-concepts  Audit CAVIAR full static formal concepts (|T|,|H| <= 3).' \
+	  'phase2-caviar-concept-recovery  Evaluate CAVIAR arc-first formal-concept recovery.' \
 	  'phase2-caviar-static  Run the fixed CAVIAR full static arc-LP pilot.' \
 	  'phase2-caviar-static-plan  Fit the full-network CAVIAR static ERGM ladder by MPLE.' \
 	  'phase2-caviar-score  Score CAVIAR frozen MCAR masks using conditional ERGM probabilities.' \
@@ -28,6 +29,7 @@ help:
 	  'phase2-mathoverflow-primary  Build approved 30-day MathOverflow reconstructed events.' \
 	  'phase2-mathoverflow-static-prep  Build MathOverflow static arcs and all-participant core-100 views.' \
 	  'phase2-mathoverflow-concepts  Audit capped MathOverflow formal concepts (|T|,|H| <= 3).' \
+	  'phase2-mathoverflow-concept-recovery  Evaluate MathOverflow arc-first formal-concept recovery.' \
 	  'phase2-mathoverflow-native-fidelity  Compare reconstructed MathOverflow events with capped concepts.' \
 	  'phase2-mathoverflow-event-masks  Create frozen MathOverflow event-type MCAR and MNAR-out masks.' \
 	  'phase2-mathoverflow-native-heuristics  Score MathOverflow native events with lifted LP heuristics.' \
@@ -43,6 +45,7 @@ help:
 	  'phase2-enron-mcmle-core50-candidates  Audit core-50 two-dyad candidate eligibility before MCMC.' \
 	  'phase2-enron-mcmle-core50-m2-gate  Run the 120-second bounded core-50 M2 MCMLE feasibility gate.' \
 	  'phase2-enron-concepts  Audit the cap-first Enron core-100 formal-concept section (|T|,|H| <= 3).' \
+	  'phase2-enron-concept-recovery  Evaluate Enron arc-first formal-concept recovery.' \
 	  'phase2-enron-native-fidelity  Compare strict Enron recorded events with the capped formal-concept section.' \
 	  'phase2-enron-event-masks  Create three MCAR and three MNAR-out event-type masks for native-event evaluation.' \
 	  'phase2-enron-native-heuristics  Score native event types with lifted LP heuristics on frozen event-first masks.' \
@@ -59,6 +62,7 @@ help:
 	  'phase2-eu-core-static-plan  Fit the plan-aligned EU-core static ERGM ladder.' \
 	  'phase2-eu-core-score  Fit and score the plan-aligned EU-core masked ERGM ladder.' \
 	  'phase2-eu-core-concepts  Audit the cap-first EU-core formal-concept section (|T|,|H| <= 3).' \
+	  'phase2-eu-core-concept-recovery  Evaluate EU-core arc-first formal-concept recovery.' \
 	  'phase2-temporal-export  Export a bounded chronological panel; pass options in ARGS="...".' \
 	  'phase2-eu-core-temporal  Run the exploratory lagged-only EU-core baseline.' \
 	  'phase2-eu-core-btergm  Install temporal R packages and run the planned bounded btergm ladder.' \
@@ -109,6 +113,10 @@ phase2-caviar-static-prep:
 phase2-caviar-concepts:
 	uv run python scripts/28_audit_formal_concepts.py --dataset=caviar_full_static --edges=data/processed/caviar/directed_valued_arcs.parquet --nodes=data/processed/caviar/nodes.csv --source-col=tail --target-col=head --node-col=id --output-dir=results/phase2/caviar_full_static_formal_concepts_tail3_head3 --tail-cap=3 --head-cap=3 --max-candidates=250000 --overwrite
 	@cat results/phase2/caviar_full_static_formal_concepts_tail3_head3/summary.md
+
+phase2-caviar-concept-recovery: phase2-caviar-static-prep
+	uv run python scripts/46_run_arcfirst_concept_recovery.py --dataset=caviar --mechanisms mcar mnar_out --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/caviar_concept_recovery --overwrite
+	@cat results/phase2/caviar_concept_recovery/summary.md
 
 phase2-caviar-static:
 	uv run python scripts/30_run_static_benchmark.py --dataset=caviar --mechanism=mcar --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --output-dir=results/phase2/caviar_static_pilot --overwrite
@@ -197,6 +205,10 @@ phase2-mathoverflow-concepts: phase2-mathoverflow-static-prep
 	uv run python scripts/28_audit_formal_concepts.py --dataset=mathoverflow_stackexchange_2024 --edges=data/processed/mathoverflow_stackexchange_2024/core100_static_arcs.parquet --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --source-col=tail --target-col=head --node-col=node --output-dir=results/phase2/mathoverflow_formal_concepts_tail3_head3 --tail-cap=3 --head-cap=3 --max-candidates=250000 --overwrite
 	@cat results/phase2/mathoverflow_formal_concepts_tail3_head3/summary.md
 
+phase2-mathoverflow-concept-recovery: phase2-mathoverflow-static-prep
+	uv run python scripts/46_run_arcfirst_concept_recovery.py --dataset=mathoverflow --mechanisms mcar mnar_out --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/mathoverflow_concept_recovery --overwrite
+	@cat results/phase2/mathoverflow_concept_recovery/summary.md
+
 phase2-mathoverflow-native-fidelity: phase2-mathoverflow-static-prep
 	uv run python scripts/29_audit_native_event_fidelity.py --dataset-id=mathoverflow_stackexchange_2024 --events=data/processed/mathoverflow_stackexchange_2024/core100_native_events.parquet --arcs=data/processed/mathoverflow_stackexchange_2024/core100_static_arcs.parquet --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --event-tail-column=tail_answerers --event-head-column=head_asker --arc-tail-column=tail --arc-head-column=head --node-column=node --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --output-dir=results/phase2/mathoverflow_native_event_fidelity_tail3_head3 --overwrite
 	@cat results/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.md
@@ -268,6 +280,10 @@ phase2-enron-mcmle-core50-m2-gate:
 phase2-enron-concepts:
 	uv run python scripts/28_audit_formal_concepts.py --dataset=enron_20150507 --edges=data/processed/enron_20150507/custodian_core100_static_arcs.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --source-col=tail_custodian --target-col=head_custodian --node-col=custodian_mailbox --output-dir=results/phase2/enron_formal_concepts_tail3_head3 --tail-cap=3 --head-cap=3 --max-candidates=250000 --overwrite
 
+phase2-enron-concept-recovery: phase2-enron-primary
+	uv run python scripts/46_run_arcfirst_concept_recovery.py --dataset=enron --mechanisms mcar mnar_out --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/enron_concept_recovery --overwrite
+	@cat results/phase2/enron_concept_recovery/summary.md
+
 phase2-enron-native-fidelity:
 	uv run python scripts/29_audit_native_event_fidelity.py --dataset-id=enron_20150507 --events=data/processed/enron_20150507/custodian_native_events.parquet --arcs=data/processed/enron_20150507/custodian_core100_static_arcs.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --event-tail-column=tail_custodian --event-head-column=head_custodians --arc-tail-column=tail_custodian --arc-head-column=head_custodian --node-column=custodian_mailbox --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --output-dir=results/phase2/enron_native_event_fidelity_tail3_head3 --overwrite
 	@cat results/phase2/enron_native_event_fidelity_tail3_head3/summary.md
@@ -326,6 +342,10 @@ phase2-eu-core-score: phase2-eu-core-static-plan
 
 phase2-eu-core-concepts:
 	uv run python scripts/28_audit_formal_concepts.py --dataset=email_eu_core_temporal --edges=data/processed/email_eu_core_temporal/core100_static_arcs.parquet --nodes=data/processed/email_eu_core_temporal/core100_nodes.csv --output-dir=results/phase2/eu_core_formal_concepts_tail3_head3 --tail-cap=3 --head-cap=3 --max-candidates=250000 --overwrite
+
+phase2-eu-core-concept-recovery:
+	uv run python scripts/46_run_arcfirst_concept_recovery.py --dataset=eu_core --mechanisms mcar mnar_out --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/eu_core_concept_recovery --overwrite
+	@cat results/phase2/eu_core_concept_recovery/summary.md
 
 phase2-temporal-export:
 	uv run python scripts/31_export_temporal_panel.py $(ARGS)

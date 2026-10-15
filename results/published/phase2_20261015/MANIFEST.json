@@ -19,6 +19,24 @@
       "source": "results/phase2/caviar_full_static_formal_concepts_tail3_head3/arc_multiplicity.csv"
     },
     {
+      "bytes": "20064",
+      "published": "results/published/phase2_20261015/phase2/caviar_concept_recovery/summary.md",
+      "sha256": "fda7785bb1dd8e6d9ff3736adb1dcbf1273dafcb61ae6d010d19666e2968322f",
+      "source": "results/phase2/caviar_concept_recovery/summary.md"
+    },
+    {
+      "bytes": "20037",
+      "published": "results/published/phase2_20261015/phase2/caviar_concept_recovery/metric_summary.csv",
+      "sha256": "0eddafe7e1e25dfb846e116fe763efa2bc14c2406c9d55d848a00f0b45a651e2",
+      "source": "results/phase2/caviar_concept_recovery/metric_summary.csv"
+    },
+    {
+      "bytes": "525",
+      "published": "results/published/phase2_20261015/phase2/caviar_concept_recovery/split_summary.csv",
+      "sha256": "223a2a36b678d8adcaf9e64bd342e32324003fb9aec10e6a820b4b7f4127d993",
+      "source": "results/phase2/caviar_concept_recovery/split_summary.csv"
+    },
+    {
       "bytes": "745",
       "published": "results/published/phase2_20261015/phase2/enron_formal_concepts_tail3_head3/summary.md",
       "sha256": "ba5c88e96c06ddc0df2f1f5c21ef0730da49198ef3029db9b6800223658ddd15",
@@ -35,6 +53,24 @@
       "published": "results/published/phase2_20261015/phase2/enron_formal_concepts_tail3_head3/arc_multiplicity.csv",
       "sha256": "a486129d599330af7a6088e57e2c2a5ae5ace9603c396bd623244d12ac90a540",
       "source": "results/phase2/enron_formal_concepts_tail3_head3/arc_multiplicity.csv"
+    },
+    {
+      "bytes": "20094",
+      "published": "results/published/phase2_20261015/phase2/enron_concept_recovery/summary.md",
+      "sha256": "b21b3afa0d4798160285dddcb8229dfa3afd3239dd6bfe5f186e23c7b3843ad8",
+      "source": "results/phase2/enron_concept_recovery/summary.md"
+    },
+    {
+      "bytes": "20044",
+      "published": "results/published/phase2_20261015/phase2/enron_concept_recovery/metric_summary.csv",
+      "sha256": "d878f1bd1bb5762653731b81caeba4a05180e038ead20e623c25a6646f67e741",
+      "source": "results/phase2/enron_concept_recovery/metric_summary.csv"
+    },
+    {
+      "bytes": "579",
+      "published": "results/published/phase2_20261015/phase2/enron_concept_recovery/split_summary.csv",
+      "sha256": "82ac7e5e95f3e0be954a354d4a63b4a3b846980f1e6bcac2bfaca84716cbf2ba",
+      "source": "results/phase2/enron_concept_recovery/split_summary.csv"
     },
     {
       "bytes": "1178",
@@ -115,6 +151,24 @@
       "source": "results/phase2/eu_core_formal_concepts_tail3_head3/arc_multiplicity.csv"
     },
     {
+      "bytes": "20065",
+      "published": "results/published/phase2_20261015/phase2/eu_core_concept_recovery/summary.md",
+      "sha256": "7020709b8984dfffd8d8632b415cc1d7fc5ecac368d0843f6fdea8e048f176e5",
+      "source": "results/phase2/eu_core_concept_recovery/summary.md"
+    },
+    {
+      "bytes": "20056",
+      "published": "results/published/phase2_20261015/phase2/eu_core_concept_recovery/metric_summary.csv",
+      "sha256": "6ea510a6482ed2427e0353b804fe1cadf8a8b0ed625e6bda4bc8a5b22332626a",
+      "source": "results/phase2/eu_core_concept_recovery/metric_summary.csv"
+    },
+    {
+      "bytes": "537",
+      "published": "results/published/phase2_20261015/phase2/eu_core_concept_recovery/split_summary.csv",
+      "sha256": "8fb36268c71948d56ad9a807150fd12ed0944e7a6b5e6411866261348dc8ae90",
+      "source": "results/phase2/eu_core_concept_recovery/split_summary.csv"
+    },
+    {
       "bytes": "768",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_formal_concepts_tail3_head3/summary.md",
       "sha256": "420d1d659cb2088773f60ec3c79a0b9d1f61d75731b6be1f83e3441c080554aa",
@@ -131,6 +185,24 @@
       "published": "results/published/phase2_20261015/phase2/mathoverflow_formal_concepts_tail3_head3/arc_multiplicity.csv",
       "sha256": "61478dff55ba261bd20bbccae242743ca1ed6c3053025ae7778422bad325298f",
       "source": "results/phase2/mathoverflow_formal_concepts_tail3_head3/arc_multiplicity.csv"
+    },
+    {
+      "bytes": "20101",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_concept_recovery/summary.md",
+      "sha256": "7e8c64982e2671fd82d553f29060adfee362d826ed18cc0b3334bd673a5e52d6",
+      "source": "results/phase2/mathoverflow_concept_recovery/summary.md"
+    },
+    {
+      "bytes": "19985",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_concept_recovery/metric_summary.csv",
+      "sha256": "e0b034cbe3d5a0fead73adb32a0f010bedeb800cc79482f0aa08ab0e419d7ccd",
+      "source": "results/phase2/mathoverflow_concept_recovery/metric_summary.csv"
+    },
+    {
+      "bytes": "579",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_concept_recovery/split_summary.csv",
+      "sha256": "b40f5747630a227ce0a113dcec58345e349ec8fa588f861b80277f55f6fa6f75",
+      "source": "results/phase2/mathoverflow_concept_recovery/split_summary.csv"
     },
     {
       "bytes": "1201",

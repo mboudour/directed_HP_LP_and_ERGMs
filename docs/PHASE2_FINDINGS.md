@@ -550,3 +550,16 @@ static directed core arcs. No core-size exception applies. Because core events
 require every answerer and the asker to belong to the fixed core, the native-event
 and static views have the same participant boundary. The next gate is the
 cap-first formal-concept representation audit at tail/head caps of three.
+
+
+## 2026-10-15 — Arc-first formal-concept recovery baseline
+
+**Design.** The arc-first Regime B concept-recovery baseline completed on Enron, EU-core, CAVIAR full static, and reconstructed MathOverflow. It enumerates cap-first concepts with `|T|, |H| <= 3`, masks 30% of unique arcs in three seeded MCAR and three seeded MNAR-out splits, then scores full-graph concepts that are lost from the observed concept section. The candidate universe is limited to observed-graph weak distance two. Random, observed-degree-matched, and non-maximal-complete true non-concept negatives are evaluated as distinct panels.
+
+**Completion.** All **24 planned splits** completed. Full capped concept counts are 232 (Enron), 45 (EU-core), 80 (CAVIAR), and 207 (MathOverflow). Non-maximal-complete negatives were available for every EU-core and MathOverflow split and for substantial, explicitly reported subsets of Enron and CAVIAR positives; sparse hard panels were never padded with easier random negatives.
+
+**Descriptive result.** On the observed-degree-matched panel, the best mean PR-AUC by mechanism was Enron: 0.7436 MCAR (total directed Adamic--Adar), 0.7415 MNAR-out (II Adamic--Adar); EU-core: 0.5834 MCAR (OO Adamic--Adar), 0.6968 MNAR-out (OI Adamic--Adar); CAVIAR: 0.7672 MCAR (total Adamic--Adar), 0.7912 MNAR-out (II Adamic--Adar); MathOverflow: 0.6404 MCAR and 0.6308 MNAR-out (both total Adamic--Adar). These are fixed-pilot descriptive values, not cross-dataset generalizations.
+
+**Boundary.** These are uncalibrated lifted-LP **ranking** baselines, not estimates of the joint ERGM concept probability `L3-C`. Conditional simulation, maximality, and the score-gap/Shapley decomposition remain separately gated by MCMC feasibility and simulation diagnostics.
+
+**Evidence.** Local bundles are `results/phase2/*_concept_recovery/`; aggregate-only summaries are published through the Phase 2 collector. The method contract is `docs/CONCEPT_RECOVERY.md`.

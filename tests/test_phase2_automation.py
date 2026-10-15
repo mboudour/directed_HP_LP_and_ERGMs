@@ -39,6 +39,7 @@ PHASE2_SCRIPTS = (
     "43_profile_mathoverflow_reconstruction.py",
     "44_prepare_mathoverflow_static_projection.py",
     "45_collect_phase2_aggregate_outputs.py",
+    "46_run_arcfirst_concept_recovery.py",
 )
 
 
