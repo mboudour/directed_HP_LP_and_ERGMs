@@ -385,3 +385,12 @@ phase2-caviar-footprint-free:
 phase2-mathoverflow-footprint-free:
 	uv run python scripts/48_run_footprint_free_stress.py --dataset=mathoverflow --replicates=3 --target-fraction=0.30 --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/mathoverflow_footprint_free_stress --overwrite
 	@cat results/phase2/mathoverflow_footprint_free_stress/summary.md
+
+.PHONY: phase2-enron-role-assignment phase2-mathoverflow-role-assignment
+phase2-enron-role-assignment:
+	uv run python scripts/49_evaluate_native_event_role_assignment.py --dataset-id=enron_20150507 --mask-dir=results/phase2/enron_event_first_type_masks --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --node-column=custodian_mailbox --seed=20261013 --output-dir=results/phase2/enron_native_event_role_assignment --overwrite
+	@cat results/phase2/enron_native_event_role_assignment/summary.md
+
+phase2-mathoverflow-role-assignment:
+	uv run python scripts/49_evaluate_native_event_role_assignment.py --dataset-id=mathoverflow_stackexchange_2024 --mask-dir=results/phase2/mathoverflow_event_first_type_masks --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --node-column=node --seed=20261013 --output-dir=results/phase2/mathoverflow_native_event_role_assignment --overwrite
+	@cat results/phase2/mathoverflow_native_event_role_assignment/summary.md

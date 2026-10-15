@@ -589,3 +589,16 @@ The less stringent representation agreement is far above the degree-preserving n
 **Interpretation recorded for Phase 2.** Regime C is computationally feasible for every admitted static dataset at the fixed cap, but it is substantively more stringent than Regime B and has dataset-specific retained target counts and removed-arc rates. The claim supported by these outputs is bounded: directed closure scores retain some ranking signal when **all arcs of each selected target footprint are absent**, not that concepts are directly observed or that the stress-test prevalence is a population prevalence.
 
 **Evidence.** Local bundles: `results/phase2/{enron,eu_core,caviar,mathoverflow}_footprint_free_stress/`. The protocol is `docs/FOOTPRINT_FREE_STRESS.md`; aggregate summaries are published under `results/published/phase2_20261015/phase2/`.
+
+
+## 2026-10-15 — Native-event role assignment
+
+**Design.** For every held-out native event type in the six frozen event-first splits of Enron and reconstructed MathOverflow, the evaluator was given the event's participant set and its true tail/head arities. It ranked every compatible role partition using only the split-observed directed graph. Top-1 accuracy and MRR use the expectation under uniform resolution of score ties and are stratified by tail/head arity. This is a role-assignment task, not a case-control classification task.
+
+**Coverage.** All held-out types were evaluated: Enron totals per split ranged from 208 to 231 (mean partition count 2.14–2.23); MathOverflow ranged from 310 to 330 (mean partition count 2.18–2.25). The small partition sets reflect the predominantly one-to-one and one-to-many event arities retained by the cap-3 rule; results remain arity-stratified in the published table.
+
+**Descriptive results.** Among arity-specific rows, Enron's strongest MCAR and MNAR-out top-1 scores were the reverse-arc diagnostic on `1 -> 1` events: 0.6628 (MRR 0.8314) and 0.7206 (MRR 0.8603), respectively. On reconstructed MathOverflow, the strongest MCAR row was OI directed Adamic--Adar for `3 -> 1` events (top-1 0.8421; MRR 0.9079); the strongest MNAR-out row was degree product for `1 -> 1` events (top-1 0.7698; MRR 0.8849). These are descriptive maxima across score/arity cells, not a selected primary model or a cross-dataset comparison.
+
+**Interpretation recorded for Phase 2.** Direction remains empirically informative after conditioning on the participant set and role arities. The evidence is more focused than native-event retrieval: it measures assignment among compatible roles, and it cannot establish calibrated probabilities or recovery of unobserved participant sets.
+
+**Evidence.** Local bundles: `results/phase2/enron_native_event_role_assignment/` and `results/phase2/mathoverflow_native_event_role_assignment/`. The protocol is `docs/NATIVE_EVENT_ROLE_ASSIGNMENT.md`; published aggregate tables retain metric rows by tail/head arity.

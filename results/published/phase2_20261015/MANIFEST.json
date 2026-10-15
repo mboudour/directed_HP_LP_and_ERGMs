@@ -193,6 +193,24 @@
       "source": "results/phase2/enron_event_first_native_hard_panels/split_summary.csv"
     },
     {
+      "bytes": "760",
+      "published": "results/published/phase2_20261015/phase2/enron_native_event_role_assignment/summary.md",
+      "sha256": "10a9a477d2d63a047ea47d278f5353dc84e188306b60cf4a9d4210013e44bbc0",
+      "source": "results/phase2/enron_native_event_role_assignment/summary.md"
+    },
+    {
+      "bytes": "13201",
+      "published": "results/published/phase2_20261015/phase2/enron_native_event_role_assignment/metric_summary_by_arity.csv",
+      "sha256": "e47c37f4b7434e443294d5a79190a3ce59bc547475a26fa88f9a7c0cc18aa0ac",
+      "source": "results/phase2/enron_native_event_role_assignment/metric_summary_by_arity.csv"
+    },
+    {
+      "bytes": "297",
+      "published": "results/published/phase2_20261015/phase2/enron_native_event_role_assignment/split_summary.csv",
+      "sha256": "cc0493636b42198853343ea3d1efc17d5462d631eadc373510931c90550b5e1b",
+      "source": "results/phase2/enron_native_event_role_assignment/split_summary.csv"
+    },
+    {
       "bytes": "755",
       "published": "results/published/phase2_20261015/phase2/eu_core_formal_concepts_tail3_head3/summary.md",
       "sha256": "cb232724a20704a8fcf0fe420e042492d80ca6a8f3132112eb85b274d1244320",
@@ -359,6 +377,24 @@
       "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_hard_panels/split_summary.csv",
       "sha256": "7a1f49b471e3b0db6e6f186f35a54b15764b314e5bf0715900abb94c8e02027d",
       "source": "results/phase2/mathoverflow_event_first_native_hard_panels/split_summary.csv"
+    },
+    {
+      "bytes": "777",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_event_role_assignment/summary.md",
+      "sha256": "55f1ec56cdac9d57417a844b08b67dda174087a82c4af6f4f81f9b8ce63477dd",
+      "source": "results/phase2/mathoverflow_native_event_role_assignment/summary.md"
+    },
+    {
+      "bytes": "12999",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_event_role_assignment/metric_summary_by_arity.csv",
+      "sha256": "c1762cc65110e4f3a5413a0c7d1458fb3e224d3912815b2a8be9173884f2fda1",
+      "source": "results/phase2/mathoverflow_native_event_role_assignment/metric_summary_by_arity.csv"
+    },
+    {
+      "bytes": "298",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_event_role_assignment/split_summary.csv",
+      "sha256": "4b6b0153ad6a183619932472ca9808803e851ebca80325cace88fddb26f99048",
+      "source": "results/phase2/mathoverflow_native_event_role_assignment/split_summary.csv"
     },
     {
       "bytes": "835",

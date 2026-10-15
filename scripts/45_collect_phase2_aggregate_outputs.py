@@ -50,6 +50,11 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
         "metric_summary.csv",
         "split_summary.csv",
     ),
+    "enron_native_event_role_assignment": (
+        "summary.md",
+        "metric_summary_by_arity.csv",
+        "split_summary.csv",
+    ),
     "eu_core_formal_concepts_tail3_head3": (
         "summary.md",
         "arity_distribution.csv",
@@ -78,6 +83,11 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
     "mathoverflow_event_first_native_hard_panels": (
         "summary.md",
         "metric_summary.csv",
+        "split_summary.csv",
+    ),
+    "mathoverflow_native_event_role_assignment": (
+        "summary.md",
+        "metric_summary_by_arity.csv",
         "split_summary.csv",
     ),
 }
