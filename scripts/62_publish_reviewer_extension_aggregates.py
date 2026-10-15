@@ -113,6 +113,33 @@ def role_assignment() -> pd.DataFrame:
     return pd.concat(summaries, ignore_index=True).sort_values(["dataset", "mechanism"])
 
 
+def mtt_logistic() -> pd.DataFrame:
+    """Combine actor-free split-specific transitive-triple logistic summaries."""
+    summaries: list[pd.DataFrame] = []
+    required = {
+        "mechanism",
+        "completed_masks",
+        "positive_theta_masks",
+        "theta_triple_mean",
+        "theta_triple_sd",
+        "theta_triple_min",
+        "theta_triple_max",
+        "rank_relation",
+    }
+    for dataset in DATASETS:
+        path = (
+            PROJECT_ROOT
+            / "results"
+            / "models"
+            / f"{dataset}_mtt_logistic"
+            / "mechanism_summary.csv"
+        )
+        frame = read_csv(path, required)
+        frame.insert(0, "dataset", dataset)
+        summaries.append(frame)
+    return pd.concat(summaries, ignore_index=True).sort_values(["dataset", "mechanism"])
+
+
 def diagnostics() -> tuple[pd.DataFrame, pd.DataFrame]:
     """Combine actor-free survival and reversal diagnostic outputs."""
     contrast_frames: list[pd.DataFrame] = []
@@ -127,6 +154,9 @@ def diagnostics() -> tuple[pd.DataFrame, pd.DataFrame]:
                 "contrast",
                 "completed_masks",
                 "mean_pr_auc_difference",
+                "bootstrap_reps",
+                "bootstrap_ci_lower",
+                "bootstrap_ci_upper",
             },
         )
         reversal = read_csv(
@@ -154,9 +184,11 @@ def main() -> None:
     prepare_output_dir(output_dir, args.overwrite)
     ladder = intermediate_ladder()
     roles = role_assignment()
+    mtt = mtt_logistic()
     survival, reversal = diagnostics()
     write_csv(ladder, output_dir / "intermediate_ergm_ladder.csv")
     write_csv(roles, output_dir / "ergm_role_assignment.csv")
+    write_csv(mtt, output_dir / "mtt_logistic.csv")
     write_csv(survival, output_dir / "survival_stratified_contrasts.csv")
     write_csv(reversal, output_dir / "reversal_survival_reciprocity.csv")
     (output_dir / "MANIFEST.json").write_text(
@@ -167,6 +199,7 @@ def main() -> None:
                 "sources": {
                     "intermediate_ladder": "results/models/*_native_event_ergm_intermediate",
                     "ergm_role_assignment": "results/phase2/*_native_event_ergm_role_assignment",
+                    "mtt_logistic": "results/models/*_mtt_logistic",
                     "survival_reversal_diagnostics": (
                         "results/phase2/*_survival_reversal_diagnostics"
                     ),

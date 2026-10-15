@@ -1,0 +1,5 @@
+dataset,mechanism,completed_masks,positive_theta_masks,negative_theta_masks,zero_theta_masks,theta_triple_mean,theta_triple_sd,theta_triple_min,theta_triple_max,rank_relation
+enron,mcar,30,30,0,0,0.549606443967,0.0156443697714,0.519216420153,0.581890424729,increasing_same_order_as_directed_CN
+enron,mnar_out,30,30,0,0,0.552195316047,0.0139023923367,0.512540888463,0.578529037325,increasing_same_order_as_directed_CN
+mathoverflow,mcar,30,30,0,0,0.287816310435,0.0104871364179,0.262289924815,0.306152754392,increasing_same_order_as_directed_CN
+mathoverflow,mnar_out,30,30,0,0,0.298307470517,0.0113516244125,0.273436605864,0.326032102883,increasing_same_order_as_directed_CN

@@ -4,6 +4,7 @@
   "sources": {
     "ergm_role_assignment": "results/phase2/*_native_event_ergm_role_assignment",
     "intermediate_ladder": "results/models/*_native_event_ergm_intermediate",
+    "mtt_logistic": "results/models/*_mtt_logistic",
     "survival_reversal_diagnostics": "results/phase2/*_survival_reversal_diagnostics"
   },
   "status": "completed"

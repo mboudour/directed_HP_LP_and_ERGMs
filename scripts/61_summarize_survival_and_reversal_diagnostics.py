@@ -10,16 +10,20 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 from collections import defaultdict
 from pathlib import Path
 from statistics import mean, stdev
+
+import numpy as np
 
 from directed_hp.evaluation.metrics import pr_auc, roc_auc
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 M4_MODEL = "M4c"
 M4_SCORE = "L1g"
+BOOTSTRAP_REPS = 10_000
 
 
 def parse_args() -> argparse.Namespace:
@@ -128,7 +132,24 @@ def summary_rows(
     ]
 
 
-def contrast_rows(split_metrics: list[dict[str, object]]) -> list[dict[str, object]]:
+def bootstrap_interval(values: list[float], seed_key: str) -> tuple[float, float]:
+    """Return a deterministic percentile interval over whole matched masks."""
+    if not values:
+        raise ValueError("bootstrap interval requires one or more matched differences")
+    encoded_key = seed_key.encode("utf-8")
+    seed = int.from_bytes(hashlib.sha256(encoded_key).digest()[:8], byteorder="big")
+    generator = np.random.default_rng(seed)
+    observed = np.asarray(values, dtype=float)
+    draws = generator.choice(observed, size=(BOOTSTRAP_REPS, observed.size), replace=True).mean(
+        axis=1
+    )
+    lower, upper = np.quantile(draws, [0.025, 0.975])
+    return float(lower), float(upper)
+
+
+def contrast_rows(
+    split_metrics: list[dict[str, object]], dataset_id: str
+) -> list[dict[str, object]]:
     """Calculate matched PR-AUC contrasts within survival strata and masks."""
     lookup = {
         (
@@ -152,6 +173,9 @@ def contrast_rows(split_metrics: list[dict[str, object]]) -> list[dict[str, obje
                     lookup[(mechanism, replicate, stratum, score)] - lookup[ref_key]
                 )
         for (mechanism, stratum), values in sorted(groups.items()):
+            lower, upper = bootstrap_interval(
+                values, f"{dataset_id}|{mechanism}|{stratum}|{reference}"
+            )
             rows.append(
                 {
                     "mechanism": mechanism,
@@ -160,6 +184,9 @@ def contrast_rows(split_metrics: list[dict[str, object]]) -> list[dict[str, obje
                     "completed_masks": len(values),
                     "mean_pr_auc_difference": mean(values),
                     "sd": stdev(values) if len(values) > 1 else 0.0,
+                    "bootstrap_reps": BOOTSTRAP_REPS,
+                    "bootstrap_ci_lower": lower,
+                    "bootstrap_ci_upper": upper,
                 }
             )
     return rows
@@ -319,7 +346,7 @@ def main() -> None:
     prepare_output_dir(output_dir, args.overwrite)
     scores = m4_scores(ergm_dir)
     split_metrics, survival_summary, coverage = survival_diagnostics(heuristic_dir, scores)
-    survival_contrasts = contrast_rows(split_metrics)
+    survival_contrasts = contrast_rows(split_metrics, args.dataset_id)
     reversal_summary = reversal_diagnostics(hard_dir, scores)
     write_csv(output_dir / "survival_stratified_split_metrics.csv", split_metrics)
     write_csv(output_dir / "survival_stratified_summary.csv", survival_summary)
@@ -338,6 +365,10 @@ def main() -> None:
                 "role": (
                     "descriptive secondary diagnostics; no primary masks "
                     "or candidate labels are changed"
+                ),
+                "intervals": (
+                    "10,000 percentile-bootstrap draws resample complete matched-mask "
+                    "differences within each survival stratum."
                 ),
                 "privacy": "Only actor-free aggregate summaries are emitted.",
             },

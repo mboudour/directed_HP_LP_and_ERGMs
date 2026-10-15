@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean manuscript-tables manuscript-draft manuscript-snam-figures manuscript-snam manuscript-snam-plan-tables manuscript-snam-orientation phase2-status phase2-audits phase2-dry-run phase2-report phase2-publish-aggregate phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-concept-recovery phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-ciel-audit phase2-jmail-audit phase2-mathoverflow-audit phase2-mathoverflow-profile phase2-mathoverflow-primary phase2-mathoverflow-static-prep phase2-mathoverflow-concepts phase2-mathoverflow-concept-recovery phase2-mathoverflow-native-fidelity phase2-mathoverflow-event-masks phase2-mathoverflow-native-heuristics phase2-mathoverflow-native-hard-panels phase2-mathoverflow-native-ergm-inputs phase2-mathoverflow-native-ergm-footprints phase2-mathoverflow-static phase2-mathoverflow-static-plan phase2-mathoverflow-score phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-concept-recovery phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-eu-core-concepts phase2-eu-core-concept-recovery phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm
+.PHONY: help python neural r r-model-test test lint format clean manuscript-tables manuscript-draft manuscript-snam-figures manuscript-snam manuscript-snam-plan-tables manuscript-snam-orientation manuscript-snam-mtt phase2-status phase2-audits phase2-dry-run phase2-report phase2-publish-aggregate phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-concept-recovery phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-ciel-audit phase2-jmail-audit phase2-mathoverflow-audit phase2-mathoverflow-profile phase2-mathoverflow-primary phase2-mathoverflow-static-prep phase2-mathoverflow-concepts phase2-mathoverflow-concept-recovery phase2-mathoverflow-native-fidelity phase2-mathoverflow-event-masks phase2-mathoverflow-native-heuristics phase2-mathoverflow-native-hard-panels phase2-mathoverflow-native-ergm-inputs phase2-mathoverflow-native-ergm-footprints phase2-mathoverflow-static phase2-mathoverflow-static-plan phase2-mathoverflow-score phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-concept-recovery phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-eu-core-concepts phase2-eu-core-concept-recovery phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm
 
 help:
 	@printf '%s\n' \
@@ -16,6 +16,7 @@ help:
 	  'manuscript-snam-figures  Render aggregate-only figures for the TeX manuscript.' \
 	  'manuscript-snam-plan-tables  Build static-arc and concept aggregate tables for the TeX manuscript.' \
 	  'manuscript-snam-orientation  Extract aggregate-only orientation accuracy from local frozen score pairs.' \
+	  'manuscript-snam-mtt  Fit split-specific Mtt transitive-triple logistic checks.' \
 	  'manuscript-snam  Compile the portable SNAM TeX manuscript into manuscript/snam/build/.' \
 	  'phase2-status  Report local data readiness and scientific gates.' \
 	  'phase2-audits  Run all locally available, ungated Phase 2 source audits.' \
@@ -88,6 +89,7 @@ r-model-test:
 	Rscript r/tests/test_temporal_btergm_ladder.R
 	Rscript r/tests/test_native_event_footprints.R
 	Rscript r/tests/test_joint_footprint_simulation.R
+	Rscript r/tests/test_mtt_logistic.R
 
 test:
 	uv run pytest
@@ -113,7 +115,11 @@ manuscript-snam-plan-tables:
 manuscript-snam-orientation:
 	uv run python scripts/57_extract_orientation_accuracy.py
 
-manuscript-snam: manuscript-snam-figures manuscript-snam-plan-tables manuscript-snam-orientation
+manuscript-snam-mtt:
+	Rscript r/models/fit_mtt_logistic.R --input-dir=results/phase2/enron_native_event_ergm_inputs --output-dir=results/models/enron_mtt_logistic --dataset-id=enron_20150507 --overwrite=TRUE
+	Rscript r/models/fit_mtt_logistic.R --input-dir=results/phase2/mathoverflow_native_event_ergm_inputs --output-dir=results/models/mathoverflow_mtt_logistic --dataset-id=mathoverflow_stackexchange_2024 --overwrite=TRUE
+
+manuscript-snam: manuscript-snam-figures manuscript-snam-plan-tables manuscript-snam-orientation manuscript-snam-mtt
 	cd manuscript/snam && rm -rf build && mkdir -p build && \
 		pdflatex -interaction=nonstopmode -halt-on-error -output-directory=build Paper1_SNAM.tex && \
 		bibtex build/Paper1_SNAM && \
