@@ -1,0 +1,9 @@
+# Local TeX compilation output; source, bibliography, and figures are tracked.
+build/
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz
