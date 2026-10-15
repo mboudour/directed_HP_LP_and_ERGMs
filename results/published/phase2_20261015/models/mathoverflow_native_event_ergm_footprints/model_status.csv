@@ -11,6 +11,114 @@
 "mcar_replicate_003","mcar",3,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1067,1776
 "mcar_replicate_003","mcar",3,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1067,1776
 "mcar_replicate_003","mcar",3,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1067,1776
+"mcar_replicate_004","mcar",4,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1095,1756
+"mcar_replicate_004","mcar",4,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1095,1756
+"mcar_replicate_004","mcar",4,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1095,1756
+"mcar_replicate_004","mcar",4,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1095,1756
+"mcar_replicate_005","mcar",5,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1092,1730
+"mcar_replicate_005","mcar",5,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1092,1730
+"mcar_replicate_005","mcar",5,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1092,1730
+"mcar_replicate_005","mcar",5,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1092,1730
+"mcar_replicate_006","mcar",6,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1094,1702
+"mcar_replicate_006","mcar",6,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1094,1702
+"mcar_replicate_006","mcar",6,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1094,1702
+"mcar_replicate_006","mcar",6,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1094,1702
+"mcar_replicate_007","mcar",7,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1108,1746
+"mcar_replicate_007","mcar",7,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1108,1746
+"mcar_replicate_007","mcar",7,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1108,1746
+"mcar_replicate_007","mcar",7,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1108,1746
+"mcar_replicate_008","mcar",8,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1100,1768
+"mcar_replicate_008","mcar",8,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1100,1768
+"mcar_replicate_008","mcar",8,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1100,1768
+"mcar_replicate_008","mcar",8,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1100,1768
+"mcar_replicate_009","mcar",9,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1043,1724
+"mcar_replicate_009","mcar",9,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1043,1724
+"mcar_replicate_009","mcar",9,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1043,1724
+"mcar_replicate_009","mcar",9,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1043,1724
+"mcar_replicate_010","mcar",10,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1036,1688
+"mcar_replicate_010","mcar",10,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1036,1688
+"mcar_replicate_010","mcar",10,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1036,1688
+"mcar_replicate_010","mcar",10,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1036,1688
+"mcar_replicate_011","mcar",11,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1089,1740
+"mcar_replicate_011","mcar",11,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1089,1740
+"mcar_replicate_011","mcar",11,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1089,1740
+"mcar_replicate_011","mcar",11,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1089,1740
+"mcar_replicate_012","mcar",12,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1067,1730
+"mcar_replicate_012","mcar",12,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1067,1730
+"mcar_replicate_012","mcar",12,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1067,1730
+"mcar_replicate_012","mcar",12,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1067,1730
+"mcar_replicate_013","mcar",13,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1096,1678
+"mcar_replicate_013","mcar",13,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1096,1678
+"mcar_replicate_013","mcar",13,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1096,1678
+"mcar_replicate_013","mcar",13,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1096,1678
+"mcar_replicate_014","mcar",14,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1109,1762
+"mcar_replicate_014","mcar",14,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1109,1762
+"mcar_replicate_014","mcar",14,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1109,1762
+"mcar_replicate_014","mcar",14,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1109,1762
+"mcar_replicate_015","mcar",15,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1087,1682
+"mcar_replicate_015","mcar",15,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1087,1682
+"mcar_replicate_015","mcar",15,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1087,1682
+"mcar_replicate_015","mcar",15,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1087,1682
+"mcar_replicate_016","mcar",16,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1081,1710
+"mcar_replicate_016","mcar",16,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1081,1710
+"mcar_replicate_016","mcar",16,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1081,1710
+"mcar_replicate_016","mcar",16,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1081,1710
+"mcar_replicate_017","mcar",17,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1082,1700
+"mcar_replicate_017","mcar",17,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1082,1700
+"mcar_replicate_017","mcar",17,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1082,1700
+"mcar_replicate_017","mcar",17,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1082,1700
+"mcar_replicate_018","mcar",18,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1085,1740
+"mcar_replicate_018","mcar",18,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1085,1740
+"mcar_replicate_018","mcar",18,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1085,1740
+"mcar_replicate_018","mcar",18,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1085,1740
+"mcar_replicate_019","mcar",19,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1108,1768
+"mcar_replicate_019","mcar",19,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1108,1768
+"mcar_replicate_019","mcar",19,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1108,1768
+"mcar_replicate_019","mcar",19,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1108,1768
+"mcar_replicate_020","mcar",20,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1105,1704
+"mcar_replicate_020","mcar",20,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1105,1704
+"mcar_replicate_020","mcar",20,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1105,1704
+"mcar_replicate_020","mcar",20,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1105,1704
+"mcar_replicate_021","mcar",21,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1125,1756
+"mcar_replicate_021","mcar",21,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1125,1756
+"mcar_replicate_021","mcar",21,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1125,1756
+"mcar_replicate_021","mcar",21,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1125,1756
+"mcar_replicate_022","mcar",22,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1044,1694
+"mcar_replicate_022","mcar",22,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1044,1694
+"mcar_replicate_022","mcar",22,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1044,1694
+"mcar_replicate_022","mcar",22,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1044,1694
+"mcar_replicate_023","mcar",23,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1130,1728
+"mcar_replicate_023","mcar",23,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1130,1728
+"mcar_replicate_023","mcar",23,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1130,1728
+"mcar_replicate_023","mcar",23,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1130,1728
+"mcar_replicate_024","mcar",24,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1103,1732
+"mcar_replicate_024","mcar",24,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1103,1732
+"mcar_replicate_024","mcar",24,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1103,1732
+"mcar_replicate_024","mcar",24,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1103,1732
+"mcar_replicate_025","mcar",25,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1096,1704
+"mcar_replicate_025","mcar",25,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1096,1704
+"mcar_replicate_025","mcar",25,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1096,1704
+"mcar_replicate_025","mcar",25,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1096,1704
+"mcar_replicate_026","mcar",26,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1088,1758
+"mcar_replicate_026","mcar",26,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1088,1758
+"mcar_replicate_026","mcar",26,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1088,1758
+"mcar_replicate_026","mcar",26,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1088,1758
+"mcar_replicate_027","mcar",27,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1099,1688
+"mcar_replicate_027","mcar",27,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1099,1688
+"mcar_replicate_027","mcar",27,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1099,1688
+"mcar_replicate_027","mcar",27,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1099,1688
+"mcar_replicate_028","mcar",28,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1094,1766
+"mcar_replicate_028","mcar",28,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1094,1766
+"mcar_replicate_028","mcar",28,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1094,1766
+"mcar_replicate_028","mcar",28,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1094,1766
+"mcar_replicate_029","mcar",29,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1111,1698
+"mcar_replicate_029","mcar",29,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1111,1698
+"mcar_replicate_029","mcar",29,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1111,1698
+"mcar_replicate_029","mcar",29,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1111,1698
+"mcar_replicate_030","mcar",30,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1047,1694
+"mcar_replicate_030","mcar",30,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1047,1694
+"mcar_replicate_030","mcar",30,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1047,1694
+"mcar_replicate_030","mcar",30,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1047,1694
 "mnar_out_replicate_001","mnar_out",1,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1073,1794
 "mnar_out_replicate_001","mnar_out",1,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1073,1794
 "mnar_out_replicate_001","mnar_out",1,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1073,1794
@@ -23,3 +131,111 @@
 "mnar_out_replicate_003","mnar_out",3,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1002,1660
 "mnar_out_replicate_003","mnar_out",3,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1002,1660
 "mnar_out_replicate_003","mnar_out",3,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1002,1660
+"mnar_out_replicate_004","mnar_out",4,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1106,1756
+"mnar_out_replicate_004","mnar_out",4,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1106,1756
+"mnar_out_replicate_004","mnar_out",4,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1106,1756
+"mnar_out_replicate_004","mnar_out",4,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1106,1756
+"mnar_out_replicate_005","mnar_out",5,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1118,1832
+"mnar_out_replicate_005","mnar_out",5,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1118,1832
+"mnar_out_replicate_005","mnar_out",5,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1118,1832
+"mnar_out_replicate_005","mnar_out",5,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1118,1832
+"mnar_out_replicate_006","mnar_out",6,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1053,1766
+"mnar_out_replicate_006","mnar_out",6,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1053,1766
+"mnar_out_replicate_006","mnar_out",6,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1053,1766
+"mnar_out_replicate_006","mnar_out",6,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1053,1766
+"mnar_out_replicate_007","mnar_out",7,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1027,1630
+"mnar_out_replicate_007","mnar_out",7,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1027,1630
+"mnar_out_replicate_007","mnar_out",7,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1027,1630
+"mnar_out_replicate_007","mnar_out",7,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1027,1630
+"mnar_out_replicate_008","mnar_out",8,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1036,1746
+"mnar_out_replicate_008","mnar_out",8,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1036,1746
+"mnar_out_replicate_008","mnar_out",8,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1036,1746
+"mnar_out_replicate_008","mnar_out",8,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1036,1746
+"mnar_out_replicate_009","mnar_out",9,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1082,1774
+"mnar_out_replicate_009","mnar_out",9,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1082,1774
+"mnar_out_replicate_009","mnar_out",9,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1082,1774
+"mnar_out_replicate_009","mnar_out",9,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1082,1774
+"mnar_out_replicate_010","mnar_out",10,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1012,1664
+"mnar_out_replicate_010","mnar_out",10,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1012,1664
+"mnar_out_replicate_010","mnar_out",10,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1012,1664
+"mnar_out_replicate_010","mnar_out",10,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1012,1664
+"mnar_out_replicate_011","mnar_out",11,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1070,1720
+"mnar_out_replicate_011","mnar_out",11,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1070,1720
+"mnar_out_replicate_011","mnar_out",11,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1070,1720
+"mnar_out_replicate_011","mnar_out",11,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1070,1720
+"mnar_out_replicate_012","mnar_out",12,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1037,1680
+"mnar_out_replicate_012","mnar_out",12,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1037,1680
+"mnar_out_replicate_012","mnar_out",12,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1037,1680
+"mnar_out_replicate_012","mnar_out",12,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1037,1680
+"mnar_out_replicate_013","mnar_out",13,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1148,1846
+"mnar_out_replicate_013","mnar_out",13,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1148,1846
+"mnar_out_replicate_013","mnar_out",13,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1148,1846
+"mnar_out_replicate_013","mnar_out",13,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1148,1846
+"mnar_out_replicate_014","mnar_out",14,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1087,1772
+"mnar_out_replicate_014","mnar_out",14,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1087,1772
+"mnar_out_replicate_014","mnar_out",14,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1087,1772
+"mnar_out_replicate_014","mnar_out",14,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1087,1772
+"mnar_out_replicate_015","mnar_out",15,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1005,1672
+"mnar_out_replicate_015","mnar_out",15,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1005,1672
+"mnar_out_replicate_015","mnar_out",15,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1005,1672
+"mnar_out_replicate_015","mnar_out",15,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1005,1672
+"mnar_out_replicate_016","mnar_out",16,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1057,1748
+"mnar_out_replicate_016","mnar_out",16,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1057,1748
+"mnar_out_replicate_016","mnar_out",16,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1057,1748
+"mnar_out_replicate_016","mnar_out",16,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1057,1748
+"mnar_out_replicate_017","mnar_out",17,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1086,1750
+"mnar_out_replicate_017","mnar_out",17,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1086,1750
+"mnar_out_replicate_017","mnar_out",17,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1086,1750
+"mnar_out_replicate_017","mnar_out",17,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1086,1750
+"mnar_out_replicate_018","mnar_out",18,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1119,1854
+"mnar_out_replicate_018","mnar_out",18,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1119,1854
+"mnar_out_replicate_018","mnar_out",18,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1119,1854
+"mnar_out_replicate_018","mnar_out",18,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1119,1854
+"mnar_out_replicate_019","mnar_out",19,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1086,1774
+"mnar_out_replicate_019","mnar_out",19,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1086,1774
+"mnar_out_replicate_019","mnar_out",19,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1086,1774
+"mnar_out_replicate_019","mnar_out",19,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1086,1774
+"mnar_out_replicate_020","mnar_out",20,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1052,1760
+"mnar_out_replicate_020","mnar_out",20,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1052,1760
+"mnar_out_replicate_020","mnar_out",20,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1052,1760
+"mnar_out_replicate_020","mnar_out",20,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1052,1760
+"mnar_out_replicate_021","mnar_out",21,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1042,1696
+"mnar_out_replicate_021","mnar_out",21,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1042,1696
+"mnar_out_replicate_021","mnar_out",21,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1042,1696
+"mnar_out_replicate_021","mnar_out",21,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1042,1696
+"mnar_out_replicate_022","mnar_out",22,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1059,1754
+"mnar_out_replicate_022","mnar_out",22,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1059,1754
+"mnar_out_replicate_022","mnar_out",22,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1059,1754
+"mnar_out_replicate_022","mnar_out",22,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1059,1754
+"mnar_out_replicate_023","mnar_out",23,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1102,1752
+"mnar_out_replicate_023","mnar_out",23,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1102,1752
+"mnar_out_replicate_023","mnar_out",23,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1102,1752
+"mnar_out_replicate_023","mnar_out",23,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1102,1752
+"mnar_out_replicate_024","mnar_out",24,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1107,1782
+"mnar_out_replicate_024","mnar_out",24,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1107,1782
+"mnar_out_replicate_024","mnar_out",24,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1107,1782
+"mnar_out_replicate_024","mnar_out",24,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1107,1782
+"mnar_out_replicate_025","mnar_out",25,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1114,1832
+"mnar_out_replicate_025","mnar_out",25,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1114,1832
+"mnar_out_replicate_025","mnar_out",25,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1114,1832
+"mnar_out_replicate_025","mnar_out",25,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1114,1832
+"mnar_out_replicate_026","mnar_out",26,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1067,1796
+"mnar_out_replicate_026","mnar_out",26,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1067,1796
+"mnar_out_replicate_026","mnar_out",26,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1067,1796
+"mnar_out_replicate_026","mnar_out",26,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1067,1796
+"mnar_out_replicate_027","mnar_out",27,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1077,1786
+"mnar_out_replicate_027","mnar_out",27,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1077,1786
+"mnar_out_replicate_027","mnar_out",27,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1077,1786
+"mnar_out_replicate_027","mnar_out",27,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1077,1786
+"mnar_out_replicate_028","mnar_out",28,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1077,1702
+"mnar_out_replicate_028","mnar_out",28,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1077,1702
+"mnar_out_replicate_028","mnar_out",28,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1077,1702
+"mnar_out_replicate_028","mnar_out",28,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1077,1702
+"mnar_out_replicate_029","mnar_out",29,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1146,1886
+"mnar_out_replicate_029","mnar_out",29,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1146,1886
+"mnar_out_replicate_029","mnar_out",29,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1146,1886
+"mnar_out_replicate_029","mnar_out",29,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1146,1886
+"mnar_out_replicate_030","mnar_out",30,"M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",1109,1796
+"mnar_out_replicate_030","mnar_out",30,"M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",1109,1796
+"mnar_out_replicate_030","mnar_out",30,"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",1109,1796
+"mnar_out_replicate_030","mnar_out",30,"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",1109,1796

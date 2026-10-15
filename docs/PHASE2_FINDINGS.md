@@ -615,3 +615,16 @@ The less stringent representation agreement is far above the degree-preserving n
 **Interpretation recorded for Phase 2.** The native-event directed-LP signal survives each planned missingness direction and rate but degrades under more aggressive concealment. Because MNAR-in and MNAR-out are oracle simulations and because this is a supplementary grid, these results support robustness reporting rather than a claim about naturally occurring missingness or calibrated event probabilities.
 
 **Evidence.** Local aggregate bundles: `results/phase2/enron_native_missingness_sensitivity/` and `results/phase2/mathoverflow_native_missingness_sensitivity/`. The protocol is `docs/NATIVE_EVENT_MISSINGNESS_SENSITIVITY.md`; raw split-specific sensitivity trees remain untracked/local under the matching `_raw` directories.
+
+
+## 2026-10-15 — Primary 30-mask replication and paired uncertainty
+
+**Replication completion.** The primary native-event grid now has 30 paired MCAR masks and 30 paired MNAR-out masks for each of Enron and MathOverflow. Native-event heuristic, reversal/role-exchange hard-panel, role-assignment, and factorized ERGM footprint branches were regenerated from those same frozen splits. Earlier three-replicate summaries are superseded by the 30-replicate bundles.
+
+**Within-dataset inference.** Predeclared paired comparisons resample whole masks, use 10,000 percentile-bootstrap replications for 95% intervals, and apply 20,000 two-sided sign-flip permutations. There are 80 heuristic reference contrasts and 264 ERGM reference contrasts per dataset. Results are explicitly not pooled across datasets.
+
+**Illustrative predeclared ERGM contrast.** Against the edges-only factorized reference M0::L1, the M4c::L1g random-panel PR-AUC improvement is positive in every primary setting tested: Enron MCAR `+0.3584` (95% bootstrap CI `[+0.3519, +0.3648]`); Enron MNAR-out `+0.3324` (`[+0.3269, +0.3379]`); MathOverflow MCAR `+0.2396` (`[+0.2305, +0.2485]`); and MathOverflow MNAR-out `+0.2394` (`[+0.2303, +0.2484]`). Each sign-flip p-value reached the Monte-Carlo lower resolution bound `1/(20,000+1) ≈ 0.00005`.
+
+**Interpretation boundary.** These are resampling-based statements about performance differences across the generated masks of each fixed observed network, not population inference across email or question-answer networks. Multiple contrast tables are exploratory unless a manuscript-level multiplicity policy is added; the stated M4c::L1g comparison is reported because its reference was predeclared in the code and protocol.
+
+**Evidence.** `docs/PAIRED_MASK_UNCERTAINTY.md`; aggregate result bundles in `results/phase2/*_native_heuristic_paired_uncertainty/` and `results/models/*_native_ergm_paired_uncertainty/`.

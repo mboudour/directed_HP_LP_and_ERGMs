@@ -2,7 +2,7 @@
 
 - Dataset: `enron_20150507`
 - Unit sampled: a distinct ordered tail/head native event type; all duplicate message records of a selected type are withheld together.
-- MCAR is exact fixed-count type sampling. MNAR-out is the planned oracle independent inclusion mechanism, so its realised type rate can differ from the nominal rate.
+- MCAR is exact fixed-count type sampling. MNAR-out and MNAR-in are planned oracle independent inclusion mechanisms, so their realised type rates can differ from nominal.
 - An already-observed footprint is not leakage: it means at least one observed event of a different type induces every dyad of the held-out event type.
 
 | Mechanism | Replicate | Type rate | Record rate | Arc-removal rate | Held-out types with surviving complete footprint | Active nodes losing out / in arcs |
@@ -10,8 +10,62 @@
 | mcar | 1 | 0.2990 | 0.3271 | 0.2341 | 61/215 | 71/73 |
 | mcar | 2 | 0.2990 | 0.2729 | 0.2277 | 67/215 | 75/72 |
 | mcar | 3 | 0.2990 | 0.2724 | 0.2389 | 64/215 | 69/80 |
+| mcar | 4 | 0.2990 | 0.3018 | 0.2420 | 60/215 | 74/80 |
+| mcar | 5 | 0.2990 | 0.2330 | 0.2452 | 56/215 | 70/85 |
+| mcar | 6 | 0.2990 | 0.2946 | 0.2420 | 52/215 | 75/82 |
+| mcar | 7 | 0.2990 | 0.2666 | 0.2325 | 58/215 | 72/81 |
+| mcar | 8 | 0.2990 | 0.2827 | 0.2261 | 71/215 | 74/70 |
+| mcar | 9 | 0.2990 | 0.3073 | 0.2436 | 52/215 | 76/78 |
+| mcar | 10 | 0.2990 | 0.3118 | 0.2341 | 59/215 | 70/77 |
+| mcar | 11 | 0.2990 | 0.2776 | 0.2420 | 52/215 | 79/80 |
+| mcar | 12 | 0.2990 | 0.3597 | 0.2436 | 59/215 | 74/79 |
+| mcar | 13 | 0.2990 | 0.3282 | 0.2389 | 55/215 | 70/81 |
+| mcar | 14 | 0.2990 | 0.3096 | 0.2452 | 56/215 | 75/72 |
+| mcar | 15 | 0.2990 | 0.2930 | 0.2229 | 62/215 | 75/71 |
+| mcar | 16 | 0.2990 | 0.2806 | 0.2500 | 47/215 | 77/79 |
+| mcar | 17 | 0.2990 | 0.3177 | 0.2373 | 61/215 | 69/76 |
+| mcar | 18 | 0.2990 | 0.3572 | 0.2404 | 56/215 | 74/75 |
+| mcar | 19 | 0.2990 | 0.3752 | 0.2325 | 63/215 | 75/79 |
+| mcar | 20 | 0.2990 | 0.3520 | 0.2580 | 42/215 | 73/79 |
+| mcar | 21 | 0.2990 | 0.3103 | 0.2229 | 67/215 | 75/68 |
+| mcar | 22 | 0.2990 | 0.3465 | 0.2357 | 65/215 | 74/74 |
+| mcar | 23 | 0.2990 | 0.3495 | 0.2277 | 69/215 | 75/71 |
+| mcar | 24 | 0.2990 | 0.2452 | 0.2293 | 66/215 | 75/72 |
+| mcar | 25 | 0.2990 | 0.2682 | 0.2548 | 45/215 | 76/81 |
+| mcar | 26 | 0.2990 | 0.2951 | 0.2277 | 63/215 | 70/71 |
+| mcar | 27 | 0.2990 | 0.3570 | 0.2436 | 54/215 | 73/79 |
+| mcar | 28 | 0.2990 | 0.2713 | 0.2564 | 45/215 | 78/76 |
+| mcar | 29 | 0.2990 | 0.3526 | 0.2389 | 58/215 | 72/78 |
+| mcar | 30 | 0.2990 | 0.2625 | 0.2484 | 52/215 | 77/80 |
 | mnar_out | 1 | 0.3213 | 0.5232 | 0.2420 | 39/231 | 41/77 |
 | mnar_out | 2 | 0.2921 | 0.5119 | 0.2150 | 48/210 | 45/69 |
 | mnar_out | 3 | 0.2893 | 0.4613 | 0.2261 | 29/208 | 42/74 |
+| mnar_out | 4 | 0.3171 | 0.5103 | 0.2389 | 44/228 | 48/73 |
+| mnar_out | 5 | 0.2962 | 0.5102 | 0.2325 | 39/213 | 43/74 |
+| mnar_out | 6 | 0.3018 | 0.5311 | 0.2213 | 38/217 | 42/72 |
+| mnar_out | 7 | 0.2907 | 0.5099 | 0.2134 | 48/209 | 41/70 |
+| mnar_out | 8 | 0.2949 | 0.5153 | 0.2341 | 32/212 | 41/73 |
+| mnar_out | 9 | 0.3088 | 0.5152 | 0.2357 | 31/222 | 39/72 |
+| mnar_out | 10 | 0.2907 | 0.4843 | 0.2341 | 37/209 | 45/74 |
+| mnar_out | 11 | 0.2837 | 0.4790 | 0.2118 | 43/204 | 48/68 |
+| mnar_out | 12 | 0.3088 | 0.5260 | 0.2309 | 46/222 | 43/68 |
+| mnar_out | 13 | 0.2949 | 0.4623 | 0.2245 | 39/212 | 41/70 |
+| mnar_out | 14 | 0.2962 | 0.4827 | 0.2197 | 41/213 | 43/67 |
+| mnar_out | 15 | 0.2962 | 0.4786 | 0.2118 | 53/213 | 39/69 |
+| mnar_out | 16 | 0.3018 | 0.4621 | 0.2150 | 48/217 | 46/65 |
+| mnar_out | 17 | 0.2809 | 0.4582 | 0.2102 | 46/202 | 45/69 |
+| mnar_out | 18 | 0.3157 | 0.5393 | 0.2436 | 34/227 | 42/74 |
+| mnar_out | 19 | 0.3088 | 0.4902 | 0.2325 | 40/222 | 45/75 |
+| mnar_out | 20 | 0.3018 | 0.5092 | 0.2261 | 39/217 | 44/75 |
+| mnar_out | 21 | 0.2782 | 0.5133 | 0.2022 | 41/200 | 38/71 |
+| mnar_out | 22 | 0.2935 | 0.5121 | 0.2229 | 40/211 | 42/72 |
+| mnar_out | 23 | 0.3032 | 0.4874 | 0.2277 | 41/218 | 40/75 |
+| mnar_out | 24 | 0.3004 | 0.5026 | 0.2293 | 31/216 | 44/71 |
+| mnar_out | 25 | 0.3046 | 0.4827 | 0.2357 | 42/219 | 47/73 |
+| mnar_out | 26 | 0.2879 | 0.4637 | 0.2102 | 50/207 | 38/72 |
+| mnar_out | 27 | 0.2949 | 0.5179 | 0.2182 | 41/212 | 41/70 |
+| mnar_out | 28 | 0.2921 | 0.4988 | 0.2197 | 40/210 | 42/67 |
+| mnar_out | 29 | 0.3171 | 0.5278 | 0.2500 | 36/228 | 45/72 |
+| mnar_out | 30 | 0.3060 | 0.5389 | 0.2261 | 44/220 | 44/69 |
 
 `removal_strata.csv` in each split reports removal by tail/head arity and role degree decile. The degree deciles use deterministic equal-count actor ranks on the full cap-eligible native-event projection.

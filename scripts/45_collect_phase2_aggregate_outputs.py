@@ -61,6 +61,10 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
         "heuristic_metric_summary.csv",
         "hard_panel_metric_summary.csv",
     ),
+    "enron_native_heuristic_paired_uncertainty": (
+        "summary.md",
+        "paired_differences.csv",
+    ),
     "eu_core_formal_concepts_tail3_head3": (
         "summary.md",
         "arity_distribution.csv",
@@ -102,6 +106,10 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
         "heuristic_metric_summary.csv",
         "hard_panel_metric_summary.csv",
     ),
+    "mathoverflow_native_heuristic_paired_uncertainty": (
+        "summary.md",
+        "paired_differences.csv",
+    ),
 }
 
 MODEL_ARTIFACTS: dict[str, tuple[str, ...]] = {
@@ -129,6 +137,7 @@ MODEL_ARTIFACTS: dict[str, tuple[str, ...]] = {
         "split_status.csv",
         "network_summary.csv",
     ),
+    "enron_native_ergm_paired_uncertainty": ("summary.md", "paired_differences.csv"),
     "enron_temporal_lagged": (
         "summary.md",
         "factorized_coefficients.csv",
@@ -186,6 +195,10 @@ MODEL_ARTIFACTS: dict[str, tuple[str, ...]] = {
         "model_status.csv",
         "split_status.csv",
         "network_summary.csv",
+    ),
+    "mathoverflow_native_ergm_paired_uncertainty": (
+        "summary.md",
+        "paired_differences.csv",
     ),
 }
 

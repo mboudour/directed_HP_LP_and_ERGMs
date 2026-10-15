@@ -214,7 +214,7 @@ phase2-mathoverflow-native-fidelity: phase2-mathoverflow-static-prep
 	@cat results/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.md
 
 phase2-mathoverflow-event-masks: phase2-mathoverflow-static-prep
-	uv run python scripts/36_prepare_event_first_masks.py --dataset-id=mathoverflow_stackexchange_2024 --events=data/processed/mathoverflow_stackexchange_2024/core100_native_events.parquet --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --event-tail-column=tail_answerers --event-head-column=head_asker --node-column=node --tail-cap=3 --head-cap=3 --mask-rate=0.30 --mechanisms=mcar,mnar_out --replicates=3 --seed=20261013 --output-dir=results/phase2/mathoverflow_event_first_type_masks --overwrite
+	uv run python scripts/36_prepare_event_first_masks.py --dataset-id=mathoverflow_stackexchange_2024 --events=data/processed/mathoverflow_stackexchange_2024/core100_native_events.parquet --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --event-tail-column=tail_answerers --event-head-column=head_asker --node-column=node --tail-cap=3 --head-cap=3 --mask-rate=0.30 --mechanisms=mcar,mnar_out --replicates=30 --seed=20261013 --output-dir=results/phase2/mathoverflow_event_first_type_masks --overwrite
 	@cat results/phase2/mathoverflow_event_first_type_masks/summary.md
 
 phase2-mathoverflow-native-heuristics: phase2-mathoverflow-event-masks
@@ -289,7 +289,7 @@ phase2-enron-native-fidelity:
 	@cat results/phase2/enron_native_event_fidelity_tail3_head3/summary.md
 
 phase2-enron-event-masks:
-	uv run python scripts/36_prepare_event_first_masks.py --dataset-id=enron_20150507 --events=data/processed/enron_20150507/custodian_native_events.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --event-tail-column=tail_custodian --event-head-column=head_custodians --node-column=custodian_mailbox --tail-cap=3 --head-cap=3 --mask-rate=0.30 --mechanisms=mcar,mnar_out --replicates=3 --seed=20261013 --output-dir=results/phase2/enron_event_first_type_masks --overwrite
+	uv run python scripts/36_prepare_event_first_masks.py --dataset-id=enron_20150507 --events=data/processed/enron_20150507/custodian_native_events.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --event-tail-column=tail_custodian --event-head-column=head_custodians --node-column=custodian_mailbox --tail-cap=3 --head-cap=3 --mask-rate=0.30 --mechanisms=mcar,mnar_out --replicates=30 --seed=20261013 --output-dir=results/phase2/enron_event_first_type_masks --overwrite
 	@cat results/phase2/enron_event_first_type_masks/summary.md
 
 phase2-enron-native-heuristics: phase2-enron-event-masks
@@ -405,3 +405,16 @@ phase2-mathoverflow-native-sensitivity:
 	uv run python scripts/50_run_native_missingness_sensitivity.py --dataset-id=mathoverflow_stackexchange_2024 --events=data/processed/mathoverflow_stackexchange_2024/core100_native_events.parquet --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --event-tail-column=tail_answerers --event-head-column=head_asker --node-column=node --rates=0.10,0.20,0.50 --mechanisms=mcar,mnar_out,mnar_in --replicates=3 --tail-cap=3 --head-cap=3 --max-weak-distance=2 --seed=20261013 --output-root=results/phase2/mathoverflow_native_missingness_sensitivity_raw --overwrite
 	uv run python scripts/51_summarize_native_missingness_sensitivity.py --dataset-id=mathoverflow_stackexchange_2024 --input-root=results/phase2/mathoverflow_native_missingness_sensitivity_raw --output-dir=results/phase2/mathoverflow_native_missingness_sensitivity --overwrite
 	@cat results/phase2/mathoverflow_native_missingness_sensitivity/summary.md
+
+.PHONY: phase2-enron-paired-uncertainty phase2-mathoverflow-paired-uncertainty
+phase2-enron-paired-uncertainty: phase2-enron-native-ergm-footprints
+	uv run python scripts/52_paired_mask_uncertainty.py --dataset-id=enron_20150507 --kind=native_heuristic --input-dir=results/phase2/enron_event_first_native_heuristics --output-dir=results/phase2/enron_native_heuristic_paired_uncertainty --bootstrap-reps=10000 --permutation-reps=20000 --seed=20261013 --overwrite
+	uv run python scripts/52_paired_mask_uncertainty.py --dataset-id=enron_20150507 --kind=native_ergm --input-dir=results/models/enron_native_event_ergm_footprints --output-dir=results/models/enron_native_ergm_paired_uncertainty --bootstrap-reps=10000 --permutation-reps=20000 --seed=20261013 --overwrite
+	@cat results/phase2/enron_native_heuristic_paired_uncertainty/summary.md
+	@cat results/models/enron_native_ergm_paired_uncertainty/summary.md
+
+phase2-mathoverflow-paired-uncertainty: phase2-mathoverflow-native-ergm-footprints
+	uv run python scripts/52_paired_mask_uncertainty.py --dataset-id=mathoverflow_stackexchange_2024 --kind=native_heuristic --input-dir=results/phase2/mathoverflow_event_first_native_heuristics --output-dir=results/phase2/mathoverflow_native_heuristic_paired_uncertainty --bootstrap-reps=10000 --permutation-reps=20000 --seed=20261013 --overwrite
+	uv run python scripts/52_paired_mask_uncertainty.py --dataset-id=mathoverflow_stackexchange_2024 --kind=native_ergm --input-dir=results/models/mathoverflow_native_event_ergm_footprints --output-dir=results/models/mathoverflow_native_ergm_paired_uncertainty --bootstrap-reps=10000 --permutation-reps=20000 --seed=20261013 --overwrite
+	@cat results/phase2/mathoverflow_native_heuristic_paired_uncertainty/summary.md
+	@cat results/models/mathoverflow_native_ergm_paired_uncertainty/summary.md

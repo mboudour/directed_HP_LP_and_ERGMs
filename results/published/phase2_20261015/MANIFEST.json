@@ -145,69 +145,69 @@
       "source": "results/phase2/enron_fidelity_rewire_null/rewire_metrics.csv"
     },
     {
-      "bytes": "1284",
+      "bytes": "4516",
       "published": "results/published/phase2_20261015/phase2/enron_event_first_type_masks/summary.md",
-      "sha256": "f6083a76d70f14cfa3f763d0295f08263f9b5a04d41ec5768c29479ca5d26f56",
+      "sha256": "afc6c5845c1507e0d047b908b621d76cbeacce6ee593e300bda6576e6db227c1",
       "source": "results/phase2/enron_event_first_type_masks/summary.md"
     },
     {
-      "bytes": "7958",
+      "bytes": "73863",
       "published": "results/published/phase2_20261015/phase2/enron_event_first_type_masks/split_summary.csv",
-      "sha256": "13e461136bc776599fccd175a65b0efcefffb3ff4a414381cce7541e76917637",
+      "sha256": "a9c9af510a2d41d1e7d3e04992685799388e783ba7d55909abe5f40cf0f5cc06",
       "source": "results/phase2/enron_event_first_type_masks/split_summary.csv"
     },
     {
-      "bytes": "7569",
+      "bytes": "9481",
       "published": "results/published/phase2_20261015/phase2/enron_event_first_native_heuristics/summary.md",
-      "sha256": "e6b4f5228bdf0f1559b37feb4260a79822c7daf7450e5835a3b6458241341f2b",
+      "sha256": "679bfcc7105aa895daf27f1a6fbea6a95da34a00c6b3b43973433a9f469e087e",
       "source": "results/phase2/enron_event_first_native_heuristics/summary.md"
     },
     {
-      "bytes": "7277",
+      "bytes": "7383",
       "published": "results/published/phase2_20261015/phase2/enron_event_first_native_heuristics/metric_summary.csv",
-      "sha256": "013e5fd2de74603861b456ff646c42cda452147123d051e2124055aca4b38283",
+      "sha256": "c8a7a998997fb5f1c0b77634af803d3df58e9b1097c9183f7aa5b46828854075",
       "source": "results/phase2/enron_event_first_native_heuristics/metric_summary.csv"
     },
     {
-      "bytes": "446",
+      "bytes": "3059",
       "published": "results/published/phase2_20261015/phase2/enron_event_first_native_heuristics/split_summary.csv",
-      "sha256": "ee3ce6f79bd6814c5c903626e903528b02151a6e7849c8abfaded26ff633ae0b",
+      "sha256": "0074d3bb0ac86faae872500570d9761116aad7d5ce3cc9df8c953b69c0dde1d5",
       "source": "results/phase2/enron_event_first_native_heuristics/split_summary.csv"
     },
     {
-      "bytes": "16978",
+      "bytes": "18871",
       "published": "results/published/phase2_20261015/phase2/enron_event_first_native_hard_panels/summary.md",
-      "sha256": "044aefc73777b6febbdc8d6f344d72f05cdfd5a818d09bb088b726221c43556a",
+      "sha256": "55df1bf4bd79cb495e156ee4d52f49369efc7b7a63f05c03fa0d9ec4b7028d10",
       "source": "results/phase2/enron_event_first_native_hard_panels/summary.md"
     },
     {
-      "bytes": "16628",
+      "bytes": "16903",
       "published": "results/published/phase2_20261015/phase2/enron_event_first_native_hard_panels/metric_summary.csv",
-      "sha256": "3c43b5134884ff5d9b5b2c948e09bdbc4fac031f5e603bc1c31b19ab9662ae30",
+      "sha256": "c9ea0c97d8687be920ac993db93b38afdb7817b51dcfa2b3ff705270dea44896",
       "source": "results/phase2/enron_event_first_native_hard_panels/metric_summary.csv"
     },
     {
-      "bytes": "402",
+      "bytes": "2692",
       "published": "results/published/phase2_20261015/phase2/enron_event_first_native_hard_panels/split_summary.csv",
-      "sha256": "357248397e08a769a94c2a3e24682611e0103df82bcd610bfc55194648b8af5a",
+      "sha256": "61ec4992e304d28be94ca049f12bf845b5f753905ab105b8ee9a96694328181b",
       "source": "results/phase2/enron_event_first_native_hard_panels/split_summary.csv"
     },
     {
-      "bytes": "760",
+      "bytes": "2638",
       "published": "results/published/phase2_20261015/phase2/enron_native_event_role_assignment/summary.md",
-      "sha256": "10a9a477d2d63a047ea47d278f5353dc84e188306b60cf4a9d4210013e44bbc0",
+      "sha256": "e4e5688bb79c450daa920b6077fa059f6d2830f41c0814d6967062bc2b2bd092",
       "source": "results/phase2/enron_native_event_role_assignment/summary.md"
     },
     {
-      "bytes": "13201",
+      "bytes": "13290",
       "published": "results/published/phase2_20261015/phase2/enron_native_event_role_assignment/metric_summary_by_arity.csv",
-      "sha256": "e47c37f4b7434e443294d5a79190a3ce59bc547475a26fa88f9a7c0cc18aa0ac",
+      "sha256": "627683bd8e8f0fd78c7595667907e580296a4b03c98ee19aea30a40513a7d70c",
       "source": "results/phase2/enron_native_event_role_assignment/metric_summary_by_arity.csv"
     },
     {
-      "bytes": "297",
+      "bytes": "2256",
       "published": "results/published/phase2_20261015/phase2/enron_native_event_role_assignment/split_summary.csv",
-      "sha256": "cc0493636b42198853343ea3d1efc17d5462d631eadc373510931c90550b5e1b",
+      "sha256": "519bb94c8bb39322287417866f36226ee46e6df2cdace779c92c438dce448c49",
       "source": "results/phase2/enron_native_event_role_assignment/split_summary.csv"
     },
     {
@@ -233,6 +233,18 @@
       "published": "results/published/phase2_20261015/phase2/enron_native_missingness_sensitivity/hard_panel_metric_summary.csv",
       "sha256": "1b9ff9cd2cd4124bedb5fc8774dc715b0a92ae1d1faf8136cd04c4bd3ad22e9e",
       "source": "results/phase2/enron_native_missingness_sensitivity/hard_panel_metric_summary.csv"
+    },
+    {
+      "bytes": "528",
+      "published": "results/published/phase2_20261015/phase2/enron_native_heuristic_paired_uncertainty/summary.md",
+      "sha256": "ca9168de9782a86d6bc120d8e62a8a9e1e5bb5622533f2b25cb903dfa51efd8c",
+      "source": "results/phase2/enron_native_heuristic_paired_uncertainty/summary.md"
+    },
+    {
+      "bytes": "16880",
+      "published": "results/published/phase2_20261015/phase2/enron_native_heuristic_paired_uncertainty/paired_differences.csv",
+      "sha256": "d7300c83eaf8ee6d51f7aff4813ab04a0a439673bc8c32f253da8eb548231df7",
+      "source": "results/phase2/enron_native_heuristic_paired_uncertainty/paired_differences.csv"
     },
     {
       "bytes": "755",
@@ -355,69 +367,69 @@
       "source": "results/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.json"
     },
     {
-      "bytes": "1301",
+      "bytes": "4533",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_type_masks/summary.md",
-      "sha256": "28b6eda5a06fda436d3af7fd75461c2390977327cc961efa3cccec64fb6530fc",
+      "sha256": "7bbfe09d5b503b4f1c3d24e18664b40ef33cd4e216f4e99dc0dab11ef7c50408",
       "source": "results/phase2/mathoverflow_event_first_type_masks/summary.md"
     },
     {
-      "bytes": "6735",
+      "bytes": "61723",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_type_masks/split_summary.csv",
-      "sha256": "da978c4123f0b895c8043923179df7f7ac5e15c6ca5e4a62a61fc305f2207ed9",
+      "sha256": "743a9652dfd4784c86709bc1280dcf480870998b1d339eb738d1f9a6776657ee",
       "source": "results/phase2/mathoverflow_event_first_type_masks/split_summary.csv"
     },
     {
-      "bytes": "7586",
+      "bytes": "9498",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_heuristics/summary.md",
-      "sha256": "3285d9d2707708700b0674cc2ada6b7b2d6881f1e449dd118f21a141cc7dcecd",
+      "sha256": "10cf90935fca2b89931d2bc978c76d3a2fa3f33f80d6fadf4c1053504a8819d4",
       "source": "results/phase2/mathoverflow_event_first_native_heuristics/summary.md"
     },
     {
-      "bytes": "7302",
+      "bytes": "7384",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_heuristics/metric_summary.csv",
-      "sha256": "81cb5b42c063578273c9ef5cea193c14d81bec378b13b94d4f0dd5913329b3f9",
+      "sha256": "42ce53d3f566a1972e9f978db49255d45724ca2b8af3a224a4879ae315606d5a",
       "source": "results/phase2/mathoverflow_event_first_native_heuristics/metric_summary.csv"
     },
     {
-      "bytes": "446",
+      "bytes": "3051",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_heuristics/split_summary.csv",
-      "sha256": "418909788ba244f942a9f103930a9992b449d70429f2cd5fb084d6df682fb47e",
+      "sha256": "9ec76682e9ff489138966bd492ff8e70d4e785b77eccd23ff0f5b6942e27671f",
       "source": "results/phase2/mathoverflow_event_first_native_heuristics/split_summary.csv"
     },
     {
-      "bytes": "17007",
+      "bytes": "19007",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_hard_panels/summary.md",
-      "sha256": "ed389f65078f6d791b51efb1d327a0ab452a2aa7009e6dc23e5fa19cba64eb5b",
+      "sha256": "02e3633770b1be8683b0ada4cfc646cd0c04ce51131de039e220f9725dc9306c",
       "source": "results/phase2/mathoverflow_event_first_native_hard_panels/summary.md"
     },
     {
-      "bytes": "16652",
+      "bytes": "16893",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_hard_panels/metric_summary.csv",
-      "sha256": "eb1ae113581eebc2843b752ec3c94b25a467e4130b3fe18ca68c09a1e3eb0554",
+      "sha256": "7c2fa44b97c0757d077c32e294dac5df7b80a493f2d22e5882be41b645d19d49",
       "source": "results/phase2/mathoverflow_event_first_native_hard_panels/metric_summary.csv"
     },
     {
-      "bytes": "414",
+      "bytes": "2803",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_hard_panels/split_summary.csv",
-      "sha256": "7a1f49b471e3b0db6e6f186f35a54b15764b314e5bf0715900abb94c8e02027d",
+      "sha256": "52e5542359530b436c864c3ab94193061ace9b50adafb8c010c443878f420ea5",
       "source": "results/phase2/mathoverflow_event_first_native_hard_panels/split_summary.csv"
     },
     {
-      "bytes": "777",
+      "bytes": "2655",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_native_event_role_assignment/summary.md",
-      "sha256": "55f1ec56cdac9d57417a844b08b67dda174087a82c4af6f4f81f9b8ce63477dd",
+      "sha256": "ecd1a5a3dfb5fbfc57e5ad33e79ecd3412c28e56762ba88898b7c9e3224b3bf8",
       "source": "results/phase2/mathoverflow_native_event_role_assignment/summary.md"
     },
     {
-      "bytes": "12999",
+      "bytes": "13336",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_native_event_role_assignment/metric_summary_by_arity.csv",
-      "sha256": "c1762cc65110e4f3a5413a0c7d1458fb3e224d3912815b2a8be9173884f2fda1",
+      "sha256": "32558588ad956bfe46c08e4f687bb3a3a6dc8833680842d73f3779009d77ed8b",
       "source": "results/phase2/mathoverflow_native_event_role_assignment/metric_summary_by_arity.csv"
     },
     {
-      "bytes": "298",
+      "bytes": "2216",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_native_event_role_assignment/split_summary.csv",
-      "sha256": "4b6b0153ad6a183619932472ca9808803e851ebca80325cace88fddb26f99048",
+      "sha256": "76bf7fe799d282e464e78cc132f6ef9358d7958f48d5938afcb4c2b84261e400",
       "source": "results/phase2/mathoverflow_native_event_role_assignment/split_summary.csv"
     },
     {
@@ -443,6 +455,18 @@
       "published": "results/published/phase2_20261015/phase2/mathoverflow_native_missingness_sensitivity/hard_panel_metric_summary.csv",
       "sha256": "b331f84c582b62c5e26726c69ce02b8e2ffb7bc941a4e5fa5a4d4793fd35e834",
       "source": "results/phase2/mathoverflow_native_missingness_sensitivity/hard_panel_metric_summary.csv"
+    },
+    {
+      "bytes": "545",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_heuristic_paired_uncertainty/summary.md",
+      "sha256": "f0a48cb8b7fcaa7d9adacfeba995e74b4681c7df138d51476c1118ab4c758430",
+      "source": "results/phase2/mathoverflow_native_heuristic_paired_uncertainty/summary.md"
+    },
+    {
+      "bytes": "18279",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_heuristic_paired_uncertainty/paired_differences.csv",
+      "sha256": "05493c9deac8b22ba907dd581b417df8c0067210059538b19747c5d532865791",
+      "source": "results/phase2/mathoverflow_native_heuristic_paired_uncertainty/paired_differences.csv"
     },
     {
       "bytes": "835",
@@ -541,40 +565,52 @@
       "source": "results/models/enron_masked_ergm_plan/replicate_network_summary.csv"
     },
     {
-      "bytes": "21896",
+      "bytes": "22186",
       "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/summary.md",
-      "sha256": "a7bad1509d67f2669e258ec2a31d560d47761b4ec1f4f3ee1b2450610cd4686b",
+      "sha256": "12bb8da039b127b12b24efa41098e07820948140e7c78eb65b2198bf3514f11a",
       "source": "results/models/enron_native_event_ergm_footprints/summary.md"
     },
     {
-      "bytes": "22946",
+      "bytes": "23198",
       "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/metric_summary.csv",
-      "sha256": "f8d4af99846e8426087244444955bcf87395567ba97c8bb288c6609eaa3f5dee",
+      "sha256": "46084ae1563811cc49742eb7866024e40ccfd9b390f57e00da92c015409790d3",
       "source": "results/models/enron_native_event_ergm_footprints/metric_summary.csv"
     },
     {
-      "bytes": "101338",
+      "bytes": "1017503",
       "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/ranking_metrics.csv",
-      "sha256": "c6583845af84a35cf3e2969410e34d5e5b68b579c44f07d0d66f7225cee13ca5",
+      "sha256": "f1d03b027b852953333d45d758dd7cfe1f7e3cb01cca4bf95dee93dc57df1d83",
       "source": "results/models/enron_native_event_ergm_footprints/ranking_metrics.csv"
     },
     {
-      "bytes": "4705",
+      "bytes": "45805",
       "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/model_status.csv",
-      "sha256": "53080125aa222c826508f8c2ad784bafd55c61044e4633d488048d9d680e4644",
+      "sha256": "43c7f46547788fef0137d8710b1796759256d144515df92fe1928b705351fc12",
       "source": "results/models/enron_native_event_ergm_footprints/model_status.csv"
     },
     {
-      "bytes": "3181",
+      "bytes": "30115",
       "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/split_status.csv",
-      "sha256": "fa7a9b5a3257235a16a865f866c7fd181b5d27f761c641b2c86056b8f529522c",
+      "sha256": "5b82802a0742659d7983a821904119a954c8ea50488cb85b6e546e2ec4c4af90",
       "source": "results/models/enron_native_event_ergm_footprints/split_status.csv"
     },
     {
-      "bytes": "775",
+      "bytes": "5952",
       "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/network_summary.csv",
-      "sha256": "a0b0d0e6c65aebd511ca3efd04ebe55da74f72dcc1d2b2e1986c5271da9e7e89",
+      "sha256": "584a7772555ca4d151dd32ca2df6a8f2e5c9faba603f3eff578302b679a405b2",
       "source": "results/models/enron_native_event_ergm_footprints/network_summary.csv"
+    },
+    {
+      "bytes": "500",
+      "published": "results/published/phase2_20261015/models/enron_native_ergm_paired_uncertainty/summary.md",
+      "sha256": "822976707a94e6d93b5ae959d9309c85f3e16293d633033d7ed6dad7d4111832",
+      "source": "results/models/enron_native_ergm_paired_uncertainty/summary.md"
+    },
+    {
+      "bytes": "42186",
+      "published": "results/published/phase2_20261015/models/enron_native_ergm_paired_uncertainty/paired_differences.csv",
+      "sha256": "3454615f599cff4cc57627a4f132e8f6c56c8288348c4363c0c1b0b76bb3ad67",
+      "source": "results/models/enron_native_ergm_paired_uncertainty/paired_differences.csv"
     },
     {
       "bytes": "1464",
@@ -805,40 +841,52 @@
       "source": "results/models/mathoverflow_masked_ergm_plan/replicate_network_summary.csv"
     },
     {
-      "bytes": "21903",
+      "bytes": "22193",
       "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/summary.md",
-      "sha256": "e29753f30fd3227f2499edf0f0d5c70b943a30b2109c5fd428b9737586092d0e",
+      "sha256": "ba89d272bacc752c10dcfed46d8d8d229e6cf825ed2583c1470b583a4c7a0431",
       "source": "results/models/mathoverflow_native_event_ergm_footprints/summary.md"
     },
     {
-      "bytes": "22981",
+      "bytes": "23212",
       "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/metric_summary.csv",
-      "sha256": "011a2e982266e287201a4217c8911ad476a9a1280d9e11a824be463541dc3c74",
+      "sha256": "9c230061540acc5698d3c7d80fbf3032bb7b47c87253a1202497c36cb411bfa8",
       "source": "results/models/mathoverflow_native_event_ergm_footprints/metric_summary.csv"
     },
     {
-      "bytes": "103264",
+      "bytes": "1037613",
       "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/ranking_metrics.csv",
-      "sha256": "fbdb8e9922f0d05ca1f3b2c2d8d38ac20fd27789e7e7c993c3946cdac16631e4",
+      "sha256": "d3c133170bec95ec59bdebb548c004169938eedbabc5ffbea3feb5d132293a8e",
       "source": "results/models/mathoverflow_native_event_ergm_footprints/ranking_metrics.csv"
     },
     {
-      "bytes": "4753",
+      "bytes": "46285",
       "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/model_status.csv",
-      "sha256": "f731d4b4867ee97acc9163fdcf788859805775b38a7030c0c229a54ca987f13c",
+      "sha256": "f0d0e3a0890f7bb35e035161bb3950009260f4fa934435cd549e7d610433976c",
       "source": "results/models/mathoverflow_native_event_ergm_footprints/model_status.csv"
     },
     {
-      "bytes": "3319",
+      "bytes": "31495",
       "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/split_status.csv",
-      "sha256": "b9d37e07717f95869075fd18d2be06aed9d4a16d30e03bfe68905babaefa2524",
+      "sha256": "b077e69c179782175fad9308ef279bfeb0ff595ccc052c291303c733fc857d3d",
       "source": "results/models/mathoverflow_native_event_ergm_footprints/split_status.csv"
     },
     {
-      "bytes": "770",
+      "bytes": "5908",
       "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/network_summary.csv",
-      "sha256": "f1aa869c5a77de2d4b1e94a8759ca7d7529f854e735be3224ddd392a62bcaa63",
+      "sha256": "b53dea4459e7b49ac69681b7a9efcec34d5e6c364cd97fef24fb14a1dd86bad9",
       "source": "results/models/mathoverflow_native_event_ergm_footprints/network_summary.csv"
+    },
+    {
+      "bytes": "517",
+      "published": "results/published/phase2_20261015/models/mathoverflow_native_ergm_paired_uncertainty/summary.md",
+      "sha256": "ef7c9a7c8e83d070af93a9edc48cb6449bb8467838e55be1ae1c8a26b9e05e8c",
+      "source": "results/models/mathoverflow_native_ergm_paired_uncertainty/summary.md"
+    },
+    {
+      "bytes": "46531",
+      "published": "results/published/phase2_20261015/models/mathoverflow_native_ergm_paired_uncertainty/paired_differences.csv",
+      "sha256": "3c33cad27853b43eb929bdebddf6135b18c550eedb0cb5d8e2d13bfaa2e87361",
+      "source": "results/models/mathoverflow_native_ergm_paired_uncertainty/paired_differences.csv"
     }
   ],
   "privacy_policy": "No raw data, event rows, actor identifiers, candidate panels, conditional prediction rows, fitted R objects, or free-form logs are included.",

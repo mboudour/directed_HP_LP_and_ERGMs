@@ -12,101 +12,155 @@
 | mcar | 1 | 215 | 197 | 197 |
 | mcar | 2 | 215 | 198 | 198 |
 | mcar | 3 | 215 | 211 | 211 |
+| mcar | 4 | 215 | 206 | 206 |
+| mcar | 5 | 215 | 200 | 200 |
+| mcar | 6 | 215 | 196 | 196 |
+| mcar | 7 | 215 | 211 | 211 |
+| mcar | 8 | 215 | 206 | 206 |
+| mcar | 9 | 215 | 201 | 201 |
+| mcar | 10 | 215 | 201 | 201 |
+| mcar | 11 | 215 | 196 | 196 |
+| mcar | 12 | 215 | 196 | 196 |
+| mcar | 13 | 215 | 195 | 195 |
+| mcar | 14 | 215 | 187 | 187 |
+| mcar | 15 | 215 | 208 | 208 |
+| mcar | 16 | 215 | 205 | 205 |
+| mcar | 17 | 215 | 202 | 202 |
+| mcar | 18 | 215 | 204 | 204 |
+| mcar | 19 | 215 | 196 | 196 |
+| mcar | 20 | 215 | 198 | 198 |
+| mcar | 21 | 215 | 206 | 206 |
+| mcar | 22 | 215 | 201 | 201 |
+| mcar | 23 | 215 | 205 | 205 |
+| mcar | 24 | 215 | 204 | 204 |
+| mcar | 25 | 215 | 200 | 200 |
+| mcar | 26 | 215 | 207 | 207 |
+| mcar | 27 | 215 | 201 | 201 |
+| mcar | 28 | 215 | 206 | 206 |
+| mcar | 29 | 215 | 199 | 199 |
+| mcar | 30 | 215 | 200 | 200 |
 | mnar_out | 1 | 231 | 224 | 224 |
 | mnar_out | 2 | 210 | 194 | 194 |
 | mnar_out | 3 | 208 | 203 | 203 |
+| mnar_out | 4 | 228 | 213 | 213 |
+| mnar_out | 5 | 213 | 202 | 202 |
+| mnar_out | 6 | 217 | 207 | 207 |
+| mnar_out | 7 | 209 | 199 | 199 |
+| mnar_out | 8 | 212 | 202 | 202 |
+| mnar_out | 9 | 222 | 211 | 211 |
+| mnar_out | 10 | 209 | 197 | 197 |
+| mnar_out | 11 | 204 | 191 | 191 |
+| mnar_out | 12 | 222 | 207 | 207 |
+| mnar_out | 13 | 212 | 197 | 197 |
+| mnar_out | 14 | 213 | 202 | 202 |
+| mnar_out | 15 | 213 | 199 | 199 |
+| mnar_out | 16 | 217 | 206 | 206 |
+| mnar_out | 17 | 202 | 186 | 186 |
+| mnar_out | 18 | 227 | 215 | 215 |
+| mnar_out | 19 | 222 | 214 | 214 |
+| mnar_out | 20 | 217 | 213 | 213 |
+| mnar_out | 21 | 200 | 193 | 193 |
+| mnar_out | 22 | 211 | 200 | 200 |
+| mnar_out | 23 | 218 | 201 | 201 |
+| mnar_out | 24 | 216 | 210 | 210 |
+| mnar_out | 25 | 219 | 210 | 210 |
+| mnar_out | 26 | 207 | 197 | 197 |
+| mnar_out | 27 | 212 | 200 | 200 |
+| mnar_out | 28 | 210 | 197 | 197 |
+| mnar_out | 29 | 228 | 218 | 218 |
+| mnar_out | 30 | 220 | 213 | 213 |
 
 ## Ranking metrics across completed replicates
 
 | Mechanism | Score | Metric | Completed replicates | Mean | SD |
 |---|---|---|---:|---:|---:|
-| mcar | already_observed_footprint | pr_auc | 3 | 0.6444 | 0.0090 |
-| mcar | already_observed_footprint | precision_at_k | 3 | 0.5907 | 0.0066 |
-| mcar | already_observed_footprint | recall_at_k | 3 | 0.5907 | 0.0066 |
-| mcar | already_observed_footprint | roc_auc | 3 | 0.6511 | 0.0092 |
-| mcar | lifted_adamic_adar_ii_mean | pr_auc | 3 | 0.7514 | 0.0316 |
-| mcar | lifted_adamic_adar_ii_mean | precision_at_k | 3 | 0.6802 | 0.0275 |
-| mcar | lifted_adamic_adar_ii_mean | recall_at_k | 3 | 0.6802 | 0.0275 |
-| mcar | lifted_adamic_adar_ii_mean | roc_auc | 3 | 0.7318 | 0.0342 |
-| mcar | lifted_adamic_adar_oi_mean | pr_auc | 3 | 0.7531 | 0.0424 |
-| mcar | lifted_adamic_adar_oi_mean | precision_at_k | 3 | 0.6683 | 0.0498 |
-| mcar | lifted_adamic_adar_oi_mean | recall_at_k | 3 | 0.6683 | 0.0498 |
-| mcar | lifted_adamic_adar_oi_mean | roc_auc | 3 | 0.7178 | 0.0554 |
-| mcar | lifted_adamic_adar_oo_mean | pr_auc | 3 | 0.7651 | 0.0406 |
-| mcar | lifted_adamic_adar_oo_mean | precision_at_k | 3 | 0.6899 | 0.0372 |
-| mcar | lifted_adamic_adar_oo_mean | recall_at_k | 3 | 0.6899 | 0.0372 |
-| mcar | lifted_adamic_adar_oo_mean | roc_auc | 3 | 0.7390 | 0.0394 |
-| mcar | lifted_adamic_adar_total_mean | pr_auc | 3 | 0.7988 | 0.0345 |
-| mcar | lifted_adamic_adar_total_mean | precision_at_k | 3 | 0.7234 | 0.0329 |
-| mcar | lifted_adamic_adar_total_mean | recall_at_k | 3 | 0.7234 | 0.0329 |
-| mcar | lifted_adamic_adar_total_mean | roc_auc | 3 | 0.7752 | 0.0367 |
-| mcar | lifted_cn_total_mean | pr_auc | 3 | 0.7718 | 0.0384 |
-| mcar | lifted_cn_total_mean | precision_at_k | 3 | 0.7005 | 0.0360 |
-| mcar | lifted_cn_total_mean | recall_at_k | 3 | 0.7005 | 0.0360 |
-| mcar | lifted_cn_total_mean | roc_auc | 3 | 0.7575 | 0.0431 |
-| mcar | lifted_degree_product_mean | pr_auc | 3 | 0.5630 | 0.0326 |
-| mcar | lifted_degree_product_mean | precision_at_k | 3 | 0.5649 | 0.0317 |
-| mcar | lifted_degree_product_mean | recall_at_k | 3 | 0.5649 | 0.0317 |
-| mcar | lifted_degree_product_mean | roc_auc | 3 | 0.5792 | 0.0489 |
-| mcar | lifted_ii_mean | pr_auc | 3 | 0.7080 | 0.0336 |
-| mcar | lifted_ii_mean | precision_at_k | 3 | 0.6533 | 0.0296 |
-| mcar | lifted_ii_mean | recall_at_k | 3 | 0.6533 | 0.0296 |
-| mcar | lifted_ii_mean | roc_auc | 3 | 0.7135 | 0.0342 |
-| mcar | lifted_oi_mean | pr_auc | 3 | 0.7165 | 0.0383 |
-| mcar | lifted_oi_mean | precision_at_k | 3 | 0.6446 | 0.0454 |
-| mcar | lifted_oi_mean | recall_at_k | 3 | 0.6446 | 0.0454 |
-| mcar | lifted_oi_mean | roc_auc | 3 | 0.7080 | 0.0515 |
-| mcar | lifted_oo_mean | pr_auc | 3 | 0.7193 | 0.0346 |
-| mcar | lifted_oo_mean | precision_at_k | 3 | 0.6551 | 0.0354 |
-| mcar | lifted_oo_mean | recall_at_k | 3 | 0.6551 | 0.0354 |
-| mcar | lifted_oo_mean | roc_auc | 3 | 0.7191 | 0.0398 |
-| mcar | lifted_reverse_arc_mean | pr_auc | 3 | 0.7589 | 0.0088 |
-| mcar | lifted_reverse_arc_mean | precision_at_k | 3 | 0.7158 | 0.0029 |
-| mcar | lifted_reverse_arc_mean | recall_at_k | 3 | 0.7158 | 0.0029 |
-| mcar | lifted_reverse_arc_mean | roc_auc | 3 | 0.7800 | 0.0049 |
-| mnar_out | already_observed_footprint | pr_auc | 3 | 0.5677 | 0.0243 |
-| mnar_out | already_observed_footprint | precision_at_k | 3 | 0.5445 | 0.0160 |
-| mnar_out | already_observed_footprint | recall_at_k | 3 | 0.5445 | 0.0160 |
-| mnar_out | already_observed_footprint | roc_auc | 3 | 0.5786 | 0.0258 |
-| mnar_out | lifted_adamic_adar_ii_mean | pr_auc | 3 | 0.7854 | 0.0286 |
-| mnar_out | lifted_adamic_adar_ii_mean | precision_at_k | 3 | 0.7148 | 0.0281 |
-| mnar_out | lifted_adamic_adar_ii_mean | recall_at_k | 3 | 0.7148 | 0.0281 |
-| mnar_out | lifted_adamic_adar_ii_mean | roc_auc | 3 | 0.7707 | 0.0200 |
-| mnar_out | lifted_adamic_adar_oi_mean | pr_auc | 3 | 0.6502 | 0.0024 |
-| mnar_out | lifted_adamic_adar_oi_mean | precision_at_k | 3 | 0.5511 | 0.0269 |
-| mnar_out | lifted_adamic_adar_oi_mean | recall_at_k | 3 | 0.5511 | 0.0269 |
-| mnar_out | lifted_adamic_adar_oi_mean | roc_auc | 3 | 0.5871 | 0.0162 |
-| mnar_out | lifted_adamic_adar_oo_mean | pr_auc | 3 | 0.6338 | 0.0042 |
-| mnar_out | lifted_adamic_adar_oo_mean | precision_at_k | 3 | 0.5312 | 0.0065 |
-| mnar_out | lifted_adamic_adar_oo_mean | recall_at_k | 3 | 0.5312 | 0.0065 |
-| mnar_out | lifted_adamic_adar_oo_mean | roc_auc | 3 | 0.5624 | 0.0070 |
-| mnar_out | lifted_adamic_adar_total_mean | pr_auc | 3 | 0.7502 | 0.0189 |
-| mnar_out | lifted_adamic_adar_total_mean | precision_at_k | 3 | 0.6628 | 0.0217 |
-| mnar_out | lifted_adamic_adar_total_mean | recall_at_k | 3 | 0.6628 | 0.0217 |
-| mnar_out | lifted_adamic_adar_total_mean | roc_auc | 3 | 0.7279 | 0.0181 |
-| mnar_out | lifted_cn_total_mean | pr_auc | 3 | 0.7111 | 0.0205 |
-| mnar_out | lifted_cn_total_mean | precision_at_k | 3 | 0.6451 | 0.0320 |
-| mnar_out | lifted_cn_total_mean | recall_at_k | 3 | 0.6451 | 0.0320 |
-| mnar_out | lifted_cn_total_mean | roc_auc | 3 | 0.6997 | 0.0239 |
-| mnar_out | lifted_degree_product_mean | pr_auc | 3 | 0.5134 | 0.0240 |
-| mnar_out | lifted_degree_product_mean | precision_at_k | 3 | 0.4868 | 0.0343 |
-| mnar_out | lifted_degree_product_mean | recall_at_k | 3 | 0.4868 | 0.0343 |
-| mnar_out | lifted_degree_product_mean | roc_auc | 3 | 0.4579 | 0.0160 |
-| mnar_out | lifted_ii_mean | pr_auc | 3 | 0.7469 | 0.0207 |
-| mnar_out | lifted_ii_mean | precision_at_k | 3 | 0.6896 | 0.0152 |
-| mnar_out | lifted_ii_mean | recall_at_k | 3 | 0.6896 | 0.0152 |
-| mnar_out | lifted_ii_mean | roc_auc | 3 | 0.7553 | 0.0189 |
-| mnar_out | lifted_oi_mean | pr_auc | 3 | 0.6152 | 0.0090 |
-| mnar_out | lifted_oi_mean | precision_at_k | 3 | 0.5417 | 0.0211 |
-| mnar_out | lifted_oi_mean | recall_at_k | 3 | 0.5417 | 0.0211 |
-| mnar_out | lifted_oi_mean | roc_auc | 3 | 0.5764 | 0.0174 |
-| mnar_out | lifted_oo_mean | pr_auc | 3 | 0.6017 | 0.0182 |
-| mnar_out | lifted_oo_mean | precision_at_k | 3 | 0.5163 | 0.0083 |
-| mnar_out | lifted_oo_mean | recall_at_k | 3 | 0.5163 | 0.0083 |
-| mnar_out | lifted_oo_mean | roc_auc | 3 | 0.5505 | 0.0159 |
-| mnar_out | lifted_reverse_arc_mean | pr_auc | 3 | 0.7884 | 0.0155 |
-| mnar_out | lifted_reverse_arc_mean | precision_at_k | 3 | 0.7474 | 0.0078 |
-| mnar_out | lifted_reverse_arc_mean | recall_at_k | 3 | 0.7474 | 0.0078 |
-| mnar_out | lifted_reverse_arc_mean | roc_auc | 3 | 0.8078 | 0.0084 |
+| mcar | already_observed_footprint | pr_auc | 30 | 0.6279 | 0.0220 |
+| mcar | already_observed_footprint | precision_at_k | 30 | 0.5799 | 0.0130 |
+| mcar | already_observed_footprint | recall_at_k | 30 | 0.5799 | 0.0130 |
+| mcar | already_observed_footprint | roc_auc | 30 | 0.6352 | 0.0199 |
+| mcar | lifted_adamic_adar_ii_mean | pr_auc | 30 | 0.7476 | 0.0205 |
+| mcar | lifted_adamic_adar_ii_mean | precision_at_k | 30 | 0.6706 | 0.0227 |
+| mcar | lifted_adamic_adar_ii_mean | recall_at_k | 30 | 0.6706 | 0.0227 |
+| mcar | lifted_adamic_adar_ii_mean | roc_auc | 30 | 0.7211 | 0.0212 |
+| mcar | lifted_adamic_adar_oi_mean | pr_auc | 30 | 0.7538 | 0.0234 |
+| mcar | lifted_adamic_adar_oi_mean | precision_at_k | 30 | 0.6731 | 0.0250 |
+| mcar | lifted_adamic_adar_oi_mean | recall_at_k | 30 | 0.6731 | 0.0250 |
+| mcar | lifted_adamic_adar_oi_mean | roc_auc | 30 | 0.7263 | 0.0242 |
+| mcar | lifted_adamic_adar_oo_mean | pr_auc | 30 | 0.7496 | 0.0287 |
+| mcar | lifted_adamic_adar_oo_mean | precision_at_k | 30 | 0.6703 | 0.0270 |
+| mcar | lifted_adamic_adar_oo_mean | recall_at_k | 30 | 0.6703 | 0.0270 |
+| mcar | lifted_adamic_adar_oo_mean | roc_auc | 30 | 0.7216 | 0.0277 |
+| mcar | lifted_adamic_adar_total_mean | pr_auc | 30 | 0.7966 | 0.0187 |
+| mcar | lifted_adamic_adar_total_mean | precision_at_k | 30 | 0.7107 | 0.0240 |
+| mcar | lifted_adamic_adar_total_mean | recall_at_k | 30 | 0.7107 | 0.0240 |
+| mcar | lifted_adamic_adar_total_mean | roc_auc | 30 | 0.7631 | 0.0181 |
+| mcar | lifted_cn_total_mean | pr_auc | 30 | 0.7695 | 0.0196 |
+| mcar | lifted_cn_total_mean | precision_at_k | 30 | 0.6979 | 0.0206 |
+| mcar | lifted_cn_total_mean | recall_at_k | 30 | 0.6979 | 0.0206 |
+| mcar | lifted_cn_total_mean | roc_auc | 30 | 0.7510 | 0.0188 |
+| mcar | lifted_degree_product_mean | pr_auc | 30 | 0.5758 | 0.0276 |
+| mcar | lifted_degree_product_mean | precision_at_k | 30 | 0.5690 | 0.0213 |
+| mcar | lifted_degree_product_mean | recall_at_k | 30 | 0.5690 | 0.0213 |
+| mcar | lifted_degree_product_mean | roc_auc | 30 | 0.5849 | 0.0288 |
+| mcar | lifted_ii_mean | pr_auc | 30 | 0.7024 | 0.0191 |
+| mcar | lifted_ii_mean | precision_at_k | 30 | 0.6494 | 0.0155 |
+| mcar | lifted_ii_mean | recall_at_k | 30 | 0.6494 | 0.0155 |
+| mcar | lifted_ii_mean | roc_auc | 30 | 0.7073 | 0.0195 |
+| mcar | lifted_oi_mean | pr_auc | 30 | 0.7164 | 0.0212 |
+| mcar | lifted_oi_mean | precision_at_k | 30 | 0.6535 | 0.0202 |
+| mcar | lifted_oi_mean | recall_at_k | 30 | 0.6535 | 0.0202 |
+| mcar | lifted_oi_mean | roc_auc | 30 | 0.7168 | 0.0233 |
+| mcar | lifted_oo_mean | pr_auc | 30 | 0.7117 | 0.0262 |
+| mcar | lifted_oo_mean | precision_at_k | 30 | 0.6482 | 0.0218 |
+| mcar | lifted_oo_mean | recall_at_k | 30 | 0.6482 | 0.0218 |
+| mcar | lifted_oo_mean | roc_auc | 30 | 0.7095 | 0.0267 |
+| mcar | lifted_reverse_arc_mean | pr_auc | 30 | 0.7501 | 0.0186 |
+| mcar | lifted_reverse_arc_mean | precision_at_k | 30 | 0.7071 | 0.0155 |
+| mcar | lifted_reverse_arc_mean | recall_at_k | 30 | 0.7071 | 0.0155 |
+| mcar | lifted_reverse_arc_mean | roc_auc | 30 | 0.7711 | 0.0154 |
+| mnar_out | already_observed_footprint | pr_auc | 30 | 0.5816 | 0.0175 |
+| mnar_out | already_observed_footprint | precision_at_k | 30 | 0.5506 | 0.0104 |
+| mnar_out | already_observed_footprint | recall_at_k | 30 | 0.5506 | 0.0104 |
+| mnar_out | already_observed_footprint | roc_auc | 30 | 0.5897 | 0.0170 |
+| mnar_out | lifted_adamic_adar_ii_mean | pr_auc | 30 | 0.7984 | 0.0204 |
+| mnar_out | lifted_adamic_adar_ii_mean | precision_at_k | 30 | 0.7213 | 0.0216 |
+| mnar_out | lifted_adamic_adar_ii_mean | recall_at_k | 30 | 0.7213 | 0.0216 |
+| mnar_out | lifted_adamic_adar_ii_mean | roc_auc | 30 | 0.7790 | 0.0198 |
+| mnar_out | lifted_adamic_adar_oi_mean | pr_auc | 30 | 0.6545 | 0.0226 |
+| mnar_out | lifted_adamic_adar_oi_mean | precision_at_k | 30 | 0.5470 | 0.0232 |
+| mnar_out | lifted_adamic_adar_oi_mean | recall_at_k | 30 | 0.5470 | 0.0232 |
+| mnar_out | lifted_adamic_adar_oi_mean | roc_auc | 30 | 0.5828 | 0.0201 |
+| mnar_out | lifted_adamic_adar_oo_mean | pr_auc | 30 | 0.6383 | 0.0235 |
+| mnar_out | lifted_adamic_adar_oo_mean | precision_at_k | 30 | 0.5288 | 0.0292 |
+| mnar_out | lifted_adamic_adar_oo_mean | recall_at_k | 30 | 0.5288 | 0.0292 |
+| mnar_out | lifted_adamic_adar_oo_mean | roc_auc | 30 | 0.5587 | 0.0251 |
+| mnar_out | lifted_adamic_adar_total_mean | pr_auc | 30 | 0.7472 | 0.0206 |
+| mnar_out | lifted_adamic_adar_total_mean | precision_at_k | 30 | 0.6602 | 0.0244 |
+| mnar_out | lifted_adamic_adar_total_mean | recall_at_k | 30 | 0.6602 | 0.0244 |
+| mnar_out | lifted_adamic_adar_total_mean | roc_auc | 30 | 0.7193 | 0.0218 |
+| mnar_out | lifted_cn_total_mean | pr_auc | 30 | 0.7021 | 0.0218 |
+| mnar_out | lifted_cn_total_mean | precision_at_k | 30 | 0.6335 | 0.0217 |
+| mnar_out | lifted_cn_total_mean | recall_at_k | 30 | 0.6335 | 0.0217 |
+| mnar_out | lifted_cn_total_mean | roc_auc | 30 | 0.6845 | 0.0236 |
+| mnar_out | lifted_degree_product_mean | pr_auc | 30 | 0.5125 | 0.0257 |
+| mnar_out | lifted_degree_product_mean | precision_at_k | 30 | 0.4842 | 0.0289 |
+| mnar_out | lifted_degree_product_mean | recall_at_k | 30 | 0.4842 | 0.0289 |
+| mnar_out | lifted_degree_product_mean | roc_auc | 30 | 0.4548 | 0.0262 |
+| mnar_out | lifted_ii_mean | pr_auc | 30 | 0.7516 | 0.0192 |
+| mnar_out | lifted_ii_mean | precision_at_k | 30 | 0.6943 | 0.0196 |
+| mnar_out | lifted_ii_mean | recall_at_k | 30 | 0.6943 | 0.0196 |
+| mnar_out | lifted_ii_mean | roc_auc | 30 | 0.7613 | 0.0196 |
+| mnar_out | lifted_oi_mean | pr_auc | 30 | 0.6168 | 0.0221 |
+| mnar_out | lifted_oi_mean | precision_at_k | 30 | 0.5325 | 0.0192 |
+| mnar_out | lifted_oi_mean | recall_at_k | 30 | 0.5325 | 0.0192 |
+| mnar_out | lifted_oi_mean | roc_auc | 30 | 0.5695 | 0.0213 |
+| mnar_out | lifted_oo_mean | pr_auc | 30 | 0.6039 | 0.0248 |
+| mnar_out | lifted_oo_mean | precision_at_k | 30 | 0.5102 | 0.0253 |
+| mnar_out | lifted_oo_mean | recall_at_k | 30 | 0.5102 | 0.0253 |
+| mnar_out | lifted_oo_mean | roc_auc | 30 | 0.5441 | 0.0273 |
+| mnar_out | lifted_reverse_arc_mean | pr_auc | 30 | 0.7761 | 0.0177 |
+| mnar_out | lifted_reverse_arc_mean | precision_at_k | 30 | 0.7362 | 0.0173 |
+| mnar_out | lifted_reverse_arc_mean | recall_at_k | 30 | 0.7362 | 0.0173 |
+| mnar_out | lifted_reverse_arc_mean | roc_auc | 30 | 0.7968 | 0.0160 |
 
 The `already_observed_footprint` score is a baseline, not a predictor: it indicates that an observed event type already induces every arc of the held-out candidate's footprint. A high value demonstrates event non-identifiability from the observed dyads.
