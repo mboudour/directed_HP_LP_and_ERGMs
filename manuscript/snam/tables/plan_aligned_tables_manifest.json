@@ -1,0 +1,75 @@
+{
+  "generator": "scripts/58_build_plan_aligned_tables.py",
+  "outputs": [
+    "formal_concept_recovery.csv",
+    "formal_concept_scope.csv",
+    "static_arc_score_pilot.csv"
+  ],
+  "privacy": "Aggregate-only manuscript inputs; no raw records or candidate-level predictions.",
+  "sources": [
+    {
+      "path": "results/published/phase2_20261015/models/caviar_masked_ergm_plan/metrics.csv",
+      "sha256": "486774ccd8267a918d06023778e4b1315c09a51faed0a715f2b90efc13c4da2d"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/enron_masked_ergm_plan/metrics.csv",
+      "sha256": "4c066bb9a9acdfeaaa0cfc1a69ea406513795e6c17621f8114462c533daa5f3a"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/eu_core_masked_ergm_plan/metrics.csv",
+      "sha256": "580454b29a1e2d526cb8d8ed3645404405669bf404a289f65d41fe0ad33e5437"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/mathoverflow_masked_ergm_plan/metrics.csv",
+      "sha256": "5f77f232926da615087b6b58155cbcbf529804ac8e67532172afcd8069c65fc8"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/caviar_concept_recovery/metric_summary.csv",
+      "sha256": "0eddafe7e1e25dfb846e116fe763efa2bc14c2406c9d55d848a00f0b45a651e2"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/caviar_full_static_formal_concepts_tail3_head3/summary.md",
+      "sha256": "68b35cbae1f2468a687009aab080f610cb118642cf8eb2f56b3a5db124f7768d"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/caviar_static_pilot/arc_lp_metrics.csv",
+      "sha256": "eed79ed01f6910758abfe0fed5a2f81a236793c5e3154f773bf37503b21bed9b"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/enron_concept_recovery/metric_summary.csv",
+      "sha256": "d878f1bd1bb5762653731b81caeba4a05180e038ead20e623c25a6646f67e741"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/enron_formal_concepts_tail3_head3/summary.md",
+      "sha256": "ba5c88e96c06ddc0df2f1f5c21ef0730da49198ef3029db9b6800223658ddd15"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/enron_static_pilot/arc_lp_metrics.csv",
+      "sha256": "e7d08db0099a07dedb0ac1dfd2f367aac51c24a44bb644965f970fe23641e707"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/eu_core_concept_recovery/metric_summary.csv",
+      "sha256": "6ea510a6482ed2427e0353b804fe1cadf8a8b0ed625e6bda4bc8a5b22332626a"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/eu_core_formal_concepts_tail3_head3/summary.md",
+      "sha256": "cb232724a20704a8fcf0fe420e042492d80ca6a8f3132112eb85b274d1244320"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/eu_core_static_pilot/arc_lp_metrics.csv",
+      "sha256": "ba93973b095894277293644680c924ef93e3b62006c23ed10950292cb9c3558d"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/mathoverflow_concept_recovery/metric_summary.csv",
+      "sha256": "e0b034cbe3d5a0fead73adb32a0f010bedeb800cc79482f0aa08ab0e419d7ccd"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/mathoverflow_formal_concepts_tail3_head3/summary.md",
+      "sha256": "420d1d659cb2088773f60ec3c79a0b9d1f61d75731b6be1f83e3441c080554aa"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/mathoverflow_static_pilot/arc_lp_metrics.csv",
+      "sha256": "1cc0cac6d6c4d784f0c70acc1ac397a29719c5728940c9a151ed0316389fd33f"
+    }
+  ]
+}

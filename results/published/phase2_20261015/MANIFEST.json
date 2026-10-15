@@ -1,6 +1,12 @@
 {
   "artifacts": [
     {
+      "bytes": "3356",
+      "published": "results/published/phase2_20261015/phase2/caviar_static_pilot/arc_lp_metrics.csv",
+      "sha256": "eed79ed01f6910758abfe0fed5a2f81a236793c5e3154f773bf37503b21bed9b",
+      "source": "results/phase2/caviar_static_pilot/arc_lp_metrics.csv"
+    },
+    {
       "bytes": "747",
       "published": "results/published/phase2_20261015/phase2/caviar_full_static_formal_concepts_tail3_head3/summary.md",
       "sha256": "68b35cbae1f2468a687009aab080f610cb118642cf8eb2f56b3a5db124f7768d",
@@ -119,6 +125,12 @@
       "published": "results/published/phase2_20261015/phase2/enron_native_event_fidelity_tail3_head3/summary.json",
       "sha256": "4f304f7888e8f74fe8d93459193c4aee4d7ee5861396584edb6636d6a7a1ea93",
       "source": "results/phase2/enron_native_event_fidelity_tail3_head3/summary.json"
+    },
+    {
+      "bytes": "3475",
+      "published": "results/published/phase2_20261015/phase2/enron_static_pilot/arc_lp_metrics.csv",
+      "sha256": "e7d08db0099a07dedb0ac1dfd2f367aac51c24a44bb644965f970fe23641e707",
+      "source": "results/phase2/enron_static_pilot/arc_lp_metrics.csv"
     },
     {
       "bytes": "1345",
@@ -301,6 +313,12 @@
       "source": "results/phase2/eu_core_footprint_free_stress/split_summary.csv"
     },
     {
+      "bytes": "3563",
+      "published": "results/published/phase2_20261015/phase2/eu_core_static_pilot/arc_lp_metrics.csv",
+      "sha256": "ba93973b095894277293644680c924ef93e3b62006c23ed10950292cb9c3558d",
+      "source": "results/phase2/eu_core_static_pilot/arc_lp_metrics.csv"
+    },
+    {
       "bytes": "768",
       "published": "results/published/phase2_20261015/phase2/mathoverflow_formal_concepts_tail3_head3/summary.md",
       "sha256": "420d1d659cb2088773f60ec3c79a0b9d1f61d75731b6be1f83e3441c080554aa",
@@ -365,6 +383,12 @@
       "published": "results/published/phase2_20261015/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.json",
       "sha256": "fed9bc10d03be26bfe7fafc28db3c3bfcd264ee720f6a210e30ed0459c0932d8",
       "source": "results/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.json"
+    },
+    {
+      "bytes": "3153",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_static_pilot/arc_lp_metrics.csv",
+      "sha256": "1cc0cac6d6c4d784f0c70acc1ac397a29719c5728940c9a151ed0316389fd33f",
+      "source": "results/phase2/mathoverflow_static_pilot/arc_lp_metrics.csv"
     },
     {
       "bytes": "4533",

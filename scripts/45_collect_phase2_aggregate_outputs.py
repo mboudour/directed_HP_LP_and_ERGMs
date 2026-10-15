@@ -18,6 +18,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = PROJECT_ROOT / "results" / "published" / "phase2_20261015"
 
 PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
+    "caviar_static_pilot": ("arc_lp_metrics.csv",),
     "caviar_full_static_formal_concepts_tail3_head3": (
         "summary.md",
         "arity_distribution.csv",
@@ -33,6 +34,7 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
     "enron_concept_recovery": ("summary.md", "metric_summary.csv", "split_summary.csv"),
     "enron_footprint_free_stress": ("summary.md", "metric_summary.csv", "split_summary.csv"),
     "enron_native_event_fidelity_tail3_head3": ("summary.md", "summary.json"),
+    "enron_static_pilot": ("arc_lp_metrics.csv",),
     "enron_fidelity_rewire_null": (
         "summary.md",
         "summary.json",
@@ -72,6 +74,7 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
     ),
     "eu_core_concept_recovery": ("summary.md", "metric_summary.csv", "split_summary.csv"),
     "eu_core_footprint_free_stress": ("summary.md", "metric_summary.csv", "split_summary.csv"),
+    "eu_core_static_pilot": ("arc_lp_metrics.csv",),
     "mathoverflow_formal_concepts_tail3_head3": (
         "summary.md",
         "arity_distribution.csv",
@@ -84,6 +87,7 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
         "split_summary.csv",
     ),
     "mathoverflow_native_event_fidelity_tail3_head3": ("summary.md", "summary.json"),
+    "mathoverflow_static_pilot": ("arc_lp_metrics.csv",),
     "mathoverflow_event_first_type_masks": ("summary.md", "split_summary.csv"),
     "mathoverflow_event_first_native_heuristics": (
         "summary.md",

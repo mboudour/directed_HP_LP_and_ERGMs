@@ -1,0 +1,5 @@
+dataset,nodes,directed_arcs,tail_cap,head_cap,formal_concepts,footprint_covered_arcs,footprint_coverage
+CAVIAR full static,110,295,3,3,80,181,0.6135593220338983
+Enron strict core,100,635,3,3,232,551,0.8677165354330708
+EU-core,100,2682,3,3,45,225,0.08389261744966443
+MathOverflow core,100,1020,3,3,207,676,0.6627450980392157
