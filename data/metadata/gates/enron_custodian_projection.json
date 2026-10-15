@@ -1,0 +1,26 @@
+{
+  "approval_record": "researcher_approval_2026-10-14",
+  "approved": true,
+  "dataset_id": "enron_20150507",
+  "mapping_policy": {
+    "approved_mappings": 110,
+    "approved_rule": "unique rank-one sent-folder sender address with support at least 0.90 and no rank-one address shared across custodians",
+    "excluded_custodians": 40,
+    "exclusion_counts": {
+      "excluded_no_rank_one_candidate": 1,
+      "excluded_rank_one_address_shared": 2,
+      "excluded_support_below_90_percent": 37
+    },
+    "source_custodian_mailboxes": 150,
+    "support_threshold": 0.9
+  },
+  "projection_policy": {
+    "message_copy_policy": "retain_distinct_maildir_records_after_duplicate_audit",
+    "self_custodian_in_head": "remove",
+    "timestamp_end_utc": "2002-12-31T23:59:59.999999+00:00",
+    "timestamp_policy": "configs/enron_temporal_policy.yaml",
+    "timestamp_start_utc": "1998-01-01T00:00:00+00:00",
+    "unmapped_participant": "exclude_entire_event"
+  },
+  "status": "Approved strict primary Enron policy. The address-bearing mapping is local-only; this gate preserves only aggregate selection evidence."
+}

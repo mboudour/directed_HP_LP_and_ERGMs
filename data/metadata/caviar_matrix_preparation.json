@@ -1,0 +1,121 @@
+{
+  "analysis_status": "blocked_pending_label_integrity",
+  "dataset_id": "caviar",
+  "dichotomization_rule": "value_greater_than_zero",
+  "directed_output_built": false,
+  "direction_gate_approved": false,
+  "matrix_files_read": 12,
+  "matrix_label_integrity_passed": false,
+  "matrix_summaries": [
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR1",
+      "nodes": 15,
+      "nonzero_diagonal_cells": 0,
+      "phase": 1,
+      "positive_off_diagonal_cells": 26,
+      "positive_tie_weight_sum": 59.0
+    },
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR10",
+      "nodes": 42,
+      "nonzero_diagonal_cells": 0,
+      "phase": 10,
+      "positive_off_diagonal_cells": 68,
+      "positive_tie_weight_sum": 478.0
+    },
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR11",
+      "nodes": 41,
+      "nonzero_diagonal_cells": 0,
+      "phase": 11,
+      "positive_off_diagonal_cells": 72,
+      "positive_tie_weight_sum": 355.0
+    },
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR2",
+      "nodes": 24,
+      "nonzero_diagonal_cells": 0,
+      "phase": 2,
+      "positive_off_diagonal_cells": 35,
+      "positive_tie_weight_sum": 120.0
+    },
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR3",
+      "nodes": 33,
+      "nonzero_diagonal_cells": 0,
+      "phase": 3,
+      "positive_off_diagonal_cells": 68,
+      "positive_tie_weight_sum": 282.0
+    },
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR4",
+      "nodes": 33,
+      "nonzero_diagonal_cells": 0,
+      "phase": 4,
+      "positive_off_diagonal_cells": 65,
+      "positive_tie_weight_sum": 456.0
+    },
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR5",
+      "nodes": 32,
+      "nonzero_diagonal_cells": 0,
+      "phase": 5,
+      "positive_off_diagonal_cells": 50,
+      "positive_tie_weight_sum": 162.0
+    },
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR6",
+      "nodes": 27,
+      "nonzero_diagonal_cells": 0,
+      "phase": 6,
+      "positive_off_diagonal_cells": 68,
+      "positive_tie_weight_sum": 668.0
+    },
+    {
+      "duplicate_label_occurrences": 1,
+      "matrix_id": "CAVIAR7",
+      "nodes": 37,
+      "nonzero_diagonal_cells": 0,
+      "phase": 7,
+      "positive_off_diagonal_cells": 64,
+      "positive_tie_weight_sum": 380.0
+    },
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR8",
+      "nodes": 42,
+      "nonzero_diagonal_cells": 0,
+      "phase": 8,
+      "positive_off_diagonal_cells": 75,
+      "positive_tie_weight_sum": 335.0
+    },
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR9",
+      "nodes": 34,
+      "nonzero_diagonal_cells": 0,
+      "phase": 9,
+      "positive_off_diagonal_cells": 60,
+      "positive_tie_weight_sum": 317.0
+    },
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR_FULL",
+      "nodes": 110,
+      "nonzero_diagonal_cells": 0,
+      "phase": null,
+      "positive_off_diagonal_cells": 295,
+      "positive_tie_weight_sum": 3546.0
+    }
+  ],
+  "positive_off_diagonal_cells_total": 946,
+  "positive_tie_weight_total": 7158.0
+}

@@ -1,0 +1,24 @@
+{
+  "core_nodes": 100,
+  "core_rule": "top_100_by_sent_plus_received_temporal_row_activity",
+  "core_static_directed_arcs": 2682,
+  "core_temporal_rows": 93902,
+  "dataset_id": "email_eu_core_temporal",
+  "full_static_directed_arcs": 24929,
+  "native_event_status": "Unsupported in the primary design because message identifiers and recipient bundles are absent. Timestamp bundles remain a sensitivity diagnostic only.",
+  "nodes_after_loop_removal": 986,
+  "non_singleton_sender_timestamp_groups": 38893,
+  "rows_in_non_singleton_sender_timestamp_groups": 161719,
+  "self_loop_rows_removed": 0,
+  "source": "data/raw/email_eu_core_temporal/email-Eu-core-temporal.txt",
+  "temporal_rows_read": 332334,
+  "time_span_utc": {
+    "maximum": "1972-03-14T22:14:14+00:00",
+    "minimum": "1970-01-01T00:00:00+00:00"
+  },
+  "window_width_days": [
+    14,
+    28,
+    30
+  ]
+}

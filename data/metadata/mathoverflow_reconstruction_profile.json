@@ -1,0 +1,103 @@
+{
+  "answers": {
+    "answerer_is_asker": 7773,
+    "distinct_question_answerer_pairs": 168004,
+    "duplicate_eligible_answer_records": 3111,
+    "eligible_records_before_duplicate_collapse": 171115,
+    "invalid_timestamp": 0,
+    "missing_owner": 2881,
+    "missing_parent": 0,
+    "negative_elapsed_time": 5,
+    "parent_not_eligible_question": 5066,
+    "total": 186840
+  },
+  "dataset_id": "mathoverflow_stackexchange_2024",
+  "first_distinct_answerer_latency_days": {
+    "p25": 0.07050968460600684,
+    "p50": 0.3168370370359884,
+    "p75": 2.354832717013304,
+    "p90": 216.40719476620356,
+    "p95": 985.8378252725718,
+    "p99": 3177.9865173855355
+  },
+  "posts": {
+    "post_type_counts": {
+      "1": 152893,
+      "2": 186840,
+      "4": 705,
+      "5": 705,
+      "6": 21,
+      "7": 3
+    },
+    "total": 341167
+  },
+  "questions": {
+    "eligible_with_owner_and_valid_timestamp": 148432,
+    "invalid_timestamp": 0,
+    "missing_owner": 4461,
+    "total": 152893
+  },
+  "reconstruction_status": "profile_only_policy_unapproved_no_events_materialized",
+  "window_profiles": [
+    {
+      "answer_window_days": 1,
+      "distinct_question_answerer_pairs": 113234,
+      "questions_with_at_least_one_answerer": 76420,
+      "questions_with_two_or_more_answerers": 21759,
+      "tail_arity": {
+        "maximum": 40,
+        "median": 1.0,
+        "minimum": 1,
+        "p95": 3.0
+      }
+    },
+    {
+      "answer_window_days": 7,
+      "distinct_question_answerer_pairs": 135689,
+      "questions_with_at_least_one_answerer": 87734,
+      "questions_with_two_or_more_answerers": 26952,
+      "tail_arity": {
+        "maximum": 56,
+        "median": 1.0,
+        "minimum": 1,
+        "p95": 3.0
+      }
+    },
+    {
+      "answer_window_days": 30,
+      "distinct_question_answerer_pairs": 142958,
+      "questions_with_at_least_one_answerer": 91161,
+      "questions_with_two_or_more_answerers": 28632,
+      "tail_arity": {
+        "maximum": 58,
+        "median": 1.0,
+        "minimum": 1,
+        "p95": 3.0
+      }
+    },
+    {
+      "answer_window_days": 90,
+      "distinct_question_answerer_pairs": 147311,
+      "questions_with_at_least_one_answerer": 92790,
+      "questions_with_two_or_more_answerers": 29730,
+      "tail_arity": {
+        "maximum": 71,
+        "median": 1.0,
+        "minimum": 1,
+        "p95": 3.0
+      }
+    },
+    {
+      "answer_window_days": 365,
+      "distinct_question_answerer_pairs": 153881,
+      "questions_with_at_least_one_answerer": 94790,
+      "questions_with_two_or_more_answerers": 31195,
+      "tail_arity": {
+        "maximum": 120,
+        "median": 1.0,
+        "minimum": 1,
+        "p95": 4.0
+      }
+    }
+  ]
+}

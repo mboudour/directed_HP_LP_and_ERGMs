@@ -1,0 +1,45 @@
+{
+  "address_level_events_profiled": 490141,
+  "calendar_month_count": 61,
+  "calendar_year_counts": {
+    "1980": 308,
+    "1986": 2,
+    "1997": 1,
+    "1998": 168,
+    "1999": 10896,
+    "2000": 191945,
+    "2001": 252755,
+    "2002": 33988,
+    "2004": 70,
+    "2005": 1,
+    "2007": 1,
+    "2020": 2,
+    "2043": 1,
+    "2044": 3
+  },
+  "calendar_years_observed": [
+    1980,
+    1986,
+    1997,
+    1998,
+    1999,
+    2000,
+    2001,
+    2002,
+    2004,
+    2005,
+    2007,
+    2020,
+    2043,
+    2044
+  ],
+  "dataset_id": "enron_20150507",
+  "driver": "scripts/14_profile_enron_event_timestamps.py",
+  "input": "data/interim/enron_20150507/native_events_address_level.parquet",
+  "missing_timestamps": 0,
+  "policy_status": "No timestamp range has been selected. Use the aggregate year/month outputs to choose and record an inclusive, timezone-aware policy before custodian projection.",
+  "timestamp_span_utc": {
+    "maximum": "2044-01-04T22:48:58+00:00",
+    "minimum": "1980-01-01T00:00:00+00:00"
+  }
+}

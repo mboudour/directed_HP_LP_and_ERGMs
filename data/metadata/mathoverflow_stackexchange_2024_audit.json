@@ -1,0 +1,19 @@
+{
+  "accepted_answers_within_window": null,
+  "analysis_status": "audit_only_pending_reconstruction_policy",
+  "answer_window_days": null,
+  "answers_missing_parent_id": 0,
+  "dataset_id": "mathoverflow_stackexchange_2024",
+  "invalid_creation_dates": 0,
+  "missing_owner_user_id": 7525,
+  "post_type_counts": {
+    "1": 152893,
+    "2": 186840,
+    "4": 705,
+    "5": 705,
+    "6": 21,
+    "7": 3
+  },
+  "posts_rows_read": 341167,
+  "reconstructed_events_built": false
+}

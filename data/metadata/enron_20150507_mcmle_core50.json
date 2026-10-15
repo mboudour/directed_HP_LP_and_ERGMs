@@ -1,0 +1,12 @@
+{
+  "core_nodes": 50,
+  "dataset_id": "enron_20150507",
+  "excluded_events_with_participant_outside_core": 1713,
+  "nested_core_rule": "rank_1_through_50_subset_of_primary_core_100",
+  "nonempty_calendar_months": 36,
+  "parent_core_rule": "top_100_by_sent_plus_received_activity_within_projected_custodian_nodes",
+  "purpose": "mcmle_feasibility_only_not_primary_benchmark_core",
+  "retained_all_participant_events": 6168,
+  "source_projected_events": 7881,
+  "static_directed_arcs": 287
+}

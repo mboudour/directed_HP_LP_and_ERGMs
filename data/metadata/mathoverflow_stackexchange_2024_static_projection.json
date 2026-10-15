@@ -1,0 +1,14 @@
+{
+  "core_all_participant_events": 1949,
+  "core_nodes": 100,
+  "core_rule": "top_by_sent_plus_received_event_participation_stable_node_id_tiebreak",
+  "core_size_exception": false,
+  "core_static_arcs": 1020,
+  "dataset_id": "mathoverflow_stackexchange_2024",
+  "event_construction": "reconstructed_distinct_answerers_to_question_asker_within_30_days",
+  "requested_core_size": 100,
+  "source_events": "data/processed/mathoverflow_stackexchange_2024/native_events.parquet",
+  "source_native_events": 91161,
+  "source_nodes": 32117,
+  "source_static_arcs": 120197
+}

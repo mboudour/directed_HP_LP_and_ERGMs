@@ -1,0 +1,23 @@
+{
+  "analysis_status": "eligible_static_full_directed_processing",
+  "dataset_id": "caviar",
+  "dichotomization_rule": "value_greater_than_zero",
+  "directed_output_built": true,
+  "direction_gate_approved": true,
+  "matrix_files_read": 1,
+  "matrix_label_integrity_passed": true,
+  "matrix_summaries": [
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CAVIAR_FULL",
+      "nodes": 110,
+      "nonzero_diagonal_cells": 0,
+      "phase": null,
+      "positive_off_diagonal_cells": 295,
+      "positive_tie_weight_sum": 3546.0
+    }
+  ],
+  "positive_off_diagonal_cells_total": 295,
+  "positive_tie_weight_total": 3546.0,
+  "scope": "full_static"
+}

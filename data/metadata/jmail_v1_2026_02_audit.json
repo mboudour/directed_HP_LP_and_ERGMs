@@ -1,0 +1,18 @@
+{
+  "analysis_status": "audit_only_pending_admissibility_gate",
+  "candidate_events_under_to_plus_cc_policy": 1120328,
+  "dataset_id": "jmail_v1_2026_02",
+  "duplicate_nonempty_ids": 0,
+  "gate_record_used": null,
+  "invalid_or_missing_timestamps": 5023,
+  "malformed_recipient_fields": {
+    "bcc_recipients": 7,
+    "cc_recipients": 236,
+    "to_recipients": 8610
+  },
+  "missing_ids": 0,
+  "missing_sender": 180572,
+  "records_read": 1781028,
+  "restricted_event_output_built": false,
+  "unique_nonempty_ids": 1781028
+}

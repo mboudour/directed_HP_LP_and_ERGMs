@@ -1,0 +1,21 @@
+{
+  "accepted_answers_within_window": 145121,
+  "analysis_status": "reconstructed_events_built_after_approved_policy",
+  "answer_window_days": 30,
+  "answers_missing_parent_id": 0,
+  "dataset_id": "mathoverflow_stackexchange_2024",
+  "invalid_creation_dates": 0,
+  "missing_owner_user_id": 7525,
+  "policy_record_used": "data/metadata/gates/mathoverflow_reconstruction_policy.json",
+  "post_type_counts": {
+    "1": 152893,
+    "2": 186840,
+    "4": 705,
+    "5": 705,
+    "6": 21,
+    "7": 3
+  },
+  "posts_rows_read": 341167,
+  "reconstructed_events": 91161,
+  "reconstructed_events_built": true
+}

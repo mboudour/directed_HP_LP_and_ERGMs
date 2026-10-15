@@ -1,0 +1,19 @@
+{
+  "approved_mappings": 110,
+  "custodians_with_rank_one_evidence": 149,
+  "dataset_id": "enron_20150507",
+  "excluded_custodians": 40,
+  "exclusion_counts": {
+    "excluded_no_rank_one_candidate": 1,
+    "excluded_rank_one_address_shared": 2,
+    "excluded_support_below_90_percent": 37
+  },
+  "gate_file": "data/metadata/gates/enron_custodian_projection.json",
+  "mapping_file": "data/processed/enron_20150507/custodian_address_map.csv",
+  "policy": "strict_primary_custodian_projection",
+  "source_custodian_mailboxes": 150,
+  "timestamp_inclusion_utc": {
+    "timestamp_end_utc": "2002-12-31T23:59:59.999999+00:00",
+    "timestamp_start_utc": "1998-01-01T00:00:00+00:00"
+  }
+}

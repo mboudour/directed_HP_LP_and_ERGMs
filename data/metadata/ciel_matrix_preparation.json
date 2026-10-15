@@ -1,0 +1,22 @@
+{
+  "analysis_status": "blocked_pending_direction_audit",
+  "dataset_id": "ciel",
+  "dichotomization_rule": "value_greater_than_zero",
+  "directed_output_built": false,
+  "direction_gate_approved": false,
+  "matrix_files_read": 1,
+  "matrix_label_integrity_passed": true,
+  "matrix_summaries": [
+    {
+      "duplicate_label_occurrences": 0,
+      "matrix_id": "CIELNET",
+      "nodes": 25,
+      "nonzero_diagonal_cells": 0,
+      "phase": null,
+      "positive_off_diagonal_cells": 45,
+      "positive_tie_weight_sum": 198.0
+    }
+  ],
+  "positive_off_diagonal_cells_total": 45,
+  "positive_tie_weight_total": 198.0
+}
