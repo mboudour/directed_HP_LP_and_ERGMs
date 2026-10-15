@@ -602,3 +602,16 @@ The less stringent representation agreement is far above the degree-preserving n
 **Interpretation recorded for Phase 2.** Direction remains empirically informative after conditioning on the participant set and role arities. The evidence is more focused than native-event retrieval: it measures assignment among compatible roles, and it cannot establish calibrated probabilities or recovery of unobserved participant sets.
 
 **Evidence.** Local bundles: `results/phase2/enron_native_event_role_assignment/` and `results/phase2/mathoverflow_native_event_role_assignment/`. The protocol is `docs/NATIVE_EVENT_ROLE_ASSIGNMENT.md`; published aggregate tables retain metric rows by tail/head arity.
+
+
+## 2026-10-15 — Supplementary native-event missingness sensitivity
+
+**Design.** The primary 30% MCAR/MNAR-out results remain frozen. A supplementary grid re-ran the two native-event ranking evaluations at 10%, 20%, and 50% type-withholding rates using MCAR, oracle MNAR-out (tail activity), and oracle MNAR-in (head activity). Each cell has three deterministic replicates. The grid does **not** refit or select static/temporal ERGMs; it is a robustness check for uncalibrated native-event heuristic and hard-panel rankings.
+
+**Coverage.** Both Enron and reconstructed MathOverflow completed all 27 frozen mask splits (three rates × three mechanisms × three replicates) and both score branches. Aggregate published summaries exclude candidate rows, event records, actor identities, and oracle activity maps.
+
+**Descriptive pattern.** In both datasets, best native-event PR-AUC values generally weakened as withholding increased to 50%, as expected with less observed relational structure. Enron's best heuristic values were approximately 0.850–0.877 at 10%, 0.811–0.833 at 20%, and 0.694–0.770 at 50%; MathOverflow's were approximately 0.827–0.918, 0.818–0.835, and 0.634–0.785, respectively. The leading heuristic changes across cells (directed Adamic--Adar variants, reverse arcs, or degree product), so the correct claim is sensitivity of the score family rather than dominance of a single score.
+
+**Interpretation recorded for Phase 2.** The native-event directed-LP signal survives each planned missingness direction and rate but degrades under more aggressive concealment. Because MNAR-in and MNAR-out are oracle simulations and because this is a supplementary grid, these results support robustness reporting rather than a claim about naturally occurring missingness or calibrated event probabilities.
+
+**Evidence.** Local aggregate bundles: `results/phase2/enron_native_missingness_sensitivity/` and `results/phase2/mathoverflow_native_missingness_sensitivity/`. The protocol is `docs/NATIVE_EVENT_MISSINGNESS_SENSITIVITY.md`; raw split-specific sensitivity trees remain untracked/local under the matching `_raw` directories.

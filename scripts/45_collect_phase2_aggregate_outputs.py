@@ -55,6 +55,12 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
         "metric_summary_by_arity.csv",
         "split_summary.csv",
     ),
+    "enron_native_missingness_sensitivity": (
+        "summary.md",
+        "masking_summary.csv",
+        "heuristic_metric_summary.csv",
+        "hard_panel_metric_summary.csv",
+    ),
     "eu_core_formal_concepts_tail3_head3": (
         "summary.md",
         "arity_distribution.csv",
@@ -89,6 +95,12 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
         "summary.md",
         "metric_summary_by_arity.csv",
         "split_summary.csv",
+    ),
+    "mathoverflow_native_missingness_sensitivity": (
+        "summary.md",
+        "masking_summary.csv",
+        "heuristic_metric_summary.csv",
+        "hard_panel_metric_summary.csv",
     ),
 }
 

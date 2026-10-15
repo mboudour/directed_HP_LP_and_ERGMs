@@ -225,25 +225,38 @@ def read_event_types(
 def parse_mechanisms(value: str) -> tuple[str, ...]:
     """Validate a deterministic mechanism sequence without silent duplication."""
     mechanisms = tuple(item.strip().casefold() for item in value.split(",") if item.strip())
-    allowed = {"mcar", "mnar_out"}
+    allowed = {"mcar", "mnar_in", "mnar_out"}
     if not mechanisms or set(mechanisms) - allowed:
-        raise SystemExit("STOP: --mechanisms must be a comma-separated subset of mcar,mnar_out.")
+        raise SystemExit(
+            "STOP: --mechanisms must be a comma-separated subset of mcar,mnar_out,mnar_in."
+        )
     if len(set(mechanisms)) != len(mechanisms):
         raise SystemExit("STOP: --mechanisms must not repeat a mechanism.")
     return mechanisms
 
 
 def type_selection_probabilities(
-    event_types: tuple[EventType, ...], rate: float
+    event_types: tuple[EventType, ...], rate: float, mechanism: str
 ) -> tuple[list[float], dict[str, int]]:
-    """Compute plan-defined oracle MNAR-out inclusion probabilities by event type."""
-    sender_activity: Counter[str] = Counter()
+    """Compute oracle MNAR selection probabilities for active source or target roles."""
+    if mechanism not in {"mnar_out", "mnar_in"}:
+        raise ValueError("oracle selection probabilities require MNAR-out or MNAR-in")
+    role_activity: Counter[str] = Counter()
     for event in event_types:
-        contribution = event.occurrence_count * len(event.head)
-        for sender in event.tail:
-            sender_activity[sender] += contribution
+        if mechanism == "mnar_out":
+            members = event.tail
+            contribution = event.occurrence_count * len(event.head)
+        else:
+            members = event.head
+            contribution = event.occurrence_count * len(event.tail)
+        for member in members:
+            role_activity[member] += contribution
     weights = [
-        sum(sender_activity[sender] for sender in event.tail) / len(event.tail)
+        sum(
+            role_activity[member]
+            for member in (event.tail if mechanism == "mnar_out" else event.head)
+        )
+        / len(event.tail if mechanism == "mnar_out" else event.head)
         for event in event_types
     ]
     if any(weight <= 0 for weight in weights):
@@ -262,7 +275,7 @@ def type_selection_probabilities(
         else:
             upper = midpoint
     probabilities = [min(1.0, upper * weight) for weight in weights]
-    return probabilities, dict(sorted(sender_activity.items()))
+    return probabilities, dict(sorted(role_activity.items()))
 
 
 def select_event_type_indices(
@@ -277,7 +290,7 @@ def select_event_type_indices(
         indices = frozenset(random.sample(range(len(event_types)), count))
         return indices, [count / len(event_types)] * len(event_types), None
 
-    probabilities, sender_activity = type_selection_probabilities(event_types, rate)
+    probabilities, sender_activity = type_selection_probabilities(event_types, rate, mechanism)
     selected = frozenset(
         index for index, probability in enumerate(probabilities) if random.random() < probability
     )
@@ -448,7 +461,8 @@ def one_mask(
     head_deciles: dict[str, int],
 ) -> dict[str, object]:
     """Materialize one frozen native-event-type split and full realised-rate evidence."""
-    split_seed = seed + 104_729 * replicate + (0 if mechanism == "mcar" else 52_361)
+    mechanism_offset = {"mcar": 0, "mnar_out": 52_361, "mnar_in": 104_729}[mechanism]
+    split_seed = seed + 104_729 * replicate + mechanism_offset
     selected, probabilities, sender_activity = select_event_type_indices(
         event_types, mechanism, rate, split_seed
     )
@@ -548,8 +562,8 @@ def write_summary_markdown(path: Path, dataset_id: str, summaries: list[dict[str
         f"- Dataset: `{dataset_id}`",
         "- Unit sampled: a distinct ordered tail/head native event type; all duplicate message "
         "records of a selected type are withheld together.",
-        "- MCAR is exact fixed-count type sampling. MNAR-out is the planned oracle independent "
-        "inclusion mechanism, so its realised type rate can differ from the nominal rate.",
+        "- MCAR is exact fixed-count type sampling. MNAR-out and MNAR-in are planned oracle "
+        "independent inclusion mechanisms, so their realised type rates can differ from nominal.",
         "- An already-observed footprint is not leakage: it means at least one observed event "
         "of a different type induces every dyad of the held-out event type.",
         "",
@@ -639,6 +653,7 @@ def main() -> None:
             "each_selected_type_out_in_full",
             "role_policy": "require_nonempty_disjoint_tail_and_head_within_fixed_node_universe",
             "mnar_out_weight": "mean_full_tail_participant_activity_per_event_type",
+            "mnar_in_weight": "mean_full_head_participant_activity_per_event_type",
             "tail_cap": args.tail_cap,
             "head_cap": args.head_cap,
         },
@@ -657,8 +672,8 @@ def main() -> None:
         "limitations": [
             "This creates evaluation masks and realised-rate diagnostics; it does not score "
             "native events.",
-            "MNAR-out uses full-data sender activity by design and is therefore an oracle "
-            "missingness simulation.",
+            "MNAR-out and MNAR-in use full-data role activity by design and are therefore oracle "
+            "missingness simulations.",
             "The native-event target is restricted to the declared fixed node universe and "
             "arity caps.",
             "Candidate generation, negative panels, probability calibration, and role-assignment "

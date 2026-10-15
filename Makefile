@@ -394,3 +394,14 @@ phase2-enron-role-assignment:
 phase2-mathoverflow-role-assignment:
 	uv run python scripts/49_evaluate_native_event_role_assignment.py --dataset-id=mathoverflow_stackexchange_2024 --mask-dir=results/phase2/mathoverflow_event_first_type_masks --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --node-column=node --seed=20261013 --output-dir=results/phase2/mathoverflow_native_event_role_assignment --overwrite
 	@cat results/phase2/mathoverflow_native_event_role_assignment/summary.md
+
+.PHONY: phase2-enron-native-sensitivity phase2-mathoverflow-native-sensitivity
+phase2-enron-native-sensitivity:
+	uv run python scripts/50_run_native_missingness_sensitivity.py --dataset-id=enron_20150507 --events=data/processed/enron_20150507/custodian_native_events.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --event-tail-column=tail_custodian --event-head-column=head_custodians --node-column=custodian_mailbox --rates=0.10,0.20,0.50 --mechanisms=mcar,mnar_out,mnar_in --replicates=3 --tail-cap=3 --head-cap=3 --max-weak-distance=2 --seed=20261013 --output-root=results/phase2/enron_native_missingness_sensitivity_raw --overwrite
+	uv run python scripts/51_summarize_native_missingness_sensitivity.py --dataset-id=enron_20150507 --input-root=results/phase2/enron_native_missingness_sensitivity_raw --output-dir=results/phase2/enron_native_missingness_sensitivity --overwrite
+	@cat results/phase2/enron_native_missingness_sensitivity/summary.md
+
+phase2-mathoverflow-native-sensitivity:
+	uv run python scripts/50_run_native_missingness_sensitivity.py --dataset-id=mathoverflow_stackexchange_2024 --events=data/processed/mathoverflow_stackexchange_2024/core100_native_events.parquet --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --event-tail-column=tail_answerers --event-head-column=head_asker --node-column=node --rates=0.10,0.20,0.50 --mechanisms=mcar,mnar_out,mnar_in --replicates=3 --tail-cap=3 --head-cap=3 --max-weak-distance=2 --seed=20261013 --output-root=results/phase2/mathoverflow_native_missingness_sensitivity_raw --overwrite
+	uv run python scripts/51_summarize_native_missingness_sensitivity.py --dataset-id=mathoverflow_stackexchange_2024 --input-root=results/phase2/mathoverflow_native_missingness_sensitivity_raw --output-dir=results/phase2/mathoverflow_native_missingness_sensitivity --overwrite
+	@cat results/phase2/mathoverflow_native_missingness_sensitivity/summary.md

@@ -211,6 +211,30 @@
       "source": "results/phase2/enron_native_event_role_assignment/split_summary.csv"
     },
     {
+      "bytes": "372",
+      "published": "results/published/phase2_20261015/phase2/enron_native_missingness_sensitivity/summary.md",
+      "sha256": "f4c21ff4a3c85bc86b2da0da12c48b4be980b431a83f60188c4232da712186f7",
+      "source": "results/phase2/enron_native_missingness_sensitivity/summary.md"
+    },
+    {
+      "bytes": "5814",
+      "published": "results/published/phase2_20261015/phase2/enron_native_missingness_sensitivity/masking_summary.csv",
+      "sha256": "c5702ebd27e4d9304b62b85fc20f3b2cbdf4a3de1e8100b93e39de32c62c2c88",
+      "source": "results/phase2/enron_native_missingness_sensitivity/masking_summary.csv"
+    },
+    {
+      "bytes": "34298",
+      "published": "results/published/phase2_20261015/phase2/enron_native_missingness_sensitivity/heuristic_metric_summary.csv",
+      "sha256": "f94ac411a5de0772d41ecf3e0666b95bd98d522aafe313a04b2789627288a9a3",
+      "source": "results/phase2/enron_native_missingness_sensitivity/heuristic_metric_summary.csv"
+    },
+    {
+      "bytes": "78086",
+      "published": "results/published/phase2_20261015/phase2/enron_native_missingness_sensitivity/hard_panel_metric_summary.csv",
+      "sha256": "1b9ff9cd2cd4124bedb5fc8774dc715b0a92ae1d1faf8136cd04c4bd3ad22e9e",
+      "source": "results/phase2/enron_native_missingness_sensitivity/hard_panel_metric_summary.csv"
+    },
+    {
       "bytes": "755",
       "published": "results/published/phase2_20261015/phase2/eu_core_formal_concepts_tail3_head3/summary.md",
       "sha256": "cb232724a20704a8fcf0fe420e042492d80ca6a8f3132112eb85b274d1244320",
@@ -395,6 +419,30 @@
       "published": "results/published/phase2_20261015/phase2/mathoverflow_native_event_role_assignment/split_summary.csv",
       "sha256": "4b6b0153ad6a183619932472ca9808803e851ebca80325cace88fddb26f99048",
       "source": "results/phase2/mathoverflow_native_event_role_assignment/split_summary.csv"
+    },
+    {
+      "bytes": "389",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_missingness_sensitivity/summary.md",
+      "sha256": "d6240d332c0294a71f0eca6e53dbe4e9af5d5d5ed6442a4a8510b28b8e2686c0",
+      "source": "results/phase2/mathoverflow_native_missingness_sensitivity/summary.md"
+    },
+    {
+      "bytes": "6230",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_missingness_sensitivity/masking_summary.csv",
+      "sha256": "8fd1722d5402e0006c61fb573d508844d3fc462cf9cf02aa5b117316b3051c06",
+      "source": "results/phase2/mathoverflow_native_missingness_sensitivity/masking_summary.csv"
+    },
+    {
+      "bytes": "34360",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_missingness_sensitivity/heuristic_metric_summary.csv",
+      "sha256": "65e8ad86bb7ca716e9f8cc87af2d5873cd3688847fafc9f9b724f9c26688446a",
+      "source": "results/phase2/mathoverflow_native_missingness_sensitivity/heuristic_metric_summary.csv"
+    },
+    {
+      "bytes": "78152",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_missingness_sensitivity/hard_panel_metric_summary.csv",
+      "sha256": "b331f84c582b62c5e26726c69ce02b8e2ffb7bc941a4e5fa5a4d4793fd35e834",
+      "source": "results/phase2/mathoverflow_native_missingness_sensitivity/hard_panel_metric_summary.csv"
     },
     {
       "bytes": "835",
