@@ -24,12 +24,14 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
         "arc_multiplicity.csv",
     ),
     "caviar_concept_recovery": ("summary.md", "metric_summary.csv", "split_summary.csv"),
+    "caviar_footprint_free_stress": ("summary.md", "metric_summary.csv", "split_summary.csv"),
     "enron_formal_concepts_tail3_head3": (
         "summary.md",
         "arity_distribution.csv",
         "arc_multiplicity.csv",
     ),
     "enron_concept_recovery": ("summary.md", "metric_summary.csv", "split_summary.csv"),
+    "enron_footprint_free_stress": ("summary.md", "metric_summary.csv", "split_summary.csv"),
     "enron_native_event_fidelity_tail3_head3": ("summary.md", "summary.json"),
     "enron_fidelity_rewire_null": (
         "summary.md",
@@ -54,12 +56,18 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
         "arc_multiplicity.csv",
     ),
     "eu_core_concept_recovery": ("summary.md", "metric_summary.csv", "split_summary.csv"),
+    "eu_core_footprint_free_stress": ("summary.md", "metric_summary.csv", "split_summary.csv"),
     "mathoverflow_formal_concepts_tail3_head3": (
         "summary.md",
         "arity_distribution.csv",
         "arc_multiplicity.csv",
     ),
     "mathoverflow_concept_recovery": ("summary.md", "metric_summary.csv", "split_summary.csv"),
+    "mathoverflow_footprint_free_stress": (
+        "summary.md",
+        "metric_summary.csv",
+        "split_summary.csv",
+    ),
     "mathoverflow_native_event_fidelity_tail3_head3": ("summary.md", "summary.json"),
     "mathoverflow_event_first_type_masks": ("summary.md", "split_summary.csv"),
     "mathoverflow_event_first_native_heuristics": (

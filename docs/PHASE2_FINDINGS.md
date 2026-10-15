@@ -576,3 +576,16 @@ The less stringent representation agreement is far above the degree-preserving n
 **Interpretation recorded for Phase 2.** The observed aggregate graph retains substantially more dyadic and role-structured alignment with the recorded strict email events than can be explained by directed degree sequences alone. This validates a qualified fidelity statement: although formal concepts recover no native event exactly, their strong footprint and role alignment is not a degree-preserving chance artifact. It does not license treating a formal concept as a recovered email event; exact recovery remains absent by construction and observation.
 
 **Evidence.** Local bundle: `results/phase2/enron_fidelity_rewire_null/`. The null protocol and limits are documented in `docs/FIDELITY_REWIRING_NULL.md`.
+
+
+## 2026-10-15 — Regime C footprint-free formal-concept stress test
+
+**Design.** The four admitted static datasets were evaluated under the plan's footprint-free stress regime. In each of three seeded replicates, the procedure selected up to 30% of cap-3 non-singleton formal concepts with pairwise arc-disjoint footprints, deleted every selected footprint arc, and re-enumerated the observed concept section. A selected target sharing a deleted arc with any training concept therefore had no corresponding training concept; all candidate-scored targets additionally had to satisfy the observed weak-distance-two rule. Random and observed role-degree-decile-matched true non-concepts supplied separate balanced panels.
+
+**Feasibility and realised removal.** The average selected local targets / average removed-arc rates were Enron 17.0 / 41.78%, EU-core 11.33 / 4.04%, CAVIAR 7.0 / 34.92%, and MathOverflow 15.0 / 26.01%. Hence the nominal concept-target fraction does not imply a common dyadic removal fraction; overlap, footprint size, and the disjoint-selection constraint make the plan's realised-rate reporting essential. Each output records selected, local, and panel-eligible counts rather than treating unavailable sparse targets as failures or replacing them.
+
+**Descriptive lifted-LP rankings.** The best mean degree-matched-panel PR-AUC values were Enron 0.7866 (total directed Adamic--Adar), EU-core 0.6653 (OO directed Adamic--Adar), CAVIAR 0.8628 (OO directed Adamic--Adar), and MathOverflow 0.7491 (total directed Adamic--Adar). Random-panel results are deliberately secondary because they are easier; the completed values do not estimate calibrated probabilities, native-event recovery, or the joint ERGM `L3-C` score.
+
+**Interpretation recorded for Phase 2.** Regime C is computationally feasible for every admitted static dataset at the fixed cap, but it is substantively more stringent than Regime B and has dataset-specific retained target counts and removed-arc rates. The claim supported by these outputs is bounded: directed closure scores retain some ranking signal when **all arcs of each selected target footprint are absent**, not that concepts are directly observed or that the stress-test prevalence is a population prevalence.
+
+**Evidence.** Local bundles: `results/phase2/{enron,eu_core,caviar,mathoverflow}_footprint_free_stress/`. The protocol is `docs/FOOTPRINT_FREE_STRESS.md`; aggregate summaries are published under `results/published/phase2_20261015/phase2/`.

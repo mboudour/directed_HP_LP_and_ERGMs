@@ -368,3 +368,20 @@ clean:
 phase2-enron-fidelity-rewire:
 	uv run python scripts/47_degree_preserving_fidelity_null.py --dataset-id=enron_20150507 --events=data/processed/enron_20150507/custodian_native_events.parquet --arcs=data/processed/enron_20150507/custodian_core100_static_arcs.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --event-tail-column=tail_custodian --event-head-column=head_custodians --arc-tail-column=tail_custodian --arc-head-column=head_custodian --node-column=custodian_mailbox --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --rewires=100 --swaps-per-arc=10 --max-attempts-per-swap=100 --seed=20261013 --output-dir=results/phase2/enron_fidelity_rewire_null --overwrite
 	@cat results/phase2/enron_fidelity_rewire_null/summary.md
+
+.PHONY: phase2-enron-footprint-free phase2-eu-core-footprint-free phase2-caviar-footprint-free phase2-mathoverflow-footprint-free
+phase2-enron-footprint-free:
+	uv run python scripts/48_run_footprint_free_stress.py --dataset=enron --replicates=3 --target-fraction=0.30 --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/enron_footprint_free_stress --overwrite
+	@cat results/phase2/enron_footprint_free_stress/summary.md
+
+phase2-eu-core-footprint-free:
+	uv run python scripts/48_run_footprint_free_stress.py --dataset=eu_core --replicates=3 --target-fraction=0.30 --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/eu_core_footprint_free_stress --overwrite
+	@cat results/phase2/eu_core_footprint_free_stress/summary.md
+
+phase2-caviar-footprint-free:
+	uv run python scripts/48_run_footprint_free_stress.py --dataset=caviar --replicates=3 --target-fraction=0.30 --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/caviar_footprint_free_stress --overwrite
+	@cat results/phase2/caviar_footprint_free_stress/summary.md
+
+phase2-mathoverflow-footprint-free:
+	uv run python scripts/48_run_footprint_free_stress.py --dataset=mathoverflow --replicates=3 --target-fraction=0.30 --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/mathoverflow_footprint_free_stress --overwrite
+	@cat results/phase2/mathoverflow_footprint_free_stress/summary.md

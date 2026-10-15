@@ -1,0 +1,4 @@
+replicate,regime,dataset,selection,full_capped_concepts,eligible_nonsingleton_concepts,requested_targets,selected_targets,local_eligible_targets,removed_arcs,removed_arc_rate,observed_arcs,training_concepts_sharing_removed_arcs,random_panel_positives,degree_panel_positives
+1,footprint_free,eu_core,seeded greedy pairwise arc-disjoint capped formal concepts,45,45,14,14,10,103,0.038404175988068605,2579,45,10,10
+2,footprint_free,eu_core,seeded greedy pairwise arc-disjoint capped formal concepts,45,45,14,14,14,108,0.040268456375838924,2574,45,14,14
+3,footprint_free,eu_core,seeded greedy pairwise arc-disjoint capped formal concepts,45,45,14,14,10,114,0.042505592841163314,2568,44,10,10
