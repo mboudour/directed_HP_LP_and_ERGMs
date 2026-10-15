@@ -31,6 +31,12 @@ PHASE2_ARTIFACTS: dict[str, tuple[str, ...]] = {
     ),
     "enron_concept_recovery": ("summary.md", "metric_summary.csv", "split_summary.csv"),
     "enron_native_event_fidelity_tail3_head3": ("summary.md", "summary.json"),
+    "enron_fidelity_rewire_null": (
+        "summary.md",
+        "summary.json",
+        "observed_vs_rewire_null.csv",
+        "rewire_metrics.csv",
+    ),
     "enron_event_first_type_masks": ("summary.md", "split_summary.csv"),
     "enron_event_first_native_heuristics": (
         "summary.md",

@@ -85,6 +85,30 @@
       "source": "results/phase2/enron_native_event_fidelity_tail3_head3/summary.json"
     },
     {
+      "bytes": "1345",
+      "published": "results/published/phase2_20261015/phase2/enron_fidelity_rewire_null/summary.md",
+      "sha256": "49d5ebb79f0cb2c11c3dd52ecf9c6f366c4f174e917f3b94fe722f7508eb12b7",
+      "source": "results/phase2/enron_fidelity_rewire_null/summary.md"
+    },
+    {
+      "bytes": "1515",
+      "published": "results/published/phase2_20261015/phase2/enron_fidelity_rewire_null/summary.json",
+      "sha256": "81395a24a0e3fe9bd15d9debf49108d7cf765b57c3606696044614012d0e3c79",
+      "source": "results/phase2/enron_fidelity_rewire_null/summary.json"
+    },
+    {
+      "bytes": "968",
+      "published": "results/published/phase2_20261015/phase2/enron_fidelity_rewire_null/observed_vs_rewire_null.csv",
+      "sha256": "8a92911c2a89d2b6dae920dd33a25eb065a69e77664a148efb8b8b04ef78de83",
+      "source": "results/phase2/enron_fidelity_rewire_null/observed_vs_rewire_null.csv"
+    },
+    {
+      "bytes": "13743",
+      "published": "results/published/phase2_20261015/phase2/enron_fidelity_rewire_null/rewire_metrics.csv",
+      "sha256": "a3bcdb0a30ab9ac83e867a78bd660b5fa37da4fd34970356b75ea0893cb295b6",
+      "source": "results/phase2/enron_fidelity_rewire_null/rewire_metrics.csv"
+    },
+    {
       "bytes": "1284",
       "published": "results/published/phase2_20261015/phase2/enron_event_first_type_masks/summary.md",
       "sha256": "f6083a76d70f14cfa3f763d0295f08263f9b5a04d41ec5768c29479ca5d26f56",

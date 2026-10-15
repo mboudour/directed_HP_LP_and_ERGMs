@@ -563,3 +563,16 @@ cap-first formal-concept representation audit at tail/head caps of three.
 **Boundary.** These are uncalibrated lifted-LP **ranking** baselines, not estimates of the joint ERGM concept probability `L3-C`. Conditional simulation, maximality, and the score-gap/Shapley decomposition remain separately gated by MCMC feasibility and simulation diagnostics.
 
 **Evidence.** Local bundles are `results/phase2/*_concept_recovery/`; aggregate-only summaries are published through the Phase 2 collector. The method contract is `docs/CONCEPT_RECOVERY.md`.
+
+
+## 2026-10-15 — Enron degree-preserving rewiring null for representation fidelity
+
+**Design.** The strict Enron core-100 aggregate directed graph was compared with 100 independently seeded simple directed double-edge-swap rewires. Each rewire executed 6,350 accepted swaps (ten per observed arc), preserving every actor's in-degree and out-degree exactly while retaining the same 635 directed arcs. The 719 cap-eligible recorded event types were held fixed. Capped `|T|, |H| <= 3` formal concepts were recalculated for each rewired relation.
+
+**Observed comparison.** The observed graph's event/concept exact equality remains zero: zero exact tail/head matches, precision zero, and event-type recall zero. The degree-preserving null also produces zero exact matches in all 100 rewires. Thus the exact non-identifiability result is not a weak version of a degree-sequence effect; it is structurally complete under this representation.
+
+The less stringent representation agreement is far above the degree-preserving null. Observed footprint Jaccard is 0.856693 against null mean 0.058404 (SD 0.006259; z = 127.549; empirical `p = 0.009901`). Native-footprint coverage is 0.866242 versus 0.107166 (z = 69.699), and concept-footprint coverage is 0.987296 versus 0.113625 (z = 75.853). Mean best role-sensitive similarity is 0.421581 event-to-concept (null 0.306446; z = 34.817) and 0.475216 concept-to-event (null 0.374103; z = 12.009); both have empirical `p = 0.009901`.
+
+**Interpretation recorded for Phase 2.** The observed aggregate graph retains substantially more dyadic and role-structured alignment with the recorded strict email events than can be explained by directed degree sequences alone. This validates a qualified fidelity statement: although formal concepts recover no native event exactly, their strong footprint and role alignment is not a degree-preserving chance artifact. It does not license treating a formal concept as a recovered email event; exact recovery remains absent by construction and observation.
+
+**Evidence.** Local bundle: `results/phase2/enron_fidelity_rewire_null/`. The null protocol and limits are documented in `docs/FIDELITY_REWIRING_NULL.md`.

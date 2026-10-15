@@ -1,0 +1,42 @@
+{
+  "caps": {
+    "head": 3,
+    "tail": 3
+  },
+  "dataset_id": "enron_20150507",
+  "inputs": {
+    "arcs": {
+      "path": "data/processed/enron_20150507/custodian_core100_static_arcs.parquet",
+      "sha256": "9ba4f3eb8e8e944a9f3736034894f60d157fb382db13f08f8c985021a689c1d1"
+    },
+    "events": {
+      "path": "data/processed/enron_20150507/custodian_native_events.parquet",
+      "sha256": "5b0af87097a04fe364f9a23f9bd7e354f2be7f37f9501ead63068014554de444"
+    },
+    "nodes": {
+      "path": "data/processed/enron_20150507/custodian_core100_nodes.csv",
+      "sha256": "6b592a18c3dc283084970034e9c6f993f342853d2fa0ff9ce9a1782235610bf6"
+    }
+  },
+  "limitation": "This is a degree-sequence chance comparison for static representation fidelity, not a temporal or missingness null.",
+  "null_model": "simple directed double-edge swaps preserving each node's in- and out-degree",
+  "observed": {
+    "concept_footprint_coverage": 0.9872958257713249,
+    "concept_precision": 0.0,
+    "event_recall": 0.0,
+    "exact_pairs": 0.0,
+    "footprint_jaccard": 0.8566929133858268,
+    "formal_concepts": 232.0,
+    "mean_concept_to_event_role_similarity": 0.4752155172413793,
+    "mean_event_to_concept_role_similarity": 0.4215808993973111,
+    "native_footprint_coverage": 0.8662420382165605,
+    "spurious_closure_concepts": 232.0
+  },
+  "outputs": {
+    "comparison": "observed_vs_rewire_null.csv",
+    "per_rewire": "rewire_metrics.csv"
+  },
+  "rewires": 100,
+  "status": "completed",
+  "swaps_per_rewire": 6350
+}

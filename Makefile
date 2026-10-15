@@ -363,3 +363,8 @@ phase2-eu-core-btergm:
 
 clean:
 	rm -rf .pytest_cache .ruff_cache .coverage htmlcov
+
+.PHONY: phase2-enron-fidelity-rewire
+phase2-enron-fidelity-rewire:
+	uv run python scripts/47_degree_preserving_fidelity_null.py --dataset-id=enron_20150507 --events=data/processed/enron_20150507/custodian_native_events.parquet --arcs=data/processed/enron_20150507/custodian_core100_static_arcs.parquet --nodes=data/processed/enron_20150507/custodian_core100_nodes.csv --event-tail-column=tail_custodian --event-head-column=head_custodians --arc-tail-column=tail_custodian --arc-head-column=head_custodian --node-column=custodian_mailbox --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --rewires=100 --swaps-per-arc=10 --max-attempts-per-swap=100 --seed=20261013 --output-dir=results/phase2/enron_fidelity_rewire_null --overwrite
+	@cat results/phase2/enron_fidelity_rewire_null/summary.md
