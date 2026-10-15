@@ -637,3 +637,8 @@ The less stringent representation agreement is far above the degree-preserving n
 The unmodified code fails before loading its published split because `--split` is parsed as a float (`1.0` versus the archived `splits/1` directory). An **external, non-committed compatibility-only** parser adjustment lets its undirected data load, but the first training epoch fails because the release supplies autograd-tracked Torch tensors to current scikit-learn’s ROC-AUC function. We will not call a new architecture or an undocumented patched reimplementation “NHP-D.”
 
 **Paper consequence.** The plan’s fallback applies: the primary comparison remains non-neural (directed LP, lifted hyperarc scores, formal-concept targets, ERGM footprint scores, and the bounded temporal check). A neural comparison can be reconsidered for a later study only with a maintainable official implementation plus a compatible directed input protocol. Evidence: `docs/NHPD_REPRODUCTION_GATE.md` and `data/metadata/gates/nhpd_reproduction.json`.
+
+
+## 2026-10-15 — Phase 2 pilot-gate closure and Paper 1 evidence boundary
+
+The Phase 2 pilot gates are closed. The completed evidence supports the paper’s missingness-centred identity: native events (Enron and MathOverflow), capped formal concepts, static directed arcs, masked ERGM conditional footprint scoring, and a bounded chronological diagnostic. It does **not** support a full joint-MCMC L3 claim on Enron, a neural NHP-D result, a forecasting claim, Regime K, or combined missingness-and-forecasting analysis. The latter items remain excluded or supplementary exactly as labelled in `docs/PHASE2_COMPLETION_REVIEW.md`; this is a positive scope-control result, not a silent omission.
