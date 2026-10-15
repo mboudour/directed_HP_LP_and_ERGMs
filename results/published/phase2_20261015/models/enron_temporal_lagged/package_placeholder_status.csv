@@ -1,0 +1,3 @@
+"engine","requested_mode","status","message"
+"btergm","check","available_not_fit","Package and bounded panel list are available. No bootstrap coefficient was fit in check mode."
+"tergm","check","available_placeholder_not_fit","Package is available, but this bounded driver does not guess a Form/Diss temporal specification or networkDynamic input."

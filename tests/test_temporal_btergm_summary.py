@@ -54,7 +54,15 @@ def test_btergm_summary_keeps_conditional_score_boundary(tmp_path: Path) -> None
                 "ci_lower": "-2.4",
                 "ci_upper": "-1.8",
                 "ci_status": "extracted",
-            }
+            },
+            {
+                "model": "",
+                "term": "",
+                "estimate": "",
+                "ci_lower": "",
+                "ci_upper": "",
+                "ci_status": "",
+            },
         ],
     )
     completed = subprocess.run(
@@ -69,3 +77,4 @@ def test_btergm_summary_keeps_conditional_score_boundary(tmp_path: Path) -> None
     assert "btergm MPLE with temporal bootstrap" in summary
     assert "T1, T2, and T2_minus_H are MPLE conditional score estimators only" in summary
     assert "| T2 | edges | -2.1000 | [-2.4000, -1.8000] | extracted |" in summary
+    assert "Omitted 1 blank or nonfinite coefficient row(s)" in summary

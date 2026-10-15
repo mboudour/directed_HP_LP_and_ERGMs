@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import shutil
 from pathlib import Path
 
 import pyarrow.parquet as pq
@@ -160,8 +161,10 @@ def main() -> None:
         args.output_dir or PROJECT_ROOT / "results" / "phase2" / f"{args.dataset}_temporal_check"
     )
     output_dir = output_dir if output_dir.is_absolute() else PROJECT_ROOT / output_dir
-    if output_dir.exists() and any(output_dir.iterdir()) and not args.overwrite:
-        raise SystemExit(f"STOP: output directory is nonempty: {output_dir}")
+    if output_dir.exists() and any(output_dir.iterdir()):
+        if not args.overwrite:
+            raise SystemExit(f"STOP: output directory is nonempty: {output_dir}")
+        shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     nodes = read_nodes(nodes_path, node_column)

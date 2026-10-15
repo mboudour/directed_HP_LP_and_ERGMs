@@ -1,0 +1,4 @@
+"time","nodes","directed_edges","role"
+"0",100,688,"history_only"
+"1",100,701,"response_and_history"
+"2",100,637,"response_and_history"

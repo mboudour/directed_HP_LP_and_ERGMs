@@ -86,6 +86,14 @@ stopifnot(isTRUE(all.equal(
   tie_metrics$value[tie_metrics$metric == "log_loss"],
   log(2)
 )))
+large_labels <- rep(c(1L, 0L), 50000L)
+large_probabilities <- rep(c(0.9, 0.1), 50000L)
+large_metrics <- score_binary_metrics(
+  "replicate_large", "M0", large_labels, large_probabilities
+)
+stopifnot(is.finite(large_metrics$value[large_metrics$metric == "matthews_correlation"]))
+stopifnot(is.finite(large_metrics$value[large_metrics$metric == "roc_auc"]))
+stopifnot(is.finite(large_metrics$value[large_metrics$metric == "pr_auc"]))
 degenerate_metrics <- score_binary_metrics(
   "replicate_001", "M0", c(1L, 1L), c(0.8, 0.2)
 )

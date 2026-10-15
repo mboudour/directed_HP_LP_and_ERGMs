@@ -1,0 +1,4 @@
+"time","nodes","directed_edges","role"
+"1999-05",100,7,"history_only"
+"1999-06",100,3,"response_and_history"
+"1999-07",100,7,"response_and_history"

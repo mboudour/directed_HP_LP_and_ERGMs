@@ -349,9 +349,12 @@ score_predict_candidates <- function(fit, candidates, node_ids) {
 }
 
 score_binary_metrics <- function(replicate, model, labels, probabilities, decision_threshold = 0.5) {
-  candidate_count <- length(labels)
-  positive_count <- sum(labels == 1L)
-  negative_count <- sum(labels == 0L)
+  # Keep every aggregate in double precision. Besides the MCC denominator,
+  # average-rank ROC-AUC multiplies positive and negative counts and can
+  # otherwise overflow R's 32-bit integer type on a complete-dyad panel.
+  candidate_count <- as.double(length(labels))
+  positive_count <- as.double(sum(labels == 1L))
+  negative_count <- as.double(sum(labels == 0L))
   metric_names <- score_metric_names()
   threshold_metrics <- score_threshold_metrics()
   metric_thresholds <- ifelse(metric_names %in% threshold_metrics, decision_threshold, NA_real_)
@@ -386,10 +389,12 @@ score_binary_metrics <- function(replicate, model, labels, probabilities, decisi
   recall <- cumulative_positive / positive_count
   pr_auc <- sum((recall - c(0, head(recall, -1L))) * precision)
   predicted_positive <- probabilities >= decision_threshold
-  true_positive <- sum(predicted_positive & labels == 1L)
-  false_positive <- sum(predicted_positive & labels == 0L)
-  true_negative <- sum(!predicted_positive & labels == 0L)
-  false_negative <- sum(!predicted_positive & labels == 1L)
+  # Force double arithmetic before the four-way MCC denominator product. An
+  # equal positive/negative panel can readily exceed R's 32-bit integer range.
+  true_positive <- as.double(sum(predicted_positive & labels == 1L))
+  false_positive <- as.double(sum(predicted_positive & labels == 0L))
+  true_negative <- as.double(sum(!predicted_positive & labels == 0L))
+  false_negative <- as.double(sum(!predicted_positive & labels == 1L))
   predicted_positive_count <- true_positive + false_positive
   accuracy <- (true_positive + true_negative) / candidate_count
   classification_precision <- if (predicted_positive_count > 0L) {

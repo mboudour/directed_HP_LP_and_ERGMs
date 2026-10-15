@@ -1,0 +1,13 @@
+"replicate","model","formula","status","fit_status","prediction_status","message","warnings","candidates_requested","candidates_predicted"
+"replicate_001","M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_001","M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_001","M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_001","M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_002","M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_002","M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_002","M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_002","M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_003","M0","nw ~ edges","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_003","M1","nw ~ edges + mutual","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_003","M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","scored","fit_succeeded","prediction_succeeded","","",380,380
+"replicate_003","M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","scored","fit_succeeded","prediction_succeeded","","",380,380

@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-ciel-audit phase2-jmail-audit phase2-mathoverflow-audit phase2-mathoverflow-profile phase2-mathoverflow-primary phase2-mathoverflow-static-prep phase2-mathoverflow-concepts phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
+.PHONY: help python neural r r-model-test test lint format clean phase2-status phase2-audits phase2-dry-run phase2-report phase2-publish-aggregate phase2-caviar-static-prep phase2-caviar-concepts phase2-caviar-static phase2-caviar-static-plan phase2-caviar-score phase2-ciel-audit phase2-jmail-audit phase2-mathoverflow-audit phase2-mathoverflow-profile phase2-mathoverflow-primary phase2-mathoverflow-static-prep phase2-mathoverflow-concepts phase2-mathoverflow-native-fidelity phase2-mathoverflow-event-masks phase2-mathoverflow-native-heuristics phase2-mathoverflow-native-hard-panels phase2-mathoverflow-native-ergm-inputs phase2-mathoverflow-native-ergm-footprints phase2-mathoverflow-static phase2-mathoverflow-static-plan phase2-mathoverflow-score phase2-enron-timestamps phase2-enron-primary phase2-enron-mcmle-core50 phase2-enron-mcmle-core50-inputs phase2-enron-mcmle-core50-candidates phase2-enron-mcmle-core50-m2-gate phase2-enron-concepts phase2-enron-native-fidelity phase2-enron-event-masks phase2-enron-native-heuristics phase2-enron-native-hard-panels phase2-enron-native-ergm-inputs phase2-enron-joint-footprints phase2-enron-joint-m4-mple-sensitivity phase2-enron-static phase2-enron-static-plan phase2-enron-score phase2-static phase2-export-masks phase2-eu-core-static-plan phase2-eu-core-score phase2-temporal-export phase2-eu-core-temporal phase2-eu-core-btergm phase2-eu-core-concepts
 
 help:
 	@printf '%s\n' \
@@ -15,6 +15,7 @@ help:
 	  'phase2-audits  Run all locally available, ungated Phase 2 source audits.' \
 	  'phase2-dry-run  Show which Phase 2 source audits would run.' \
 	  'phase2-report  Write one local report from completed audit metadata.' \
+	  'phase2-publish-aggregate  Collect non-sensitive aggregate output tables for the private repository.' \
 	  'phase2-caviar-static-prep  Build the approved unique-labelled CAVIAR full static matrix.' \
 	  'phase2-caviar-concepts  Audit CAVIAR full static formal concepts (|T|,|H| <= 3).' \
 	  'phase2-caviar-static  Run the fixed CAVIAR full static arc-LP pilot.' \
@@ -27,6 +28,14 @@ help:
 	  'phase2-mathoverflow-primary  Build approved 30-day MathOverflow reconstructed events.' \
 	  'phase2-mathoverflow-static-prep  Build MathOverflow static arcs and all-participant core-100 views.' \
 	  'phase2-mathoverflow-concepts  Audit capped MathOverflow formal concepts (|T|,|H| <= 3).' \
+	  'phase2-mathoverflow-native-fidelity  Compare reconstructed MathOverflow events with capped concepts.' \
+	  'phase2-mathoverflow-event-masks  Create frozen MathOverflow event-type MCAR and MNAR-out masks.' \
+	  'phase2-mathoverflow-native-heuristics  Score MathOverflow native events with lifted LP heuristics.' \
+	  'phase2-mathoverflow-native-hard-panels  Score MathOverflow reversal and role-exchange panels.' \
+	  'phase2-mathoverflow-native-ergm-footprints  Score MathOverflow native-event footprints by ERGM.' \
+	  'phase2-mathoverflow-static  Run the fixed MathOverflow static arc-LP pilot.' \
+	  'phase2-mathoverflow-static-plan  Fit the MathOverflow static ERGM ladder by MPLE.' \
+	  'phase2-mathoverflow-score  Score MathOverflow frozen MCAR masks by ERGM conditional probabilities.' \
 	  'phase2-enron-timestamps  Profile retained Enron event dates before selecting a study interval.' \
 	  'phase2-enron-primary  Build the approved strict Enron custodian projection, core-100, and monthly panels.' \
 	  'phase2-enron-mcmle-core50  Materialize the approved nested Enron core-50 for MCMLE feasibility only.' \
@@ -90,6 +99,9 @@ phase2-dry-run:
 
 phase2-report:
 	uv run python scripts/27_phase2_readiness_report.py
+
+phase2-publish-aggregate:
+	uv run python scripts/45_collect_phase2_aggregate_outputs.py --overwrite
 
 phase2-caviar-static-prep:
 	uv run python scripts/22_prepare_covert_matrices.py caviar --scope=full_static --build-directed
@@ -185,6 +197,40 @@ phase2-mathoverflow-concepts: phase2-mathoverflow-static-prep
 	uv run python scripts/28_audit_formal_concepts.py --dataset=mathoverflow_stackexchange_2024 --edges=data/processed/mathoverflow_stackexchange_2024/core100_static_arcs.parquet --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --source-col=tail --target-col=head --node-col=node --output-dir=results/phase2/mathoverflow_formal_concepts_tail3_head3 --tail-cap=3 --head-cap=3 --max-candidates=250000 --overwrite
 	@cat results/phase2/mathoverflow_formal_concepts_tail3_head3/summary.md
 
+phase2-mathoverflow-native-fidelity: phase2-mathoverflow-static-prep
+	uv run python scripts/29_audit_native_event_fidelity.py --dataset-id=mathoverflow_stackexchange_2024 --events=data/processed/mathoverflow_stackexchange_2024/core100_native_events.parquet --arcs=data/processed/mathoverflow_stackexchange_2024/core100_static_arcs.parquet --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --event-tail-column=tail_answerers --event-head-column=head_asker --arc-tail-column=tail --arc-head-column=head --node-column=node --tail-cap=3 --head-cap=3 --max-concept-candidates=250000 --output-dir=results/phase2/mathoverflow_native_event_fidelity_tail3_head3 --overwrite
+	@cat results/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.md
+
+phase2-mathoverflow-event-masks: phase2-mathoverflow-static-prep
+	uv run python scripts/36_prepare_event_first_masks.py --dataset-id=mathoverflow_stackexchange_2024 --events=data/processed/mathoverflow_stackexchange_2024/core100_native_events.parquet --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --event-tail-column=tail_answerers --event-head-column=head_asker --node-column=node --tail-cap=3 --head-cap=3 --mask-rate=0.30 --mechanisms=mcar,mnar_out --replicates=3 --seed=20261013 --output-dir=results/phase2/mathoverflow_event_first_type_masks --overwrite
+	@cat results/phase2/mathoverflow_event_first_type_masks/summary.md
+
+phase2-mathoverflow-native-heuristics: phase2-mathoverflow-event-masks
+	uv run python scripts/37_run_native_event_heuristics.py --dataset-id=mathoverflow_stackexchange_2024 --mask-dir=results/phase2/mathoverflow_event_first_type_masks --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --node-column=node --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/mathoverflow_event_first_native_heuristics --overwrite
+	@cat results/phase2/mathoverflow_event_first_native_heuristics/summary.md
+
+phase2-mathoverflow-native-hard-panels: phase2-mathoverflow-event-masks
+	uv run python scripts/38_run_native_event_hard_panels.py --dataset-id=mathoverflow_stackexchange_2024 --mask-dir=results/phase2/mathoverflow_event_first_type_masks --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --node-column=node --max-weak-distance=2 --seed=20261013 --output-dir=results/phase2/mathoverflow_event_first_native_hard_panels --overwrite
+	@cat results/phase2/mathoverflow_event_first_native_hard_panels/summary.md
+
+phase2-mathoverflow-native-ergm-inputs: phase2-mathoverflow-native-heuristics phase2-mathoverflow-native-hard-panels
+	uv run python scripts/39_export_native_event_ergm_inputs.py --dataset-id=mathoverflow_stackexchange_2024 --mask-dir=results/phase2/mathoverflow_event_first_type_masks --heuristic-dir=results/phase2/mathoverflow_event_first_native_heuristics --hard-panel-dir=results/phase2/mathoverflow_event_first_native_hard_panels --nodes=data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv --node-column=node --output-dir=results/phase2/mathoverflow_native_event_ergm_inputs --overwrite
+
+phase2-mathoverflow-native-ergm-footprints: phase2-mathoverflow-native-ergm-inputs
+	Rscript r/models/score_native_event_footprints.R --input-dir=results/phase2/mathoverflow_native_event_ergm_inputs --output-dir=results/models/mathoverflow_native_event_ergm_footprints --models=M0,M1,M3,M4c --estimate=MPLE --seed=20261013 --overwrite=TRUE
+	@cat results/models/mathoverflow_native_event_ergm_footprints/summary.md
+
+phase2-mathoverflow-static: phase2-mathoverflow-static-prep
+	uv run python scripts/30_run_static_benchmark.py --dataset=mathoverflow --mechanism=mcar --replicates=3 --mask-rate=0.30 --tail-cap=3 --head-cap=3 --output-dir=results/phase2/mathoverflow_static_pilot --overwrite
+
+phase2-mathoverflow-static-plan: phase2-mathoverflow-static
+	Rscript r/models/static_directed_ergm_ladder.R --input=results/phase2/mathoverflow_static_pilot/r_inputs/static_edges.csv --nodes=results/phase2/mathoverflow_static_pilot/r_inputs/nodes.csv --output-dir=results/models/mathoverflow_static_ladder_plan --source-col=from --target-col=to --node-col=id --estimate=MPLE --degree-decay=0.5 --esp-decay=0.5 --seed=20261013 --overwrite=TRUE
+
+phase2-mathoverflow-score: phase2-mathoverflow-static
+	uv run python scripts/32_export_static_pilot_masks.py --pilot-dir=results/phase2/mathoverflow_static_pilot --overwrite
+	Rscript r/models/score_masked_ergm.R --input-dir=results/phase2/mathoverflow_static_pilot --output-dir=results/models/mathoverflow_masked_ergm_plan --models=M0,M1,M3,M4c --estimate=MPLE --seed=20261013 --overwrite=TRUE
+	uv run python scripts/33_summarize_masked_ergm.py --input-dir=results/models/mathoverflow_masked_ergm_plan
+
 phase2-enron-timestamps:
 	uv run python scripts/14_profile_enron_event_timestamps.py --overwrite
 
@@ -271,10 +317,11 @@ phase2-export-masks:
 	uv run python scripts/32_export_static_pilot_masks.py $(ARGS)
 
 phase2-eu-core-static-plan:
-	Rscript r/models/static_directed_ergm_ladder.R --input=results/phase2/eu_core_static_pilot/r_inputs/static_edges.csv --nodes=results/phase2/eu_core_static_pilot/r_inputs/nodes.csv --output-dir=results/models/eu_core_static_ladder_plan --source-col=from --target-col=to --node-col=id --estimate=MPLE --degree-decay=0.5 --esp-decay=0.5 --seed=20261013
+	Rscript r/models/static_directed_ergm_ladder.R --input=results/phase2/eu_core_static_pilot/r_inputs/static_edges.csv --nodes=results/phase2/eu_core_static_pilot/r_inputs/nodes.csv --output-dir=results/models/eu_core_static_ladder_plan --source-col=from --target-col=to --node-col=id --estimate=MPLE --degree-decay=0.5 --esp-decay=0.5 --seed=20261013 --overwrite=TRUE
 
 phase2-eu-core-score: phase2-eu-core-static-plan
-	Rscript r/models/score_masked_ergm.R --input-dir=results/phase2/eu_core_static_pilot --output-dir=results/models/eu_core_masked_ergm_plan --models=M0,M1,M3,M4c --estimate=MPLE --seed=20261013
+	uv run python scripts/32_export_static_pilot_masks.py --pilot-dir=results/phase2/eu_core_static_pilot --overwrite
+	Rscript r/models/score_masked_ergm.R --input-dir=results/phase2/eu_core_static_pilot --output-dir=results/models/eu_core_masked_ergm_plan --models=M0,M1,M3,M4c --estimate=MPLE --seed=20261013 --overwrite=TRUE
 	uv run python scripts/33_summarize_masked_ergm.py --input-dir results/models/eu_core_masked_ergm_plan
 
 phase2-eu-core-concepts:
@@ -284,8 +331,8 @@ phase2-temporal-export:
 	uv run python scripts/31_export_temporal_panel.py $(ARGS)
 
 phase2-eu-core-temporal:
-	uv run python scripts/31_export_temporal_panel.py --dataset eu_core --panel-count 3 --output-dir results/phase2/eu_core_temporal_check
-	Rscript r/models/temporal_lagged_check.R --input=results/phase2/eu_core_temporal_check/panel_edges.csv --nodes=results/phase2/eu_core_temporal_check/nodes.csv --output-dir=results/models/eu_core_temporal_lagged --time-col=time --source-col=from --target-col=to --time-order=numeric --max-nodes=100 --max-transitions=2 --max-dyads=50000 --btergm=check --tergm=check --seed=20261013
+	uv run python scripts/31_export_temporal_panel.py --dataset eu_core --panel-count 3 --output-dir results/phase2/eu_core_temporal_check --overwrite
+	Rscript r/models/temporal_lagged_check.R --input=results/phase2/eu_core_temporal_check/panel_edges.csv --nodes=results/phase2/eu_core_temporal_check/nodes.csv --output-dir=results/models/eu_core_temporal_lagged --time-col=time --source-col=from --target-col=to --time-order=numeric --max-nodes=100 --max-transitions=2 --max-dyads=50000 --btergm=check --tergm=check --seed=20261013 --overwrite=TRUE
 	uv run python scripts/34_summarize_temporal_check.py --model-dir results/models/eu_core_temporal_lagged --panel-dir results/phase2/eu_core_temporal_check
 
 phase2-eu-core-btergm:

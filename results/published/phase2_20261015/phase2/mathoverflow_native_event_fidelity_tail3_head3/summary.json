@@ -1,0 +1,106 @@
+{
+  "best_role_similarity": {
+    "concept_to_native_event": {
+      "maximum": 0.8333333333333333,
+      "mean": 0.4190821256038647,
+      "median": 0.41666666666666663,
+      "minimum": 0.3333333333333333,
+      "p95": 0.5833333333333333
+    },
+    "native_event_to_concept": {
+      "maximum": 0.8333333333333333,
+      "mean": 0.3333800186741363,
+      "median": 0.3333333333333333,
+      "minimum": 0.0,
+      "p95": 0.5
+    }
+  },
+  "caps": {
+    "head": 3,
+    "max_concept_candidates": 250000,
+    "tail": 3
+  },
+  "cover_structure": {
+    "aggregation_ratio_native_event_occurrences": {
+      "maximum": 96.0,
+      "mean": 18.420289855072465,
+      "median": 13.0,
+      "minimum": 2.0,
+      "p95": 62.89999999999992
+    },
+    "aggregation_ratio_native_event_types": {
+      "maximum": 22.0,
+      "mean": 10.328502415458937,
+      "median": 10.0,
+      "minimum": 2.0,
+      "p95": 19.0
+    },
+    "best_event_to_concept_role_distortions": 19,
+    "formal_concepts_with_two_or_more_contributing_native_event_types": 207,
+    "native_event_types_with_two_or_more_strictly_contained_concepts": 0,
+    "spurious_closure_formal_concepts_without_exact_native_event": 207,
+    "strictly_contained_concepts_per_native_event_type": {
+      "maximum": 0.0,
+      "mean": 0.0,
+      "median": 0.0,
+      "minimum": 0.0,
+      "p95": 0.0
+    }
+  },
+  "dataset_id": "mathoverflow_stackexchange_2024",
+  "driver": "scripts/29_audit_native_event_fidelity.py",
+  "exact_tail_head_equality": {
+    "concept_precision": 0.0,
+    "matching_pairs": 0,
+    "native_event_type_recall": 0.0
+  },
+  "fixed_node_universe": 100,
+  "footprint_agreement": {
+    "formal_concept_footprint_arcs": 676,
+    "formal_concept_footprint_covered_by_native_events": 0.9970414201183432,
+    "intersection_arcs": 674,
+    "jaccard": 0.6633858267716536,
+    "native_event_cap_footprint_arcs": 1014,
+    "native_event_footprint_covered_by_concepts": 0.6646942800788954,
+    "union_arcs": 1016
+  },
+  "formal_concepts": {
+    "count": 207
+  },
+  "inputs": {
+    "native_events": {
+      "path": "data/processed/mathoverflow_stackexchange_2024/core100_native_events.parquet",
+      "sha256": "8d009e515cb645a8e32352719e174e6fc6b0d58ac6d9134628328493d80cf7ea"
+    },
+    "nodes": {
+      "path": "data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv",
+      "sha256": "b601aaba10265fd2203bbbe0803d0829a01a4f6958def74b2c58cfae25e16b62"
+    },
+    "static_arcs": {
+      "path": "data/processed/mathoverflow_stackexchange_2024/core100_static_arcs.parquet",
+      "sha256": "4f1a5d489136c4160011797c09c3aab5368ab0079a7ab4d0482457b060861b6e"
+    }
+  },
+  "limitations": [
+    "The capped concept section is a derived representation, not a reconstruction of recorded messages.",
+    "Exact equality is assessed on tail/head event types; repeated records contribute occurrence counts but do not create new types.",
+    "This audit has no degree-preserving-rewiring comparison and makes no chance-corrected fidelity claim.",
+    "Containment fragmentation and aggregation ratio are descriptive cover diagnostics, not a unique inverse of the dyadic projection."
+  ],
+  "native_events": {
+    "cap_eligible_event_records": 1946,
+    "cap_eligible_event_type_occurrences": 1946,
+    "cap_eligible_event_types": 1071,
+    "event_records_read": 1949,
+    "excluded_by_arity_cap_event_records": 3,
+    "fixed_universe_event_records": 1949
+  },
+  "outputs": {
+    "concept_to_event_aggregation": "concept_to_event_aggregation.csv",
+    "event_to_concept_matches": "event_to_concept_matches.csv",
+    "summary_json": "summary.json",
+    "summary_markdown": "summary.md"
+  },
+  "static_arcs": 1020,
+  "status": "completed"
+}

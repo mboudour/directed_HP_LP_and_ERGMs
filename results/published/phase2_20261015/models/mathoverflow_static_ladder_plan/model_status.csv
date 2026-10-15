@@ -1,0 +1,7 @@
+"model","formula","status","message","warnings"
+"M0","nw ~ edges","fit_succeeded","",""
+"M1","nw ~ edges + mutual","fit_succeeded","",""
+"M2","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE)","fit_succeeded","",""
+"M3","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP')","fit_succeeded","",""
+"M4","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP')","fit_succeeded","",""
+"M4c","nw ~ edges + mutual + gwodegree(0.5, fixed=TRUE) + gwidegree(0.5, fixed=TRUE) + gwesp(0.5, fixed=TRUE, type='OTP') + gwesp(0.5, fixed=TRUE, type='OSP') + gwesp(0.5, fixed=TRUE, type='ISP') + ctriple","fit_succeeded","",""

@@ -1,0 +1,7 @@
+"split","mechanism","replicate","nodes","directed_edges","possible_directed_edges","density","reciprocal_pairs","reciprocated_edge_fraction","input_rows","self_loops_dropped","duplicate_rows_dropped"
+"mcar_replicate_001","mcar",1,100,758,9900,0.0765656565656566,54,0.142480211081794,758,0,0
+"mcar_replicate_002","mcar",2,100,761,9900,0.0768686868686869,53,0.139290407358738,761,0,0
+"mcar_replicate_003","mcar",3,100,760,9900,0.0767676767676768,58,0.152631578947368,760,0,0
+"mnar_out_replicate_001","mnar_out",1,100,770,9900,0.0777777777777778,53,0.137662337662338,770,0,0
+"mnar_out_replicate_002","mnar_out",2,100,790,9900,0.0797979797979798,59,0.149367088607595,790,0,0
+"mnar_out_replicate_003","mnar_out",3,100,794,9900,0.0802020202020202,60,0.151133501259446,794,0,0

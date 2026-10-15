@@ -1,0 +1,10 @@
+tail_arity,head_arity,concepts,concept_footprint_arcs
+1,1,1,1
+1,2,2,4
+1,3,3,9
+2,1,3,6
+2,2,17,68
+2,3,20,120
+3,1,10,30
+3,2,15,90
+3,3,9,81

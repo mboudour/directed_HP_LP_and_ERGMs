@@ -1,0 +1,7 @@
+mechanism,replicate,heldout_event_types,eligible_positive_types,positive_eligibility_rate,random_negative_types,candidate_panel_size,observed_projection_arcs
+mcar,1,321,311,0.9688473520249221,311,622,758
+mcar,2,321,309,0.9626168224299065,309,618,761
+mcar,3,321,312,0.9719626168224299,312,624,760
+mnar_out,1,330,318,0.9636363636363636,318,636,770
+mnar_out,2,314,309,0.9840764331210191,309,618,790
+mnar_out,3,310,292,0.9419354838709677,292,584,794

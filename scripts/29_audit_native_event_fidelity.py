@@ -147,13 +147,12 @@ def read_arcs(
     return tuple(arcs)
 
 
-def canonical_head(value: object) -> tuple[str, ...]:
-    """Canonicalize a list-like recorded head without silently parsing text encodings."""
-    if not isinstance(value, list):
-        raise SystemExit("STOP: native-event head column must be a Parquet list column.")
-    members = [str(member).strip() for member in value]
-    if any(not member for member in members):
-        raise SystemExit("STOP: native-event head contains an empty actor ID.")
+def canonical_role(value: object, role: str) -> tuple[str, ...]:
+    """Canonicalize a nonempty scalar or Parquet-list event role without text parsing."""
+    raw_members = value if isinstance(value, list) else [value]
+    members = [str(member).strip() for member in raw_members if member is not None]
+    if not members or any(not member for member in members):
+        raise ValueError(f"native-event {role} contains an empty actor ID")
     return tuple(sorted(set(members)))
 
 
@@ -178,16 +177,17 @@ def read_native_event_types(
     for batch in source.iter_batches(columns=[tail_column, head_column], batch_size=50_000):
         for row in batch.to_pylist():
             accounting["event_records_read"] += 1
-            tail_value = row[tail_column]
-            if tail_value is None or not str(tail_value).strip():
+            try:
+                tail = canonical_role(row[tail_column], "tail")
+            except ValueError:
                 accounting["excluded_empty_tail"] += 1
                 continue
-            tail = (str(tail_value).strip(),)
-            head = canonical_head(row[head_column])
-            if not head:
+            try:
+                head = canonical_role(row[head_column], "head")
+            except ValueError:
                 accounting["excluded_empty_head"] += 1
                 continue
-            if tail[0] not in nodes or any(member not in nodes for member in head):
+            if any(member not in nodes for member in tail + head):
                 accounting["excluded_outside_fixed_node_universe"] += 1
                 continue
             if set(tail).intersection(head):

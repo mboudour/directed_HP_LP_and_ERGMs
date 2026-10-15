@@ -1,0 +1,594 @@
+{
+  "artifacts": [
+    {
+      "bytes": "747",
+      "published": "results/published/phase2_20261015/phase2/caviar_full_static_formal_concepts_tail3_head3/summary.md",
+      "sha256": "68b35cbae1f2468a687009aab080f610cb118642cf8eb2f56b3a5db124f7768d",
+      "source": "results/phase2/caviar_full_static_formal_concepts_tail3_head3/summary.md"
+    },
+    {
+      "bytes": "136",
+      "published": "results/published/phase2_20261015/phase2/caviar_full_static_formal_concepts_tail3_head3/arity_distribution.csv",
+      "sha256": "74db51c3122df17ce0bc149ae446a71e7226f6d9f1cf2ba93d73113143481d58",
+      "source": "results/phase2/caviar_full_static_formal_concepts_tail3_head3/arity_distribution.csv"
+    },
+    {
+      "bytes": "2228",
+      "published": "results/published/phase2_20261015/phase2/caviar_full_static_formal_concepts_tail3_head3/arc_multiplicity.csv",
+      "sha256": "1f1d047d00e552d53dc288bbb640f2e83abeca0726fc46226c3f524da2a3ab78",
+      "source": "results/phase2/caviar_full_static_formal_concepts_tail3_head3/arc_multiplicity.csv"
+    },
+    {
+      "bytes": "745",
+      "published": "results/published/phase2_20261015/phase2/enron_formal_concepts_tail3_head3/summary.md",
+      "sha256": "ba5c88e96c06ddc0df2f1f5c21ef0730da49198ef3029db9b6800223658ddd15",
+      "source": "results/phase2/enron_formal_concepts_tail3_head3/summary.md"
+    },
+    {
+      "bytes": "132",
+      "published": "results/published/phase2_20261015/phase2/enron_formal_concepts_tail3_head3/arity_distribution.csv",
+      "sha256": "611dcc1af582ad2439b4c2bc90ca1409a443a9fe4cea3984a532f7e5537b7754",
+      "source": "results/phase2/enron_formal_concepts_tail3_head3/arity_distribution.csv"
+    },
+    {
+      "bytes": "13321",
+      "published": "results/published/phase2_20261015/phase2/enron_formal_concepts_tail3_head3/arc_multiplicity.csv",
+      "sha256": "a486129d599330af7a6088e57e2c2a5ae5ace9603c396bd623244d12ac90a540",
+      "source": "results/phase2/enron_formal_concepts_tail3_head3/arc_multiplicity.csv"
+    },
+    {
+      "bytes": "1178",
+      "published": "results/published/phase2_20261015/phase2/enron_native_event_fidelity_tail3_head3/summary.md",
+      "sha256": "c877b91bb41911d0f8557221728557ec211aad6ede2ac8b4c31fcc0fab21c782",
+      "source": "results/phase2/enron_native_event_fidelity_tail3_head3/summary.md"
+    },
+    {
+      "bytes": "3676",
+      "published": "results/published/phase2_20261015/phase2/enron_native_event_fidelity_tail3_head3/summary.json",
+      "sha256": "4f304f7888e8f74fe8d93459193c4aee4d7ee5861396584edb6636d6a7a1ea93",
+      "source": "results/phase2/enron_native_event_fidelity_tail3_head3/summary.json"
+    },
+    {
+      "bytes": "1284",
+      "published": "results/published/phase2_20261015/phase2/enron_event_first_type_masks/summary.md",
+      "sha256": "f6083a76d70f14cfa3f763d0295f08263f9b5a04d41ec5768c29479ca5d26f56",
+      "source": "results/phase2/enron_event_first_type_masks/summary.md"
+    },
+    {
+      "bytes": "7958",
+      "published": "results/published/phase2_20261015/phase2/enron_event_first_type_masks/split_summary.csv",
+      "sha256": "13e461136bc776599fccd175a65b0efcefffb3ff4a414381cce7541e76917637",
+      "source": "results/phase2/enron_event_first_type_masks/split_summary.csv"
+    },
+    {
+      "bytes": "7569",
+      "published": "results/published/phase2_20261015/phase2/enron_event_first_native_heuristics/summary.md",
+      "sha256": "e6b4f5228bdf0f1559b37feb4260a79822c7daf7450e5835a3b6458241341f2b",
+      "source": "results/phase2/enron_event_first_native_heuristics/summary.md"
+    },
+    {
+      "bytes": "7277",
+      "published": "results/published/phase2_20261015/phase2/enron_event_first_native_heuristics/metric_summary.csv",
+      "sha256": "013e5fd2de74603861b456ff646c42cda452147123d051e2124055aca4b38283",
+      "source": "results/phase2/enron_event_first_native_heuristics/metric_summary.csv"
+    },
+    {
+      "bytes": "446",
+      "published": "results/published/phase2_20261015/phase2/enron_event_first_native_heuristics/split_summary.csv",
+      "sha256": "ee3ce6f79bd6814c5c903626e903528b02151a6e7849c8abfaded26ff633ae0b",
+      "source": "results/phase2/enron_event_first_native_heuristics/split_summary.csv"
+    },
+    {
+      "bytes": "16978",
+      "published": "results/published/phase2_20261015/phase2/enron_event_first_native_hard_panels/summary.md",
+      "sha256": "044aefc73777b6febbdc8d6f344d72f05cdfd5a818d09bb088b726221c43556a",
+      "source": "results/phase2/enron_event_first_native_hard_panels/summary.md"
+    },
+    {
+      "bytes": "16628",
+      "published": "results/published/phase2_20261015/phase2/enron_event_first_native_hard_panels/metric_summary.csv",
+      "sha256": "3c43b5134884ff5d9b5b2c948e09bdbc4fac031f5e603bc1c31b19ab9662ae30",
+      "source": "results/phase2/enron_event_first_native_hard_panels/metric_summary.csv"
+    },
+    {
+      "bytes": "402",
+      "published": "results/published/phase2_20261015/phase2/enron_event_first_native_hard_panels/split_summary.csv",
+      "sha256": "357248397e08a769a94c2a3e24682611e0103df82bcd610bfc55194648b8af5a",
+      "source": "results/phase2/enron_event_first_native_hard_panels/split_summary.csv"
+    },
+    {
+      "bytes": "755",
+      "published": "results/published/phase2_20261015/phase2/eu_core_formal_concepts_tail3_head3/summary.md",
+      "sha256": "cb232724a20704a8fcf0fe420e042492d80ca6a8f3132112eb85b274d1244320",
+      "source": "results/phase2/eu_core_formal_concepts_tail3_head3/summary.md"
+    },
+    {
+      "bytes": "92",
+      "published": "results/published/phase2_20261015/phase2/eu_core_formal_concepts_tail3_head3/arity_distribution.csv",
+      "sha256": "0158860acc30326ecae279affcca88ca84fcf97fd2514a8eacfc68e5f3b9ac98",
+      "source": "results/phase2/eu_core_formal_concepts_tail3_head3/arity_distribution.csv"
+    },
+    {
+      "bytes": "26193",
+      "published": "results/published/phase2_20261015/phase2/eu_core_formal_concepts_tail3_head3/arc_multiplicity.csv",
+      "sha256": "544ebab0f822683d44d3828b93af2f4539c78a0b6495622f55625e6010818d14",
+      "source": "results/phase2/eu_core_formal_concepts_tail3_head3/arc_multiplicity.csv"
+    },
+    {
+      "bytes": "768",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_formal_concepts_tail3_head3/summary.md",
+      "sha256": "420d1d659cb2088773f60ec3c79a0b9d1f61d75731b6be1f83e3441c080554aa",
+      "source": "results/phase2/mathoverflow_formal_concepts_tail3_head3/summary.md"
+    },
+    {
+      "bytes": "106",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_formal_concepts_tail3_head3/arity_distribution.csv",
+      "sha256": "aaf5dfff59eca89d4a676595091e70f65a1fdd5ed4e82cf5503e81cf96d0e9a0",
+      "source": "results/phase2/mathoverflow_formal_concepts_tail3_head3/arity_distribution.csv"
+    },
+    {
+      "bytes": "12597",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_formal_concepts_tail3_head3/arc_multiplicity.csv",
+      "sha256": "61478dff55ba261bd20bbccae242743ca1ed6c3053025ae7778422bad325298f",
+      "source": "results/phase2/mathoverflow_formal_concepts_tail3_head3/arc_multiplicity.csv"
+    },
+    {
+      "bytes": "1201",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.md",
+      "sha256": "9cf9207ed5c4d5780daa886751dc110bb0097e1133c06010d4d139afb791d822",
+      "source": "results/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.md"
+    },
+    {
+      "bytes": "3691",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.json",
+      "sha256": "fed9bc10d03be26bfe7fafc28db3c3bfcd264ee720f6a210e30ed0459c0932d8",
+      "source": "results/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.json"
+    },
+    {
+      "bytes": "1301",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_type_masks/summary.md",
+      "sha256": "28b6eda5a06fda436d3af7fd75461c2390977327cc961efa3cccec64fb6530fc",
+      "source": "results/phase2/mathoverflow_event_first_type_masks/summary.md"
+    },
+    {
+      "bytes": "6735",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_type_masks/split_summary.csv",
+      "sha256": "da978c4123f0b895c8043923179df7f7ac5e15c6ca5e4a62a61fc305f2207ed9",
+      "source": "results/phase2/mathoverflow_event_first_type_masks/split_summary.csv"
+    },
+    {
+      "bytes": "7586",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_heuristics/summary.md",
+      "sha256": "3285d9d2707708700b0674cc2ada6b7b2d6881f1e449dd118f21a141cc7dcecd",
+      "source": "results/phase2/mathoverflow_event_first_native_heuristics/summary.md"
+    },
+    {
+      "bytes": "7302",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_heuristics/metric_summary.csv",
+      "sha256": "81cb5b42c063578273c9ef5cea193c14d81bec378b13b94d4f0dd5913329b3f9",
+      "source": "results/phase2/mathoverflow_event_first_native_heuristics/metric_summary.csv"
+    },
+    {
+      "bytes": "446",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_heuristics/split_summary.csv",
+      "sha256": "418909788ba244f942a9f103930a9992b449d70429f2cd5fb084d6df682fb47e",
+      "source": "results/phase2/mathoverflow_event_first_native_heuristics/split_summary.csv"
+    },
+    {
+      "bytes": "17007",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_hard_panels/summary.md",
+      "sha256": "ed389f65078f6d791b51efb1d327a0ab452a2aa7009e6dc23e5fa19cba64eb5b",
+      "source": "results/phase2/mathoverflow_event_first_native_hard_panels/summary.md"
+    },
+    {
+      "bytes": "16652",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_hard_panels/metric_summary.csv",
+      "sha256": "eb1ae113581eebc2843b752ec3c94b25a467e4130b3fe18ca68c09a1e3eb0554",
+      "source": "results/phase2/mathoverflow_event_first_native_hard_panels/metric_summary.csv"
+    },
+    {
+      "bytes": "414",
+      "published": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_hard_panels/split_summary.csv",
+      "sha256": "7a1f49b471e3b0db6e6f186f35a54b15764b314e5bf0715900abb94c8e02027d",
+      "source": "results/phase2/mathoverflow_event_first_native_hard_panels/split_summary.csv"
+    },
+    {
+      "bytes": "835",
+      "published": "results/published/phase2_20261015/models/caviar_static_ladder_plan/model_status.csv",
+      "sha256": "bc01573c031e03e4847e871bf3e5fe9e3067547c3ff9ee89c979c9db4b6cc0e5",
+      "source": "results/models/caviar_static_ladder_plan/model_status.csv"
+    },
+    {
+      "bytes": "1559",
+      "published": "results/published/phase2_20261015/models/caviar_static_ladder_plan/coefficients.csv",
+      "sha256": "747ccb2e1c0454df05fe6766d471d3b5ae9cf3947d2e567f104482cdf1213bc0",
+      "source": "results/models/caviar_static_ladder_plan/coefficients.csv"
+    },
+    {
+      "bytes": "229",
+      "published": "results/published/phase2_20261015/models/caviar_static_ladder_plan/network_summary.csv",
+      "sha256": "4943a55a9110c640ab16f67266243b65390c4105d33f123b45f9fa2bf8306935",
+      "source": "results/models/caviar_static_ladder_plan/network_summary.csv"
+    },
+    {
+      "bytes": "2084",
+      "published": "results/published/phase2_20261015/models/caviar_masked_ergm_plan/summary.md",
+      "sha256": "7abe5860d346d2d81cb3241c8bc08c464ffbe71cc24c0911a08d8cd1c2016416",
+      "source": "results/models/caviar_masked_ergm_plan/summary.md"
+    },
+    {
+      "bytes": "8255",
+      "published": "results/published/phase2_20261015/models/caviar_masked_ergm_plan/metrics.csv",
+      "sha256": "486774ccd8267a918d06023778e4b1315c09a51faed0a715f2b90efc13c4da2d",
+      "source": "results/models/caviar_masked_ergm_plan/metrics.csv"
+    },
+    {
+      "bytes": "2197",
+      "published": "results/published/phase2_20261015/models/caviar_masked_ergm_plan/model_status.csv",
+      "sha256": "9c3abb2ddf590c0926cd064ffc11252db334e017299250322836cad4c947f2ae",
+      "source": "results/models/caviar_masked_ergm_plan/model_status.csv"
+    },
+    {
+      "bytes": "1059",
+      "published": "results/published/phase2_20261015/models/caviar_masked_ergm_plan/replicate_status.csv",
+      "sha256": "ed799f5f073df4cb260a3c4b237c8240f1bc820587e82bcf8ad7f1c5116f6913",
+      "source": "results/models/caviar_masked_ergm_plan/replicate_status.csv"
+    },
+    {
+      "bytes": "414",
+      "published": "results/published/phase2_20261015/models/caviar_masked_ergm_plan/replicate_network_summary.csv",
+      "sha256": "f734b0c58ec1f27975a9f4340dcb06181c36aa51b26f6069e51edcfe83689582",
+      "source": "results/models/caviar_masked_ergm_plan/replicate_network_summary.csv"
+    },
+    {
+      "bytes": "835",
+      "published": "results/published/phase2_20261015/models/enron_static_ladder_plan/model_status.csv",
+      "sha256": "bc01573c031e03e4847e871bf3e5fe9e3067547c3ff9ee89c979c9db4b6cc0e5",
+      "source": "results/models/enron_static_ladder_plan/model_status.csv"
+    },
+    {
+      "bytes": "1556",
+      "published": "results/published/phase2_20261015/models/enron_static_ladder_plan/coefficients.csv",
+      "sha256": "ce769b48cdc4541954bd42465194c3f29586415755c94ad004391ad07b084db6",
+      "source": "results/models/enron_static_ladder_plan/coefficients.csv"
+    },
+    {
+      "bytes": "230",
+      "published": "results/published/phase2_20261015/models/enron_static_ladder_plan/network_summary.csv",
+      "sha256": "132ed248bb0b067827b15c83f11a0b2039cec5405e15eb16f810367d6ad1fa81",
+      "source": "results/models/enron_static_ladder_plan/network_summary.csv"
+    },
+    {
+      "bytes": "2084",
+      "published": "results/published/phase2_20261015/models/enron_masked_ergm_plan/summary.md",
+      "sha256": "26482a7ff56de86341fd57b463f31f56a018c29884eb427080e289bc92ad942b",
+      "source": "results/models/enron_masked_ergm_plan/summary.md"
+    },
+    {
+      "bytes": "8414",
+      "published": "results/published/phase2_20261015/models/enron_masked_ergm_plan/metrics.csv",
+      "sha256": "4c066bb9a9acdfeaaa0cfc1a69ea406513795e6c17621f8114462c533daa5f3a",
+      "source": "results/models/enron_masked_ergm_plan/metrics.csv"
+    },
+    {
+      "bytes": "2197",
+      "published": "results/published/phase2_20261015/models/enron_masked_ergm_plan/model_status.csv",
+      "sha256": "abfda8ad815767c3cbf7c6b7ef55fa236838decc3c1dc5ba001ab052a18c1fd7",
+      "source": "results/models/enron_masked_ergm_plan/model_status.csv"
+    },
+    {
+      "bytes": "1059",
+      "published": "results/published/phase2_20261015/models/enron_masked_ergm_plan/replicate_status.csv",
+      "sha256": "7fe46987ddf5faeb7c3022b46e85f570ba86c75909ec2c7a9cd651a416ab2d60",
+      "source": "results/models/enron_masked_ergm_plan/replicate_status.csv"
+    },
+    {
+      "bytes": "412",
+      "published": "results/published/phase2_20261015/models/enron_masked_ergm_plan/replicate_network_summary.csv",
+      "sha256": "8b54a0b733aae1d1151ff3d75372b4c4404830155eb01ab77c13c70174ba2fa7",
+      "source": "results/models/enron_masked_ergm_plan/replicate_network_summary.csv"
+    },
+    {
+      "bytes": "21896",
+      "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/summary.md",
+      "sha256": "a7bad1509d67f2669e258ec2a31d560d47761b4ec1f4f3ee1b2450610cd4686b",
+      "source": "results/models/enron_native_event_ergm_footprints/summary.md"
+    },
+    {
+      "bytes": "22946",
+      "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/metric_summary.csv",
+      "sha256": "f8d4af99846e8426087244444955bcf87395567ba97c8bb288c6609eaa3f5dee",
+      "source": "results/models/enron_native_event_ergm_footprints/metric_summary.csv"
+    },
+    {
+      "bytes": "101338",
+      "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/ranking_metrics.csv",
+      "sha256": "c6583845af84a35cf3e2969410e34d5e5b68b579c44f07d0d66f7225cee13ca5",
+      "source": "results/models/enron_native_event_ergm_footprints/ranking_metrics.csv"
+    },
+    {
+      "bytes": "4705",
+      "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/model_status.csv",
+      "sha256": "53080125aa222c826508f8c2ad784bafd55c61044e4633d488048d9d680e4644",
+      "source": "results/models/enron_native_event_ergm_footprints/model_status.csv"
+    },
+    {
+      "bytes": "3181",
+      "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/split_status.csv",
+      "sha256": "fa7a9b5a3257235a16a865f866c7fd181b5d27f761c641b2c86056b8f529522c",
+      "source": "results/models/enron_native_event_ergm_footprints/split_status.csv"
+    },
+    {
+      "bytes": "775",
+      "published": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/network_summary.csv",
+      "sha256": "a0b0d0e6c65aebd511ca3efd04ebe55da74f72dcc1d2b2e1986c5271da9e7e89",
+      "source": "results/models/enron_native_event_ergm_footprints/network_summary.csv"
+    },
+    {
+      "bytes": "1464",
+      "published": "results/published/phase2_20261015/models/enron_temporal_lagged/summary.md",
+      "sha256": "a8e56416729a8d7facbc3994eb193863cd54d3ed9f1f9035f4ff79c95f395785",
+      "source": "results/models/enron_temporal_lagged/summary.md"
+    },
+    {
+      "bytes": "695",
+      "published": "results/published/phase2_20261015/models/enron_temporal_lagged/factorized_coefficients.csv",
+      "sha256": "037150660c5ab9e4d527b0fca396dc80620369ae0084573091aa02b4d85cbde5",
+      "source": "results/models/enron_temporal_lagged/factorized_coefficients.csv"
+    },
+    {
+      "bytes": "201",
+      "published": "results/published/phase2_20261015/models/enron_temporal_lagged/factorized_model_status.csv",
+      "sha256": "ff900cc01753e97e4d68de6e262bce42ca976a8a767f4a58826bea3a4fdd1521",
+      "source": "results/models/enron_temporal_lagged/factorized_model_status.csv"
+    },
+    {
+      "bytes": "268",
+      "published": "results/published/phase2_20261015/models/enron_temporal_lagged/feature_summary.csv",
+      "sha256": "c3269c72149f92aed54345043952eef1344338a931cbc187ff00a9ae3a41eb41",
+      "source": "results/models/enron_temporal_lagged/feature_summary.csv"
+    },
+    {
+      "bytes": "349",
+      "published": "results/published/phase2_20261015/models/enron_temporal_lagged/package_placeholder_status.csv",
+      "sha256": "b42282657eb845bb99814499a3f2f787220f5bc2e16ebc98c202550c74b31284",
+      "source": "results/models/enron_temporal_lagged/package_placeholder_status.csv"
+    },
+    {
+      "bytes": "4656",
+      "published": "results/published/phase2_20261015/models/enron_temporal_btergm_v3/summary.md",
+      "sha256": "6b0bffd067985fbacfdce03d753f23766447d16e69590bfd7f13f6985e7ed3bf",
+      "source": "results/models/enron_temporal_btergm_v3/summary.md"
+    },
+    {
+      "bytes": "3366",
+      "published": "results/published/phase2_20261015/models/enron_temporal_btergm_v3/model_status.csv",
+      "sha256": "bdb6421dcd22bdf070e746099719a48539f0743948ae09b797d8b5e217b95155",
+      "source": "results/models/enron_temporal_btergm_v3/model_status.csv"
+    },
+    {
+      "bytes": "11718",
+      "published": "results/published/phase2_20261015/models/enron_temporal_btergm_v3/coefficients.csv",
+      "sha256": "3f0974be05d3c6c4ce6f9317827083cb90e5308ca0285a0cb1b067444844f57f",
+      "source": "results/models/enron_temporal_btergm_v3/coefficients.csv"
+    },
+    {
+      "bytes": "222",
+      "published": "results/published/phase2_20261015/models/enron_temporal_btergm_v3/input_summary.csv",
+      "sha256": "5225085a39a7a13ff635a6e6ec90e21de5b807d0bbffd1dd01c9148b761ecbfe",
+      "source": "results/models/enron_temporal_btergm_v3/input_summary.csv"
+    },
+    {
+      "bytes": "148",
+      "published": "results/published/phase2_20261015/models/enron_temporal_btergm_v3/panel_summary.csv",
+      "sha256": "ae02173320edbe45227842b70bf4e4e480a3b13020328b892a15285cbeb45bbf",
+      "source": "results/models/enron_temporal_btergm_v3/panel_summary.csv"
+    },
+    {
+      "bytes": "77",
+      "published": "results/published/phase2_20261015/models/enron_temporal_btergm_v3/lag_alignment.csv",
+      "sha256": "6e7d6c545f92649e3183aa0d486ee094e9e307bdd57eab96a3a1b786f0e12869",
+      "source": "results/models/enron_temporal_btergm_v3/lag_alignment.csv"
+    },
+    {
+      "bytes": "835",
+      "published": "results/published/phase2_20261015/models/eu_core_static_ladder_plan/model_status.csv",
+      "sha256": "bc01573c031e03e4847e871bf3e5fe9e3067547c3ff9ee89c979c9db4b6cc0e5",
+      "source": "results/models/eu_core_static_ladder_plan/model_status.csv"
+    },
+    {
+      "bytes": "1554",
+      "published": "results/published/phase2_20261015/models/eu_core_static_ladder_plan/coefficients.csv",
+      "sha256": "fcce4655b76011677e668e77b0c479ce935c94c4f600098564caa8eb3d09099e",
+      "source": "results/models/eu_core_static_ladder_plan/coefficients.csv"
+    },
+    {
+      "bytes": "232",
+      "published": "results/published/phase2_20261015/models/eu_core_static_ladder_plan/network_summary.csv",
+      "sha256": "c2dc309556c73abe4daf0a50bdea44e8324cd482d015f4a4d4894ed2e0959f3c",
+      "source": "results/models/eu_core_static_ladder_plan/network_summary.csv"
+    },
+    {
+      "bytes": "2011",
+      "published": "results/published/phase2_20261015/models/eu_core_masked_ergm_plan/summary.md",
+      "sha256": "d748818bf9172f3c6c211793d04e26c619675309dfc7e78a325c6091c0bc04c2",
+      "source": "results/models/eu_core_masked_ergm_plan/summary.md"
+    },
+    {
+      "bytes": "8278",
+      "published": "results/published/phase2_20261015/models/eu_core_masked_ergm_plan/metrics.csv",
+      "sha256": "580454b29a1e2d526cb8d8ed3645404405669bf404a289f65d41fe0ad33e5437",
+      "source": "results/models/eu_core_masked_ergm_plan/metrics.csv"
+    },
+    {
+      "bytes": "2221",
+      "published": "results/published/phase2_20261015/models/eu_core_masked_ergm_plan/model_status.csv",
+      "sha256": "e5bfb0d8c869b0638bfd1864f58af308c983c3abc96964135ee43aa1928ccf84",
+      "source": "results/models/eu_core_masked_ergm_plan/model_status.csv"
+    },
+    {
+      "bytes": "1077",
+      "published": "results/published/phase2_20261015/models/eu_core_masked_ergm_plan/replicate_status.csv",
+      "sha256": "10d5dacd968203ea88fb8ff04a7d6840d2de4d9317bf4c5325d91c155176f462",
+      "source": "results/models/eu_core_masked_ergm_plan/replicate_status.csv"
+    },
+    {
+      "bytes": "414",
+      "published": "results/published/phase2_20261015/models/eu_core_masked_ergm_plan/replicate_network_summary.csv",
+      "sha256": "29ac96d8a3ce7a40e24dab3c1761870b2cec06368f4b08c8acec0a6c7ca95688",
+      "source": "results/models/eu_core_masked_ergm_plan/replicate_network_summary.csv"
+    },
+    {
+      "bytes": "1444",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_lagged/summary.md",
+      "sha256": "d9b4aea6d04287026242e4345cc56bc29723074145893b4e9ebc06e2bd254f89",
+      "source": "results/models/eu_core_temporal_lagged/summary.md"
+    },
+    {
+      "bytes": "606",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_lagged/factorized_coefficients.csv",
+      "sha256": "fb1a8d843b5bc8165d06d9b41a2824a9d3f96179e3eceba5c444afe160453dfa",
+      "source": "results/models/eu_core_temporal_lagged/factorized_coefficients.csv"
+    },
+    {
+      "bytes": "201",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_lagged/factorized_model_status.csv",
+      "sha256": "ff900cc01753e97e4d68de6e262bce42ca976a8a767f4a58826bea3a4fdd1521",
+      "source": "results/models/eu_core_temporal_lagged/factorized_model_status.csv"
+    },
+    {
+      "bytes": "265",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_lagged/feature_summary.csv",
+      "sha256": "763964229054734bccc99707e6ce604e8ec3a7f1b0593ff608791f126220f2b0",
+      "source": "results/models/eu_core_temporal_lagged/feature_summary.csv"
+    },
+    {
+      "bytes": "349",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_lagged/package_placeholder_status.csv",
+      "sha256": "b42282657eb845bb99814499a3f2f787220f5bc2e16ebc98c202550c74b31284",
+      "source": "results/models/eu_core_temporal_lagged/package_placeholder_status.csv"
+    },
+    {
+      "bytes": "4573",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_btergm_v3/summary.md",
+      "sha256": "146a88582e972260571593504905d78e38f56627e10f39a3eb493fc742ce4f30",
+      "source": "results/models/eu_core_temporal_btergm_v3/summary.md"
+    },
+    {
+      "bytes": "2131",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_btergm_v3/model_status.csv",
+      "sha256": "80e47af1549a0fd48c01f4852686d54d4a413a939dea55422045127eee714530",
+      "source": "results/models/eu_core_temporal_btergm_v3/model_status.csv"
+    },
+    {
+      "bytes": "11976",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_btergm_v3/coefficients.csv",
+      "sha256": "f3bae0cabe3ac080d10359c6eff0980cf4ca6f25ad3e6a55e830d30da613c9b9",
+      "source": "results/models/eu_core_temporal_btergm_v3/coefficients.csv"
+    },
+    {
+      "bytes": "212",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_btergm_v3/input_summary.csv",
+      "sha256": "9b0a1cedea6669b0c1bb0ad47a1a4c89ad077cbff25173af3e587290beb765e4",
+      "source": "results/models/eu_core_temporal_btergm_v3/input_summary.csv"
+    },
+    {
+      "bytes": "136",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_btergm_v3/panel_summary.csv",
+      "sha256": "181febc139583409da864b4231d518c8d42fb5f51237047ecf126266772271bf",
+      "source": "results/models/eu_core_temporal_btergm_v3/panel_summary.csv"
+    },
+    {
+      "bytes": "53",
+      "published": "results/published/phase2_20261015/models/eu_core_temporal_btergm_v3/lag_alignment.csv",
+      "sha256": "63e6926eeaacdfa284a113008490cc52a1ec1937ab41aa90bb67f8fa4a0f7a65",
+      "source": "results/models/eu_core_temporal_btergm_v3/lag_alignment.csv"
+    },
+    {
+      "bytes": "835",
+      "published": "results/published/phase2_20261015/models/mathoverflow_static_ladder_plan/model_status.csv",
+      "sha256": "bc01573c031e03e4847e871bf3e5fe9e3067547c3ff9ee89c979c9db4b6cc0e5",
+      "source": "results/models/mathoverflow_static_ladder_plan/model_status.csv"
+    },
+    {
+      "bytes": "1568",
+      "published": "results/published/phase2_20261015/models/mathoverflow_static_ladder_plan/coefficients.csv",
+      "sha256": "75739cdee3c20b061ad14068120359555357c0981551edad1c9d073ed83298a6",
+      "source": "results/models/mathoverflow_static_ladder_plan/coefficients.csv"
+    },
+    {
+      "bytes": "230",
+      "published": "results/published/phase2_20261015/models/mathoverflow_static_ladder_plan/network_summary.csv",
+      "sha256": "a1d241990be21f7120b900cd934852265d0585e11db3840c68941b72583edb24",
+      "source": "results/models/mathoverflow_static_ladder_plan/network_summary.csv"
+    },
+    {
+      "bytes": "2084",
+      "published": "results/published/phase2_20261015/models/mathoverflow_masked_ergm_plan/summary.md",
+      "sha256": "cfc1c1130234a0a7d1c8a2ba7ea19ad266bbb79163939f3509025c1081da6651",
+      "source": "results/models/mathoverflow_masked_ergm_plan/summary.md"
+    },
+    {
+      "bytes": "8460",
+      "published": "results/published/phase2_20261015/models/mathoverflow_masked_ergm_plan/metrics.csv",
+      "sha256": "5f77f232926da615087b6b58155cbcbf529804ac8e67532172afcd8069c65fc8",
+      "source": "results/models/mathoverflow_masked_ergm_plan/metrics.csv"
+    },
+    {
+      "bytes": "2197",
+      "published": "results/published/phase2_20261015/models/mathoverflow_masked_ergm_plan/model_status.csv",
+      "sha256": "5227147fe4d7d3352045c0fd007d8a1a1868c610903139f820120d3aa31da81a",
+      "source": "results/models/mathoverflow_masked_ergm_plan/model_status.csv"
+    },
+    {
+      "bytes": "1101",
+      "published": "results/published/phase2_20261015/models/mathoverflow_masked_ergm_plan/replicate_status.csv",
+      "sha256": "9148ddc9dd1c9dd996c90f00d90ea673e283e876235519597d7f957949f6e02e",
+      "source": "results/models/mathoverflow_masked_ergm_plan/replicate_status.csv"
+    },
+    {
+      "bytes": "410",
+      "published": "results/published/phase2_20261015/models/mathoverflow_masked_ergm_plan/replicate_network_summary.csv",
+      "sha256": "d3a08cfb9953c175405140450ca6a0c4ba50c5dfaaaa00c55a83ece9a6d99971",
+      "source": "results/models/mathoverflow_masked_ergm_plan/replicate_network_summary.csv"
+    },
+    {
+      "bytes": "21903",
+      "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/summary.md",
+      "sha256": "e29753f30fd3227f2499edf0f0d5c70b943a30b2109c5fd428b9737586092d0e",
+      "source": "results/models/mathoverflow_native_event_ergm_footprints/summary.md"
+    },
+    {
+      "bytes": "22981",
+      "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/metric_summary.csv",
+      "sha256": "011a2e982266e287201a4217c8911ad476a9a1280d9e11a824be463541dc3c74",
+      "source": "results/models/mathoverflow_native_event_ergm_footprints/metric_summary.csv"
+    },
+    {
+      "bytes": "103264",
+      "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/ranking_metrics.csv",
+      "sha256": "fbdb8e9922f0d05ca1f3b2c2d8d38ac20fd27789e7e7c993c3946cdac16631e4",
+      "source": "results/models/mathoverflow_native_event_ergm_footprints/ranking_metrics.csv"
+    },
+    {
+      "bytes": "4753",
+      "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/model_status.csv",
+      "sha256": "f731d4b4867ee97acc9163fdcf788859805775b38a7030c0c229a54ca987f13c",
+      "source": "results/models/mathoverflow_native_event_ergm_footprints/model_status.csv"
+    },
+    {
+      "bytes": "3319",
+      "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/split_status.csv",
+      "sha256": "b9d37e07717f95869075fd18d2be06aed9d4a16d30e03bfe68905babaefa2524",
+      "source": "results/models/mathoverflow_native_event_ergm_footprints/split_status.csv"
+    },
+    {
+      "bytes": "770",
+      "published": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/network_summary.csv",
+      "sha256": "f1aa869c5a77de2d4b1e94a8759ca7d7529f854e735be3224ddd392a62bcaa63",
+      "source": "results/models/mathoverflow_native_event_ergm_footprints/network_summary.csv"
+    }
+  ],
+  "privacy_policy": "No raw data, event rows, actor identifiers, candidate panels, conditional prediction rows, fitted R objects, or free-form logs are included.",
+  "purpose": "aggregate-only private-repository Phase 2 computational output"
+}

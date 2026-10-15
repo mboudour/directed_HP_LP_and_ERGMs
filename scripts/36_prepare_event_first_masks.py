@@ -141,15 +141,13 @@ def read_nodes(path: Path, column: str) -> tuple[str, ...]:
     return tuple(nodes)
 
 
-def canonical_head(value: object) -> tuple[str, ...]:
-    """Canonicalize an actual Parquet list rather than silently parsing strings."""
-    if not isinstance(value, list):
-        raise SystemExit("STOP: native-event head column must be a Parquet list column.")
-    values = [str(member).strip() for member in value]
+def canonical_role(value: object, role: str) -> tuple[str, ...]:
+    """Canonicalize a nonempty scalar or Parquet-list event role without text parsing."""
+    raw_values = value if isinstance(value, list) else [value]
+    values = [str(member).strip() for member in raw_values if member is not None]
     if not values or any(not member for member in values):
-        raise ValueError("native-event head contains an empty actor ID")
-    head = tuple(sorted(set(values)))
-    return head
+        raise ValueError(f"native-event {role} contains an empty actor ID")
+    return tuple(sorted(set(values)))
 
 
 def read_event_types(
@@ -173,13 +171,13 @@ def read_event_types(
     for batch in source.iter_batches(columns=[tail_column, head_column], batch_size=50_000):
         for row in batch.to_pylist():
             counts["event_records_read"] += 1
-            raw_tail = row[tail_column]
-            if raw_tail is None or not str(raw_tail).strip():
+            try:
+                tail = canonical_role(row[tail_column], "tail")
+            except ValueError:
                 counts["excluded_empty_tail"] += 1
                 continue
-            tail = (str(raw_tail).strip(),)
             try:
-                head = canonical_head(row[head_column])
+                head = canonical_role(row[head_column], "head")
             except ValueError:
                 counts["excluded_empty_head"] += 1
                 continue
@@ -241,8 +239,13 @@ def type_selection_probabilities(
     """Compute plan-defined oracle MNAR-out inclusion probabilities by event type."""
     sender_activity: Counter[str] = Counter()
     for event in event_types:
-        sender_activity[event.tail[0]] += event.occurrence_count * len(event.head)
-    weights = [sender_activity[event.tail[0]] for event in event_types]
+        contribution = event.occurrence_count * len(event.head)
+        for sender in event.tail:
+            sender_activity[sender] += contribution
+    weights = [
+        sum(sender_activity[sender] for sender in event.tail) / len(event.tail)
+        for event in event_types
+    ]
     if any(weight <= 0 for weight in weights):
         raise RuntimeError("each cap-eligible event type must have positive sender activity")
 
@@ -343,7 +346,8 @@ def type_table_rows(
             "head_arity": len(event.head),
             "occurrence_count": event.occurrence_count,
             "footprint_size": len(footprint),
-            "full_tail_outdegree": outdegree[event.tail[0]],
+            "mean_full_tail_outdegree": sum(outdegree[node] for node in event.tail)
+            / len(event.tail),
             "mean_full_head_indegree": sum(indegree[node] for node in event.head) / len(event.head),
             "selection_probability": probabilities[index],
         }
@@ -374,10 +378,12 @@ def strata_rows(
         for stratum, value in (
             ("tail_arity", str(len(event.tail))),
             ("head_arity", str(len(event.head))),
-            ("tail_outdegree_decile", str(tail_deciles[event.tail[0]])),
         ):
             strata[(stratum, value)][0] += 1
             strata[(stratum, value)][1] += masked
+        for sender in event.tail:
+            strata[("tail_outdegree_decile", str(tail_deciles[sender]))][0] += 1
+            strata[("tail_outdegree_decile", str(tail_deciles[sender]))][1] += masked
         for recipient in event.head:
             strata[("head_indegree_decile", str(head_deciles[recipient]))][0] += 1
             strata[("head_indegree_decile", str(head_deciles[recipient]))][1] += masked
@@ -632,6 +638,7 @@ def main() -> None:
             "duplicate_message_records": "group_equal_tail_head_records_then_hold_"
             "each_selected_type_out_in_full",
             "role_policy": "require_nonempty_disjoint_tail_and_head_within_fixed_node_universe",
+            "mnar_out_weight": "mean_full_tail_participant_activity_per_event_type",
             "tail_cap": args.tail_cap,
             "head_cap": args.head_cap,
         },

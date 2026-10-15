@@ -38,6 +38,7 @@ PHASE2_SCRIPTS = (
     "42_audit_joint_candidate_eligibility.py",
     "43_profile_mathoverflow_reconstruction.py",
     "44_prepare_mathoverflow_static_projection.py",
+    "45_collect_phase2_aggregate_outputs.py",
 )
 
 

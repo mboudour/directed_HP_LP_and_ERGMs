@@ -1,0 +1,2 @@
+"nodes","directed_edges","possible_directed_edges","density","reciprocal_pairs","reciprocated_edge_fraction","input_rows","self_loops_dropped","duplicate_rows_dropped"
+100,1020,9900,0.103030303030303,96,0.188235294117647,1020,0,0

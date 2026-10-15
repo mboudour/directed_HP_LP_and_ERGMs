@@ -1,0 +1,97 @@
+"replicate","model","metric","value","status","message","decision_threshold","candidates","positives","negatives"
+"replicate_001","M0","accuracy",0.5,"calculated","",0.5,176,88,88
+"replicate_001","M0","precision",,"not_defined_no_predicted_positive","No candidate probability meets the predeclared 0.5 decision threshold.",0.5,176,88,88
+"replicate_001","M0","recall",0,"calculated","",0.5,176,88,88
+"replicate_001","M0","f1",0,"calculated","",0.5,176,88,88
+"replicate_001","M0","matthews_correlation",,"not_defined_single_predicted_class","Matthews correlation requires both predicted classes at the decision threshold.",0.5,176,88,88
+"replicate_001","M0","roc_auc",0.5,"calculated","",,176,88,88
+"replicate_001","M0","pr_auc",0.5,"calculated","",,176,88,88
+"replicate_001","M0","log_loss",2.03826230453185,"calculated","",,176,88,88
+"replicate_001","M1","accuracy",0.5,"calculated","",0.5,176,88,88
+"replicate_001","M1","precision",,"not_defined_no_predicted_positive","No candidate probability meets the predeclared 0.5 decision threshold.",0.5,176,88,88
+"replicate_001","M1","recall",0,"calculated","",0.5,176,88,88
+"replicate_001","M1","f1",0,"calculated","",0.5,176,88,88
+"replicate_001","M1","matthews_correlation",,"not_defined_single_predicted_class","Matthews correlation requires both predicted classes at the decision threshold.",0.5,176,88,88
+"replicate_001","M1","roc_auc",0.732954545454545,"calculated","",,176,88,88
+"replicate_001","M1","pr_auc",0.732954545454545,"calculated","",,176,88,88
+"replicate_001","M1","log_loss",1.43367143319059,"calculated","",,176,88,88
+"replicate_001","M3","accuracy",0.613636363636364,"calculated","",0.5,176,88,88
+"replicate_001","M3","precision",1,"calculated","",0.5,176,88,88
+"replicate_001","M3","recall",0.227272727272727,"calculated","",0.5,176,88,88
+"replicate_001","M3","f1",0.37037037037037,"calculated","",0.5,176,88,88
+"replicate_001","M3","matthews_correlation",0.358057437019716,"calculated","",0.5,176,88,88
+"replicate_001","M3","roc_auc",0.861957644628099,"calculated","",,176,88,88
+"replicate_001","M3","pr_auc",0.89008519891323,"calculated","",,176,88,88
+"replicate_001","M3","log_loss",1.3606907664182,"calculated","",,176,88,88
+"replicate_001","M4c","accuracy",0.579545454545455,"calculated","",0.5,176,88,88
+"replicate_001","M4c","precision",1,"calculated","",0.5,176,88,88
+"replicate_001","M4c","recall",0.159090909090909,"calculated","",0.5,176,88,88
+"replicate_001","M4c","f1",0.274509803921569,"calculated","",0.5,176,88,88
+"replicate_001","M4c","matthews_correlation",0.293972367896066,"calculated","",0.5,176,88,88
+"replicate_001","M4c","roc_auc",0.865831611570248,"calculated","",,176,88,88
+"replicate_001","M4c","pr_auc",0.895801602590388,"calculated","",,176,88,88
+"replicate_001","M4c","log_loss",1.40331655562351,"calculated","",,176,88,88
+"replicate_002","M0","accuracy",0.5,"calculated","",0.5,176,88,88
+"replicate_002","M0","precision",,"not_defined_no_predicted_positive","No candidate probability meets the predeclared 0.5 decision threshold.",0.5,176,88,88
+"replicate_002","M0","recall",0,"calculated","",0.5,176,88,88
+"replicate_002","M0","f1",0,"calculated","",0.5,176,88,88
+"replicate_002","M0","matthews_correlation",,"not_defined_single_predicted_class","Matthews correlation requires both predicted classes at the decision threshold.",0.5,176,88,88
+"replicate_002","M0","roc_auc",0.5,"calculated","",,176,88,88
+"replicate_002","M0","pr_auc",0.5,"calculated","",,176,88,88
+"replicate_002","M0","log_loss",2.03826230453185,"calculated","",,176,88,88
+"replicate_002","M1","accuracy",0.5,"calculated","",0.5,176,88,88
+"replicate_002","M1","precision",,"not_defined_no_predicted_positive","No candidate probability meets the predeclared 0.5 decision threshold.",0.5,176,88,88
+"replicate_002","M1","recall",0,"calculated","",0.5,176,88,88
+"replicate_002","M1","f1",0,"calculated","",0.5,176,88,88
+"replicate_002","M1","matthews_correlation",,"not_defined_single_predicted_class","Matthews correlation requires both predicted classes at the decision threshold.",0.5,176,88,88
+"replicate_002","M1","roc_auc",0.715909090909091,"calculated","",,176,88,88
+"replicate_002","M1","pr_auc",0.710511363636364,"calculated","",,176,88,88
+"replicate_002","M1","log_loss",1.47900639796744,"calculated","",,176,88,88
+"replicate_002","M3","accuracy",0.602272727272727,"calculated","",0.5,176,88,88
+"replicate_002","M3","precision",1,"calculated","",0.5,176,88,88
+"replicate_002","M3","recall",0.204545454545455,"calculated","",0.5,176,88,88
+"replicate_002","M3","f1",0.339622641509434,"calculated","",0.5,176,88,88
+"replicate_002","M3","matthews_correlation",0.337526370277807,"calculated","",0.5,176,88,88
+"replicate_002","M3","roc_auc",0.853628615702479,"calculated","",,176,88,88
+"replicate_002","M3","pr_auc",0.876082521867141,"calculated","",,176,88,88
+"replicate_002","M3","log_loss",1.36134639143121,"calculated","",,176,88,88
+"replicate_002","M4c","accuracy",0.607954545454545,"calculated","",0.5,176,88,88
+"replicate_002","M4c","precision",1,"calculated","",0.5,176,88,88
+"replicate_002","M4c","recall",0.215909090909091,"calculated","",0.5,176,88,88
+"replicate_002","M4c","f1",0.355140186915888,"calculated","",0.5,176,88,88
+"replicate_002","M4c","matthews_correlation",0.347878007755959,"calculated","",0.5,176,88,88
+"replicate_002","M4c","roc_auc",0.853241219008264,"calculated","",,176,88,88
+"replicate_002","M4c","pr_auc",0.876070080734082,"calculated","",,176,88,88
+"replicate_002","M4c","log_loss",1.35903177650903,"calculated","",,176,88,88
+"replicate_003","M0","accuracy",0.5,"calculated","",0.5,176,88,88
+"replicate_003","M0","precision",,"not_defined_no_predicted_positive","No candidate probability meets the predeclared 0.5 decision threshold.",0.5,176,88,88
+"replicate_003","M0","recall",0,"calculated","",0.5,176,88,88
+"replicate_003","M0","f1",0,"calculated","",0.5,176,88,88
+"replicate_003","M0","matthews_correlation",,"not_defined_single_predicted_class","Matthews correlation requires both predicted classes at the decision threshold.",0.5,176,88,88
+"replicate_003","M0","roc_auc",0.5,"calculated","",,176,88,88
+"replicate_003","M0","pr_auc",0.5,"calculated","",,176,88,88
+"replicate_003","M0","log_loss",2.03826230453185,"calculated","",,176,88,88
+"replicate_003","M1","accuracy",0.5,"calculated","",0.5,176,88,88
+"replicate_003","M1","precision",,"not_defined_no_predicted_positive","No candidate probability meets the predeclared 0.5 decision threshold.",0.5,176,88,88
+"replicate_003","M1","recall",0,"calculated","",0.5,176,88,88
+"replicate_003","M1","f1",0,"calculated","",0.5,176,88,88
+"replicate_003","M1","matthews_correlation",,"not_defined_single_predicted_class","Matthews correlation requires both predicted classes at the decision threshold.",0.5,176,88,88
+"replicate_003","M1","roc_auc",0.715909090909091,"calculated","",,176,88,88
+"replicate_003","M1","pr_auc",0.705627705627706,"calculated","",,176,88,88
+"replicate_003","M1","log_loss",1.46242930819493,"calculated","",,176,88,88
+"replicate_003","M3","accuracy",0.579545454545455,"calculated","",0.5,176,88,88
+"replicate_003","M3","precision",0.9375,"calculated","",0.5,176,88,88
+"replicate_003","M3","recall",0.170454545454545,"calculated","",0.5,176,88,88
+"replicate_003","M3","f1",0.288461538461538,"calculated","",0.5,176,88,88
+"replicate_003","M3","matthews_correlation",0.276699295264733,"calculated","",0.5,176,88,88
+"replicate_003","M3","roc_auc",0.861441115702479,"calculated","",,176,88,88
+"replicate_003","M3","pr_auc",0.864875423522568,"calculated","",,176,88,88
+"replicate_003","M3","log_loss",1.37133384510224,"calculated","",,176,88,88
+"replicate_003","M4c","accuracy",0.573863636363636,"calculated","",0.5,176,88,88
+"replicate_003","M4c","precision",0.933333333333333,"calculated","",0.5,176,88,88
+"replicate_003","M4c","recall",0.159090909090909,"calculated","",0.5,176,88,88
+"replicate_003","M4c","f1",0.271844660194175,"calculated","",0.5,176,88,88
+"replicate_003","M4c","matthews_correlation",0.264536001455856,"calculated","",0.5,176,88,88
+"replicate_003","M4c","roc_auc",0.872546487603306,"calculated","",,176,88,88
+"replicate_003","M4c","pr_auc",0.876656038263459,"calculated","",,176,88,88
+"replicate_003","M4c","log_loss",1.3882967283683,"calculated","",,176,88,88

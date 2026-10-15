@@ -1,0 +1,4 @@
+"model","formula","status","message"
+"L0","y_tt ~ 1","fit_succeeded",""
+"L1_persistence","y_tt ~ lag_tie","fit_succeeded",""
+"L2_persistence_lagged_oo","y_tt ~ lag_tie + lag_cn_out","fit_succeeded",""

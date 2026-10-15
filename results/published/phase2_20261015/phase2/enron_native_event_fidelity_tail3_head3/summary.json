@@ -1,0 +1,107 @@
+{
+  "best_role_similarity": {
+    "concept_to_native_event": {
+      "maximum": 0.75,
+      "mean": 0.4752155172413793,
+      "median": 0.5,
+      "minimum": 0.3333333333333333,
+      "p95": 0.6666666666666666
+    },
+    "native_event_to_concept": {
+      "maximum": 0.75,
+      "mean": 0.4215808993973111,
+      "median": 0.41666666666666663,
+      "minimum": 0.16666666666666666,
+      "p95": 0.6666666666666666
+    }
+  },
+  "caps": {
+    "head": 3,
+    "max_concept_candidates": 250000,
+    "tail": 3
+  },
+  "cover_structure": {
+    "aggregation_ratio_native_event_occurrences": {
+      "maximum": 479.0,
+      "mean": 83.61637931034483,
+      "median": 61.5,
+      "minimum": 4.0,
+      "p95": 235.34999999999974
+    },
+    "aggregation_ratio_native_event_types": {
+      "maximum": 21.0,
+      "mean": 8.27155172413793,
+      "median": 7.0,
+      "minimum": 2.0,
+      "p95": 16.0
+    },
+    "best_event_to_concept_role_distortions": 36,
+    "formal_concepts_with_two_or_more_contributing_native_event_types": 232,
+    "native_event_types_with_two_or_more_strictly_contained_concepts": 0,
+    "spurious_closure_formal_concepts_without_exact_native_event": 232,
+    "strictly_contained_concepts_per_native_event_type": {
+      "maximum": 0.0,
+      "mean": 0.0,
+      "median": 0.0,
+      "minimum": 0.0,
+      "p95": 0.0
+    }
+  },
+  "dataset_id": "enron_20150507",
+  "driver": "scripts/29_audit_native_event_fidelity.py",
+  "exact_tail_head_equality": {
+    "concept_precision": 0.0,
+    "matching_pairs": 0,
+    "native_event_type_recall": 0.0
+  },
+  "fixed_node_universe": 100,
+  "footprint_agreement": {
+    "formal_concept_footprint_arcs": 551,
+    "formal_concept_footprint_covered_by_native_events": 0.9872958257713249,
+    "intersection_arcs": 544,
+    "jaccard": 0.8566929133858268,
+    "native_event_cap_footprint_arcs": 628,
+    "native_event_footprint_covered_by_concepts": 0.8662420382165605,
+    "union_arcs": 635
+  },
+  "formal_concepts": {
+    "count": 232
+  },
+  "inputs": {
+    "native_events": {
+      "path": "data/processed/enron_20150507/custodian_native_events.parquet",
+      "sha256": "5b0af87097a04fe364f9a23f9bd7e354f2be7f37f9501ead63068014554de444"
+    },
+    "nodes": {
+      "path": "data/processed/enron_20150507/custodian_core100_nodes.csv",
+      "sha256": "6b592a18c3dc283084970034e9c6f993f342853d2fa0ff9ce9a1782235610bf6"
+    },
+    "static_arcs": {
+      "path": "data/processed/enron_20150507/custodian_core100_static_arcs.parquet",
+      "sha256": "9ba4f3eb8e8e944a9f3736034894f60d157fb382db13f08f8c985021a689c1d1"
+    }
+  },
+  "limitations": [
+    "The capped concept section is a derived representation, not a reconstruction of recorded messages.",
+    "Exact equality is assessed on tail/head event types; repeated records contribute occurrence counts but do not create new types.",
+    "This audit has no degree-preserving-rewiring comparison and makes no chance-corrected fidelity claim.",
+    "Containment fragmentation and aggregation ratio are descriptive cover diagnostics, not a unique inverse of the dyadic projection."
+  ],
+  "native_events": {
+    "cap_eligible_event_records": 7793,
+    "cap_eligible_event_type_occurrences": 7793,
+    "cap_eligible_event_types": 719,
+    "event_records_read": 7881,
+    "excluded_by_arity_cap_event_records": 27,
+    "excluded_outside_fixed_node_universe": 61,
+    "fixed_universe_event_records": 7820
+  },
+  "outputs": {
+    "concept_to_event_aggregation": "concept_to_event_aggregation.csv",
+    "event_to_concept_matches": "event_to_concept_matches.csv",
+    "summary_json": "summary.json",
+    "summary_markdown": "summary.md"
+  },
+  "static_arcs": 635,
+  "status": "completed"
+}

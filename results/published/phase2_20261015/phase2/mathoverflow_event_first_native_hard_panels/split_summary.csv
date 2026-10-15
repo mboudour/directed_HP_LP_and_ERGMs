@@ -1,0 +1,7 @@
+mechanism,replicate,heldout_positive_types,candidate_eligible_positive_types,positive_eligibility_rate,reversal_orientation_pairs,role_exchange_pairs
+mcar,1,321,311,0.9688473520249221,278,277
+mcar,2,321,309,0.9626168224299065,277,277
+mcar,3,321,312,0.9719626168224299,288,288
+mnar_out,1,330,318,0.9636363636363636,290,289
+mnar_out,2,314,309,0.9840764331210191,276,276
+mnar_out,3,310,292,0.9419354838709677,269,269

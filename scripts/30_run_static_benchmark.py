@@ -53,6 +53,13 @@ DATASET_DEFAULTS: dict[str, dict[str, str]] = {
         "tail_column": "tail",
         "head_column": "head",
     },
+    "mathoverflow": {
+        "arcs": "data/processed/mathoverflow_stackexchange_2024/core100_static_arcs.parquet",
+        "nodes": "data/processed/mathoverflow_stackexchange_2024/core100_nodes.csv",
+        "node_column": "node",
+        "tail_column": "tail",
+        "head_column": "head",
+    },
     "ciel": {
         "arcs": "data/processed/ciel/directed_valued_arcs.parquet",
         "nodes": "",

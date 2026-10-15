@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 from collections import Counter
 from pathlib import Path
 
@@ -31,6 +32,17 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         raise SystemExit(f"STOP: expected btergm artifact is missing: {path}")
     with path.open(encoding="utf-8", newline="") as handle:
         return list(csv.DictReader(handle))
+
+
+def finite_number(value: str | None) -> float | None:
+    """Return a finite CSV number, preserving empty diagnostic rows as missing."""
+    if value is None or not value.strip():
+        return None
+    try:
+        number = float(value)
+    except ValueError:
+        return None
+    return number if math.isfinite(number) else None
 
 
 def main() -> None:
@@ -88,16 +100,28 @@ def main() -> None:
             "|---|---|---:|---:|---|",
         ]
     )
+    valid_coefficients = 0
+    incomplete_coefficients = 0
     for row in coefficients:
-        lower = row.get("ci_lower", "")
-        upper = row.get("ci_upper", "")
-        interval = "—" if not lower or not upper else f"[{float(lower):.4f}, {float(upper):.4f}]"
+        estimate = finite_number(row.get("estimate"))
+        if not row.get("model") or not row.get("term") or estimate is None:
+            incomplete_coefficients += 1
+            continue
+        lower = finite_number(row.get("ci_lower"))
+        upper = finite_number(row.get("ci_upper"))
+        interval = "—" if lower is None or upper is None else f"[{lower:.4f}, {upper:.4f}]"
         lines.append(
-            f"| {row['model']} | {row['term']} | {float(row['estimate']):.4f} | "
+            f"| {row['model']} | {row['term']} | {estimate:.4f} | "
             f"{interval} | {row.get('ci_status', 'unknown')} |"
         )
-    if not coefficients:
+        valid_coefficients += 1
+    if not valid_coefficients:
         lines.append("| — | — | — | — | No coefficients emitted |")
+    if incomplete_coefficients:
+        lines.append(
+            f"\nOmitted {incomplete_coefficients} blank or nonfinite coefficient row(s); "
+            "their model-level diagnostics remain in `model_status.csv`."
+        )
 
     lines.extend(
         [
