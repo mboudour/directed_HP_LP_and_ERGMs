@@ -1,0 +1,17 @@
+dataset,mechanism,survival_stratum,contrast,completed_masks,mean_pr_auc_difference,sd
+enron,mcar,B=0 at least one arc absent,M4c::L1g minus degree_product_mean,30,0.356765031311,0.0336824675516
+enron,mcar,B=0 at least one arc absent,M4c::L1g minus directed_aa_total,30,0.109285281134,0.030364036519
+enron,mcar,B=1 complete footprint survives,M4c::L1g minus degree_product_mean,28,0.0202381236147,0.0362255582832
+enron,mcar,B=1 complete footprint survives,M4c::L1g minus directed_aa_total,28,-0.00823734649682,0.0182809154324
+enron,mnar_out,B=0 at least one arc absent,M4c::L1g minus degree_product_mean,30,0.35842375604,0.0264727613185
+enron,mnar_out,B=0 at least one arc absent,M4c::L1g minus directed_aa_total,30,0.117074133184,0.0184092594327
+enron,mnar_out,B=1 complete footprint survives,M4c::L1g minus degree_product_mean,30,0.0542467984139,0.0466338381038
+enron,mnar_out,B=1 complete footprint survives,M4c::L1g minus directed_aa_total,30,0.0119623797315,0.0242055353999
+mathoverflow,mcar,B=0 at least one arc absent,M4c::L1g minus degree_product_mean,30,-0.0253414032531,0.0325857615812
+mathoverflow,mcar,B=0 at least one arc absent,M4c::L1g minus directed_aa_total,30,-0.00669760757399,0.0221362533649
+mathoverflow,mcar,B=1 complete footprint survives,M4c::L1g minus degree_product_mean,30,-0.0179123859403,0.0305556507154
+mathoverflow,mcar,B=1 complete footprint survives,M4c::L1g minus directed_aa_total,30,-0.0112341863525,0.020714921768
+mathoverflow,mnar_out,B=0 at least one arc absent,M4c::L1g minus degree_product_mean,30,-0.0267785340211,0.0312773161937
+mathoverflow,mnar_out,B=0 at least one arc absent,M4c::L1g minus directed_aa_total,30,-0.0159989661936,0.0165300201904
+mathoverflow,mnar_out,B=1 complete footprint survives,M4c::L1g minus degree_product_mean,30,-0.00827911128513,0.0277715800616
+mathoverflow,mnar_out,B=1 complete footprint survives,M4c::L1g minus directed_aa_total,30,-0.00839896488843,0.0217544670531

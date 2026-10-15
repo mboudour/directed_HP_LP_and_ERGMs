@@ -1,0 +1,10 @@
+{
+  "driver": "scripts/62_publish_reviewer_extension_aggregates.py",
+  "privacy": "Published files contain aggregate scores, counts, and summary statistics only; they exclude candidate rows, identities, raw records, and fitted objects.",
+  "sources": {
+    "ergm_role_assignment": "results/phase2/*_native_event_ergm_role_assignment",
+    "intermediate_ladder": "results/models/*_native_event_ergm_intermediate",
+    "survival_reversal_diagnostics": "results/phase2/*_survival_reversal_diagnostics"
+  },
+  "status": "completed"
+}

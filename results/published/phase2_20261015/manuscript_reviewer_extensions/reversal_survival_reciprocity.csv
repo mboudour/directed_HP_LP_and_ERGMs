@@ -1,0 +1,17 @@
+dataset,mechanism,survival_pattern,pair_evaluations,M4c_orientation_accuracy,reverse_arc_orientation_accuracy,positive_footprint_survival,reversal_footprint_survival
+enron,mcar,both footprints survive,408,0.485294117647,0.5,1,1
+enron,mcar,neither footprint survives,1492,0.502010723861,0.489611260054,0,0
+enron,mcar,positive footprint only survives,435,0.016091954023,0,1,0
+enron,mcar,reversal footprint only survives,241,1,1,0,1
+enron,mnar_out,both footprints survive,261,0.494252873563,0.5,1,1
+enron,mnar_out,neither footprint survives,1545,0.584142394822,0.592233009709,0,0
+enron,mnar_out,positive footprint only survives,301,0.0398671096346,0,1,0
+enron,mnar_out,reversal footprint only survives,646,0.995356037152,1,0,1
+mathoverflow,mcar,both footprints survive,70,0.614285714286,0.5,1,1
+mathoverflow,mcar,neither footprint survives,6041,0.745902996193,0.464740936931,0,0
+mathoverflow,mcar,positive footprint only survives,2003,0.799800299551,0,1,0
+mathoverflow,mcar,reversal footprint only survives,220,0.631818181818,1,0,1
+mathoverflow,mnar_out,both footprints survive,91,0.582417582418,0.5,1,1
+mathoverflow,mnar_out,neither footprint survives,6121,0.731416435223,0.454500898546,0,0
+mathoverflow,mnar_out,positive footprint only survives,2051,0.715748415407,0,1,0
+mathoverflow,mnar_out,reversal footprint only survives,239,0.573221757322,1,0,1
