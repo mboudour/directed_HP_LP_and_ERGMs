@@ -26,13 +26,13 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Directed interaction records, their dyadic projections, and algebraically derived groups are non-equivalent prediction targets. We develop a missingness-centred benchmark that separates directed dyadic footprints, capped formal concepts, and native ordered tail/head event types. The primary data are a strict 1998--2002 Enron internal-custodian core and a 30-day analyst-defined MathOverflow answerer-to-asker reconstruction. Each fixed core is evaluated using 30 event-first masks per mechanism: uniform fixed-count MCAR and oracle activity-dependent MNAR-out stress tests. Random arity-matched panels, reversal and role-exchange panels, and fixed-participant role assignment distinguish footprint ranking from orientation recovery. On balanced random panels, the predeclared geometric ERGM conditional-footprint score improves PR-AUC over the density reference by 0.3584 and 0.3324 in Enron, and 0.2396 and 0.2394 in MathOverflow, under MCAR and MNAR-out respectively. Whole-mask bootstrap intervals are positive in all four within-fixed-network comparisons. However, random-panel gains do not transfer uniformly to directed hard panels. Capped formal concepts have zero exact event-type matches in both cores despite footprint Jaccards of 0.8567 and 0.6634. These findings support conditional footprint discrimination, not calibrated native-event probabilities or recovery of recorded groups. A two-transition chronological MPLE status check remains diagnostic only; no forecasting, neural benchmark, or MCMC-derived higher-order joint result is claimed.
+Directed interaction records, their dyadic projections, and algebraically derived groups are non-equivalent prediction targets. We develop a missingness-centred statistical benchmark that separates directed dyadic footprints, capped formal concepts, and native ordered tail/head event types. The primary case studies are a strict 1998--2002 Enron internal-custodian core and a 30-day analyst-defined MathOverflow answerer-to-asker reconstruction. Each fixed core is evaluated using 30 event-first masks per mechanism: uniform fixed-count MCAR and oracle activity-dependent MNAR-out stress tests. Random arity-matched panels, reversal and role-exchange panels, and fixed-participant role assignment distinguish footprint ranking from orientation recovery. The geometric M4c ERGM conditional-footprint score exceeds directed Adamic--Adar by 0.0618 and 0.0852 PR-AUC in Enron under MCAR and MNAR-out, but trails it by 0.0193 and 0.0199 in MathOverflow; degree-product scores also lead M4c in MathOverflow. At fixed geometric aggregation, M4c improves on M3 by 0.0059--0.0187 across the four random-panel cells, a combined OSP/ISP/cycle extension rather than an isolated cycle effect. Random-panel discrimination does not transfer uniformly to directed hard panels. Capped formal concepts have zero exact event-type matches in both cores despite footprint Jaccards of 0.8567 and 0.6634. The results establish target non-equivalence and competition-dependent conditional scoring in two carefully constructed case studies.
 \end{abstract}
 \noindent\textbf{Keywords:} directed networks; hyperlink prediction; exponential random graph models; network missingness; formal concepts; native events
 
 % MAIN PROSE START
 \section{Introduction}
-Missing directed interactions present a measurement problem before they present a ranking problem. An absent arc may indicate an unobserved contact, a contact outside the chosen actor boundary, or a relationship that did not occur in the retained data. A missing group record can be more ambiguous still: some of its induced arcs may remain visible through other records, while its participant set and orientation disappear. Network omission and boundary specification can alter structural summaries in ways that depend on the observation process \citep{kossinets2006}. The usual missing-data distinctions also require an explicit account of what is observed and what governs its omission \citep{rubin1976}. Here these considerations motivate controlled missingness experiments. They do not identify the actual observation mechanism of either source corpus.
+Missing directed interactions present a measurement problem before they present a ranking problem. An absent arc may indicate an unobserved contact, a contact outside the chosen actor boundary, or a relationship that did not occur in the retained data. A missing group record can be more ambiguous still: some of its induced arcs may remain visible through other records, while its participant set and orientation disappear. Network omission and boundary specification can alter structural summaries in ways that depend on the observation process \citep{kossinets2006}. The usual missing-data distinctions also require an explicit account of what is observed and what governs its omission \citep{rubin1976}; ERGM work on sampled or partially observed networks makes the same point for model-based inference \citep{handcockGile2010,koskinenEtAl2010}. Here these considerations motivate controlled missingness experiments rather than an attempt to identify either corpus's natural observation process.
 
 Classical link prediction ranks candidate dyads using information in an observed graph, often through proximity or neighbourhood structure \citep{libenNowellKleinberg2007,luZhou2011}. Directed data require more than changing the notation on an undirected score. A source's successors, a target's predecessors, shared recipients, and shared initiators represent different relations. Reciprocity can be informative even when common-neighbour closure is weak, and activity in one role need not imply activity in the other. These distinctions affect both predictors and evaluation. A randomly sampled absent ordered pair can be easy to separate from a held-out interaction while an alternative involving the same actors in exchanged roles is difficult. Good random-panel ranking therefore does not settle whether a method recovers direction.
 
@@ -40,7 +40,9 @@ The problem becomes sharper when a record involves several actors. An email reco
 
 This paper develops a target ladder with those three levels. The first is the directed dyadic footprint: the arcs induced by a candidate ordered tail/head pair. The second is a cap-first formal concept, obtained by applying a Galois connection to a directed binary incidence context. The third is a native ordered tail/head event type, defined from the data's record representation before dyadic aggregation. ``Native'' describes the benchmark's event layer, not a universal assertion that every dataset directly observes collective action. Enron supplies retained sender--recipient records. MathOverflow supplies an explicitly reconstructed answer-window object. Both permit an event-first masking design, but their substantive interpretations remain different.
 
-Formal concepts are useful here because they supply a reproducible group target without pretending to recover the record stream. Formal concept analysis identifies closed extent--intent pairs in a binary context \citep{ganterWille1999}. In the directed context used below, these pairs are maximal all-ones tail/head rectangles. Their maximality can combine ties contributed by many events, or expand an event footprint by incorporating additional actors. That is a meaningful structural representation, not evidence of a recorded group. Our fidelity audit tests exact ordered-set equality as well as footprint overlap, so that a favourable dyadic agreement cannot silently become an event-recovery claim.
+Formal concepts are useful here because they supply a reproducible group target without pretending to recover the record stream. Formal concept analysis identifies closed extent--intent pairs in a binary context \citep{ganterWille1999}. In the directed context used below, these pairs are maximal all-ones tail/head rectangles. Their maximality can combine ties contributed by many events, or expand an event footprint by incorporating additional actors. That is a meaningful structural representation, not evidence of a recorded group. Existing higher-order link-prediction work likewise shows that the target of prediction must be specified rather than inferred from a pairwise representation \citep{bensonEtAl2018}. Our fidelity audit tests exact ordered-set equality as well as footprint overlap, so that a favourable dyadic agreement cannot silently become an event-recovery claim.
+
+The study continues an earlier missingness comparison of dyadic LP, clique-derived HP, and ERGM conditional scores \citep{boudourides2026}, but it changes the higher-order object: this paper uses directed ordered tail/head types and cap-first concepts rather than undirected clique hyperlinks. Established directed-HP architecture includes NHP-D \citep{yadatiEtAl2020}. Its official implementation was examined as a potential comparator, but did not yield a reportable directed-data reproduction under the retained data and software conditions. We therefore do not substitute an undirected HP architecture or an unvalidated neural result for the directed benchmark.
 
 Exponential random graph models (ERGMs) provide a structured comparator to local directed scores. They express graph probabilities through sufficient statistics and yield a local conditional logit in terms of dyad change statistics \citep{wassermanPattison1996,krivitskyEtAl2011}. Mutuality, degree heterogeneity, directed closure, and cyclic structure can then enter a common scoring framework. However, the model's mathematical joint form and the estimator used in a benchmark are separate matters. Maximum pseudolikelihood estimation (MPLE) fits a product of single-dyad conditional terms; with dependent ties, that objective differs from the full likelihood \citep{vanDuijnEtAl2009}. We use MPLE-based conditional scores, not an unqualified claim that fitted multi-dyad scores are joint event probabilities.
 
@@ -48,9 +50,9 @@ The primary experiment withholds complete ordered event types before rebuilding 
 
 The evaluations are designed to separate claims rather than produce an overall winner. Random arity-matched panels assess native-type labels against sampled non-types in a defined local candidate universe. Reversal and role-exchange panels ask whether discrimination persists when orientation or role allocation is the principal difference. Fixed-role assignment supplies the participant set and true arities, then ranks all compatible partitions. These tasks have different competition sets and denominators. Their results cannot be averaged into one meaningful event-recovery measure. Likewise, precision--recall area in a balanced case-control panel is a property of that panel, not a probability at the corpus's natural event prevalence.
 
-The contribution is therefore methodological and empirical in four connected respects. We give explicit definitions and a non-identifiability construction for the target ladder; compare directed local scores with conditional ERGM footprint scores under shared event-first missingness; show how exact representation fidelity and direction-specific evaluation qualify random-panel performance; and quantify a predeclared ERGM contrast over repeated masks within each fixed network. The two primary cores provide contrasting role structures without being treated as a representative network sample. The central claim concerns conditional footprint discrimination in those experiments, not population performance across organizational communication or question-answer communities.
+The contribution is therefore methodological and empirical in four connected respects. We give explicit definitions and a non-identifiability construction for the target ladder; compare directed local scores with conditional ERGM footprint scores under shared event-first missingness; show how exact representation fidelity and direction-specific evaluation qualify random-panel performance; and quantify matched ERGM-versus-heuristic contrasts over repeated masks within each fixed network. A separate three-mask static directed-arc pilot checks the dyadic translation of the score dictionary; it is not the primary empirical link-prediction result. The two primary cores provide contrasting role structures without being treated as a representative network sample.
 
-A bounded chronological calculation is retained only to check the distinction between history-conditioned and contemporaneous score specifications. It uses two response transitions and records MPLE fitting status, rather than a forecast competition. Higher-order MCMC estimation did not pass the Enron feasibility policy, and a directed neural reproduction gate did not pass; neither branch contributes a primary performance result. Keeping those exclusions visible is part of the benchmark design. It prevents a failed or unavailable branch from being replaced by a different estimator, patched architecture, or temporal task without changing the stated scientific question.
+The empirical ERGM results use split-specific MPLE conditional scores. Higher-order MCMC estimation did not converge under the predeclared Enron checks, and the directed neural reproduction described above did not yield a comparable result. These outcomes delimit the reported comparison rather than being converted into alternative joint or neural estimates.
 
 \section{Targets and directed score construction}
 \subsection{Records, event types, and dyadic footprints}
@@ -70,12 +72,34 @@ An arc means at least one retained record contributes that ordered dyad. Its bin
 
 Non-identifiability follows even in a minimal three-actor construction. Let $V=\{a,b,c\}$. The record collection containing one event $(\{a\},\{b,c\})$ and the collection containing two events $(\{a\},\{b\})$ and $(\{a\},\{c\})$ both project to exactly $\{a\to b,a\to c\}$. Yet their event types, group sizes, and number of records differ. Assigning different times or repeating either collection arbitrarily preserves the same binary graph. Thus no inverse of equation~\eqref{eq:projection} can generically reconstruct the record stream from the aggregate alone. Even a method that correctly completes every missing arc has not resolved which of these event collections generated them.
 
+The ambiguity has a finite combinatorial lower bound before record multiplicities and timestamps are considered. Let $\mathfrak F(D)=\{\mathcal H:\pi(\mathcal H)=D\}$ be the fibre of simple directed hypergraphs on $V$ with 2-section $D$, and let
+\begin{equation}
+ \mathcal B(D)=\{(T,H):T,H\ne\varnothing,\ T\cap H=\varnothing,\ |T||H|\ge2,\ T\times H\subseteq A\}.
+ \label{eq:fibre-bicliques}
+\end{equation}
+Thus $\mathcal B(D)$ contains every non-dyadic directed all-ones rectangle that could be added without changing the projection.
+
+\paragraph{Proposition 1 (projection-fibre lower bound).}
+For every loopless directed graph $D$, $|\mathfrak F(D)|\ge2^{|\mathcal B(D)|}$.  If repeated records or timestamps are part of the representation, the corresponding record-level fibre is infinite whenever $A\ne\varnothing$.
+
+\emph{Proof.} For each $\mathcal S\subseteq\mathcal B(D)$, define $\mathcal H_{\mathcal S}=\{(\{i\},\{j\}):(i,j)\in A\}\cup\mathcal S$. Its 2-section is $D$: the singleton hyperarcs supply every arc in $A$, while every member of $\mathcal S$ contributes only arcs already in $A$. Distinct subsets yield distinct simple hypergraphs, proving the stated lower bound. Repeating any hyperarc or assigning it an arbitrary timestamp leaves the binary 2-section unchanged, yielding infinitely many record-level representations. \hfill$\square$
+
 This construction does not say that event labels are intrinsically unknowable when the record layer is available. It says that they require information or assumptions beyond the binary projection. In the present benchmark, withheld types are known to the evaluator from the retained source construction, so native-type ranking is well defined. The predictor is intentionally restricted to observed graph information. A resulting score can discriminate those labels without representing the probability of their occurrence. The target ladder in Fig.~\ref{fig:ladder} locates that distinction: projection supplies dyadic support, closure supplies an algebraic group section, and the event layer supplies the ordered label.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\textwidth]{Fig1_target_ladder.pdf}
-\caption{Target ladder and score map. The directed dyadic relation, cap-first formal concepts, and native ordered tail/head events are distinct objects. Projection and algebraic closure are not inverse reconstruction procedures. Conditional ERGM and lifted local scores concern candidate footprints; they do not by themselves define probabilities of recorded group events.}
+\fbox{\begin{minipage}{0.92\textwidth}
+\centering\small
+\textbf{Native ordered types} $(T,H)$ with record multiplicity\\[-1pt]
+$\Downarrow$ \emph{many-to-one directed projection} $\Downarrow$\\[-1pt]
+\textbf{Binary directed projection} $D=(V,A)$, where $A=\bigcup_eT_e\times H_e$\\[-1pt]
+$\Downarrow$ \emph{cap-first Galois closure; not record reconstruction} $\Downarrow$\\[-1pt]
+\textbf{Formal concepts} $(T,H)$ closed and maximal in $D$\\[2pt]
+\rule{0.82\textwidth}{0.3pt}\\[-2pt]
+\textbf{Candidate scoring on the observed projection:} directed local and ERGM conditional dyad scores\\[-1pt]
+\textbf{Footprint summaries rank ordered groups; they are not record-generation probabilities.}
+\end{minipage}}
+\caption{Target ladder and score map. Native ordered types, the dyadic projection, and cap-first formal concepts are distinct objects. Projection and closure are not inverse reconstruction procedures. Conditional ERGM and lifted local scores concern candidate footprints.}
 \label{fig:ladder}
 \end{figure}
 
@@ -107,7 +131,7 @@ A nonempty \emph{formal concept} of $D$ is a fixed pair
 \end{equation}
 It is exactly an inclusion-maximal all-ones tail--head rectangle: the equalities imply $T\times H\subseteq A$ and rule out enlarging either role; conversely, closing either side of a maximal all-ones rectangle cannot enlarge it, so it satisfies equation~\eqref{eq:concept}.  This is the directed bipartite-context version of formal concept analysis \citep{ganterWille1999,zhangEtAl2014}.  As $D$ is loopless, a vertex in both $T$ and $H$ would require its loop, so nonempty concepts have disjoint roles.
 
-The \emph{predecessor--successor hypergraph} is the following canonical derived target:
+The \emph{predecessor--successor hypergraph} is the following explicit derived target:
 \begin{equation}
  f(D)=\{(\{i\},\{j\}):(i,j)\in A\}\ \cup\
  \{(T,H)\in\mathcal C(D):|T|+|H|\ge3\}.
@@ -129,6 +153,8 @@ The cap-first section used empirically is
 The cap is applied during enumeration.  It does not truncate a larger extent or intent and call the fragment a concept: closure and maximality are checked in the original relation, and a concept whose closure exceeds the cap is outside this section.  The section is therefore not the full concept lattice and need not cover every arc.
 
 A native event need not be maximal in the aggregate.  In the three-actor construction above, the two singleton-recipient events can contribute to one larger rectangle; additional senders with matching recipients can expand its tail further.  Conversely, a recorded event can lie inside a rectangle whose closure exceeds the cap.  These possibilities explain why concept recovery under arc missingness and native-type recovery under event missingness are different tasks.  For fidelity, let $\mathcal E_3$ be the cap-eligible native type set and compare it with $\mathcal C_3(D)$ using exact equality of both ordered sets.  Let $F_E$ and $F_C$ be the respective unions of footprints.  Exact precision and recall use $|\mathcal E_3\cap\mathcal C_3(D)|$, while $|F_E\cap F_C|/|F_E\cup F_C|$ is a footprint Jaccard.  Exact equality can be zero while dyadic support overlaps strongly; neither quantity substitutes for the other.
+
+The common subcap sections are nested: $\mathcal C_c(D)\subseteq\mathcal C_3(D)$ and $\mathcal E_c\subseteq\mathcal E_3$ for $c\in\{1,2\}$. Hence an exact match at either smaller common cap would also be an exact match at cap three. A zero cap-three intersection therefore establishes zero exact matches for these two smaller sections, although it says nothing about concepts or events whose closed roles exceed three. The empirical audit supplements this logical subcap check with nearest role-sensitive matches and with the number of native types contributing arcs to each concept.
 
 \subsection{Local directed quantities and footprint lifting}
 All local quantities are calculated in a split's observed projection. Define the out-neighbour and in-neighbour sets $N^+(i)=\{v:y_{iv}=1\}$ and $N^-(i)=\{v:y_{vi}=1\}$, with degrees $d_i^+=|N^+(i)|$ and $d_i^-=|N^-(i)|$. For a nonloop candidate $i\to j$, let
@@ -157,7 +183,7 @@ S_s(e)=m(e)^{-1}\sum_{(i,j)\in\pi(e)}s_{ij}.
 \end{equation}
 This permits the same dyadic ingredients to rank candidates with multiple arcs. It is an uncalibrated summary, not a likelihood for the group. The descriptive already-observed-footprint baseline is $B(e)=\ind\{\pi(e)\subseteq A_{\mathrm{obs}}\}$; it measures projection survival rather than reconstructing the type.
 
-\paragraph{Proposition 1 (directed transitive-triple change statistic).}
+\paragraph{Proposition 2 (directed transitive-triple change statistic).}
 Let $g_{\mathrm{tr}}(y)=\sum_{a,b,c\ \mathrm{distinct}}y_{ab}y_{bc}y_{ac}$ count ordered transitive triples, and calculate all neighbourhoods with the candidate $i\to j$ toggled off.  Then
 \begin{equation}
  \Delta_{ij}g_{\mathrm{tr}}(y)=s^{OI}_{ij}+s^{OO}_{ij}+s^{II}_{ij}=:s^{CN}_{ij}.
@@ -167,8 +193,8 @@ Let $g_{\mathrm{tr}}(y)=\sum_{a,b,c\ \mathrm{distinct}}y_{ab}y_{bc}y_{ac}$ count
 
 Thus, for an edges-plus-$g_{\mathrm{tr}}$ ERGM, the single-dyad conditional logit is $\theta_E+\theta_{\mathrm{tr}}s^{CN}_{ij}$.  When $\theta_{\mathrm{tr}}>0$, its conditional probability is a strictly increasing transform of directed common neighbours, so their arc-level rankings coincide under fixed coefficients.  This is an identity for the unweighted transitive-triple statistic, not for the geometrically weighted closure terms in the fitted ladder.
 
-\paragraph{Formal score-gap decomposition.}
-The identity makes it possible to name, rather than conflate, four changes between a lifted local score and a full ERGM footprint score.  Let $F=T\times H$, $m=|F|$, and let $O_e$ denote one common observation constraint in which the non-footprint information is held fixed.  Let $q_a=s^{CN}_a$, let $p^{\mathrm{tt}}_{a,e}=\Pr_{\widehat\theta_{\mathrm{tt}}}(Y_a=1\mid O_e)$ be the matched marginal under the edges-plus-transitive-triples specification, and define
+\paragraph{Formal score-path decomposition.}
+The identity makes it possible to name, rather than conflate, four changes between a lifted local score and a full ERGM footprint score. Let $F=T\times H$, $m=|F|$, and let $O_e$ fix the observed split and every dyad outside $F$, while leaving all dyads in $F$ unsupplied. Thus every marginal and joint quantity below conditions on the same event $O_e$. Let $q_a=s^{CN}_a$, let $p^{\mathrm{tt}}_{a,e}=\Pr_{\widehat\theta_{\mathrm{tt}}}(Y_a=1\mid O_e)$ be the matched marginal under the edges-plus-transitive-triples specification, and define
 \begin{align}
  S_0(e)&=m^{-1}\sum_{a\in F}q_a, &
  S_1(e)&=m^{-1}\sum_{a\in F}p^{\mathrm{tt}}_{a,e},\\
@@ -177,19 +203,24 @@ The identity makes it possible to name, rather than conflate, four changes betwe
  S_4(e)&=\Pr_{\widehat\theta_{\mathrm{full}}}(Y_a=1\ \forall a\in F\mid O_e).
  \label{eq:scorepath}
 \end{align}
-For a declared common score scale, the following telescoping identity is purely algebraic:
+The quantities in equation~\eqref{eq:scorepath} are not initially commensurate: $S_0$ is a local-count summary while $S_1$--$S_4$ are probability summaries. For a fixed candidate panel $\mathcal P$, put every score on a declared common evaluation scale by its mid-rank,
 \begin{equation}
- S_4-S_0=\underbrace{(S_1-S_0)}_{\text{link}}+
- \underbrace{(S_2-S_1)}_{\text{aggregation}}+
- \underbrace{(S_3-S_2)}_{\text{dependence}}+
- \underbrace{(S_4-S_3)}_{\text{specification}}.
+ R_k(e)=\frac{\operatorname{midrank}_{\mathcal P}\{S_k(e)\}-1/2}{|\mathcal P|},\qquad k=0,\ldots,4.
+ \label{eq:commonrank}
+\end{equation}
+where ties receive their average rank. The following telescoping identity is then algebraic on the common $[0,1]$ rank scale:
+\begin{equation}
+ R_4-R_0=\underbrace{(R_1-R_0)}_{\text{link}}+
+ \underbrace{(R_2-R_1)}_{\text{aggregation}}+
+ \underbrace{(R_3-R_2)}_{\text{dependence}}+
+ \underbrace{(R_4-R_3)}_{\text{specification}}.
  \label{eq:gapdecomposition}
 \end{equation}
-The link term maps the directed common-neighbour statistic through the ERGM link (with the required common-observation marginalisation); aggregation changes an arithmetic footprint summary to a product; dependence compares that matched-marginal product with the joint conditional event; and specification replaces the two-term model by the full structural model.  Equation~\eqref{eq:gapdecomposition} is a bookkeeping identity, not a causal attribution and not a claim that the four terms have been estimated here.
+The link term maps directed common-neighbour information through the ERGM link under the shared conditioning event; aggregation changes an arithmetic footprint summary to a product; dependence compares that matched-marginal product with the joint conditional event; and specification replaces the two-term model by the full structural model. Equation~\eqref{eq:gapdecomposition} is a rank-scale bookkeeping identity, not a causal attribution or an additive probability decomposition.
 
-The distinction between these theoretical quantities and the admitted primary scores is important.  The implemented $L_1$ and $L_{1g}$ are, respectively, the arithmetic and geometric summaries of split-specific, single-dyad MPLE conditional scores $\widetilde p_a$; the implemented factorized product is $L_2^{\mathrm{fac}}=\prod_{a\in F}\widetilde p_a$.  It satisfies $L_2^{\mathrm{fac}}=L_{1g}^{m}$, but it is not $S_2$: its factors condition on the observed split basis one dyad at a time, rather than on the shared constraint $O_e$.  The matched-marginal product $S_2$ and the joint $S_3$ require the same candidate-wide observation constraint.  Under dyad independence conditional on that constraint, $S_3=S_2$; with degree or closure dependence they need not agree.  This is the theoretical dependence term in equation~\eqref{eq:gapdecomposition}.
+The distinction between these theoretical quantities and the reported primary scores is important. The implemented $L_1$ and $L_{1g}$ are, respectively, arithmetic and geometric summaries of split-specific, single-dyad MPLE conditional scores $\widetilde p_a$; the implemented factorized product is $L_2^{\mathrm{fac}}=\prod_{a\in F}\widetilde p_a$. It satisfies $L_2^{\mathrm{fac}}=L_{1g}^{m}$, but it is not $S_2$: its factors condition on the observed split basis one dyad at a time, rather than on the shared constraint $O_e$. The matched-marginal product $S_2$ and the joint $S_3$ require the same candidate-wide observation constraint. Under dyad independence conditional on that constraint, $S_3=S_2$; with degree or closure dependence they need not agree. This is the theoretical dependence term in equation~\eqref{eq:gapdecomposition}.
 
-No empirical higher-order dependence term is admitted in this paper.  The Enron MCMC-MLE feasibility gate failed to mix or converge under the agreed primary and bounded reduced-core checks, so a matched-marginal $L_2$ and an MCMC-derived $L_3$ cannot be reported as primary results.  A bounded MPLE parameter-plug-in calculation remains a labelled supplementary score-mechanics sensitivity, not an $L_3$ estimate or a dependence conclusion.  The primary comparisons therefore stop at $L_1$, $L_{1g}$, and $L_2^{\mathrm{fac}}$ and retain the decomposition as a formal guide to what these conditional scores do and do not establish.
+The empirical comparisons stop at $L_1$, $L_{1g}$, and $L_2^{\mathrm{fac}}$. Higher-order Enron MCMC-MLE did not mix or converge in the predeclared full- and reduced-core checks, so neither a matched-marginal $L_2$ nor an MCMC-derived $L_3$ is reported. A parameter-plug-in sensitivity remains supplementary score mechanics, not an $L_3$ estimate. The decomposition is consequently a formal guide to the conditioning and comparison scale required for a future joint-score study.
 
 \section{ERGM conditional benchmark}
 \subsection{Exponential family, change statistics, and MPLE}
@@ -245,9 +276,9 @@ The nested statistic sets are
 \mathrm{M4}:&\ \mathrm{M3}+W_{OO}+W_{II}; & \mathrm{M4c}:&\ \mathrm{M4}+C.
 \label{eq:ladder}
 \end{align}
-Degree and shared-partner decays are fixed at $\alpha=\beta=0.5$ in the plan-aligned implementation. The labels describe nested specifications, not successive evidence of improved fit. The native-event conditional-footprint branch fits M0, M1, M3, and M4c on each split; the intermediate M2 and M4 define the complete structural ladder and its feasibility checks. M4c retains the cycle extension, but its reporting does not assert that cyclic structure has earned an incremental benefit over every preceding model.
+Degree and shared-partner decays are fixed at $\alpha=\beta=0.5$ in the implemented specification. The labels describe nested models, not successive evidence of improved fit. The 30-mask native-event branch fits M0, M1, M3, and M4c on each split; M2 and M4 remain part of the defined ladder but are not reported in that branch. Consequently an M4c--M3 contrast changes $W_{OO}$, $W_{II}$, and $C$ together. It is a combined OSP/ISP/cycle package comparison, not evidence attributable to cyclic closure, OSP, or ISP separately.
 
-With only edges, equation~\eqref{eq:conditional} is constant across candidate dyads. M1 adds the observed reverse arc to the conditional log-odds, making its connection to the reverse-arc heuristic transparent. M3 and M4c additionally allow degree and directed closure information to alter the local score. Such coherence is useful for implementation checking. It is not independent corroboration of a substantive reciprocity mechanism when two rankings use the same graph feature. The predeclared main contrast compares the M4c geometric summary with the M0 arithmetic reference; it does not isolate the contribution of the final cycle term.
+With only edges, equation~\eqref{eq:conditional} is constant across candidate dyads. M1 adds the observed reverse arc to the conditional log-odds, making its connection to the reverse-arc heuristic transparent. M3 and M4c additionally allow degree and directed closure information to alter the local score. Such coherence is useful for implementation checking. It is not independent corroboration of a substantive reciprocity mechanism when two rankings use the same graph feature. The predeclared main contrast compares the M4c geometric summary with the M0 arithmetic reference; it does not isolate an individual OSP, ISP, or cycle contribution.
 
 \subsection{Footprint summaries and the joint-probability boundary}
 For fitted single-dyad conditional scores $p_{ij}$ and $m=m(e)$, define
@@ -261,7 +292,7 @@ The arithmetic mean summarizes average support; the geometric mean responds more
 
 None of these summaries is a jointly simulated or matched-marginal quantity. To articulate the distinction, let $F=\pi(e)$ and let $O_e$ be one common observation constraint for all unknown dyads in $F$. A matched-marginal product would use $\prod_{(i,j)\in F}\Pr(Y_{ij}=1\mid O_e)$; a joint footprint probability would use $\Pr(Y_{ij}=1\ \forall(i,j)\in F\mid O_e)$. The former need not equal the latter under dependence. More fundamentally, neither is the primary product in equation~\eqref{eq:Ls}: its individual factors condition on the other dyads supplied by the observed training graph, rather than integrate them under the same candidate-wide completion constraint.
 
-Even a valid joint footprint probability would remain a probability of a graph configuration, not of the native event record. Multiple record collections can generate the same complete footprint, as the non-identifiability example shows. For a formal concept, completeness alone would also omit the maximality requirement. These distinctions are why we label the primary quantities conditional-pseudolikelihood footprint scores. The Enron higher-order MCMC feasibility gate did not pass, so no primary jointly simulated dependence increment is reported. A bounded MPLE parameter-plug-in simulation is only a supplementary score-mechanics sensitivity and cannot substitute for successful higher-order MCMC likelihood estimation.
+Even a valid joint footprint probability would remain a probability of a graph configuration, not of the native event record. Multiple record collections can generate the same complete footprint, as the non-identifiability example shows. For a formal concept, completeness alone would also omit the maximality requirement. These distinctions are why we label the primary quantities conditional-pseudolikelihood footprint scores. The Enron higher-order MCMC fits did not meet the convergence requirement, so no jointly simulated dependence increment is reported. A bounded MPLE parameter-plug-in simulation is only a supplementary score-mechanics sensitivity and cannot substitute for successful higher-order MCMC likelihood estimation.
 
 \section{Data and missingness design}
 \subsection{Source construction and target eligibility}
@@ -269,19 +300,19 @@ Table~\ref{tab:eligibility} states eligibility before performance. The two prima
 
 \begin{table}[H]
 \centering
-\caption{Dataset and target eligibility. ``Primary'' refers to the event-first native-type benchmark, not to a population sample. Concept targets are derived; restricted dyadic evidence does not supply native groups. Blocked or pending sources contribute no substantive result.}
+\caption{Dataset and target scope. ``Primary'' refers to the event-first native-type benchmark, not to a population sample. Concept targets are derived; restricted dyadic evidence does not supply native groups. Sources outside the stated scope contribute no substantive result.}
 \label{tab:eligibility}
 \small
 \begin{tabular}{@{}P{0.19\textwidth}P{0.22\textwidth}P{0.51\textwidth}@{}}
 \toprule
-Source & Admitted scope & Construction or restriction\\
+Source & Scope in this study & Construction or restriction\\
 \midrule
 Enron strict core & Primary native types; footprints, concepts, roles & Complete approved internal sender--To/Cc heads; 1998--2002. Monthly dyadic diagnostic only.\\
-MathOverflow core & Primary reconstructed native types; footprints, concepts, roles & Distinct eligible answerers $\to$ asker within 30 days; all participants in fixed core. No chronological pilot.\\
+MathOverflow core & Primary reconstructed native types; footprints, concepts, roles & Distinct eligible answerers $\to$ asker within 30 days; all participants in fixed core.\\
 EU-core & Restricted directed dyadic and concept evidence & No primary native-event construction. Bounded 30-day dyadic chronology; concept section exploratory.\\
 CAVIAR full matrix & Restricted static dyadic/footprint evidence & Approved caller-to-receiver orientation of the unique-labelled full matrix. Phase series excluded.\\
 Ciel & Blocked & Source-specific row/column communication orientation unresolved.\\
-Jmail v1 & Audit only; admissibility pending & Source-stream, entity-resolution, and recipient-policy gates unresolved.\\
+Jmail v1 & Audit only; source policy unresolved & Source-stream, entity-resolution, and recipient-policy decisions remain unresolved.\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -300,9 +331,9 @@ The reconstruction policy follows a descriptive latency and eligibility profile,
 
 These answerer-to-asker groups are not directly recorded multi-recipient communication events. Their grouping depends on the chosen response window and duplicate-answerer policy, and their orientation represents contribution toward a question asker. Calling them reconstructed native types keeps the benchmark's event layer distinct from concepts derived later from the graph, without denying the analyst's role in defining it. The opposite singleton-role patterns in Enron and MathOverflow are useful design contrasts, but source and core selection confound any simple attribution of their performance differences to role arity alone.
 
-EU-core supplies a fixed directed dyadic core and a bounded chronological diagnostic. Its cap-three concept section is small and low-coverage relative to Enron, so it is restricted to exploratory representation claims with explicit candidates. It is not promoted to a primary source of native groups. CAVIAR's approved full matrix has a source-supported caller-to-receiver interpretation, while its phase series remains excluded because an unresolved duplicate actor label prevents a reliable temporal entity map. A static relation can therefore be admitted while chronology remains inadmissible. Neither restricted source is counted as another independent network replication of the native-event result.
+EU-core supplies a fixed directed dyadic core. Its cap-three concept section is small and low-coverage relative to Enron, so it is restricted to exploratory representation claims with explicit candidates. It is not a primary source of native groups. CAVIAR's approved full matrix has a source-supported caller-to-receiver interpretation, while its phase series remains excluded because an unresolved duplicate actor label prevents a reliable temporal entity map. Neither restricted source is counted as another independent network replication of the native-event result.
 
-Ciel remains blocked by unresolved source-specific communication orientation, and Jmail remains audit-only pending source-stream, identity, and recipient-policy decisions. Structural usability or available headers alone do not resolve those gates. We report their status to distinguish exclusion from an adverse performance outcome, but show no substantive prediction values for them. Manuscript tables use aggregate-safe summaries only. Source archives, message bodies, actor-address maps, raw records, full candidate panels, and candidate-level predictions are excluded from manuscript outputs and from the repository's tracked research evidence.
+Ciel remains outside the analysis because its source-specific communication orientation is unresolved, and Jmail remains audit-only pending source-stream, identity, and recipient-policy decisions. Structural usability or available headers alone do not settle those questions. We show no substantive prediction values for either source. Manuscript tables use aggregate-safe summaries only. Source archives, message bodies, actor-address maps, raw records, full candidate panels, and candidate-level predictions are excluded from manuscript outputs and from the repository's tracked research evidence.
 
 \subsection{Event-first type withholding}
 For each primary core, define $\mathcal E_3$ from all cap-eligible types and retain occurrence counts $c_e$. A mask $M\subset\mathcal E_3$ withholds every record of each selected type. The observed type set is $\mathcal E_{\mathrm{obs}}=\mathcal E_3\setminus M$, and the training arc set is $A_{\mathrm{obs}}=\bigcup_{e\in\mathcal E_{\mathrm{obs}}}\pi(e)$. The reference full projection for masking is the cap-restricted union $A_3=\bigcup_{e\in\mathcal E_3}\pi(e)$, not a graph silently augmented with out-of-cap records. This ordering makes type labels the experimental units and prevents recurrence from leaking an identical held-out type through an observed copy.
@@ -321,7 +352,7 @@ Three severities must be distinguished: $\rho_{\mathrm{type}}=|M|/|\mathcal E_3|
 
 The formal-concept recovery branch uses a separate arc-first design: remove unique arcs and ask which full-relation capped concepts are lost from the re-enumerated observed section. Random, observed-degree-matched, and non-maximal-complete non-concept panels remain separate structural evaluations. This distinction matters because deleting arcs can destroy maximal rectangles without withholding an identifiable record type, and withholding a type can leave a complete rectangle intact.
 
-The evidence boundary follows the agreed missingness logic.  The primary native-event study is Regime U (unknown locations) at 30\% type withholding, with 30 frozen MCAR and 30 frozen MNAR-out masks in each primary core.  MCAR and MNAR-out are its two primary mechanisms; neither identifies a corpus's natural omission process.  MNAR-in and the 10/20/50\% rate grid are focused supplementary sensitivity analyses, and the footprint-free concept stress test is a separate supplementary Regime C structural task.  Regime K (declared missing dyad locations) is excluded from Paper~1 rather than silently replaced by a different analysis.  There is no masking-plus-forecasting experiment: the bounded chronological module is a diagnostic of score specification, not a forecasting study.
+The primary native-event study uses unknown missing locations at 30\% type withholding, with 30 frozen MCAR and 30 frozen MNAR-out masks in each core. MCAR and MNAR-out are controlled mechanisms; neither identifies a corpus's natural omission process. MNAR-in and the 10/20/50\% rate grid are supplementary sensitivity analyses, and the footprint-free concept stress test is a separate supplementary structural task. Declared missing dyad locations are outside this paper's design. There is no masking-plus-forecasting experiment.
 
 \section{Evaluation and within-network uncertainty}
 \subsection{Random, hard, and role-assignment competitions}
@@ -341,7 +372,7 @@ Native-type footprint scores are evaluated through rankings, not a universal thr
 Precision--recall summaries are relevant when the full group-candidate space is highly imbalanced, and their dependence on prevalence must be respected \citep{saitoRehmsmeier2015}. Here the scored panels deliberately impose one positive per negative. Their PR-AUC is therefore a defined case-control panel quantity; neither it nor a footprint score estimates the probability of an event at natural prevalence. A constant ranking yields average precision 0.5 in these panels. The fixed-role competition has no comparable binary prevalence and is evaluated separately. We do not report accuracy, F1, or log loss for the uncalibrated native-type scores as if they came from an event-probability model.
 
 \subsection{Paired whole-mask comparison}
-For dataset $d$ and mechanism $m$, let $Q_{r,A}$ and $Q_{r,B}$ be two methods' PR-AUC values on the same frozen mask $r$, including the same training graph and candidate panel. With $R=30$, the paired difference is $D_r=Q_{r,A}-Q_{r,B}$ and the reported effect is $\bar D=R^{-1}\sum_rD_r$. The main contrast fixes $A$ as M4c with $L_{1g}$ and $B$ as M0 with $L_1$. It is selected because its density reference was predeclared, not because it maximizes an inspected table. Other score contrasts remain exploratory unless a separate multiplicity policy is specified.
+For dataset $d$ and mechanism $m$, let $Q_{r,A}$ and $Q_{r,B}$ be two methods' PR-AUC values on the same frozen mask $r$, including the same training graph and candidate panel. With $R=30$, the paired difference is $D_r=Q_{r,A}-Q_{r,B}$ and the reported effect is $\bar D=R^{-1}\sum_rD_r$. The original predeclared contrast fixes $A$ as M4c with $L_{1g}$ and $B$ as M0 with $L_1$; it remains a no-structure reference. To answer the distinct question of competitive value, we also evaluate M4c::$L_{1g}$ against total directed Adamic--Adar, degree product, M1::$L_{1g}$, and M3::$L_{1g}$ on the same frozen masks. These four competitive contrasts are secondary, are not selected by a post-hoc winning rule, and have no multiplicity-adjusted confirmatory interpretation.
 
 A percentile bootstrap resamples 30 whole-mask indices with replacement and recomputes the mean paired difference in each of 10,000 draws. Its 2.5th and 97.5th percentiles define the reported 95\% interval. The resampling unit is neither a candidate nor a dyad. Holding the paired methods together preserves each split's shared difficulty and avoids treating dependent arcs within a footprint as separate experimental replications. The bootstrap rationale follows standard resampling principles \citep{efronTibshirani1994}; matched-system evaluation motivates preserving shared units when resampling complex metrics \citep{bergKirkpatrickEtAl2012}. Those general principles do not transform masks into a network population sample.
 
@@ -349,18 +380,13 @@ The paired sign-flip procedure assigns independent signs $s_r\in\{-1,+1\}$ to th
 
 The inferential boundary is explicitly within a fixed network, source construction, masking mechanism, and candidate rule. The 30 masks expose repeated missingness realizations of the same graph; they do not supply 30 independent organizations or communities. Bootstrap intervals characterize the generated-mask distribution, and sign-flip values summarize the paired reference evidence for the specified contrast. We do not pool masks across datasets, infer a cross-network mean, or compare the two effects as if their intervals came from representative network samples. The four primary cells are reported separately even when their signs agree.
 
-\subsection{Bounded chronological MPLE check}
-The chronological module uses three consecutive retained panels, giving two response transitions in Enron and EU-core. It distinguishes factorized lagged scores from specifications containing contemporaneous response-network statistics. For a history-only logistic specification with fixed features $x_{ij}(Y_{t-1})$, the chosen model factorizes as a product of Bernoulli terms conditional on history. This factorization is a property of the specification, not a claim that observed temporal networks are independent. Adding statistics of $Y_t$ instead yields a conditional graph framework in which within-window configuration can enter a dyad's score, a distinction consistent with temporal exponential-family modeling \citep{hannekeEtAl2010}.
-
-Three lagged-score models and a small btergm MPLE ladder supply a numerical status check. The implementation uses bootstrapped pseudolikelihood, not MCMC likelihood estimation \citep{leifeldEtAl2018}. Its labels are $T_{\mathrm{tt}}$ for edges plus lagged total common neighbours; $T0$ for edges, contemporaneous mutuality, autoregressive and delayed reciprocity terms, lagged OI/OO/II, and lagged endpoint degrees; $T1$ adds current weighted degrees; $T2$ adds current OTP/OSP/ISP closure; and $T2_{-H}$ removes explicit history terms from that structural specification. Thus not every model with a lagged component is history-only. The module uses only 20 temporal bootstrap replications. It records availability over the two transitions and supplies no out-of-time ranking contest, native-event forecast metric, or jointly simulated temporal result.
-
 \section{Results}
 \subsection{Representation fidelity is not event recovery}
 The two primary cores support substantial but different capped concept sections. Table~\ref{tab:fidelity} reports 232 concepts in Enron and 207 in MathOverflow, against 719 and 1,071 cap-eligible native types respectively. Their counts are not directly comparable measures of group richness: they depend on each aggregate relation and on the same bounded closure rule. More decisively, exact equality of ordered tail/head sets is absent in both cores. Concept precision and native-type recall are zero, even though every emitted object satisfies the formal-concept definition. These are representation-audit results, not false-negative rates of a trained event predictor.
 
 \begin{table}[H]
 \centering
-\caption{Cap-first concept/native-type fidelity on the fixed cores. Both role caps are three. Precision and recall use exact ordered tail/head equality; all footprint fractions compare unions of directed arcs. Values are descriptive representation diagnostics, not predictive scores.}
+\caption{Cap-first concept/native-type fidelity on the fixed cores. Both role caps are three. Precision and recall use exact ordered tail/head equality; all footprint fractions compare unions of directed arcs. ``Best role similarity'' is the maximum, over the opposite target family, of the mean of tail and head Jaccards. Values are descriptive representation diagnostics, not predictive scores.}
 \label{tab:fidelity}
 \small
 \begin{tabular}{@{}lrr@{}}
@@ -377,6 +403,13 @@ Native-type recall & 0.0000 & 0.0000\\
 Footprint Jaccard & 0.8567 & 0.6634\\
 Native footprint covered by concepts & 0.8662 & 0.6647\\
 Concept footprint covered by native types & 0.9873 & 0.9970\\
+\addlinespace
+Common cap $c=1$: types / concepts / exact matches & 593 / 0 / 0 & 809 / 0 / 0\\
+Common cap $c=2$: types / concepts / exact matches & 695 / 51 / 0 & 1,045 / 9 / 0\\
+Median best event $\to$ concept role similarity & 0.4167 & 0.3333\\
+Median best event $\to$ concept footprint Jaccard & 0.1667 & 0.1111\\
+Median contributing native types per concept & 7 & 10\\
+Range of contributing native types per concept & 2--21 & 2--22\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -391,17 +424,17 @@ Fig.~\ref{fig:fidelity} shows why the exact and footprint measures should be con
 \label{fig:fidelity}
 \end{figure}
 
-The Enron audit further finds that each capped concept has at least two contributing recorded types, reinforcing its interpretation as an aggregate rectangle assembled across records. The result is not merely that concepts are noisy email groups. They answer a different structural question. Nor does zero equality prove that exact event--concept equality is impossible in every graph: the construction in Section~2 demonstrates non-invertibility generically, while the audit establishes absence of exact matches for these two selected cores. A degree-preserving rewiring comparison is retained as a supplementary representation diagnostic, not as another predictive benchmark. It does not change the fact that exact recovery is absent in the observed section.
+The nearest-match diagnostics explain why the zero is structural rather than a near-equality destroyed by one marginal actor. The median best role-sensitive match of a native type to any concept is only 0.4167 in Enron and 0.3333 in MathOverflow, and the corresponding median footprint Jaccards are 0.1667 and 0.1111. Every capped concept pools arcs from at least two distinct native types; the median pool contains seven types in Enron and ten in MathOverflow. Thus closure generally merges records rather than making a small correction to one record. The $c=1$ and $c=2$ subcap checks also have zero exact matches, as required by their nesting in the cap-three result; larger-cap behavior is not inferred. Nor does zero equality prove that exact event--concept equality is impossible in every graph: Proposition~1 demonstrates non-invertibility generically, while the audit establishes absence of exact matches for these two selected cores. A degree-preserving rewiring comparison is retained as a supplementary representation diagnostic, not as another predictive benchmark. It does not change the fact that exact recovery is absent in the observed section.
 
 
 \subsection{Static directed-arc and arc-first concept pilots}
-The primary native-event masks should not erase the separate static evidence. Table~\ref{tab:staticpilots} restores two explicitly bounded pilot branches from aggregate Phase~2 outputs. Both use three seeded 30\%-mask replicates, not the 30 frozen native-event masks, and are never pooled with the primary results below. Panel A reports the same predeclared directed CN and directed AA local scores together with the M1, M3, and M4c conditional ERGM scores for every admitted static relation. The density-only M0 score is 0.5 for both metrics in every balanced panel and is omitted from the body only to avoid repeating that constant reference. No row is selected as a post-hoc winner.
+The primary native-event masks should not erase the separate static evidence. Table~\ref{tab:staticpilots} reports two explicitly bounded pilot branches from archived aggregate output. Both use three seeded 30\%-mask replicates, not the 30 frozen native-event masks, and are never pooled with the primary results below. Panel A reports the same directed CN and directed AA local scores together with the M1, M3, and M4c conditional ERGM scores for each included static relation. The density-only M0 score is 0.5 for both metrics in every balanced panel and is omitted from the body only to avoid repeating that constant reference. No row is selected as a post-hoc winner.
 
 Panel B reports the separate arc-first, cap-first formal-concept recovery branch. In each of its three MCAR and three MNAR-out splits per dataset, unique arcs were masked and the full-relation $\mathcal C_3(D)$ concepts that disappeared after re-enumeration formed the positive target. Candidates were constrained to observed weak distance two. The table fixes the random structural panel and two predeclared directed local scores; observed-degree-matched and non-maximal-complete true non-concept panels remain separate diagnostic evaluations. Thus Panel B evaluates a structural target derived from $D$, not recovery of a recorded group, and neither panel reports a concept probability or $L_3$.
 
 \begin{table}[H]
 \centering
-\caption{Separate \textbf{three-mask pilot} evidence. All entries are mean ROC-AUC / PR-AUC and are aggregate Phase~2 results, not pooled with the 30-mask native-event experiment. Panel A uses balanced held-out-arc/true-nonedge competitions. Panel B uses the random structural concept panel. The published aggregate tables retain the corresponding mask SDs and all listed metrics.}
+\caption{Separate \textbf{three-mask pilot} evidence. All entries are mean ROC-AUC / PR-AUC and are not pooled with the 30-mask native-event experiment. Panel A uses balanced held-out-arc/true-nonedge competitions. Panel B uses the random structural concept panel. The archived aggregate tables retain the corresponding mask SDs and all listed metrics.}
 \label{tab:staticpilots}
 \footnotesize
 \setlength{\tabcolsep}{2pt}
@@ -428,14 +461,14 @@ For the concept pilot, all 24 planned dataset--mechanism splits completed. Non-m
 \end{minipage}
 \end{table}
 
-The pilot results establish neither a cross-source ranking nor an empirical estimate of the score-gap components. For example, Enron's directed AA has mean static PR-AUC 0.8841 and M3 has 0.9242, whereas the M4c score is highest among the displayed conditional scores in EU-core and MathOverflow. Each comparison reflects three masks of one fixed graph, and the displayed ERGM scores are conditional MPLE scores. The exact common-neighbour/transitive-triple relation in Proposition~1 is mathematical; it is not an empirical claim that an unfit or unreported edges-plus-$g_{\mathrm{tr}}$ model was evaluated. The concept branch likewise illustrates that derived group recovery varies with relation and omission mechanism, without changing the zero exact native-event fidelity result in the two primary cores.
+The pilot results establish neither a cross-source ranking nor an empirical estimate of the score-path components. For example, Enron's directed AA has mean static PR-AUC 0.8841 and M3 has 0.9242, whereas the M4c score is highest among the displayed conditional scores in EU-core and MathOverflow. Each comparison reflects three masks of one fixed graph, and the displayed ERGM scores are conditional MPLE scores. The exact common-neighbour/transitive-triple relation in Proposition~2 is mathematical; it is not an empirical claim that an edges-plus-$g_{\mathrm{tr}}$ model was fitted in this pilot. The concept branch likewise illustrates that derived group recovery varies with relation and omission mechanism, without changing the zero exact native-event fidelity result in the two primary cores.
 
 \subsection{Random-panel conditional footprint discrimination}
-Table~\ref{tab:native} combines the three primary evaluations while keeping their metrics distinct. Panel A reports means and mask standard deviations over 30 frozen masks in each dataset--mechanism cell. The M0 arithmetic reference has PR-AUC 0.5000 throughout because its constant conditional dyad score remains constant after averaging over any footprint. M4c with geometric lifting reaches 0.8584 and 0.8324 in Enron under MCAR and MNAR-out, and 0.7396 and 0.7394 in MathOverflow. These values support substantial random-panel discrimination relative to density alone. They do not identify a probability of the native group or isolate the effect of cycles.
+Table~\ref{tab:native} combines the three primary evaluations while keeping their metrics distinct. Panel A makes the competitive random-panel comparison explicit: it reports directed Adamic--Adar, degree product, and every planned conditional ERGM specification--summary combination needed to separate structural specification from arithmetic versus geometric aggregation. The M0 arithmetic reference has PR-AUC 0.5000 throughout because its constant conditional dyad score remains constant after averaging over any footprint. It is retained as a transparent anchor, not as the defining test of ERGM value. M4c with geometric lifting reaches 0.8584 and 0.8324 in Enron under MCAR and MNAR-out, and 0.7396 and 0.7394 in MathOverflow. The corresponding paired comparisons with competitive references appear in Table~\ref{tab:competitive}.
 
 \begin{table}[H]
 \centering
-\caption{Primary native-type evaluations in one table with distinct tasks. Panels A and B show PR-AUC mean (mask SD), each from 30 completed masks per cell; PR-AUC is tie-aware average precision on a separate balanced panel. Panel C shows event-evaluation-weighted, uniform-tie-aware top-one role accuracy, not PR-AUC. Selected score rows are predeclared summaries, not an overall winner selection.}
+\caption{Primary native-type evaluations in one table with distinct tasks. Panels A and B show PR-AUC mean (mask SD), each from 30 completed masks per cell; PR-AUC is tie-aware average precision on a separate balanced panel. Panel A retains the competitive local references and M1/M3/M4c under both arithmetic and geometric summaries. Panel C shows event-evaluation-weighted, uniform-tie-aware top-one role accuracy, not PR-AUC.}
 \label{tab:native}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -448,8 +481,13 @@ Score & MCAR & MNAR-out & MCAR & MNAR-out\\
 \multicolumn{5}{l}{\textbf{Panel A. Random arity-matched native-type ranking}}\\
 Already-observed footprint & 0.6279 (0.0220) & 0.5816 (0.0175) & 0.6050 (0.0113) & 0.6071 (0.0176)\\
 Directed AA total & 0.7966 (0.0187) & 0.7472 (0.0206) & 0.7589 (0.0237) & 0.7593 (0.0218)\\
-Reverse-arc mean & 0.7501 (0.0186) & 0.7761 (0.0177) & 0.5207 (0.0092) & 0.5219 (0.0108)\\
+Degree-product mean & 0.5758 (0.0276) & 0.5125 (0.0273) & 0.7868 (0.0177) & 0.7763 (0.0198)\\
 M0::$L_1$ & 0.5000 (0.0000) & 0.5000 (0.0000) & 0.5000 (0.0000) & 0.5000 (0.0000)\\
+M1::$L_1$ & 0.7501 (0.0186) & 0.7761 (0.0177) & 0.5207 (0.0092) & 0.5219 (0.0108)\\
+M1::$L_{1g}$ & 0.7501 (0.0186) & 0.7761 (0.0177) & 0.5207 (0.0092) & 0.5219 (0.0108)\\
+M3::$L_1$ & 0.8462 (0.0189) & 0.8176 (0.0165) & 0.7182 (0.0288) & 0.7195 (0.0280)\\
+M3::$L_{1g}$ & 0.8525 (0.0185) & 0.8262 (0.0157) & 0.7210 (0.0285) & 0.7231 (0.0276)\\
+M4c::$L_1$ & 0.8511 (0.0186) & 0.8228 (0.0159) & 0.7362 (0.0264) & 0.7354 (0.0260)\\
 M4c::$L_{1g}$ & 0.8584 (0.0183) & 0.8324 (0.0158) & 0.7396 (0.0257) & 0.7394 (0.0258)\\
 \addlinespace
 \multicolumn{5}{l}{\textbf{Panel B. Directed hard-panel native-type ranking}}\\
@@ -479,20 +517,42 @@ AA denotes the directed Adamic--Adar-style score of equation~\eqref{eq:aa}. The 
 \end{minipage}
 \end{table}
 
+\begin{table}[H]
+\centering
+\caption{ROC-AUC companion to the random arity-matched native-type panel in Table~\ref{tab:native}. Entries are mean ROC-AUC (mask SD) over 30 frozen masks. These panels are balanced case-control competitions; ROC-AUC remains a ranking quantity for the stated panel, not a natural-prevalence event probability.}
+\label{tab:primaryroc}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Score & Enron MCAR & Enron MNAR-out & MathOverflow MCAR & MathOverflow MNAR-out\\
+\midrule
+Directed AA total & 0.7631 (0.0181) & 0.7193 (0.0218) & 0.7655 (0.0178) & 0.7724 (0.0180)\\
+Degree-product mean & 0.5849 (0.0288) & 0.4548 (0.0262) & 0.7907 (0.0137) & 0.7845 (0.0164)\\
+M0::$L_1$ & 0.5000 (0.0000) & 0.5000 (0.0000) & 0.5000 (0.0000) & 0.5000 (0.0000)\\
+M1::$L_{1g}$ & 0.7711 (0.0154) & 0.7968 (0.0160) & 0.5334 (0.0108) & 0.5349 (0.0136)\\
+M3::$L_{1g}$ & 0.8422 (0.0149) & 0.8013 (0.0168) & 0.7621 (0.0195) & 0.7619 (0.0204)\\
+M4c::$L_{1g}$ & 0.8483 (0.0152) & 0.8090 (0.0166) & 0.7718 (0.0178) & 0.7733 (0.0189)\\
+\bottomrule
+\end{tabular}
+\end{table}
 
-The local-score profiles provide a substantive qualification to that reference comparison. Enron's total directed Adamic--Adar score is stronger than its reverse-arc mean under MCAR, while reverse-arc support is stronger under the activity-biased stress design. MathOverflow's total directed Adamic--Adar score is informative in both mechanisms, whereas reverse arcs are near the balanced-panel baseline. The displayed M4c geometric score does not exceed that heuristic in MathOverflow's random panels. Thus the predeclared ERGM--density improvement is not a claim of general superiority over local scores. Selecting a favourable dataset-specific winner would obscure both the reference definition and the change in feature ordering.
+
+The competitive profiles give a sharper answer to what the ERGM contributes. At fixed geometric aggregation, M4c exceeds M1 by 0.1082 and 0.0563 PR-AUC in Enron and by 0.2190 and 0.2175 in MathOverflow, under MCAR and MNAR-out respectively. Moving from M3::$L_{1g}$ to M4c::$L_{1g}$ is much smaller but positive in all four cells, from 0.0059 to 0.0187. This latter difference is the net increment of the jointly added OSP, ISP, and cyclic terms; it cannot identify a cycle-specific effect. Aggregation also matters: M1 has the same arithmetic and geometric ranking here, whereas M3 and M4c generally improve under geometric lifting.
+
+The comparison with local structure is explicitly heterogeneous. M4c::$L_{1g}$ exceeds total directed Adamic--Adar by 0.0618 and 0.0852 in Enron, but trails it by 0.0193 and 0.0199 in MathOverflow. The degree-product reference is still more favourable to MathOverflow, exceeding M4c by 0.0471 under MCAR and 0.0369 under MNAR-out. These patterns are the main empirical result: an ERGM conditional score can add information beyond simple local statistics in a specified source, mask mechanism, and competition set, but it is not a universal replacement for them. The density contrast remains useful as a no-structure reference; it does not establish distinctive ERGM value by itself.
 
 The already-observed-footprint indicator is also above the constant baseline in the random panels. That is expected when other retained event types preserve some held-out footprints. Its informative ranking is not identical-type leakage because all records of the held-out type were removed. Equally, its nontrivial score warns against interpreting a high random-panel value as completion of wholly unseen arc configurations. The primary task includes both partly missing and already-supported footprints. The supplementary footprint-free stress regime asks a different question and should not be silently substituted for this event-first experiment.
 
 \subsection{Hard panels and role assignment change the claim}
-Panel B preserves more participant and role structure than random negative sampling. In Enron, M4c geometric PR-AUC is 0.4899 for reversal and 0.4969 for role exchange under MCAR: random-panel discrimination does not persist in those transformed competitions. Under MNAR-out the same scores rise only modestly, to 0.5575 and 0.5423. Reverse-arc support changes from below the balanced reference under MCAR to positive separation under MNAR-out. These are descriptive mechanism-dependent patterns, not a demonstrated general reversal of causal reciprocity effects or evidence that a complex model consistently recovers sender roles.
+The random-versus-hard discrepancy is a principal finding, not a secondary robustness check. Panel B preserves more participant and role structure than random negative sampling. In Enron, M4c geometric PR-AUC is 0.4899 for reversal and 0.4969 for role exchange under MCAR: random-panel discrimination does not persist in those transformed competitions. Under MNAR-out the same scores rise only modestly, to 0.5575 and 0.5423. Reverse-arc support changes from below the balanced reference under MCAR to positive separation under MNAR-out. This sign change is consistent with the mask mechanism changing which observed reverse ties remain informative in the selected hard panels; it does not identify a change in a causal reciprocity process. The all-arity and balanced-arity orientation checks below show that some Enron patterns also move when the size cue is removed. A degree- or arity-stratified explanation would require a separate predeclared analysis and is not inferred from these aggregate panel results.
 
 MathOverflow has a different directed profile. Its M4c geometric score remains above the reference in both hard panels and mechanisms, ranging from 0.6115 to 0.6543, while reverse-arc scores are below the reference. The difference from Enron is useful precisely because it prevents a uniform narrative that all random-panel gains necessarily vanish or necessarily transfer. Fig.~\ref{fig:profiles} makes the panel-dependent levels visible. Its profile lines summarize means for the displayed conditional and heuristic families; they are not matched-mask confidence intervals or performance at a common natural prevalence. Hard-panel selection still restricts the subset to which each value applies.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{Fig3_primary_panel_profiles.pdf}
-\caption{Primary panel profiles by fixed dataset and masking mechanism. Values summarize PR-AUC over 30 masks for random arity-matched, reversal/orientation, and role-exchange panels. The 0.5 line is the balanced constant-score reference. Profiles compare distinct selected competitions, not a universal event-prevalence scale; paired uncertainty is reported separately in Table~\ref{tab:paired}.}
+\caption{Primary panel profiles by fixed dataset and masking mechanism. Values summarize PR-AUC over 30 masks for random arity-matched, reversal/orientation, and role-exchange panels. The 0.5 line is the balanced constant-score reference. Profiles compare distinct selected competitions, not a universal event-prevalence scale; competitive paired contrasts are reported separately in Table~\ref{tab:competitive}.}
 \label{fig:profiles}
 \end{figure}
 
@@ -507,7 +567,7 @@ Reversal orientation accuracy (OA) is a deliberately narrower, derived-target ch
 \end{equation}
 The aggregate is the mean of equation~\eqref{eq:oa} over the 30 frozen reversal masks; Table~\ref{tab:oa} also gives the mask standard deviation and the total number of evaluated pairs.  Half credit makes a direction-blind score equal to 0.5.  Because reversal exchanges the role arities, every cell is shown both on all eligible arities and on the balanced subset $|T|=|H|$.  The latter removes an elementary size cue, not the need to distinguish tail and head roles.
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
 \caption{Derived reversal orientation accuracy from 30 frozen masks per dataset--mechanism cell.  Entries are mean OA (mask SD).  Pair totals in each group are cumulative across 30 masks and apply to every method in that group.  ``All'' includes all eligible arities; ``balanced'' restricts to $|T|=|H|$.}
 \label{tab:oa}
@@ -554,13 +614,74 @@ MathOverflow & MNAR-out & Degree-product mean & 0.8177 (0.0234) & 0.8127 (0.0255
 
 OA is not a replacement for the separate hard-panel PR-AUC/ROC analyses or for fixed-participant role assignment.  The hard panels compare positives with selected transformed negative candidates and retain their own coverage and binary ranking denominators; role assignment supplies the participant set and arities, then ranks compatible partitions.  OA instead compares each ordered candidate directly with its reversal and reports a half-tie pairwise direction preference.  For example, the strong all-arity MathOverflow degree-product OA remains strong after balancing, while several Enron values move materially when the size cue is removed.  These patterns are descriptive, within fixed datasets and mechanisms, and do not convert a conditional footprint score into a native-event probability.
 
-\subsection{Four predeclared paired ERGM contrasts}
-Table~\ref{tab:paired} reports the M4c::$L_{1g}$ minus M0::$L_1$ random-panel PR-AUC difference. In Enron it is $+0.3584$ under MCAR, with 95\% whole-mask percentile interval $[+0.3519,+0.3648]$, and $+0.3324$ under MNAR-out, with interval $[+0.3269,+0.3379]$. In MathOverflow it is $+0.2396$ under MCAR, with interval $[+0.2305,+0.2485]$, and $+0.2394$ under MNAR-out, with interval $[+0.2303,+0.2484]$. Each uses 30 paired masks and 10,000 bootstrap draws. Reporting the separate cells preserves their source and mechanism conditioning rather than constructing a pooled effect.
+\subsection{Competitive conditional footprint comparisons}
+Table~\ref{tab:competitive} makes the central comparison direct. Within Enron, M4c::$L_{1g}$ has positive paired separation from directed Adamic--Adar, degree product, M1::$L_{1g}$, and M3::$L_{1g}$ under both mechanisms. Within MathOverflow, it substantially exceeds M1 and modestly exceeds M3, but it is consistently below the two competitive local references. The result is therefore neither ``ERGM wins'' nor ``local scores win.'' It is that the information added by the fitted conditional ERGM depends on role structure, masking mechanism, and the alternative score to which it is compared.
+
+\begin{table}[H]
+\centering
+\caption{Competitive random-panel PR-AUC contrasts. Each entry is M4c::$L_{1g}$ minus the listed reference on the same 30 frozen masks. Intervals use 10,000 whole-mask percentile-bootstrap draws and $p_{\mathrm{SF}}$ uses 20,000 two-sided sign-flip assignments with the plus-one convention. These secondary contrasts are reported without multiplicity adjustment and are within-fixed-network diagnostics, not cross-network inference.}
+\label{tab:competitive}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lllrl@{}}
+\toprule
+Core & Mask & Reference & Difference & 95\% interval; $p_{\mathrm{SF}}$\\
+\midrule
+Enron & MCAR & Directed AA total & $+0.0618$ & $[+0.0558,+0.0680]$; $1/20{,}001$\\
+ &  & Degree-product mean & $+0.2826$ & $[+0.2718,+0.2933]$; $1/20{,}001$\\
+ &  & M1::$L_{1g}$ & $+0.1082$ & $[+0.1041,+0.1125]$; $1/20{,}001$\\
+ &  & M3::$L_{1g}$ & $+0.0059$ & $[+0.0038,+0.0080]$; $1/20{,}001$\\
+\addlinespace
+Enron & MNAR-out & Directed AA total & $+0.0852$ & $[+0.0794,+0.0910]$; $1/20{,}001$\\
+ &  & Degree-product mean & $+0.3199$ & $[+0.3108,+0.3286]$; $1/20{,}001$\\
+ &  & M1::$L_{1g}$ & $+0.0563$ & $[+0.0511,+0.0613]$; $1/20{,}001$\\
+ &  & M3::$L_{1g}$ & $+0.0062$ & $[+0.0036,+0.0086]$; $3/20{,}001$\\
+\addlinespace
+MathOverflow & MCAR & Directed AA total & $-0.0193$ & $[-0.0255,-0.0131]$; $1/20{,}001$\\
+ &  & Degree-product mean & $-0.0471$ & $[-0.0561,-0.0379]$; $1/20{,}001$\\
+ &  & M1::$L_{1g}$ & $+0.2190$ & $[+0.2106,+0.2271]$; $1/20{,}001$\\
+ &  & M3::$L_{1g}$ & $+0.0187$ & $[+0.0154,+0.0219]$; $1/20{,}001$\\
+\addlinespace
+MathOverflow & MNAR-out & Directed AA total & $-0.0199$ & $[-0.0259,-0.0141]$; $1/20{,}001$\\
+ &  & Degree-product mean & $-0.0369$ & $[-0.0472,-0.0263]$; $1/20{,}001$\\
+ &  & M1::$L_{1g}$ & $+0.2175$ & $[+0.2091,+0.2259]$; $1/20{,}001$\\
+ &  & M3::$L_{1g}$ & $+0.0163$ & $[+0.0121,+0.0203]$; $1/20{,}001$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For context, the original predeclared contrast with the constant M0::$L_1$ density score remains positive in all four cells and is reported in Appendix~A. Its intervals establish stable separation from a no-structure reference over generated masks. They do not establish a distinctive ERGM advantage over local structural alternatives, which is why Table~\ref{tab:competitive} is the principal empirical comparison.
+
+\section{Discussion}
+\subsection{Three findings of the benchmark}
+The first finding is representational. Higher-order representation is not neutral: capped formal concepts and native/reconstructed event types can share substantial dyadic support while identifying entirely different ordered groups. The fibre result shows why a binary projection cannot recover the record partition without additional information, and the nearest-match audit shows why the observed zero exact matches are not explained by a single marginal actor or by the common subcap choice. Formal concepts are therefore defensible structural targets, but they are not surrogate observations of the original event layer.
+
+The second finding is evaluative. Predictive performance is competition-dependent. Random arity-matched non-types test whether a score separates held-out labels from a defined local alternative set; reversal, role exchange, and fixed-participant assignment ask narrower directional questions. Enron's random-panel M4c separation does not transfer to its MCAR hard panels, whereas MathOverflow retains above-reference hard-panel separation. This discrepancy is substantive: a method's apparent success against random alternatives does not establish orientation recovery or role assignment. The derived reversal OA table makes the same point by comparing each candidate with its own reversal rather than with a sampled random non-type.
+
+The third finding concerns ERGM conditional scores. M4c::$L_{1g}$ offers useful information beyond M1 and M3 in all four random-panel cells, but not a uniformly better ranking than directed Adamic--Adar or degree product. In Enron it exceeds both local references; in MathOverflow it trails them while still markedly exceeding mutuality-only M1. The M4c--M3 increment is a joint OSP/ISP/cycle package effect, not evidence for one closure term. The benchmark therefore identifies an empirical question that a density comparison cannot answer: under what role structures, missingness mechanisms, and competition sets does an ERGM conditional score improve on simpler directed structural statistics? The answer is heterogeneous even across the two deliberately selected cores.
+
+\subsection{Scope and next tests}
+The two primary sources are purposeful 100-actor cores, not a sample of organizations or online communities. Enron retains only internally mapped sender--complete-recipient records; MathOverflow uses an analyst-defined 30-day answerer-to-asker construction and then requires every participant to remain in the core. The common cap bounds closure enumeration, footprint size, and role partitions. These design choices improve coherence between the event and graph views but condition every conclusion on active, internally retained interactions. The oracle MNAR-out rule is likewise a controlled activity-biased stress test, not an identified natural observation process.
+
+The absence of an MCMC-derived joint footprint result leaves the formal dependence component unestimated in these empirical cores. A deliberately small exact-enumeration directed ERGM could be a useful future verification of the distinction between a jointly conditioned footprint probability and a product of matched marginals, but it would be a separate synthetic validation rather than evidence about Enron or MathOverflow. Larger cap sensitivity, additional independent native-event sources, and prospective candidate generation are likewise needed before generalizing the case-study pattern.
+
+Finally, a temporal event-forecasting study would require a different target and competition design: rolling origins, natural prevalence, a declared forecast horizon, and event-level comparators such as relational hyperevent models \citep{lernerLomi2023}. Reproducibility preserves the path from declared source and policy to aggregate outputs while excluding raw records, identity-bearing maps, and candidate-level predictions.
+
+\section{Conclusion}
+A directed missingness benchmark must identify what has gone missing before interpreting a prediction score. Directed dyadic footprints, capped formal concepts, and native ordered tail/head types are related but non-interchangeable objects. The projection fibre is generically large, and the two primary cores show zero exact concept--type equality despite substantial footprint overlap. Event fidelity is therefore an empirical audit, not an assumption carried over from a dyadic projection.
+
+The case studies show three things. First, formal-concept reconstruction and recorded event types can agree on many arcs while selecting different groups. Second, random-panel discrimination need not survive directional hard competitions. Third, ERGM conditional scoring can be useful beyond local directed statistics, but its advantage depends on the source, omission mechanism, and benchmark alternative. The contribution is a reproducible statistical benchmark that makes those dependencies visible through explicit targets, masks, competitors, and within-network paired comparisons.
+% MAIN PROSE END
+
+\appendix
+\section{Predeclared density-reference contrast}
+\label{app:density}
+For completeness, Table~\ref{tab:density} reports the originally predeclared M4c::$L_{1g}$ minus M0::$L_1$ random-panel contrast. Its positive values establish separation from a constant, density-only conditional score. Because M0 is necessarily 0.5 on these balanced panels, this appendix table provides an interpretable no-structure reference but not the paper's central competitive test.
 
 \begin{table}[H]
 \centering
 \caption{Predeclared random-panel PR-AUC contrast: M4c::$L_{1g}$ minus M0::$L_1$. Each cell has 30 paired masks. Intervals use 10,000 whole-mask percentile-bootstrap draws; two-sided sign-flip values use 20,000 assignments and the plus-one convention. Inference is within each fixed network and mechanism, not across network populations.}
-\label{tab:paired}
+\label{tab:density}
 \small
 \begin{tabular}{@{}llrrl@{}}
 \toprule
@@ -574,86 +695,6 @@ MathOverflow & MNAR-out & $+0.2394$ & $[+0.2303,+0.2484]$ & $1/20{,}001$\\
 \end{tabular}
 \par\vspace{3pt}\footnotesize All four values attain the Monte Carlo lower resolution, approximately 0.00005; none is reported as zero. Table values are rounded to four decimal places.
 \end{table}
-
-
-All four two-sided sign-flip calculations attain the Monte Carlo lower resolution $1/20{,}001$, numerically about 0.00005. This means no sampled sign assignment was at least as extreme under the stated calculation; it does not justify reporting a zero p value or unlimited precision. The positive intervals establish a stable separation from the density reference over the generated masks. They do not establish cross-network significance, calibration, or a larger effect in an organizational population than in a question-answer population. Because the reference is constant, the contrast is particularly transparent, but it still measures the whole model-and-aggregation package rather than an incremental structural term.
-
-\subsection{Chronological status and gate closure}
-Table~\ref{tab:temporal} records the bounded check rather than forecast accuracy. Both sources have three retained panels and two response transitions, and all three factorized lagged models complete. Enron's btergm branch supplies finite fitting statuses through $T1$, while $T2$ and $T2_{-H}$ have nonfinite coefficients. EU-core's listed btergm specifications complete with finite statuses. The latter does not erase the small design: each source still has only two response panels and 20 temporal bootstrap replications. Numerical availability is the result being reported; it is not evidence of temporal model adequacy or out-of-time generalization.
-
-\begin{table}[H]
-\centering
-\caption{Bounded chronological MPLE status check, not forecast evaluation. Each core has 100 actors, three input panels, and two response transitions. The btergm branch uses only 20 temporal bootstrap replications. Finite coefficients indicate numerical availability, not model adequacy, simulation validity, or predictive accuracy.}
-\label{tab:temporal}
-\small
-\begin{tabular}{@{}P{0.29\textwidth}P{0.30\textwidth}P{0.30\textwidth}@{}}
-\toprule
-Quantity & Enron & EU-core\\
-\midrule
-Input chronology & May--July 1999 monthly panels & Consecutive 30-day panels indexed 0--2\\
-Factorized lagged fits & 3 of 3 completed & 3 of 3 completed\\
-$T_{\mathrm{tt}},T0,T1$ & Fits completed, finite & Fits completed, finite\\
-$T2,T2_{-H}$ & Nonfinite coefficients & Fits completed, finite\\
-Response panels & 2 & 2\\
-Temporal bootstrap draws & 20 & 20\\
-\bottomrule
-\end{tabular}
-\par\vspace{3pt}
-\begin{minipage}{\textwidth}\footnotesize
-$T_{\mathrm{tt}}$ uses lagged total common neighbours. $T0$ includes current mutuality and history terms; $T1$ adds current weighted degrees; $T2$ adds current OTP/OSP/ISP closure; $T2_{-H}$ removes explicit history terms. These are conditional-score specifications; contemporaneous terms use response-window information. There is no rolling-origin competition or native-event forecasting metric.
-\end{minipage}
-\end{table}
-
-
-The conceptual score distinction survives this asymmetric status pattern. A history-only logistic model uses fixed lagged features, whereas a contemporaneous conditional score uses within-response configuration. The diagnostic makes those specification choices and failures visible without ranking them as forecast competitors. A formation/persistence design, temporal simulation assessment, and native-event competition set would be additional analyses. None is supplied by these two transitions. MathOverflow is not part of the chronological pilot, and CAVIAR's phase-series restriction remains in force despite its admitted static matrix.
-
-Table~\ref{tab:gates} closes the evidence boundary. Higher-order Enron MCMC estimation failed the permitted feasibility checks, including the deterministic nested reduced-core check; no primary MCMC-derived joint score is admitted. The directed neural reproduction gate also failed, so no neural performance comparison appears. Source admissibility and representation gates passed only in their labelled scope. Supplementary construction, rate, rewiring, and parameter-plug-in sensitivity records remain supplementary rather than being promoted to missing primary analyses. The exclusions are outcomes of explicit feasibility and scope decisions, not numerical evidence that an unavailable method would perform poorly.
-
-\begin{table}[H]
-\centering
-\caption{Pilot gates and admitted-evidence consequences. Failed feasibility or reproduction is not a performance estimate. Supplementary calculations do not repair an unpassed primary gate.}
-\label{tab:gates}
-\small
-\begin{tabular}{@{}P{0.27\textwidth}P{0.20\textwidth}P{0.45\textwidth}@{}}
-\toprule
-Gate & Status & Consequence\\
-\midrule
-Data provenance and eligibility & Passed with restrictions & Enron and reconstructed MathOverflow are primary native-type cores; EU-core is dyadic temporal and CAVIAR is full-matrix static only.\\
-Target representation & Diagnostic passed & Formal concepts remain derived structural targets, not recorded event recovery.\\
-Higher-order ERGM MCMC & Primary gate not passed & No primary Enron MCMC-derived joint result. M4 MPLE parameter-plug-in joint sensitivity remains supplementary.\\
-Directed neural reproduction & Not passed & No neural benchmark result is admitted.\\
-Chronological analysis & Bounded diagnostic & No forecast evaluation or formation/persistence or relational-hyperevent claim.\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-\section{Discussion}
-\subsection{Target choice is an identification decision}
-The target ladder converts a frequently implicit modeling choice into an auditable identification decision. At the dyadic level the question is which directed relations remain supported after omission; at the concept level it is which closed rectangles are restored in a declared binary context; at the native-type level it is which recorded or explicitly reconstructed ordered groups outrank specified alternatives. The Enron and MathOverflow audits show why this distinction matters: both have zero exact concept--type matches despite nonzero footprint overlap. Formal concepts are therefore defensible structural targets, but not recovered records.
-
-The non-identifiability construction locates the missing information precisely. A graph model on a binary projection cannot determine the partition of arcs into records, their multiplicities, their times, or the likelihood of a particular recipient or answerer set. A future event model would need a record-generation component; a concept probability would also need to address maximality. Zero exact matches are observations for these capped selected cores, not a universal fact about every corpus. The general claim is narrower: equality and footprint overlap should be audited separately before event-level language is used.
-
-\subsection{What the conditional ERGM comparison establishes}
-The predeclared paired comparison establishes that M4c::$L_{1g}$ gives materially higher random-panel conditional-footprint PR-AUC than the density-only M0::$L_1$ reference in each of four fixed-core, fixed-mechanism cells. It does not estimate a native-event probability, a joint ERGM probability, or a cross-network effect. Nor does it establish universal superiority: directed AA exceeds M4c::$L_{1g}$ in the displayed MathOverflow random panels, and the leading local pattern changes with Enron's mechanism. The benchmark's contribution is consequently a transparent conditional reference, not a declaration of a single winning predictor.
-
-The hard and role-sensitive tasks qualify the random-panel result rather than contradict it. Enron's MCAR M4c::$L_{1g}$ separation does not persist on the selected transformed alternatives, while MathOverflow retains above-reference separation. Fixed-role assignment further shows what can be discriminated after the evaluator supplies participants and arities; it is not retrieval of unknown groups. The derived reversal OA table separates pairwise direction preference from both binary hard-panel ranking and role assignment. These results require multiple explicitly denominated competitions whenever direction is a scientific target.
-
-\subsection{Construction, omission, and competition limits}
-The two primary sources are purposeful 100-actor cores, not a sample of organizations or online communities. Enron retains only internally mapped sender--complete-recipient records; MathOverflow uses an analyst-defined 30-day answerer-to-asker construction and then requires every participant to remain in the core. These rules improve consistency between the event and graph views but condition every conclusion on active, internally retained interactions. The common cap bounds closure enumeration, footprint size, and role partitions, while possibly excluding larger records or larger rectangles; it is a declared computational and target boundary, not an empirically optimal universal choice.
-
-The candidate and omission mechanisms impose additional conditions. Random panels sample local arity-matched non-types rather than the full combinatorial group space, and hard panels restrict to available transformed alternatives. MCAR removes a fixed number of cap-eligible types, whereas MNAR-out uses full-data tail activity solely to define an oracle stress test. Neither estimates the natural omission process, and equal expected type rates do not imply equal record or arc loss. A deployment study would need a prospective candidate-generation rule, a natural prevalence, and an explicit observation model rather than treating these controlled panels as such a setting.
-
-\subsection{Estimation, inference, and temporal boundaries}
-MPLE supplies the available estimator and the reported ERGM quantities are conditional rankings. The failed Enron MCMC feasibility checks justify withholding a primary MCMC-derived joint result under the agreed computational policy; they do not prove that every differently tuned model would fail. A parameter-plug-in sensitivity cannot retroactively supply that likelihood-estimation gate. The whole-mask bootstrap and paired sign-flip reference preserve a shared mask's difficulty, but they do not turn masks into independent networks or support population-level inference. Exploratory contrasts remain descriptive absent a separate multiplicity policy.
-
-Finally, the chronological calculation distinguishes history-fixed logistic features from contemporaneous response-network statistics but does not evaluate forecasting. Its two transitions, 20 temporal bootstrap replications, and Enron nonfinite statuses preclude claims about prospective accuracy, formation, dissolution, or a dynamic generating law. Reproducibility preserves the path from declared source and policy to aggregate outputs while excluding raw records, identity-bearing maps, and candidate-level predictions. The same discipline keeps failed gates visible instead of substituting a convenient result for a different uncompleted method.
-
-\section{Conclusion}
-A directed missingness benchmark must identify what has gone missing before interpreting a prediction score. Directed dyadic footprints, capped formal concepts, and native ordered tail/head types are related but non-interchangeable objects. The projection map is generically non-invertible, and the two primary cores show zero exact concept--type equality despite substantial footprint overlap. These observations make event fidelity an empirical audit rather than an assumption of aggregate representation.
-
-Under the frozen event-first MCAR and oracle MNAR-out designs, the predeclared M4c geometric conditional-footprint score improves balanced random-panel PR-AUC over the density reference in all four within-fixed-network cells. The hard and role-assignment evaluations nevertheless change performance levels and feature ordering, showing that footprint discrimination does not establish general recovery of directed groups or roles. The supported contribution is a transparent conditional benchmark with explicit target, mask, competition, and inference boundaries. It supplies no calibrated native-event probability, higher-order MCMC-derived joint result, neural comparison, or forecast evaluation. Those limits define the completed study rather than unfinished results to be inferred from its tables.
-% MAIN PROSE END
 
 \section*{Declarations}
 \subsection*{Author information and correspondence}
