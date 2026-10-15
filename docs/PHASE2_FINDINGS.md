@@ -628,3 +628,12 @@ The less stringent representation agreement is far above the degree-preserving n
 **Interpretation boundary.** These are resampling-based statements about performance differences across the generated masks of each fixed observed network, not population inference across email or question-answer networks. Multiple contrast tables are exploratory unless a manuscript-level multiplicity policy is added; the stated M4c::L1g comparison is reported because its reference was predeclared in the code and protocol.
 
 **Evidence.** `docs/PAIRED_MASK_UNCERTAINTY.md`; aggregate result bundles in `results/phase2/*_native_heuristic_paired_uncertainty/` and `results/models/*_native_ergm_paired_uncertainty/`.
+
+
+## 2026-10-15 — NHP-D neural benchmark reproduction gate
+
+**Gate outcome: not passed; no neural result is admitted.** The official NHP source archive linked from the CIKM 2020 paper was retrieved, checksummed (`5d3396c273ff976fd122a70e1661d6b92a78b3768d5ca5a1e43c77db7e0016ba`), and tested on CPU. Its archived runtime declares PyTorch 1.1.0 / NumPy 1.16.3 / SciPy 1.2.1 / scikit-learn 0.21.1. The package contains only the undirected `iAF1260b` data directory, despite naming `reverb` as a directed runtime case; no bundled directed dataset or NHP-D split is supplied.
+
+The unmodified code fails before loading its published split because `--split` is parsed as a float (`1.0` versus the archived `splits/1` directory). An **external, non-committed compatibility-only** parser adjustment lets its undirected data load, but the first training epoch fails because the release supplies autograd-tracked Torch tensors to current scikit-learn’s ROC-AUC function. We will not call a new architecture or an undocumented patched reimplementation “NHP-D.”
+
+**Paper consequence.** The plan’s fallback applies: the primary comparison remains non-neural (directed LP, lifted hyperarc scores, formal-concept targets, ERGM footprint scores, and the bounded temporal check). A neural comparison can be reconsidered for a later study only with a maintainable official implementation plus a compatible directed input protocol. Evidence: `docs/NHPD_REPRODUCTION_GATE.md` and `data/metadata/gates/nhpd_reproduction.json`.

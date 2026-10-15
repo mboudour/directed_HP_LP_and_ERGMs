@@ -1,0 +1,44 @@
+{
+  "analysis_status": "not_admitted_neural_gate_not_passed",
+  "assessed_at": "2026-10-15",
+  "benchmark": "NHP-D",
+  "basis": "Official authors' source archive linked by the CIKM 2020 NHP paper",
+  "source": {
+    "url": "https://drive.google.com/file/d/1pgSPvv6Y23X5cPiShCpF4bU8eqz_34YE/view?usp=sharing",
+    "google_drive_file_id": "1pgSPvv6Y23X5cPiShCpF4bU8eqz_34YE",
+    "bytes": 1308432,
+    "sha256": "5d3396c273ff976fd122a70e1661d6b92a78b3768d5ca5a1e43c77db7e0016ba",
+    "retrieved_at": "2026-10-15"
+  },
+  "declared_runtime": {
+    "torch": "1.1.0",
+    "numpy": "1.16.3",
+    "scipy": "1.2.1",
+    "scikit_learn": "0.21.1"
+  },
+  "official_archive_data_coverage": {
+    "bundled_data_directories": ["iAF1260b", "preprocess"],
+    "bundled_directed_dataset": false,
+    "named_directed_runtime_dataset": "reverb",
+    "named_directed_dataset_is_bundled": false
+  },
+  "probes": [
+    {
+      "kind": "unmodified_release_cpu_probe",
+      "outcome": "failed_before_loading_published_split",
+      "reason": "--split parsed as float; requests splits/1.0/indices.pkl while archived split directory is splits/1"
+    },
+    {
+      "kind": "external_compatibility_only_parser_patch_cpu_probe",
+      "outcome": "failed_in_first_training_epoch",
+      "reason": "released code passes autograd-tracked tensors to current scikit-learn ROC-AUC, triggering Tensor.numpy() requires-grad failure",
+      "not_a_neural_result": true
+    }
+  ],
+  "decision": {
+    "gate_passed": false,
+    "reason": "No bundled directed input permits NHP-D reproduction, and the release did not train reliably under the declared modern project environment.",
+    "paper_action": "Do not admit an NHP-D result; preserve non-neural comparisons as primary."
+  },
+  "evidence_document": "docs/NHPD_REPRODUCTION_GATE.md"
+}
