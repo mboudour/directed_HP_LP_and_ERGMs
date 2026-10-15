@@ -1,0 +1,118 @@
+{
+  "generated_files": [
+    "README.md",
+    "table_01_dataset_target_eligibility.csv",
+    "table_01_dataset_target_eligibility.md",
+    "table_02_concept_event_fidelity.csv",
+    "table_02_concept_event_fidelity.md",
+    "table_03a_primary_native_random_panel_pr_auc.csv",
+    "table_03a_primary_native_random_panel_pr_auc.md",
+    "table_03b_primary_native_hard_panel_pr_auc.csv",
+    "table_03b_primary_native_hard_panel_pr_auc.md",
+    "table_03c_primary_native_role_assignment.csv",
+    "table_03c_primary_native_role_assignment.md",
+    "table_04_paired_ergm_random_panel_pr_auc.csv",
+    "table_04_paired_ergm_random_panel_pr_auc.md",
+    "table_05_bounded_temporal_diagnostic.csv",
+    "table_05_bounded_temporal_diagnostic.md",
+    "table_06_pilot_gates_and_exclusions.csv",
+    "table_06_pilot_gates_and_exclusions.md"
+  ],
+  "generator": "scripts/53_build_manuscript_tables.py",
+  "privacy": "Aggregate-only manuscript inputs; no raw or candidate-level data.",
+  "source_root": "results/published/phase2_20261015",
+  "sources": [
+    {
+      "path": "configs/datasets.yaml",
+      "sha256": "fe333a39f3de62ba7d8e56feb31952df7d4fa4139e8d67e86aebf5108994d24a"
+    },
+    {
+      "path": "docs/NHPD_REPRODUCTION_GATE.md",
+      "sha256": "96e57a801c0e04fc3055e28a19d6beb87d9c11e7b87509dcd3a0fa574ab0a21a"
+    },
+    {
+      "path": "docs/PHASE2_COMPLETION_REVIEW.md",
+      "sha256": "0823b5ee2bf358ed541cbb6e3983122c331d1ca9ca65ed683b2076b6218dfe59"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/enron_native_ergm_paired_uncertainty/paired_differences.csv",
+      "sha256": "3454615f599cff4cc57627a4f132e8f6c56c8288348c4363c0c1b0b76bb3ad67"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/enron_native_event_ergm_footprints/metric_summary.csv",
+      "sha256": "46084ae1563811cc49742eb7866024e40ccfd9b390f57e00da92c015409790d3"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/enron_temporal_btergm_v3/model_status.csv",
+      "sha256": "bdb6421dcd22bdf070e746099719a48539f0743948ae09b797d8b5e217b95155"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/enron_temporal_btergm_v3/panel_summary.csv",
+      "sha256": "ae02173320edbe45227842b70bf4e4e480a3b13020328b892a15285cbeb45bbf"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/enron_temporal_lagged/factorized_model_status.csv",
+      "sha256": "ff900cc01753e97e4d68de6e262bce42ca976a8a767f4a58826bea3a4fdd1521"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/enron_temporal_lagged/feature_summary.csv",
+      "sha256": "c3269c72149f92aed54345043952eef1344338a931cbc187ff00a9ae3a41eb41"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/eu_core_temporal_btergm_v3/model_status.csv",
+      "sha256": "80e47af1549a0fd48c01f4852686d54d4a413a939dea55422045127eee714530"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/eu_core_temporal_btergm_v3/panel_summary.csv",
+      "sha256": "181febc139583409da864b4231d518c8d42fb5f51237047ecf126266772271bf"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/eu_core_temporal_lagged/factorized_model_status.csv",
+      "sha256": "ff900cc01753e97e4d68de6e262bce42ca976a8a767f4a58826bea3a4fdd1521"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/eu_core_temporal_lagged/feature_summary.csv",
+      "sha256": "763964229054734bccc99707e6ce604e8ec3a7f1b0593ff608791f126220f2b0"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/mathoverflow_native_ergm_paired_uncertainty/paired_differences.csv",
+      "sha256": "3c33cad27853b43eb929bdebddf6135b18c550eedb0cb5d8e2d13bfaa2e87361"
+    },
+    {
+      "path": "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints/metric_summary.csv",
+      "sha256": "9c230061540acc5698d3c7d80fbf3032bb7b47c87253a1202497c36cb411bfa8"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/enron_event_first_native_hard_panels/metric_summary.csv",
+      "sha256": "c9ea0c97d8687be920ac993db93b38afdb7817b51dcfa2b3ff705270dea44896"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/enron_event_first_native_heuristics/metric_summary.csv",
+      "sha256": "c8a7a998997fb5f1c0b77634af803d3df58e9b1097c9183f7aa5b46828854075"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/enron_native_event_fidelity_tail3_head3/summary.json",
+      "sha256": "4f304f7888e8f74fe8d93459193c4aee4d7ee5861396584edb6636d6a7a1ea93"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/enron_native_event_role_assignment/metric_summary_by_arity.csv",
+      "sha256": "627683bd8e8f0fd78c7595667907e580296a4b03c98ee19aea30a40513a7d70c"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_hard_panels/metric_summary.csv",
+      "sha256": "7c2fa44b97c0757d077c32e294dac5df7b80a493f2d22e5882be41b645d19d49"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/mathoverflow_event_first_native_heuristics/metric_summary.csv",
+      "sha256": "42ce53d3f566a1972e9f978db49255d45724ca2b8af3a224a4879ae315606d5a"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/mathoverflow_native_event_fidelity_tail3_head3/summary.json",
+      "sha256": "fed9bc10d03be26bfe7fafc28db3c3bfcd264ee720f6a210e30ed0459c0932d8"
+    },
+    {
+      "path": "results/published/phase2_20261015/phase2/mathoverflow_native_event_role_assignment/metric_summary_by_arity.csv",
+      "sha256": "32558588ad956bfe46c08e4f687bb3a3a6dc8833680842d73f3779009d77ed8b"
+    }
+  ]
+}

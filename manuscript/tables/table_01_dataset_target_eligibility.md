@@ -1,0 +1,12 @@
+# Table 01 Dataset Target Eligibility
+
+Dataset registry used to define paper scope. Statuses are eligibility labels, not performance rankings.
+
+| dataset | phase 2 status | admissible targets | native event policy | temporal role | gate |
+| --- | --- | --- | --- | --- | --- |
+| Enron strict custodian core | main native | arc, footprint, concept, native_event, role_assignment | singleton sender to plus cc recipients | calendar month | reviewed custodian to address mapping before primary projection |
+| EU-core | main dyadic temporal | arc, footprint, concept, dyadic_role_assignment | unsupported in primary analysis | primary days=30, sensitivity days=[14, 28] | none |
+| CAVIAR full matrix | main dyadic static full only | arc, footprint, concept, dyadic_role_assignment | unsupported | excluded pending source correction for CAVIAR7 duplicate label 9 | evidence backed caller to receiver orientation and unique full matrix labels |
+| Ciel | blocked pending source specific direction evidence | arc, footprint, concept, dyadic_role_assignment | unsupported | none | source specific confirmation that rows are callers and columns are receivers |
+| Jmail v1 | conditional native pending source stream entity and recipient policy | arc, footprint, concept, native_event, role_assignment | singleton sender to plus cc recipients bcc separate | none | defensible provenance entity resolution licensing and derived release |
+| MathOverflow reconstructed core | prepared reconstructed native static core | arc, footprint, concept, conditional_native_event, role_assignment | distinct answerers to question asker within declared window | none | fixed answer window deleted post anonymous user and duplicate answerer policy |

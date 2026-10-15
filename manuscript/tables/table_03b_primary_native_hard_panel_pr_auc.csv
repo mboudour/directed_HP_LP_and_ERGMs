@@ -1,0 +1,33 @@
+dataset,panel,mechanism,score_family,method,completed_replicates,pr_auc_mean,mask_sd
+Enron strict custodian core,Reversal/orientation,MCAR,Directed heuristic,Directed Adamic-Adar total,30,0.5176713528211869,0.0117729953497478
+Enron strict custodian core,Reversal/orientation,MCAR,Directed heuristic,Reverse-arc mean,30,0.4783808067883976,0.0144236004534606
+Enron strict custodian core,Reversal/orientation,MCAR,ERGM conditional footprint,M0::L1,30,0.5,0.0
+Enron strict custodian core,Reversal/orientation,MCAR,ERGM conditional footprint,M4c::L1g,30,0.489857341719609,0.0193796056299176
+Enron strict custodian core,Reversal/orientation,MNAR-out,Directed heuristic,Directed Adamic-Adar total,30,0.4791502369556604,0.0098988260468511
+Enron strict custodian core,Reversal/orientation,MNAR-out,Directed heuristic,Reverse-arc mean,30,0.56852568991747,0.0233335171480142
+Enron strict custodian core,Reversal/orientation,MNAR-out,ERGM conditional footprint,M0::L1,30,0.5,0.0
+Enron strict custodian core,Reversal/orientation,MNAR-out,ERGM conditional footprint,M4c::L1g,30,0.557539450123991,0.0249525925829949
+Enron strict custodian core,Role exchange,MCAR,Directed heuristic,Directed Adamic-Adar total,30,0.5197457819808757,0.0160490654214021
+Enron strict custodian core,Role exchange,MCAR,Directed heuristic,Reverse-arc mean,30,0.4780711820108091,0.009978610763255
+Enron strict custodian core,Role exchange,MCAR,ERGM conditional footprint,M0::L1,30,0.5,0.0
+Enron strict custodian core,Role exchange,MCAR,ERGM conditional footprint,M4c::L1g,30,0.496938457653931,0.0201727827339602
+Enron strict custodian core,Role exchange,MNAR-out,Directed heuristic,Directed Adamic-Adar total,30,0.4889823154309181,0.0130683070332467
+Enron strict custodian core,Role exchange,MNAR-out,Directed heuristic,Reverse-arc mean,30,0.5515109543914161,0.0172773378884112
+Enron strict custodian core,Role exchange,MNAR-out,ERGM conditional footprint,M0::L1,30,0.5,0.0
+Enron strict custodian core,Role exchange,MNAR-out,ERGM conditional footprint,M4c::L1g,30,0.542331644590641,0.0202817612399493
+MathOverflow reconstructed core,Reversal/orientation,MCAR,Directed heuristic,Directed Adamic-Adar total,30,0.6060079878397893,0.0094897687667502
+MathOverflow reconstructed core,Reversal/orientation,MCAR,Directed heuristic,Reverse-arc mean,30,0.4660638631620666,0.0024138235429269
+MathOverflow reconstructed core,Reversal/orientation,MCAR,ERGM conditional footprint,M0::L1,30,0.5,0.0
+MathOverflow reconstructed core,Reversal/orientation,MCAR,ERGM conditional footprint,M4c::L1g,30,0.654269790318384,0.023448740307879
+MathOverflow reconstructed core,Reversal/orientation,MNAR-out,Directed heuristic,Directed Adamic-Adar total,30,0.5938293047645643,0.0103812905644967
+MathOverflow reconstructed core,Reversal/orientation,MNAR-out,Directed heuristic,Reverse-arc mean,30,0.4621305114620986,0.0027419669564521
+MathOverflow reconstructed core,Reversal/orientation,MNAR-out,ERGM conditional footprint,M0::L1,30,0.5,0.0
+MathOverflow reconstructed core,Reversal/orientation,MNAR-out,ERGM conditional footprint,M4c::L1g,30,0.628340347925215,0.0199467694277016
+MathOverflow reconstructed core,Role exchange,MCAR,Directed heuristic,Directed Adamic-Adar total,30,0.6094051126237489,0.0133403555791929
+MathOverflow reconstructed core,Role exchange,MCAR,Directed heuristic,Reverse-arc mean,30,0.4688057819186327,0.0023618021357117
+MathOverflow reconstructed core,Role exchange,MCAR,ERGM conditional footprint,M0::L1,30,0.5,0.0
+MathOverflow reconstructed core,Role exchange,MCAR,ERGM conditional footprint,M4c::L1g,30,0.632597081764709,0.025536806650907
+MathOverflow reconstructed core,Role exchange,MNAR-out,Directed heuristic,Directed Adamic-Adar total,30,0.6103806120800508,0.013290171046352
+MathOverflow reconstructed core,Role exchange,MNAR-out,Directed heuristic,Reverse-arc mean,30,0.4660549007239742,0.002550889430332
+MathOverflow reconstructed core,Role exchange,MNAR-out,ERGM conditional footprint,M0::L1,30,0.5,0.0
+MathOverflow reconstructed core,Role exchange,MNAR-out,ERGM conditional footprint,M4c::L1g,30,0.611462409241342,0.0198071228167058

@@ -1,0 +1,5 @@
+dataset,mechanism,contrast,paired_masks,mean_difference,bootstrap_ci_low,bootstrap_ci_high,paired_sign_flip_p_value,bootstrap_reps,permutation_reps,p_value_resolution
+Enron strict custodian core,MCAR,M4c::L1g − M0::L1,30,0.3583603199811184,0.3518884383177202,0.3647939417822937,4.999750012499375e-05,10000,20000,"1 / 20,001"
+Enron strict custodian core,MNAR-out,M4c::L1g − M0::L1,30,0.3323563242706484,0.3269265254564731,0.3378917056796079,4.999750012499375e-05,10000,20000,"1 / 20,001"
+MathOverflow reconstructed core,MCAR,M4c::L1g − M0::L1,30,0.2396317123327153,0.230500519289063,0.2485380938910543,4.999750012499375e-05,10000,20000,"1 / 20,001"
+MathOverflow reconstructed core,MNAR-out,M4c::L1g − M0::L1,30,0.2394014177548192,0.2302846516838169,0.248380475569037,4.999750012499375e-05,10000,20000,"1 / 20,001"

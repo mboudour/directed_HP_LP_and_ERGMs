@@ -1,0 +1,17 @@
+dataset,mechanism,method,event_evaluations,top1_accuracy
+Enron strict custodian core,MCAR,Already-observed footprint,6450,0.3377260981912144
+Enron strict custodian core,MCAR,Degree-product mean,6450,0.44775193798449614
+Enron strict custodian core,MCAR,Directed Adamic-Adar total,6450,0.48315245478036184
+Enron strict custodian core,MCAR,Reverse-arc mean,6450,0.6012273901808786
+Enron strict custodian core,MNAR-out,Already-observed footprint,6449,0.27217398046208713
+Enron strict custodian core,MNAR-out,Degree-product mean,6449,0.30102858324288
+Enron strict custodian core,MNAR-out,Directed Adamic-Adar total,6449,0.3850726210782033
+Enron strict custodian core,MNAR-out,Reverse-arc mean,6449,0.6541195017315347
+MathOverflow reconstructed core,MCAR,Already-observed footprint,9630,0.5257268951194186
+MathOverflow reconstructed core,MCAR,Degree-product mean,9630,0.7817237798546209
+MathOverflow reconstructed core,MCAR,Directed Adamic-Adar total,9630,0.6971789546555902
+MathOverflow reconstructed core,MCAR,Reverse-arc mean,9630,0.39074074074074067
+MathOverflow reconstructed core,MNAR-out,Already-observed footprint,9626,0.5266985248285893
+MathOverflow reconstructed core,MNAR-out,Degree-product mean,9626,0.7520777062123416
+MathOverflow reconstructed core,MNAR-out,Directed Adamic-Adar total,9626,0.6830978599626013
+MathOverflow reconstructed core,MNAR-out,Reverse-arc mean,9626,0.37525105616732457

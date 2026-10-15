@@ -1,0 +1,21 @@
+dataset,mechanism,panel,score_family,method,completed_replicates,pr_auc_mean,mask_sd
+Enron strict custodian core,MCAR,Random arity-matched,Directed heuristic,Already-observed footprint,30,0.6279173783199273,0.0219534206846187
+Enron strict custodian core,MCAR,Random arity-matched,Directed heuristic,Directed Adamic-Adar total,30,0.7965576386413914,0.0187364930027422
+Enron strict custodian core,MCAR,Random arity-matched,Directed heuristic,Reverse-arc mean,30,0.7501296042654961,0.0186137099741155
+Enron strict custodian core,MCAR,Random arity-matched,ERGM conditional footprint,M0::L1,30,0.5,0.0
+Enron strict custodian core,MCAR,Random arity-matched,ERGM conditional footprint,M4c::L1g,30,0.858360319981119,0.0182733971781361
+Enron strict custodian core,MNAR-out,Random arity-matched,Directed heuristic,Already-observed footprint,30,0.5816169139985022,0.0174729689932065
+Enron strict custodian core,MNAR-out,Random arity-matched,Directed heuristic,Directed Adamic-Adar total,30,0.7471737351600841,0.020578017878385
+Enron strict custodian core,MNAR-out,Random arity-matched,Directed heuristic,Reverse-arc mean,30,0.776060517430667,0.017689032540491
+Enron strict custodian core,MNAR-out,Random arity-matched,ERGM conditional footprint,M0::L1,30,0.5,0.0
+Enron strict custodian core,MNAR-out,Random arity-matched,ERGM conditional footprint,M4c::L1g,30,0.832356324270649,0.0158486854671266
+MathOverflow reconstructed core,MCAR,Random arity-matched,Directed heuristic,Already-observed footprint,30,0.605027139200634,0.0112696267279353
+MathOverflow reconstructed core,MCAR,Random arity-matched,Directed heuristic,Directed Adamic-Adar total,30,0.7589097318382358,0.0236694422179603
+MathOverflow reconstructed core,MCAR,Random arity-matched,Directed heuristic,Reverse-arc mean,30,0.5206613106760603,0.00918424547925
+MathOverflow reconstructed core,MCAR,Random arity-matched,ERGM conditional footprint,M0::L1,30,0.5,0.0
+MathOverflow reconstructed core,MCAR,Random arity-matched,ERGM conditional footprint,M4c::L1g,30,0.739631712332715,0.0256997689635462
+MathOverflow reconstructed core,MNAR-out,Random arity-matched,Directed heuristic,Already-observed footprint,30,0.6071064637873891,0.0176038339785777
+MathOverflow reconstructed core,MNAR-out,Random arity-matched,Directed heuristic,Directed Adamic-Adar total,30,0.7592574113552544,0.0218408557608677
+MathOverflow reconstructed core,MNAR-out,Random arity-matched,Directed heuristic,Reverse-arc mean,30,0.5218594884624549,0.0107884965546775
+MathOverflow reconstructed core,MNAR-out,Random arity-matched,ERGM conditional footprint,M0::L1,30,0.5,0.0
+MathOverflow reconstructed core,MNAR-out,Random arity-matched,ERGM conditional footprint,M4c::L1g,30,0.739401417754819,0.0257937171959586

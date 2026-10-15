@@ -56,3 +56,6 @@ renv/staging/
 !/manuscript/figures/.gitkeep
 /manuscript/tables/*
 !/manuscript/tables/.gitkeep
+!/manuscript/tables/*.csv
+!/manuscript/tables/*.md
+!/manuscript/tables/*.json
