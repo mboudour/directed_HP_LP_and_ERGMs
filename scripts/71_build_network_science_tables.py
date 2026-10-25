@@ -12,6 +12,9 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = PROJECT_ROOT / "manuscript" / "network_science" / "tables"
+NETWORK_SCIENCE_PUBLICATION = PROJECT_ROOT / "results/published/network_science_20261025"
+PHASE2_PUBLICATION = PROJECT_ROOT / "results/published/phase2_20261015"
+REVIEWER_EXTENSION_PUBLICATION = PHASE2_PUBLICATION / "manuscript_reviewer_extensions"
 ROW_END = r"\\"
 
 
@@ -107,47 +110,51 @@ def main() -> None:
         for stale in output_dir.glob("table_*.tex"):
             stale.unlink()
 
-    audit = json.loads((PROJECT_ROOT / "data/metadata/senate_118_s_bills_audit.json").read_text())
+    audit = json.loads(
+        (NETWORK_SCIENCE_PUBLICATION / "records/senate_118_s_bills_audit.json").read_text()
+    )
     event = audit["event_construction"]
     primary_heuristic = pd.read_csv(
-        PROJECT_ROOT / "results/phase2/senate_118_s_bills_primary_heuristics/metric_summary.csv"
+        NETWORK_SCIENCE_PUBLICATION
+        / "phase2/senate_118_s_bills_primary_heuristics/metric_summary.csv"
     )
     primary_hard = pd.read_csv(
-        PROJECT_ROOT
-        / "results/phase2/senate_118_s_bills_primary_sponsor_substitution/metric_summary.csv"
+        NETWORK_SCIENCE_PUBLICATION
+        / "phase2/senate_118_s_bills_primary_sponsor_substitution/metric_summary.csv"
     )
     primary_ergm = pd.read_csv(
-        PROJECT_ROOT / "results/models/senate_118_s_bills_primary_ergm_scores/metric_summary.csv"
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_primary_ergm_scores/metric_summary.csv"
     )
     competitive = pd.read_csv(
-        PROJECT_ROOT
-        / "results/phase2/senate_118_s_bills_primary_competitive_contrasts"
+        NETWORK_SCIENCE_PUBLICATION
+        / "phase2/senate_118_s_bills_primary_competitive_contrasts"
         / "competitive_contrasts.csv"
     )
     primary_role = pd.read_csv(
-        PROJECT_ROOT
-        / "results/phase2/senate_118_s_bills_primary_role_assignment/metric_summary_by_arity.csv"
+        NETWORK_SCIENCE_PUBLICATION
+        / "phase2/senate_118_s_bills_primary_role_assignment/metric_summary_by_arity.csv"
     )
     ergm_role = pd.read_csv(
-        PROJECT_ROOT
-        / "results/models/senate_118_s_bills_primary_ergm_role_assignment/metric_summary.csv"
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_primary_ergm_role_assignment/metric_summary.csv"
     )
     fidelity = json.loads(
         (
-            PROJECT_ROOT
-            / "results/phase2/senate_118_s_bills_native_event_fidelity_tail3_head10/summary.json"
+            NETWORK_SCIENCE_PUBLICATION
+            / "phase2/senate_118_s_bills_native_event_fidelity_tail3_head10/summary.json"
         ).read_text()
     )
     static_metrics = pd.read_csv(
-        PROJECT_ROOT / "results/models/senate_118_s_bills_static_arc_ergm/metrics.csv"
+        NETWORK_SCIENCE_PUBLICATION / "models/senate_118_s_bills_static_arc_ergm/metrics.csv"
     )
     mtt = pd.read_csv(
-        PROJECT_ROOT
-        / "results/models/senate_118_s_bills_primary_mtt_logistic/mechanism_summary.csv"
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_primary_mtt_logistic/mechanism_summary.csv"
     )
     sensitivity = pd.read_csv(
-        PROJECT_ROOT
-        / "results/models/senate_118_s_bills_cap3_sensitivity_ergm_paired_uncertainty"
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_cap3_sensitivity_ergm_paired_uncertainty"
         / "paired_differences.csv"
     )
     original_scope = pd.read_csv(
@@ -161,41 +168,39 @@ def main() -> None:
     )
     scope_ergm = {
         "Enron": pd.read_csv(
-            PROJECT_ROOT
-            / "results/published/phase2_20261015/models/enron_native_event_ergm_footprints"
-            / "metric_summary.csv"
+            PHASE2_PUBLICATION / "models/enron_native_event_ergm_footprints" / "metric_summary.csv"
         ),
         "MathOverflow": pd.read_csv(
-            PROJECT_ROOT
-            / "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints"
+            PHASE2_PUBLICATION
+            / "models/mathoverflow_native_event_ergm_footprints"
             / "metric_summary.csv"
         ),
     }
+    intermediate_publication = pd.read_csv(
+        REVIEWER_EXTENSION_PUBLICATION / "intermediate_ergm_ladder.csv"
+    )
     scope_intermediate = {
-        "Enron": pd.read_csv(
-            PROJECT_ROOT / "results/models/enron_native_event_ergm_intermediate/metric_summary.csv"
-        ),
-        "MathOverflow": pd.read_csv(
-            PROJECT_ROOT
-            / "results/models/mathoverflow_native_event_ergm_intermediate/metric_summary.csv"
-        ),
+        "Enron": intermediate_publication.loc[
+            intermediate_publication["dataset"] == "enron"
+        ].assign(panel="random", score="L1g"),
+        "MathOverflow": intermediate_publication.loc[
+            intermediate_publication["dataset"] == "mathoverflow"
+        ].assign(panel="random", score="L1g"),
     }
+    mtt_publication = pd.read_csv(REVIEWER_EXTENSION_PUBLICATION / "mtt_logistic.csv")
     scope_mtt = {
-        "Enron": pd.read_csv(
-            PROJECT_ROOT / "results/models/enron_mtt_logistic/mechanism_summary.csv"
-        ),
-        "MathOverflow": pd.read_csv(
-            PROJECT_ROOT / "results/models/mathoverflow_mtt_logistic/mechanism_summary.csv"
-        ),
+        "Enron": mtt_publication.loc[mtt_publication["dataset"] == "enron"],
+        "MathOverflow": mtt_publication.loc[mtt_publication["dataset"] == "mathoverflow"],
     }
     cap_profile = pd.read_csv(
-        PROJECT_ROOT / "results/phase2/senate_118_s_bills_cap_profile/cap_profile.csv"
+        NETWORK_SCIENCE_PUBLICATION / "phase2/senate_118_s_bills_cap_profile/cap_profile.csv"
     )
     concept_gate = pd.read_csv(
-        PROJECT_ROOT / "results/phase2/senate_118_s_bills_cap_gate/formal_concept_feasibility.csv"
+        NETWORK_SCIENCE_PUBLICATION
+        / "phase2/senate_118_s_bills_cap_gate/formal_concept_feasibility.csv"
     )
     mask_summary = pd.read_csv(
-        PROJECT_ROOT / "results/phase2/senate_118_s_bills_primary_masks/split_summary.csv"
+        NETWORK_SCIENCE_PUBLICATION / "phase2/senate_118_s_bills_primary_masks/split_summary.csv"
     )
     temporal_diagnostic = pd.read_csv(
         PROJECT_ROOT / "manuscript/tables/table_05_bounded_temporal_diagnostic.csv"
@@ -623,16 +628,16 @@ def main() -> None:
     manifest = {
         "driver": "scripts/71_build_network_science_tables.py",
         "sources": [
-            "data/metadata/senate_118_s_bills_audit.json",
-            "results/phase2/senate_118_s_bills_primary_*",
-            "results/models/senate_118_s_bills_primary_*",
-            "results/models/senate_118_s_bills_cap3_sensitivity_*",
+            "results/published/network_science_20261025/records/senate_118_s_bills_audit.json",
+            "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_*",
+            "results/published/network_science_20261025/models/senate_118_s_bills_primary_*",
+            "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_*",
             "manuscript/tables/table_03a_primary_native_random_panel_pr_auc.csv",
             "manuscript/tables/table_02_concept_event_fidelity.csv",
             "manuscript/tables/table_03b_primary_native_hard_panel_pr_auc.csv",
             "results/published/phase2_20261015/models/*_native_event_ergm_footprints/metric_summary.csv",
-            "results/models/*_native_event_ergm_intermediate/metric_summary.csv",
-            "results/models/*_mtt_logistic/mechanism_summary.csv",
+            "results/published/phase2_20261015/manuscript_reviewer_extensions/intermediate_ergm_ladder.csv",
+            "results/published/phase2_20261015/manuscript_reviewer_extensions/mtt_logistic.csv",
             "manuscript/tables/table_05_bounded_temporal_diagnostic.csv",
         ],
         "privacy": "Generated tables contain aggregate counts, metrics, intervals, and no actor identifiers.",

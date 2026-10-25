@@ -2,16 +2,16 @@
   "driver": "scripts/71_build_network_science_tables.py",
   "privacy": "Generated tables contain aggregate counts, metrics, intervals, and no actor identifiers.",
   "sources": [
-    "data/metadata/senate_118_s_bills_audit.json",
-    "results/phase2/senate_118_s_bills_primary_*",
-    "results/models/senate_118_s_bills_primary_*",
-    "results/models/senate_118_s_bills_cap3_sensitivity_*",
+    "results/published/network_science_20261025/records/senate_118_s_bills_audit.json",
+    "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_*",
+    "results/published/network_science_20261025/models/senate_118_s_bills_primary_*",
+    "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_*",
     "manuscript/tables/table_03a_primary_native_random_panel_pr_auc.csv",
     "manuscript/tables/table_02_concept_event_fidelity.csv",
     "manuscript/tables/table_03b_primary_native_hard_panel_pr_auc.csv",
     "results/published/phase2_20261015/models/*_native_event_ergm_footprints/metric_summary.csv",
-    "results/models/*_native_event_ergm_intermediate/metric_summary.csv",
-    "results/models/*_mtt_logistic/mechanism_summary.csv",
+    "results/published/phase2_20261015/manuscript_reviewer_extensions/intermediate_ergm_ladder.csv",
+    "results/published/phase2_20261015/manuscript_reviewer_extensions/mtt_logistic.csv",
     "manuscript/tables/table_05_bounded_temporal_diagnostic.csv"
   ],
   "tables": [
