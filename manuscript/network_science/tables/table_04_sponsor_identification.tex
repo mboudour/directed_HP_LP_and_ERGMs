@@ -9,9 +9,13 @@ Mask & score & top-1 accuracy & MRR \\
 \midrule
 MCAR & AA-OI & 0.429 & 0.649 \\
 MCAR & M4c conditional & 0.304 & 0.562 \\
+MCAR & uniform chance & 0.330 & 0.581 \\
+MCAR & M5 political conditional & 0.316 & 0.573 \\
 MNAR-out & AA-OI & 0.402 & 0.633 \\
 MNAR-out & M4c conditional & 0.311 & 0.567 \\
+MNAR-out & uniform chance & 0.319 & 0.569 \\
+MNAR-out & M5 political conditional & 0.320 & 0.575 \\
 \bottomrule
 \end{tabular}
-\par\vspace{2pt}\footnotesize Each held-out bill is evaluated against every compatible sponsor/co-sponsor partition. Local rows are event-weighted over observed arities; ERGM rows use M4c $L_{1g}$.
+\par\vspace{2pt}\footnotesize Each held-out bill is evaluated against every compatible sponsor/co-sponsor partition. Local rows are event-weighted over observed arities; chance is $1/(|H|+1)$ for top-1. ERGM rows use factorized conditional $L_{1g}$ scores.
 \end{table}

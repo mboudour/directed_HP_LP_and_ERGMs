@@ -38,6 +38,21 @@ PHASE2 = {
         "split_summary.csv",
         "manifest.json",
     ),
+    "senate_118_s_bills_primary_same_party_random": (
+        "metric_summary.csv",
+        "split_summary.csv",
+        "manifest.json",
+    ),
+    "senate_118_s_bills_primary_same_party_sponsor_substitution": (
+        "metric_summary.csv",
+        "split_summary.csv",
+        "manifest.json",
+    ),
+    "senate_118_s_bills_primary_sponsor_substitution_diagnostics": (
+        "summary.csv",
+        "recoverability_summary.csv",
+        "manifest.json",
+    ),
     "senate_118_s_bills_primary_role_assignment": (
         "summary.md",
         "metric_summary_by_arity.csv",
@@ -92,7 +107,24 @@ MODELS = {
         "run_manifest.json",
     ),
     "senate_118_s_bills_primary_ergm_paired_uncertainty": ("summary.md", "paired_differences.csv"),
+    "senate_118_s_bills_primary_ergm_m5_scores": (
+        "summary.md",
+        "metric_summary.csv",
+        "model_status.csv",
+        "network_summary.csv",
+        "split_status.csv",
+        "run_manifest.json",
+    ),
+    "senate_118_s_bills_primary_m5_vs_m4c_paired_uncertainty": (
+        "summary.md",
+        "paired_differences.csv",
+    ),
     "senate_118_s_bills_primary_ergm_role_assignment": (
+        "manifest.json",
+        "metric_summary.csv",
+        "split_summary.csv",
+    ),
+    "senate_118_s_bills_primary_m5_ergm_role_assignment": (
         "manifest.json",
         "metric_summary.csv",
         "split_summary.csv",
@@ -131,6 +163,9 @@ RECORDS = (
     "data/metadata/senate_118_s_bills_audit.json",
     "data/metadata/gates/senate_118_s_bills_policy.json",
     "data/metadata/gates/senate_118_s_bills_cap_selection.json",
+    "data/metadata/senate_118_s_bills_political_covariates.json",
+    "data/metadata/voteview_members_acquisition.json",
+    "docs/data_audits/senate_118_s_bills_political_covariates.md",
 )
 
 

@@ -122,9 +122,35 @@ def main() -> None:
         NETWORK_SCIENCE_PUBLICATION
         / "phase2/senate_118_s_bills_primary_sponsor_substitution/metric_summary.csv"
     )
+    party_random = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "phase2/senate_118_s_bills_primary_same_party_random/metric_summary.csv"
+    )
+    party_hard = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "phase2/senate_118_s_bills_primary_same_party_sponsor_substitution/metric_summary.csv"
+    )
+    sponsor_diagnostics = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "phase2/senate_118_s_bills_primary_sponsor_substitution_diagnostics/summary.csv"
+    )
+    recoverability = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "phase2/senate_118_s_bills_primary_sponsor_substitution_diagnostics"
+        / "recoverability_summary.csv"
+    )
     primary_ergm = pd.read_csv(
         NETWORK_SCIENCE_PUBLICATION
         / "models/senate_118_s_bills_primary_ergm_scores/metric_summary.csv"
+    )
+    political_ergm = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_primary_ergm_m5_scores/metric_summary.csv"
+    )
+    political_contrasts = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_primary_m5_vs_m4c_paired_uncertainty"
+        / "paired_differences.csv"
     )
     competitive = pd.read_csv(
         NETWORK_SCIENCE_PUBLICATION
@@ -138,6 +164,10 @@ def main() -> None:
     ergm_role = pd.read_csv(
         NETWORK_SCIENCE_PUBLICATION
         / "models/senate_118_s_bills_primary_ergm_role_assignment/metric_summary.csv"
+    )
+    m5_ergm_role = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_primary_m5_ergm_role_assignment/metric_summary.csv"
     )
     fidelity = json.loads(
         (
@@ -277,6 +307,12 @@ def main() -> None:
         )
         random_ergm_pr = metric(primary_ergm, "random", mechanism, "M4c", "L1g", "pr_auc")
         random_ergm_roc = metric(primary_ergm, "random", mechanism, "M4c", "L1g", "roc_auc")
+        random_m5_pr = metric(political_ergm, "random", mechanism, "M5", "L1g", "pr_auc")
+        random_m5_roc = metric(political_ergm, "random", mechanism, "M5", "L1g", "roc_auc")
+        random_party_pr = local_metric(party_random, mechanism, "lifted_same_party_mean", "pr_auc")
+        random_party_roc = local_metric(
+            party_random, mechanism, "lifted_same_party_mean", "roc_auc"
+        )
         hard_local_pr = local_metric(
             primary_hard, mechanism, "lifted_degree_product_mean", "pr_auc"
         )
@@ -289,22 +325,43 @@ def main() -> None:
         hard_ergm_roc = metric(
             primary_ergm, "sponsor_substitution", mechanism, "M4c", "L1g", "roc_auc"
         )
+        hard_m5_pr = metric(
+            political_ergm, "sponsor_substitution", mechanism, "M5", "L1g", "pr_auc"
+        )
+        hard_m5_roc = metric(
+            political_ergm, "sponsor_substitution", mechanism, "M5", "L1g", "roc_auc"
+        )
+        hard_party_pr = local_metric(party_hard, mechanism, "lifted_same_party_mean", "pr_auc")
+        hard_party_roc = local_metric(party_hard, mechanism, "lifted_same_party_mean", "roc_auc")
         performance_rows.extend(
             [
-                f"{display} & random & AA-total & {fmt(random_local_pr)} & {fmt(random_local_roc)} \\\\",
-                f"{display} & random & M4c conditional & {fmt(random_ergm_pr)} & {fmt(random_ergm_roc)} \\\\",
-                f"{display} & sponsor substitution & degree product & {fmt(hard_local_pr)} & {fmt(hard_local_roc)} \\\\",
-                f"{display} & sponsor substitution & M4c conditional & {fmt(hard_ergm_pr)} & {fmt(hard_ergm_roc)} \\\\",
+                f"{display} & random & AA-total & {fmt(random_local_pr)} & {fmt(random_local_roc)} "
+                + ROW_END,
+                f"{display} & random & same-party share & {fmt(random_party_pr)} & {fmt(random_party_roc)} "
+                + ROW_END,
+                f"{display} & random & M4c conditional & {fmt(random_ergm_pr)} & {fmt(random_ergm_roc)} "
+                + ROW_END,
+                f"{display} & random & M5 political conditional & {fmt(random_m5_pr)} & {fmt(random_m5_roc)} "
+                + ROW_END,
+                f"{display} & sponsor substitution & degree product & {fmt(hard_local_pr)} & {fmt(hard_local_roc)} "
+                + ROW_END,
+                f"{display} & sponsor substitution & same-party share & {fmt(hard_party_pr)} & {fmt(hard_party_roc)} "
+                + ROW_END,
+                f"{display} & sponsor substitution & M4c conditional & {fmt(hard_ergm_pr)} & {fmt(hard_ergm_roc)} "
+                + ROW_END,
+                f"{display} & sponsor substitution & M5 political conditional & {fmt(hard_m5_pr)} & {fmt(hard_m5_roc)} "
+                + ROW_END,
             ]
         )
     table2 = tex_table(
         "Primary Senate native-event footprint recovery across matched masks.",
         "tab:senate-performance",
-        "llllrr",
-        "Mask & panel & score & score class & PR-AUC & ROC-AUC",
+        "lllrr",
+        "Mask & panel & score & PR-AUC & ROC-AUC",
         performance_rows,
-        "Entries are means over 30 matched masks. M4c uses split-specific MPLE estimates and the"
-        " factorized conditional footprint score $L_{1g}$; it is not a joint coalition probability.",
+        "Entries are means over 30 matched masks. M5 adds party and state matching and absolute "
+        "DW-NOMINATE distance to M4c. ERGM rows use split-specific MPLE estimates and factorized "
+        "conditional footprint score $L_{1g}$ rather than a joint coalition probability.",
     )
 
     contrast_rows: list[str] = []
@@ -326,17 +383,65 @@ def main() -> None:
         " sponsor-substitution panels. Intervals resample whole masks within the fixed Senate network.",
     )
 
+    political_contrast_rows: list[str] = []
+    for mechanism, display in (("mcar", "MCAR"), ("mnar_out", "MNAR-out")):
+        for panel, panel_display in (
+            ("random", "random"),
+            ("sponsor_substitution", "sponsor substitution"),
+        ):
+            subset = political_contrasts.loc[
+                (political_contrasts["mechanism"] == mechanism)
+                & (political_contrasts["panel"] == panel)
+                & (political_contrasts["metric"] == "pr_auc")
+                & (political_contrasts["comparison_method"] == "M5::L1g")
+                & (political_contrasts["reference_method"] == "M4c::L1g")
+            ]
+            if len(subset) != 1:
+                raise ValueError(f"Expected one political PR-AUC contrast for {mechanism}/{panel}")
+            row = subset.iloc[0]
+            political_contrast_rows.append(
+                f"{display} & {panel_display} & {fmt(row['mean_difference'])} & "
+                f"[{fmt(row['bootstrap_ci_low'])}, {fmt(row['bootstrap_ci_high'])}] & "
+                f"{row['paired_sign_flip_p_value']:.5f} " + ROW_END
+            )
+    table3b = tex_table(
+        "Matched-mask PR-AUC improvement from political covariates.",
+        "tab:political-contrast",
+        "llrrr",
+        "Mask & panel & M5 minus M4c & 95\\% CI & sign-flip $p$",
+        political_contrast_rows,
+        "M5 adds party and state matching and absolute DW-NOMINATE distance to the M4c structural"
+        " specification. Intervals resample whole masks within the fixed Senate network.",
+    )
+
     role_rows: list[str] = []
     for mechanism in ("mcar", "mnar_out"):
         local_top1 = weighted_role(
             primary_role, mechanism, "lifted_adamic_adar_oi_mean", "top1_accuracy"
         )
         local_mrr = weighted_role(primary_role, mechanism, "lifted_adamic_adar_oi_mean", "mrr")
-        model_row = ergm_role.loc[ergm_role["mechanism"] == mechanism].iloc[0]
+        model_row = ergm_role.loc[
+            (ergm_role["mechanism"] == mechanism) & (ergm_role["score"] == "M4c::L1g")
+        ].iloc[0]
+        chance_row = ergm_role.loc[
+            (ergm_role["mechanism"] == mechanism) & (ergm_role["score"] == "uniform_chance")
+        ].iloc[0]
+        m5_role_row = m5_ergm_role.loc[
+            (m5_ergm_role["mechanism"] == mechanism) & (m5_ergm_role["score"] == "M5::L1g")
+        ].iloc[0]
         mechanism_label = "MCAR" if mechanism == "mcar" else "MNAR-out"
         role_rows.append(f"{mechanism_label} & AA-OI & {fmt(local_top1)} & {fmt(local_mrr)} \\\\")
         role_rows.append(
             f"{mechanism_label} & M4c conditional & {fmt(model_row['weighted_top1_accuracy'])} & {fmt(model_row['weighted_mrr'])} \\\\"
+        )
+        role_rows.append(
+            f"{mechanism_label} & uniform chance & {fmt(chance_row['weighted_top1_accuracy'])} & "
+            f"{fmt(chance_row['weighted_mrr'])} " + ROW_END
+        )
+        role_rows.append(
+            f"{mechanism_label} & M5 political conditional & "
+            f"{fmt(m5_role_row['weighted_top1_accuracy'])} & "
+            f"{fmt(m5_role_row['weighted_mrr'])} " + ROW_END
         )
     table4 = tex_table(
         "Sponsor identification with participants and arities held fixed.",
@@ -345,7 +450,8 @@ def main() -> None:
         "Mask & score & top-1 accuracy & MRR",
         role_rows,
         "Each held-out bill is evaluated against every compatible sponsor/co-sponsor partition."
-        " Local rows are event-weighted over observed arities; ERGM rows use M4c $L_{1g}$.",
+        " Local rows are event-weighted over observed arities; chance is $1/(|H|+1)$ for top-1."
+        " ERGM rows use factorized conditional $L_{1g}$ scores.",
     )
 
     sensitivity_rows: list[str] = []
@@ -409,12 +515,13 @@ def main() -> None:
     )
 
     ladder_rows = []
-    for model in ("M0", "M1", "M2", "M3", "M4", "M4c"):
+    for model in ("M0", "M1", "M2", "M3", "M4", "M4c", "M5"):
+        ladder_source = political_ergm if model == "M5" else primary_ergm
         values = [
-            metric(primary_ergm, "random", "mcar", model, "L1g", "pr_auc"),
-            metric(primary_ergm, "random", "mnar_out", model, "L1g", "pr_auc"),
-            metric(primary_ergm, "sponsor_substitution", "mcar", model, "L1g", "pr_auc"),
-            metric(primary_ergm, "sponsor_substitution", "mnar_out", model, "L1g", "pr_auc"),
+            metric(ladder_source, "random", "mcar", model, "L1g", "pr_auc"),
+            metric(ladder_source, "random", "mnar_out", model, "L1g", "pr_auc"),
+            metric(ladder_source, "sponsor_substitution", "mcar", model, "L1g", "pr_auc"),
+            metric(ladder_source, "sponsor_substitution", "mnar_out", model, "L1g", "pr_auc"),
         ]
         ladder_rows.append(
             f"{model} & {fmt(values[0])} & {fmt(values[1])} & {fmt(values[2])} & {fmt(values[3])} "
@@ -426,8 +533,66 @@ def main() -> None:
         "lrrrr",
         "Model & random MCAR & random MNAR-out & sponsor swap MCAR & sponsor swap MNAR-out",
         ladder_rows,
-        "M0 contains edges only; M1 adds mutuality; M2 adds degree terms; M3 adds transitive closure; M4 adds directed shared-partner terms; M4c also adds cyclic triples. Values are conditional footprint-score rankings, not joint event probabilities.",
+        "M0 contains edges only; M1 adds mutuality; M2 adds degree terms; M3 adds transitive closure; M4 adds directed shared-partner terms; M4c also adds cyclic triples; M5 adds political covariates. Values are conditional footprint-score rankings, not joint event probabilities.",
     )
+
+    sponsor_pattern_rows: list[str] = []
+    sponsor_patterns = (
+        "both footprints survive",
+        "true bill only survives",
+        "substitution only survives",
+        "neither footprint survives",
+    )
+    preference_measures = {
+        "M4c::L1g": "M4c_positive_preference",
+        "M5::L1g": "M5_positive_preference",
+        "party_match": "same_party_positive_preference",
+    }
+    for mechanism, display in (("mcar", "MCAR"), ("mnar_out", "MNAR-out")):
+        for pattern in sponsor_patterns:
+            prevalence_row = recoverability.loc[
+                (recoverability["mechanism"] == mechanism) & (recoverability["measure"] == pattern)
+            ]
+            if len(prevalence_row) != 1:
+                raise ValueError(f"Expected one recoverability row for {mechanism}/{pattern}")
+            preference_cells: list[str] = []
+            for score in ("M4c::L1g", "M5::L1g", "party_match"):
+                preference_row = sponsor_diagnostics.loc[
+                    (sponsor_diagnostics["mechanism"] == mechanism)
+                    & (sponsor_diagnostics["recoverability_stratum"] == pattern)
+                    & (sponsor_diagnostics["measure"] == preference_measures[score])
+                ]
+                if len(preference_row) != 1:
+                    raise ValueError(
+                        f"Expected one sponsor preference row for {mechanism}/{pattern}/{score}"
+                    )
+                value = preference_row.iloc[0]
+                preference_cells.append(
+                    f"{fmt(value['mean'])} "
+                    f"[{fmt(value['bootstrap_ci_lower'])}, {fmt(value['bootstrap_ci_upper'])}]"
+                )
+            share = prevalence_row.iloc[0]
+            sponsor_pattern_rows.append(
+                f"{display} & {pattern.replace('footprints', 'fp.').replace('footprint', 'fp.')} & "
+                f"{fmt(share['mean'])} [{fmt(share['bootstrap_ci_lower'])}, "
+                f"{fmt(share['bootstrap_ci_upper'])}] & "
+                + " & ".join(preference_cells)
+                + " "
+                + ROW_END
+            )
+    table_a5b = tex_table(
+        "Sponsor-substitution pair recoverability and true-bill preference by score.",
+        "tab:sponsor-recoverability",
+        "llrrrr",
+        "Mask & footprint pattern & pair share & M4c preference & M5 preference & party preference",
+        sponsor_pattern_rows,
+        "Each preference is the tie-aware probability that the score ranks the held-out true bill above "
+        "one valid sponsor substitution; brackets are 95\% mask-bootstrap intervals. The true-bill-only "
+        "pattern preserves the true sponsor-to-co-sponsor footprint but removes the substitution's reverse footprint.",
+    )
+    table_a5b = table_a5b.replace(
+        "\\begin{tabular}", "\\resizebox{\\textwidth}{!}{%\n\\begin{tabular}", 1
+    ).replace("\\end{tabular}", "\\end{tabular}\n}", 1)
 
     mtt_rows = [
         f"{'MCAR' if row['mechanism'] == 'mcar' else 'MNAR-out'} & "
@@ -581,7 +746,7 @@ def main() -> None:
         "Cross-source empirical check of the directed transitive-triple conditional dictionary.",
         "tab:scope-mtt",
         "llrrrr",
-        "Core & mask & fits & positive & mean $\hat\theta_{tr}$ & range",
+        r"Core & mask & fits & positive & mean $\hat\theta_{tr}$ & range",
         scope_mtt_rows,
         "Every fit is the restricted split-specific logistic/MPLE check using the exact directed transitive-triple change statistic. Positive coefficients imply that its arc-level conditional score is increasing in directed out--in common neighbours.",
     )
@@ -607,6 +772,7 @@ def main() -> None:
         "table_01_senate_data.tex": table1,
         "table_02_primary_performance.tex": table2,
         "table_03_competitive_contrasts.tex": table3,
+        "table_03b_political_covariate_contrasts.tex": table3b,
         "table_04_sponsor_identification.tex": table4,
         "table_05_cap_sensitivity.tex": table5,
         "table_06_concept_fidelity.tex": table6,
@@ -614,6 +780,7 @@ def main() -> None:
         "table_a2_cap_audit.tex": table_a2,
         "table_a3_mask_realisation.tex": table_a3,
         "table_a4_ergm_ladder.tex": table_a4,
+        "table_a5b_sponsor_recoverability.tex": table_a5b,
         "table_a5_mtt_check.tex": table_a5,
         "table_a6_static_diagnostic.tex": table_a6,
         "table_a7_scope_checks.tex": table_a7,

@@ -190,7 +190,7 @@ read_directed_edges <- function(input_path, source_col, target_col, drop_loops, 
   )
 }
 
-static_ladder_specs <- function(degree_decay = 0.5, esp_decay = 0.5) {
+static_ladder_specs <- function(degree_decay = 0.5, esp_decay = 0.5, include_political = FALSE) {
   number <- function(x) format(x, scientific = FALSE, trim = TRUE)
   d <- number(degree_decay)
   e <- number(esp_decay)
@@ -199,7 +199,7 @@ static_ladder_specs <- function(degree_decay = 0.5, esp_decay = 0.5) {
   otp <- paste0("gwesp(", e, ", fixed=TRUE, type='OTP')")
   osp <- paste0("gwesp(", e, ", fixed=TRUE, type='OSP')")
   isp <- paste0("gwesp(", e, ", fixed=TRUE, type='ISP')")
-  data.frame(
+  specs <- data.frame(
     model = c("M0", "M1", "M2", "M3", "M4", "M4c"),
     rhs = c(
       "edges",
@@ -225,9 +225,30 @@ static_ladder_specs <- function(degree_decay = 0.5, esp_decay = 0.5) {
     ),
     stringsAsFactors = FALSE
   )
+  if (include_political) {
+    specs <- rbind(
+      specs,
+      data.frame(
+        model = "M5",
+        rhs = paste(
+          specs$rhs[specs$model == "M4c"],
+          "+ nodematch('party') + nodematch('state') + absdiff('ideology')"
+        ),
+        description = paste(
+          "M4c plus same-party, same-state, and absolute first-dimension",
+          "DW-NOMINATE distance covariates."
+        ),
+        required_terms = paste(
+          "M4c terms; nodematch(party); nodematch(state); absdiff(ideology)"
+        ),
+        stringsAsFactors = FALSE
+      )
+    )
+  }
+  specs
 }
 
-make_network <- function(edge_info) {
+make_network <- function(edge_info, vertex_attributes = NULL) {
   n <- length(edge_info$node_ids)
   nw <- network::network.initialize(n, directed = TRUE, loops = FALSE, multiple = FALSE)
   network::network.vertex.names(nw) <- edge_info$node_ids
@@ -237,6 +258,25 @@ make_network <- function(edge_info) {
       tail = match(edge_info$edges$from, edge_info$node_ids),
       head = match(edge_info$edges$to, edge_info$node_ids)
     )
+  }
+  if (!is.null(vertex_attributes)) {
+    if (!is.data.frame(vertex_attributes) || !"id" %in% names(vertex_attributes)) {
+      stop("vertex_attributes must be a data frame with an id column.", call. = FALSE)
+    }
+    if (anyDuplicated(vertex_attributes$id)) {
+      stop("vertex_attributes contains duplicated node IDs.", call. = FALSE)
+    }
+    positions <- match(edge_info$node_ids, vertex_attributes$id)
+    if (anyNA(positions)) {
+      stop("vertex_attributes does not cover every network node.", call. = FALSE)
+    }
+    for (attribute_name in setdiff(names(vertex_attributes), "id")) {
+      values <- vertex_attributes[[attribute_name]][positions]
+      if (anyNA(values) || any(!nzchar(as.character(values)))) {
+        stop("vertex_attributes contains missing values for ", attribute_name, ".", call. = FALSE)
+      }
+      network::set.vertex.attribute(nw, attribute_name, values)
+    }
   }
   nw
 }

@@ -1,0 +1,9 @@
+mechanism,score,metric,completed_replicates,mean,sd
+mcar,lifted_same_party_mean,pr_auc,30,0.5481698450628595,0.00886470457176952
+mcar,lifted_same_party_mean,precision_at_k,30,0.5153097323764643,0.010142234657936702
+mcar,lifted_same_party_mean,recall_at_k,30,0.5153097323764643,0.010142234657936702
+mcar,lifted_same_party_mean,roc_auc,30,0.5325331581642093,0.011836420027125559
+mnar_out,lifted_same_party_mean,pr_auc,30,0.5724280528739876,0.011183039834318795
+mnar_out,lifted_same_party_mean,precision_at_k,30,0.5473800096251766,0.011109660891139322
+mnar_out,lifted_same_party_mean,recall_at_k,30,0.5473800096251766,0.011109660891139322
+mnar_out,lifted_same_party_mean,roc_auc,30,0.5666409398797634,0.01351433038445688

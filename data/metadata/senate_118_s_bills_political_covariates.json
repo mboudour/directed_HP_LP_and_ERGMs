@@ -1,0 +1,50 @@
+{
+  "covariate_policy": {
+    "congress_interval": [
+      "2023-01-03",
+      "2025-01-03"
+    ],
+    "ideology": "Voteview first-dimension DW-NOMINATE",
+    "party": "party at 118th-service entry (Congress start for incumbents)",
+    "state": "serving state in selected Senate term",
+    "voteview_duplicate_resolution": "unique 118th-Senate Bioguide record where available; exact ICPSR match for duplicated Bioguide records; latest prior-Senate record only for event-isolated actors; never score-value selection"
+  },
+  "dataset_id": "senate_118_s_bills",
+  "duplicate_resolutions": [
+    {
+      "node": "M001183",
+      "selected_icpsr": "40915",
+      "selection_rule": "exact ICPSR match to congress-legislators roster",
+      "voteview_records": "2"
+    },
+    {
+      "node": "S001197",
+      "selected_icpsr": "41503",
+      "selection_rule": "latest prior Senate Voteview record for event-isolated actor",
+      "voteview_records": "0"
+    }
+  ],
+  "inputs": {
+    "data/processed/senate_118_s_bills/nodes.csv": "fcd6a96c83221a4972c8329e120201bd2b31178ed321e496e5ab986c57c639b8",
+    "data/raw/us_congress_legislators_gh_pages/legislators-current.json": "ae8cb9477c48715df71a7d860854229d799dc90a254d61badc1efb770f892b2c",
+    "data/raw/us_congress_legislators_gh_pages/legislators-historical.json": "25187633f3215a096fe9d14d8a40db1fb0841ab1d24c6da52da3a80c93698cbc",
+    "data/raw/voteview_members/HSall_members.csv": "d78f55120b59534e99f30541469325059f953b210f0ddb6ebb54601c9303c0f6"
+  },
+  "outputs": {
+    "node_covariates": "data/processed/senate_118_s_bills/node_political_covariates.csv"
+  },
+  "privacy": "Actor-level covariate table is excluded from version control.",
+  "summary": {
+    "actors": 105,
+    "party_categories": {
+      "Democrat": 52,
+      "Independent": 3,
+      "Republican": 50
+    },
+    "party_change_actors": 1,
+    "roster_matches": 105,
+    "states_represented": 50,
+    "voteview_duplicate_resolutions": 2,
+    "voteview_matches": 105
+  }
+}

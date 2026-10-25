@@ -1,0 +1,36 @@
+{
+  "dataset": "voteview_members",
+  "download": {
+    "bytes": 6201422,
+    "header": [
+      "congress",
+      "chamber",
+      "icpsr",
+      "state_icpsr",
+      "district_code",
+      "state_abbrev",
+      "party_code",
+      "occupancy",
+      "last_means",
+      "bioname",
+      "bioguide_id",
+      "born",
+      "died",
+      "nominate_dim1",
+      "nominate_dim2",
+      "nominate_log_likelihood",
+      "nominate_geo_mean_probability",
+      "nominate_number_of_votes",
+      "nominate_number_of_errors",
+      "conditional",
+      "nokken_poole_dim1",
+      "nokken_poole_dim2"
+    ],
+    "retrieved_at_utc": "2026-10-25T18:59:15.461403+00:00",
+    "sha256": "d78f55120b59534e99f30541469325059f953b210f0ddb6ebb54601c9303c0f6",
+    "url": "https://voteview.com/static/data/out/members/HSall_members.csv"
+  },
+  "interpretation": "Voteview is a mutable public source; the retrieval timestamp and checksum identify the exact source snapshot used downstream.",
+  "output": "data/raw/voteview_members/HSall_members.csv",
+  "purpose": "118th Senate DW-NOMINATE first-dimension covariate source"
+}

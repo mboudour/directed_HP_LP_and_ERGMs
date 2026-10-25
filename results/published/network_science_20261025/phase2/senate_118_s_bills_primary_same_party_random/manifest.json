@@ -1,0 +1,11 @@
+{
+  "candidate_file": "candidate_predictions.csv",
+  "dataset_id": "senate_118_s_bills",
+  "driver": "scripts/75_run_senate_same_party_baseline.py",
+  "interpretation": "Fixed covariate ranking baseline; not a fitted probability.",
+  "node_covariates": "data/processed/senate_118_s_bills/node_political_covariates.csv",
+  "privacy": "Only aggregate score summaries are intended for publication.",
+  "score": "mean I(party(tail)=party(head)) across candidate footprint dyads",
+  "source_panels": "results/phase2/senate_118_s_bills_primary_heuristics",
+  "splits_completed": 60
+}

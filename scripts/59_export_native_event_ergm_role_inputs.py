@@ -44,6 +44,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--mask-dir", type=Path, required=True)
     parser.add_argument("--nodes", type=Path, required=True)
     parser.add_argument("--node-column", required=True)
+    parser.add_argument(
+        "--node-covariates",
+        type=Path,
+        help=(
+            "Optional node table with party, state, and ideology attributes for political "
+            "ERGM models."
+        ),
+    )
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args()
@@ -94,17 +102,51 @@ def prepare_output_dir(path: Path, overwrite: bool) -> None:
     path.mkdir(parents=True, exist_ok=True)
 
 
+def node_rows(
+    nodes: list[str], node_column: str, covariates_path: Path | None
+) -> list[dict[str, str]]:
+    """Return nodes in fixed order, optionally with complete political attributes."""
+    if covariates_path is None:
+        return [{"id": node} for node in nodes]
+    with covariates_path.open(encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        required = {node_column, "party_118_entry", "state", "dw_nominate_dim1"}
+        if reader.fieldnames is None or required - set(reader.fieldnames):
+            raise RuntimeError(
+                "node covariate table lacks node, party_118_entry, state, "
+                "or dw_nominate_dim1 fields"
+            )
+        records = list(reader)
+    mapping = {str(row[node_column]): row for row in records}
+    if len(mapping) != len(records) or set(mapping) != set(nodes):
+        raise RuntimeError(
+            "node covariate table must have exactly one row for every fixed-universe node"
+        )
+    return [
+        {
+            "id": node,
+            "party": str(mapping[node]["party_118_entry"]),
+            "state": str(mapping[node]["state"]),
+            "ideology": str(mapping[node]["dw_nominate_dim1"]),
+        }
+        for node in nodes
+    ]
+
+
 def main() -> None:
     """Export role-assignment footprints for every complete frozen split."""
     args = parse_args()
     mask_dir = SHARED.resolve_path(args.mask_dir)
     nodes_path = SHARED.resolve_path(args.nodes)
+    covariates_path = (
+        SHARED.resolve_path(args.node_covariates) if args.node_covariates is not None else None
+    )
     output_dir = SHARED.resolve_path(args.output_dir)
     prepare_output_dir(output_dir, args.overwrite)
 
     nodes = SHARED.read_nodes(nodes_path, args.node_column)
     node_set = set(nodes)
-    write_csv(output_dir / "nodes.csv", [{"id": node} for node in nodes])
+    write_csv(output_dir / "nodes.csv", node_rows(nodes, args.node_column, covariates_path))
 
     split_summary: list[dict[str, object]] = []
     for split_dir in SHARED.split_directories(mask_dir):
@@ -158,6 +200,9 @@ def main() -> None:
                 "splits/<split>/candidate_dyads.csv[candidate_tail,candidate_head,label]"
             ),
         },
+        "node_covariates": (
+            SHARED.recorded_path(covariates_path) if covariates_path is not None else None
+        ),
         "privacy": (
             "Candidate-level role files are computation intermediates, not published aggregates."
         ),

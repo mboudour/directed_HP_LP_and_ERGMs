@@ -1,0 +1,10 @@
+{
+  "dataset_id": "senate_118_s_bills",
+  "driver": "scripts/60_summarize_native_event_ergm_role_assignment.py",
+  "model": "M5",
+  "privacy": "Only actor-free aggregate results are emitted.",
+  "score": "L1g",
+  "target": "fixed_participant_fixed_arity_role_assignment",
+  "ties": "uniform tie-breaking expectation",
+  "uniform_chance": "top-1=1/number_of_partitions; MRR=mean(1/rank)"
+}

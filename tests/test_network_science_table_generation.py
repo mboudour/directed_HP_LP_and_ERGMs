@@ -27,6 +27,7 @@ def test_network_science_table_generator_writes_full_appendix_bundle(tmp_path: P
         "table_01_senate_data.tex",
         "table_02_primary_performance.tex",
         "table_03_competitive_contrasts.tex",
+        "table_03b_political_covariate_contrasts.tex",
         "table_04_sponsor_identification.tex",
         "table_05_cap_sensitivity.tex",
         "table_06_concept_fidelity.tex",
@@ -35,6 +36,7 @@ def test_network_science_table_generator_writes_full_appendix_bundle(tmp_path: P
         "table_a3_mask_realisation.tex",
         "table_a4_ergm_ladder.tex",
         "table_a5_mtt_check.tex",
+        "table_a5b_sponsor_recoverability.tex",
         "table_a6_static_diagnostic.tex",
         "table_a7_scope_checks.tex",
         "table_a8_scope_fidelity.tex",
@@ -49,6 +51,10 @@ def test_network_science_table_generator_writes_full_appendix_bundle(tmp_path: P
         "Full conditional-score ladder" in (output_dir / "table_a10_scope_ladder.tex").read_text()
     )
     assert "Cross-source empirical check" in (output_dir / "table_a11_scope_mtt.tex").read_text()
+    assert (
+        "M5 minus M4c" in (output_dir / "table_03b_political_covariate_contrasts.tex").read_text()
+    )
+    assert "recoverability" in (output_dir / "table_a5b_sponsor_recoverability.tex").read_text()
     assert (
         "Bounded chronological diagnostic"
         in (output_dir / "table_a12_bounded_temporal.tex").read_text()

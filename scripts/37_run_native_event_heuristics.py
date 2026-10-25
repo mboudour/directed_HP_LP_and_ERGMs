@@ -314,7 +314,9 @@ def negative_candidates_by_arity(
 
 
 def candidate_rows(
-    candidates: tuple[Candidate, ...], observed_arcs: frozenset[tuple[str, str]]
+    candidates: tuple[Candidate, ...],
+    observed_arcs: frozenset[tuple[str, str]],
+    party_by_node: dict[str, str] | None = None,
 ) -> list[dict[str, object]]:
     """Score candidates using only their split-specific observed directed graph."""
     engine = DirectedScoreEngine(observed_arcs)
@@ -330,30 +332,36 @@ def candidate_rows(
         degree_product_mean = mean(
             outdegree.get(tail, 0) * indegree.get(head, 0) for tail, head in candidate.footprint
         )
-        rows.append(
-            {
-                "candidate_id": candidate.candidate_id,
-                "tail_nodes_json": json.dumps(candidate.tail),
-                "head_nodes_json": json.dumps(candidate.head),
-                "tail_arity": candidate.tail_arity,
-                "head_arity": candidate.head_arity,
-                "label": candidate.label,
-                "source_event_type_id": candidate.source_event_type_id or "",
-                "occurrence_count": candidate.occurrence_count or "",
-                "footprint_size": footprint_size,
-                "already_observed_footprint": int(candidate.footprint <= observed_arcs),
-                "lifted_reverse_arc_mean": reverse_fraction,
-                "lifted_degree_product_mean": degree_product_mean,
-                "lifted_oi_mean": mean(score.common_neighbors.oi for score in scores),
-                "lifted_oo_mean": mean(score.common_neighbors.oo for score in scores),
-                "lifted_ii_mean": mean(score.common_neighbors.ii for score in scores),
-                "lifted_cn_total_mean": mean(score.common_neighbors.total for score in scores),
-                "lifted_adamic_adar_oi_mean": mean(score.adamic_adar.oi for score in scores),
-                "lifted_adamic_adar_oo_mean": mean(score.adamic_adar.oo for score in scores),
-                "lifted_adamic_adar_ii_mean": mean(score.adamic_adar.ii for score in scores),
-                "lifted_adamic_adar_total_mean": mean(score.adamic_adar.total for score in scores),
-            }
-        )
+        row: dict[str, object] = {
+            "candidate_id": candidate.candidate_id,
+            "tail_nodes_json": json.dumps(candidate.tail),
+            "head_nodes_json": json.dumps(candidate.head),
+            "tail_arity": candidate.tail_arity,
+            "head_arity": candidate.head_arity,
+            "label": candidate.label,
+            "source_event_type_id": candidate.source_event_type_id or "",
+            "occurrence_count": candidate.occurrence_count or "",
+            "footprint_size": footprint_size,
+            "already_observed_footprint": int(candidate.footprint <= observed_arcs),
+            "lifted_reverse_arc_mean": reverse_fraction,
+            "lifted_degree_product_mean": degree_product_mean,
+            "lifted_oi_mean": mean(score.common_neighbors.oi for score in scores),
+            "lifted_oo_mean": mean(score.common_neighbors.oo for score in scores),
+            "lifted_ii_mean": mean(score.common_neighbors.ii for score in scores),
+            "lifted_cn_total_mean": mean(score.common_neighbors.total for score in scores),
+            "lifted_adamic_adar_oi_mean": mean(score.adamic_adar.oi for score in scores),
+            "lifted_adamic_adar_oo_mean": mean(score.adamic_adar.oo for score in scores),
+            "lifted_adamic_adar_ii_mean": mean(score.adamic_adar.ii for score in scores),
+            "lifted_adamic_adar_total_mean": mean(score.adamic_adar.total for score in scores),
+        }
+        if party_by_node is not None:
+            if set(candidate.tail + candidate.head) - set(party_by_node):
+                raise ValueError("party baseline is missing a candidate participant")
+            row["lifted_same_party_mean"] = mean(
+                int(party_by_node[tail] == party_by_node[head])
+                for tail, head in candidate.footprint
+            )
+        rows.append(row)
     return rows
 
 

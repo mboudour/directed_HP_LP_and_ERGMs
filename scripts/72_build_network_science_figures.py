@@ -16,6 +16,7 @@ DEFAULT_OUTPUT = PROJECT_ROOT / "manuscript" / "network_science" / "figures"
 NAVY = "#174a7c"
 ORANGE = "#d97a22"
 GRAY = "#7a7a7a"
+TEAL = "#21847e"
 
 
 def parse_args() -> argparse.Namespace:
@@ -43,18 +44,18 @@ def local_metric(frame: pd.DataFrame, mechanism: str, score: str) -> float:
     return float(row.iloc[0])
 
 
-def ergm_metric(frame: pd.DataFrame, panel: str, mechanism: str) -> float:
-    """Extract one M4c L1g PR-AUC aggregate metric."""
+def ergm_metric(frame: pd.DataFrame, panel: str, mechanism: str, model: str) -> float:
+    """Extract one geometric conditional ERGM PR-AUC aggregate metric."""
     row = frame.loc[
         (frame["panel"] == panel)
         & (frame["mechanism"] == mechanism)
-        & (frame["model"] == "M4c")
+        & (frame["model"] == model)
         & (frame["score"] == "L1g")
         & (frame["metric"] == "pr_auc"),
         "mean",
     ]
     if len(row) != 1:
-        raise ValueError(f"Missing ERGM metric: {panel}/{mechanism}")
+        raise ValueError(f"Missing ERGM metric: {panel}/{mechanism}/{model}")
     return float(row.iloc[0])
 
 
@@ -71,15 +72,25 @@ def main() -> None:
     output_dir = resolve(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    publication = PROJECT_ROOT / "results" / "published" / "network_science_20261025"
     heuristic = pd.read_csv(
-        PROJECT_ROOT / "results/phase2/senate_118_s_bills_primary_heuristics/metric_summary.csv"
+        publication / "phase2/senate_118_s_bills_primary_heuristics/metric_summary.csv"
     )
     hard = pd.read_csv(
-        PROJECT_ROOT
-        / "results/phase2/senate_118_s_bills_primary_sponsor_substitution/metric_summary.csv"
+        publication / "phase2/senate_118_s_bills_primary_sponsor_substitution/metric_summary.csv"
     )
     ergm = pd.read_csv(
-        PROJECT_ROOT / "results/models/senate_118_s_bills_primary_ergm_scores/metric_summary.csv"
+        publication / "models/senate_118_s_bills_primary_ergm_scores/metric_summary.csv"
+    )
+    m5 = pd.read_csv(
+        publication / "models/senate_118_s_bills_primary_ergm_m5_scores/metric_summary.csv"
+    )
+    party_random = pd.read_csv(
+        publication / "phase2/senate_118_s_bills_primary_same_party_random/metric_summary.csv"
+    )
+    party_hard = pd.read_csv(
+        publication
+        / "phase2/senate_118_s_bills_primary_same_party_sponsor_substitution/metric_summary.csv"
     )
 
     mechanisms = ("mcar", "mnar_out")
@@ -96,19 +107,35 @@ def main() -> None:
         local_metric(hard, "mnar_out", "lifted_degree_product_mean"),
     ]
     ergm_values = [
-        ergm_metric(ergm, "random", mechanisms[0]),
-        ergm_metric(ergm, "random", mechanisms[1]),
-        ergm_metric(ergm, "sponsor_substitution", mechanisms[0]),
-        ergm_metric(ergm, "sponsor_substitution", mechanisms[1]),
+        ergm_metric(ergm, "random", mechanisms[0], "M4c"),
+        ergm_metric(ergm, "random", mechanisms[1], "M4c"),
+        ergm_metric(ergm, "sponsor_substitution", mechanisms[0], "M4c"),
+        ergm_metric(ergm, "sponsor_substitution", mechanisms[1], "M4c"),
+    ]
+    m5_values = [
+        ergm_metric(m5, "random", mechanisms[0], "M5"),
+        ergm_metric(m5, "random", mechanisms[1], "M5"),
+        ergm_metric(m5, "sponsor_substitution", mechanisms[0], "M5"),
+        ergm_metric(m5, "sponsor_substitution", mechanisms[1], "M5"),
+    ]
+    party_values = [
+        local_metric(party_random, "mcar", "lifted_same_party_mean"),
+        local_metric(party_random, "mnar_out", "lifted_same_party_mean"),
+        local_metric(party_hard, "mcar", "lifted_same_party_mean"),
+        local_metric(party_hard, "mnar_out", "lifted_same_party_mean"),
     ]
     x = np.arange(len(labels))
-    width = 0.36
-    fig, ax = plt.subplots(figsize=(8.5, 4.6))
+    width = 0.19
+    fig, ax = plt.subplots(figsize=(10.2, 5.0))
     local_bars = ax.bar(
-        x - width / 2, local_values, width, label="Declared local reference", color=NAVY
+        x - 1.5 * width, local_values, width, label="Strongest local reference", color=NAVY
     )
+    party_bars = ax.bar(x - 0.5 * width, party_values, width, label="Same-party share", color=GRAY)
     ergm_bars = ax.bar(
-        x + width / 2, ergm_values, width, label="M4c conditional $L_{1g}$", color=ORANGE
+        x + 0.5 * width, ergm_values, width, label="M4c conditional $L_{1g}$", color=ORANGE
+    )
+    m5_bars = ax.bar(
+        x + 1.5 * width, m5_values, width, label="M5 political conditional $L_{1g}$", color=TEAL
     )
     ax.set_ylabel("Mean PR-AUC across 30 matched masks")
     ax.set_ylim(0.35, 0.90)
@@ -118,11 +145,11 @@ def main() -> None:
     ax.text(
         2.5, 0.885, "grammar-preserving sponsor substitution", ha="center", va="top", fontsize=9
     )
-    ax.legend(frameon=False, loc="lower left")
+    ax.legend(frameon=False, loc="lower left", ncol=2, fontsize=8)
     ax.grid(axis="y", alpha=0.25)
-    for bars in (local_bars, ergm_bars):
+    for bars in (local_bars, party_bars, ergm_bars, m5_bars):
         ax.bar_label(
-            bars, labels=[f"{height:.3f}" for height in bars.datavalues], padding=3, fontsize=8
+            bars, labels=[f"{height:.3f}" for height in bars.datavalues], padding=2, fontsize=7
         )
     fig.tight_layout()
     save_both(fig, output_dir / "fig2_senate_primary_pr_auc")
@@ -131,8 +158,8 @@ def main() -> None:
 
     fidelity_data = json.loads(
         (
-            PROJECT_ROOT
-            / "results/phase2/senate_118_s_bills_native_event_fidelity_tail3_head10/summary.json"
+            publication
+            / "phase2/senate_118_s_bills_native_event_fidelity_tail3_head10/summary.json"
         ).read_text()
     )
     formal_count = fidelity_data["formal_concepts"]["count"]
@@ -156,13 +183,6 @@ def main() -> None:
         axes[1].text(position, value + 130, f"{value:,}", ha="center", va="bottom", fontsize=9)
     axes[1].set_ylim(0, event_arcs * 1.12)
     axes[1].grid(axis="y", alpha=0.22)
-    fig.text(
-        0.5,
-        -0.02,
-        "Exact ordered tail/head matches: 0; footprint Jaccard: 0.048.",
-        ha="center",
-        fontsize=9,
-    )
     fig.tight_layout()
     save_both(fig, output_dir / "fig3_senate_concept_event_fidelity")
     print(f"Network Science quantitative figures written: {output_dir}")

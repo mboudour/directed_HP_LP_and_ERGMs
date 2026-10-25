@@ -1,0 +1,17 @@
+\begin{table}[tbp]
+\centering
+\small
+\caption{Matched-mask PR-AUC improvement from political covariates.}
+\label{tab:political-contrast}
+\begin{tabular}{llrrr}
+\toprule
+Mask & panel & M5 minus M4c & 95\% CI & sign-flip $p$ \\
+\midrule
+MCAR & random & 0.029 & [0.026, 0.031] & 0.00005 \\
+MCAR & sponsor substitution & 0.018 & [0.016, 0.020] & 0.00005 \\
+MNAR-out & random & 0.023 & [0.021, 0.025] & 0.00005 \\
+MNAR-out & sponsor substitution & 0.020 & [0.018, 0.021] & 0.00005 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\footnotesize M5 adds party and state matching and absolute DW-NOMINATE distance to the M4c structural specification. Intervals resample whole masks within the fixed Senate network.
+\end{table}

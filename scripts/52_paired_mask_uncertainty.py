@@ -41,6 +41,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--bootstrap-reps", type=int, default=10_000)
     parser.add_argument("--permutation-reps", type=int, default=20_000)
     parser.add_argument("--seed", type=int, default=20261013)
+    parser.add_argument(
+        "--reference-method",
+        help=(
+            "Optional score name used as the matched reference. The default remains "
+            "the source-family reference declared in this script."
+        ),
+    )
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
     if args.bootstrap_reps < 1_000 or args.permutation_reps < 1_000:
@@ -179,7 +186,7 @@ def main() -> None:
             raise SystemExit(f"STOP: duplicate method/replicate row for {key}: {row['method']}")
         grouped[key][row["method"]][replicate] = value
 
-    reference = reference_for(args.kind)
+    reference = args.reference_method or reference_for(args.kind)
     rng = np.random.default_rng(args.seed)
     output_rows: list[dict[str, object]] = []
     for (mechanism, panel, metric), methods in sorted(grouped.items()):

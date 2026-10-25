@@ -375,6 +375,40 @@ native_write_summary <- function(path, dataset_id, split_status, metric_summary)
   writeLines(lines, path, useBytes = TRUE)
 }
 
+native_model_ids <- function(models_text) {
+  # Parse model IDs before deciding whether M5 attributes are required.
+  trimws(strsplit(models_text, ",", fixed = TRUE)[[1L]])
+}
+
+native_read_political_attributes <- function(path, node_ids) {
+  # Read complete Senate party, state, and ideology attributes for M5.
+  nodes <- utils::read.csv(
+    path, stringsAsFactors = FALSE, check.names = FALSE, colClasses = "character", na.strings = "NA"
+  )
+  required <- c("id", "party", "state", "ideology")
+  if (!all(required %in% names(nodes))) {
+    stop("M5 requires nodes.csv columns: ", paste(required, collapse = ", "), ".", call. = FALSE)
+  }
+  if (anyDuplicated(nodes$id) || anyNA(nodes$id) || any(!nzchar(nodes$id))) {
+    stop("M5 nodes.csv IDs must be unique and nonempty.", call. = FALSE)
+  }
+  positions <- match(node_ids, nodes$id)
+  if (anyNA(positions) || length(nodes$id) != length(node_ids)) {
+    stop("M5 nodes.csv IDs must match the fixed ERGM node universe exactly.", call. = FALSE)
+  }
+  attributes <- nodes[positions, required, drop = FALSE]
+  if (anyNA(attributes$party) || anyNA(attributes$state) ||
+      any(!nzchar(attributes$party)) || any(!nzchar(attributes$state))) {
+    stop("M5 requires nonmissing party and state attributes for every node.", call. = FALSE)
+  }
+  ideology <- suppressWarnings(as.numeric(attributes$ideology))
+  if (anyNA(ideology) || any(!is.finite(ideology))) {
+    stop("M5 requires finite numeric ideology values for every node.", call. = FALSE)
+  }
+  attributes$ideology <- ideology
+  attributes
+}
+
 native_score_main <- function() {
   options <- parse_cli(commandArgs(trailingOnly = TRUE))
   if (!is.null(options$help)) {
@@ -395,7 +429,9 @@ native_score_main <- function() {
   output_dir <- prepare_output_dir(option_value(options, "output-dir"), as_flag(option_value(options, "overwrite", "FALSE"), "overwrite"))
   input_dir <- normalizePath(option_value(options, "input-dir"), winslash = "/", mustWork = TRUE)
   models_text <- option_value(options, "models", "M0,M1,M3,M4c")
-  selected_specs <- score_select_models(models_text)
+  selected_model_ids <- native_model_ids(models_text)
+  uses_political_covariates <- "M5" %in% selected_model_ids
+  selected_specs <- score_select_models(models_text, include_political = uses_political_covariates)
   estimate <- toupper(option_value(options, "estimate", "MPLE"))
   if (!estimate %in% c("MPLE", "MCMLE")) stop("--estimate must be MPLE or MCMLE.", call. = FALSE)
   seed <- as_positive_number(option_value(options, "seed", "20261013"), "seed", integer = TRUE)
@@ -415,7 +451,13 @@ native_score_main <- function() {
     stop(message_text, call. = FALSE)
   }
 
-  node_ids <- read_node_ids(file.path(input_dir, "nodes.csv"), "id")
+  node_path <- file.path(input_dir, "nodes.csv")
+  node_ids <- read_node_ids(node_path, "id")
+  vertex_attributes <- if (uses_political_covariates) {
+    native_read_political_attributes(node_path, node_ids)
+  } else {
+    NULL
+  }
   split_files <- native_discover_splits(input_dir)
   control <- ergm::control.ergm()
   all_scores <- list()
@@ -460,7 +502,7 @@ native_score_main <- function() {
       )
       next
     }
-    nw <- tryCatch(make_network(edges), error = function(error) error)
+    nw <- tryCatch(make_network(edges, vertex_attributes), error = function(error) error)
     if (inherits(nw, "error")) {
       all_split_status[[length(all_split_status) + 1L]] <- data.frame(
         split = split, mechanism = identity$mechanism, replicate = identity$replicate,
@@ -575,10 +617,22 @@ native_score_main <- function() {
     generated_at_utc = format(Sys.time(), tz = "UTC", usetz = TRUE),
     input = list(
       input_dir = input_dir,
-      contract = "nodes.csv[id]; splits/<split>/train_edges.csv[from,to]; candidate_dyads.csv; candidate_footprints.csv"
+      contract = if (uses_political_covariates) {
+        "nodes.csv[id,party,state,ideology]; splits/<split>/train_edges.csv[from,to]; candidate_dyads.csv; candidate_footprints.csv"
+      } else {
+        "nodes.csv[id]; splits/<split>/train_edges.csv[from,to]; candidate_dyads.csv; candidate_footprints.csv"
+      }
     ),
     output_dir = output_dir,
     models = as.list(selected_specs$model),
+    political_covariates = if (uses_political_covariates) {
+      list(
+        terms = c("nodematch(party)", "nodematch(state)", "absdiff(ideology)"),
+        interpretation = "Fixed 118th-Senate actor covariates supplied in nodes.csv."
+      )
+    } else {
+      NULL
+    },
     estimation = list(estimate = estimate, seed = seed),
     conditional_prediction = list(
       call = "predict(fit, conditional=TRUE, type='response', output='data.frame')",

@@ -53,6 +53,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--nodes", type=Path, required=True)
     parser.add_argument("--node-column", required=True)
     parser.add_argument(
+        "--political-covariates",
+        type=Path,
+        help=(
+            "Optional Senate node covariate CSV with node, party_118_entry, state, and "
+            "dw_nominate_dim1. It is copied as party, state, ideology in nodes.csv."
+        ),
+    )
+    parser.add_argument(
         "--panels",
         default=",".join(DEFAULT_PANEL_NAMES),
         help=(
@@ -109,6 +117,40 @@ def read_nodes(path: Path, node_column: str) -> tuple[str, ...]:
     if len(values) < 2:
         raise SystemExit("STOP: at least two nodes are required for ERGM footprint scoring.")
     return tuple(values)
+
+
+def read_political_covariates(path: Path, nodes: tuple[str, ...]) -> list[dict[str, object]]:
+    """Read an audited complete Senate covariate table and normalize output field names."""
+    require_file(path, "political covariate table")
+    required = {"node", "party_118_entry", "state", "dw_nominate_dim1"}
+    values: dict[str, dict[str, object]] = {}
+    with path.open(encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        if reader.fieldnames is None or required - set(reader.fieldnames):
+            raise SystemExit(
+                f"STOP: political covariate table lacks required fields {sorted(required)}: {path}"
+            )
+        for row in reader:
+            node = row["node"].strip()
+            party = row["party_118_entry"].strip()
+            state = row["state"].strip()
+            try:
+                ideology = float(row["dw_nominate_dim1"])
+            except ValueError as error:
+                raise SystemExit(f"STOP: invalid DW-NOMINATE value for {node!r}.") from error
+            if not node or not party or not state or node in values:
+                raise SystemExit(
+                    "STOP: political covariate table has empty or duplicate node values."
+                )
+            values[node] = {"id": node, "party": party, "state": state, "ideology": ideology}
+    if set(values) != set(nodes):
+        missing = sorted(set(nodes) - set(values))
+        extra = sorted(set(values) - set(nodes))
+        raise SystemExit(
+            "STOP: political covariate node set differs from ERGM node set; "
+            f"missing={missing[:10]}, extra={extra[:10]}."
+        )
+    return [values[node] for node in nodes]
 
 
 def read_observed_arcs(path: Path, node_set: set[str]) -> tuple[tuple[str, str], ...]:
@@ -240,6 +282,9 @@ def main() -> None:
     heuristic_dir = resolve_path(args.heuristic_dir)
     hard_panel_dir = resolve_path(args.hard_panel_dir)
     nodes_path = resolve_path(args.nodes)
+    political_covariates_path = (
+        resolve_path(args.political_covariates) if args.political_covariates else None
+    )
     output_dir = resolve_path(args.output_dir)
     for directory, name in (
         (mask_dir, "event-first mask directory"),
@@ -251,7 +296,12 @@ def main() -> None:
     prepare_output_dir(output_dir, args.overwrite)
     nodes = read_nodes(nodes_path, args.node_column)
     node_set = set(nodes)
-    write_csv(output_dir / "nodes.csv", ({"id": node} for node in nodes))
+    node_rows: list[dict[str, object]] = (
+        read_political_covariates(political_covariates_path, nodes)
+        if political_covariates_path
+        else [{"id": node} for node in nodes]
+    )
+    write_csv(output_dir / "nodes.csv", node_rows)
 
     split_summary: list[dict[str, object]] = []
     for split_dir in discover_splits(mask_dir):
@@ -320,9 +370,16 @@ def main() -> None:
             "random_panel": recorded_path(heuristic_dir),
             "hard_panels": recorded_path(hard_panel_dir),
             "node_table": recorded_path(nodes_path),
+            "political_covariates": (
+                recorded_path(political_covariates_path) if political_covariates_path else None
+            ),
         },
         "contract": {
-            "nodes": "nodes.csv[id]",
+            "nodes": (
+                "nodes.csv[id,party,state,ideology]"
+                if political_covariates_path
+                else "nodes.csv[id]"
+            ),
             "per_split_train_network": "splits/<split>/train_edges.csv[from,to]",
             "per_split_footprints": "splits/<split>/candidate_footprints.csv",
             "per_split_unique_dyads": "splits/<split>/candidate_dyads.csv["

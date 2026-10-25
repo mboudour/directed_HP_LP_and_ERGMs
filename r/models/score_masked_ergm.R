@@ -234,7 +234,7 @@ score_validate_candidates <- function(candidates, node_ids) {
   invisible(candidates)
 }
 
-score_select_models <- function(models_text) {
+score_select_models <- function(models_text, include_political = FALSE) {
   model_ids <- trimws(strsplit(models_text, ",", fixed = TRUE)[[1L]])
   if (length(model_ids) == 0L || any(!nzchar(model_ids))) {
     stop("--models must be a non-empty comma-separated model list.", call. = FALSE)
@@ -243,7 +243,7 @@ score_select_models <- function(models_text) {
     stop("--models contains duplicate model IDs: ", paste(unique(model_ids[duplicated(model_ids)]), collapse = ", "),
          call. = FALSE)
   }
-  available <- static_ladder_specs()
+  available <- static_ladder_specs(include_political = include_political)
   unknown <- setdiff(model_ids, available$model)
   if (length(unknown) > 0L) {
     stop("Unknown ladder model ID(s): ", paste(unknown, collapse = ", "),

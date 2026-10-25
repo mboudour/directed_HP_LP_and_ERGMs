@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Summarize M4c ERGM fixed-participant role-assignment scores safely.
+"""Summarize M4c and uniform fixed-participant role-assignment scores safely.
 
 Candidate-level role assignments are read only from the untracked computation
 bundle.  The output contains aggregate, actor-free counts and tie-aware role
@@ -18,8 +18,8 @@ from statistics import mean, stdev
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PANEL = "role_assignment"
-MODEL = "M4c"
-SCORE = "L1g"
+DEFAULT_MODEL = "M4c"
+DEFAULT_SCORE = "L1g"
 
 
 def parse_args() -> argparse.Namespace:
@@ -28,6 +28,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset-id", required=True)
     parser.add_argument("--ergm-score-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--score", default=DEFAULT_SCORE)
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args()
 
@@ -85,10 +87,11 @@ def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
 
 
 def main() -> None:
-    """Aggregate M4c geometric role scores without releasing candidates."""
+    """Aggregate M4c geometric scores and uniform expectations without candidates."""
     args = parse_args()
     score_dir = resolve(args.ergm_score_dir)
     output_dir = resolve(args.output_dir)
+    model, score = args.model, args.score
     scores_path = score_dir / "event_footprint_scores.csv"
     if not scores_path.is_file():
         raise RuntimeError(f"missing ERGM footprint scores: {scores_path}")
@@ -105,21 +108,21 @@ def main() -> None:
             "panel",
             "candidate_id",
             "label",
-            SCORE,
+            score,
         }
         if reader.fieldnames is None or required - set(reader.fieldnames):
             raise RuntimeError("ERGM score table lacks the required role-assignment fields")
         for row in reader:
-            if row["model"] != MODEL or row["panel"] != PANEL:
+            if row["model"] != model or row["panel"] != PANEL:
                 continue
-            value = float(row[SCORE])
+            value = float(row[score])
             if not math.isfinite(value):
                 raise RuntimeError("role-assignment ERGM score is nonfinite")
             key = (row["mechanism"], int(row["replicate"]), role_event_id(row["candidate_id"]))
             groups[key].append({"label": int(row["label"]), "value": value})
 
     if not groups:
-        raise RuntimeError("no M4c role-assignment scores were found")
+        raise RuntimeError(f"no {model} role-assignment scores were found")
 
     per_event: list[dict[str, object]] = []
     for (mechanism, replicate, _event_id), rows in sorted(groups.items()):
@@ -133,6 +136,8 @@ def main() -> None:
                 "role_partition_candidates": len(rows),
                 "top1_accuracy": top1,
                 "mrr": reciprocal_rank,
+                "uniform_top1_accuracy": 1.0 / len(rows),
+                "uniform_mrr": mean(1.0 / rank for rank in range(1, len(rows) + 1)),
             }
         )
 
@@ -148,6 +153,8 @@ def main() -> None:
                 "event_evaluations": len(rows),
                 "top1_accuracy": mean(float(row["top1_accuracy"]) for row in rows),
                 "mrr": mean(float(row["mrr"]) for row in rows),
+                "uniform_top1_accuracy": mean(float(row["uniform_top1_accuracy"]) for row in rows),
+                "uniform_mrr": mean(float(row["uniform_mrr"]) for row in rows),
                 "mean_partition_count": mean(int(row["role_partition_candidates"]) for row in rows),
             }
         )
@@ -159,16 +166,31 @@ def main() -> None:
     for mechanism, rows in sorted(by_mechanism.items()):
         values_top1 = [float(row["top1_accuracy"]) for row in rows]
         values_mrr = [float(row["mrr"]) for row in rows]
+        uniform_top1 = [float(row["uniform_top1_accuracy"]) for row in rows]
+        uniform_mrr = [float(row["uniform_mrr"]) for row in rows]
+        completed_masks = len({int(row["replicate"]) for row in rows})
         summary_rows.append(
             {
                 "mechanism": mechanism,
-                "score": "M4c::L1g",
+                "score": f"{model}::{score}",
                 "event_evaluations": len(rows),
                 "weighted_top1_accuracy": mean(values_top1),
                 "event_level_top1_sd": stdev(values_top1) if len(values_top1) > 1 else 0.0,
                 "weighted_mrr": mean(values_mrr),
                 "event_level_mrr_sd": stdev(values_mrr) if len(values_mrr) > 1 else 0.0,
-                "completed_masks": len({int(row["replicate"]) for row in rows}),
+                "completed_masks": completed_masks,
+            }
+        )
+        summary_rows.append(
+            {
+                "mechanism": mechanism,
+                "score": "uniform_chance",
+                "event_evaluations": len(rows),
+                "weighted_top1_accuracy": mean(uniform_top1),
+                "event_level_top1_sd": stdev(uniform_top1) if len(uniform_top1) > 1 else 0.0,
+                "weighted_mrr": mean(uniform_mrr),
+                "event_level_mrr_sd": stdev(uniform_mrr) if len(uniform_mrr) > 1 else 0.0,
+                "completed_masks": completed_masks,
             }
         )
 
@@ -179,10 +201,11 @@ def main() -> None:
             {
                 "driver": "scripts/60_summarize_native_event_ergm_role_assignment.py",
                 "dataset_id": args.dataset_id,
-                "model": MODEL,
-                "score": SCORE,
+                "model": model,
+                "score": score,
                 "target": "fixed_participant_fixed_arity_role_assignment",
                 "ties": "uniform tie-breaking expectation",
+                "uniform_chance": "top-1=1/number_of_partitions; MRR=mean(1/rank)",
                 "privacy": "Only actor-free aggregate results are emitted.",
             },
             indent=2,

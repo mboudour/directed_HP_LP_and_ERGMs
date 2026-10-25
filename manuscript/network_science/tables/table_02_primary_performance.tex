@@ -3,19 +3,27 @@
 \small
 \caption{Primary Senate native-event footprint recovery across matched masks.}
 \label{tab:senate-performance}
-\begin{tabular}{llllrr}
+\begin{tabular}{lllrr}
 \toprule
-Mask & panel & score & score class & PR-AUC & ROC-AUC \\
+Mask & panel & score & PR-AUC & ROC-AUC \\
 \midrule
 MCAR & random & AA-total & 0.743 & 0.743 \\
+MCAR & random & same-party share & 0.548 & 0.533 \\
 MCAR & random & M4c conditional & 0.704 & 0.722 \\
+MCAR & random & M5 political conditional & 0.733 & 0.728 \\
 MCAR & sponsor substitution & degree product & 0.580 & 0.590 \\
+MCAR & sponsor substitution & same-party share & 0.503 & 0.509 \\
 MCAR & sponsor substitution & M4c conditional & 0.472 & 0.463 \\
+MCAR & sponsor substitution & M5 political conditional & 0.490 & 0.480 \\
 MNAR-out & random & AA-total & 0.793 & 0.811 \\
+MNAR-out & random & same-party share & 0.572 & 0.567 \\
 MNAR-out & random & M4c conditional & 0.749 & 0.772 \\
+MNAR-out & random & M5 political conditional & 0.772 & 0.768 \\
 MNAR-out & sponsor substitution & degree product & 0.567 & 0.590 \\
+MNAR-out & sponsor substitution & same-party share & 0.504 & 0.512 \\
 MNAR-out & sponsor substitution & M4c conditional & 0.485 & 0.489 \\
+MNAR-out & sponsor substitution & M5 political conditional & 0.505 & 0.501 \\
 \bottomrule
 \end{tabular}
-\par\vspace{2pt}\footnotesize Entries are means over 30 matched masks. M4c uses split-specific MPLE estimates and the factorized conditional footprint score $L_{1g}$; it is not a joint coalition probability.
+\par\vspace{2pt}\footnotesize Entries are means over 30 matched masks. M5 adds party and state matching and absolute DW-NOMINATE distance to M4c. ERGM rows use split-specific MPLE estimates and factorized conditional footprint score $L_{1g}$ rather than a joint coalition probability.
 \end{table}
