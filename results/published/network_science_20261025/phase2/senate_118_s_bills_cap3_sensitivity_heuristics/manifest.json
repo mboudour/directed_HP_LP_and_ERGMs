@@ -1,0 +1,17 @@
+{
+  "candidate_universe": "all participants pairwise within weak distance two in observed projection",
+  "dataset_id": "senate_118_s_bills_cap3_sensitivity",
+  "driver": "scripts/37_run_native_event_heuristics.py",
+  "metrics": "ranking only; no calibration or threshold metrics",
+  "negative_panel": "random true non-event types, exactly matched on tail and head arity",
+  "outputs": {
+    "metric_summary": "metric_summary.csv",
+    "split_summary": "split_summary.csv",
+    "summary_markdown": "summary.md"
+  },
+  "score_interpretation": "uncalibrated lifted directed-LP ranking rules",
+  "source_masks": "results/phase2/senate_118_s_bills_cap3_sensitivity_masks",
+  "splits_completed": 60,
+  "status": "completed",
+  "target": "native_event_type"
+}

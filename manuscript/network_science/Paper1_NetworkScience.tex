@@ -1,0 +1,177 @@
+% Anonymized main document for Network Science double-blind review.
+% Compile from this directory: pdflatex, bibtex, pdflatex, pdflatex.
+\documentclass{nws}
+
+\usepackage{amsmath,amssymb,booktabs,graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\renewcommand{\toprule}{\hline}
+\renewcommand{\midrule}{\hline}
+\renewcommand{\bottomrule}{\hline}
+
+\lefttitle{Directed Link and Hyperlink Prediction}
+\righttitle{Network Science}
+\papertitle{Research Article}
+\jnlPage{1}{1}
+\jnlDoiYr{2026}
+\doival{to be assigned}
+\title{Exponential Random Graph Models as a Statistical Benchmark for Directed Link and Hyperlink Prediction in Legislative Co-sponsorship}
+\author{Anonymous}
+\affil{Blinded for review}
+
+\begin{document}
+
+\begin{abstract}
+Public political records frequently encode a group relation with ordered roles: for a Senate bill, one legislator is the sponsor and a set of legislators are original co-sponsors.  Its familiar directed dyadic projection preserves sponsor--co-sponsor arcs but loses the partition of arcs into recorded coalitions.  We develop a missingness-centred benchmark that keeps three prediction targets distinct: recorded ordered group-event types, directed dyadic footprints, and algebraically derived formal concepts from the aggregate projection.  Using 4,374 nonempty-head Senate bills from the 118th Congress, we mask whole sponsor-to-original-co-sponsor event types under random and activity-biased mechanisms, fit split-specific directed ERGM pseudolikelihood models, and compare their conditional footprint scores with transparent directed local statistics.  Formal concepts do not recover recorded coalitions: the cap-first Senate audit yields zero exact ordered matches and a footprint Jaccard similarity of 0.048.  ERGM conditionals markedly exceed a density-only reference on random panels, yet directed local references outperform the ERGM on both random and grammar-preserving sponsor-substitution panels.  Fixed-participant sponsor identification produces the same qualitative separation.  The result is therefore a benchmark, rather than a universal claim of ERGM superiority: the inferential object, candidate panel, and ordered role grammar jointly determine what a score can establish.  Enron email and MathOverflow exchanges provide contrasting non-political scope checks.  The analysis concerns controlled omissions in complete public records; it does not estimate archival missingness or forecast future legislation.
+\end{abstract}
+
+\begin{keywords}
+political networks; legislative co-sponsorship; exponential random graph models; hyperlink prediction; missing network data; directed hypergraphs
+\end{keywords}
+
+\maketitle
+
+\section{Introduction}\label{sec:introduction}
+Political networks are often built by projecting a public record of collective action into dyadic ties.  This practice is useful, but it can obscure the object to be predicted.  In a Senate bill record, a sponsor and the bill's original co-sponsors form a directed group relation, whereas a sponsor--co-sponsor projection only records the constituent directed arcs.  The projection consequently cannot say which arcs constituted the same bill coalition.  Co-sponsorship is a prominent and substantively interpretable political relation \citep{fowler2006,talbertPotoski2002,zhangEtAl2008}, while its analysis also illustrates a more general issue for treaty signatories, joint statements, amicus coalitions, and diplomatic exchanges: a group record, its dyadic footprint, and a group derived from the footprint are different mathematical objects.
+
+We ask how a directed ERGM can serve as a statistical benchmark for link and hyperlink prediction when observations are deliberately made incomplete.  The contribution is methodological and application-led.  The application is the completed 118th United States Senate, where the public Bill Status record identifies a single sponsor and the original co-sponsors of each Senate bill.  The benchmark has three aims.  First, it distinguishes native coalition types from their dyadic footprints and from formal concepts derived algebraically from the projected graph.  Second, it evaluates split-specific ERGM conditional tie scores alongside directed local statistics under the same event-first omissions.  Third, it asks a political role question that a random nonedge panel cannot answer: with the participant set held fixed, can a score identify the bill sponsor rather than merely exploit popularity or coalition size?
+
+The approach follows research on link prediction \citep{libenNowellKleinberg2007,luZhou2011,zhaoEtAl2017} and on network missing data \citep{kossinets2006,handcockGile2010,koskinenEtAl2010}, but it does not turn the absence of a public co-sponsorship record into a claim about its unknown observational mechanism.  Instead, controlled omissions define a reproducible stress test.  This separation matters because a supervised candidate panel asks a conditional discrimination question, whereas an ERGM defines a probability model over a network.  ERGMs have long been used to represent directed structural dependence \citep{wassermanPattison1996,robinsEtAl2009,snijdersEtAl2006}, including in political-network analysis \citep{cranmerDesmarais2011}.  Here they are used as conditional-score benchmarks, not as claims that one fitted model gives the joint probability of a legislative coalition.
+
+The substantive findings are deliberately mixed.  The aggregate Senate projection generates formal concepts that have zero exact tail/head equality with recorded bill coalitions, and their dyadic overlap is small.  A conditional ERGM improves strongly over a density-only score on random panels, but transparent directed local references are stronger on random and sponsor-substitution panels.  This is informative: model comparison depends on which target is missing and which alternatives the score must distinguish.  It also prevents the much stronger but unsupported conclusion that good random-panel performance implies recovery of political leadership roles.
+
+\section{Targets, projection, and conditional scores}\label{sec:targets}
+\subsection{Three nonequivalent targets}
+Let $V$ be a fixed actor universe.  A recorded directed group-event type is an ordered pair
+\begin{equation}
+ e=(T,H), \qquad \varnothing\neq T,H\subseteq V,
+ \quad T\cap H=\varnothing,
+\end{equation}
+where $T$ and $H$ are the tail and head role sets.  For the Senate application, $T=\{s_b\}$ is the sponsor of bill $b$ and $H$ is its set of original co-sponsors.  Repeated records of an identical ordered pair constitute repeated occurrences, but the masking unit is the distinct ordered type.
+
+The directed dyadic footprint of an event is
+\begin{equation}
+ \phi(T,H)=T\times H,
+\end{equation}
+and the binary aggregate projection is $Y_{ij}=1$ when $(i,j)$ occurs in at least one footprint.  Projection is many-to-one: distinct collections of events can generate the same $Y$.  Thus, even perfect reconstruction of the footprint does not reconstruct event membership.
+
+A third target is a formal concept of the incidence relation $Y$.  For nonempty $T,H\subseteq V$, define
+\begin{equation}
+ T^{\uparrow}=\{j\in V: Y_{ij}=1\;\text{for every}\;i\in T\},
+ \qquad
+ H^{\downarrow}=\{i\in V: Y_{ij}=1\;\text{for every}\;j\in H\}.
+\end{equation}
+A formal concept is a closed pair $(T,H)$ satisfying $T^{\uparrow}=H$ and $H^{\downarrow}=T$ \citep{ganterWille1999}.  It is a maximal all-ones rectangle in the aggregate relation, not a recorded legislative coalition.  This distinction motivates the cap-first fidelity audit rather than assuming that a concept is a recoverable bill event.
+
+Figure~\ref{fig:target-ladder} summarizes the relationship among the three targets and the corresponding analyses.
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.98\textwidth]{figures/fig1_senate_target_ladder.png}
+\caption{Target ladder for the Senate benchmark.  The event-first benchmark evaluates recorded bill coalitions; the static arc diagnostic evaluates the projection; formal concepts are an algebraically derived representation whose correspondence with recorded coalitions is measured rather than assumed.}
+\label{fig:target-ladder}
+\end{figure}
+
+\subsection{Directed local statistics and ERGM conditionals}
+For an ordered dyad $(i,j)$, write $N^+_Y(i)=\{k:Y_{ik}=1\}$ and $N^-_Y(j)=\{k:Y_{kj}=1\}$.  The directed common-neighbour count is
+\begin{equation}
+ c_{ij}(Y)=\sum_{k\in V\setminus\{i,j\}}Y_{ik}Y_{kj}=|N^+_Y(i)\cap N^-_Y(j)|.
+\end{equation}
+We also use directed out--in, out--out, and in--in overlaps, their Adamic--Adar variants, reverse-arc information, and the out-degree-by-in-degree product.  Event scores lift a dyadic statistic over all $(i,j)\in T\times H$, using an explicitly specified mean or product aggregation.
+
+For an ERGM with sufficient statistics $g(Y)$,
+\begin{equation}
+ \Pr_\theta(Y=y)=\frac{\exp\{\theta^\top g(y)\}}{\kappa(\theta)},
+\end{equation}
+the exact conditional probability of one tie, given every other tie, is
+\begin{equation}
+ \Pr_\theta(Y_{ij}=1\mid Y_{-ij})=
+ \operatorname{logit}^{-1}\{\theta^\top\Delta_{ij}g(Y)\},
+ \label{eq:ergm-conditional}
+\end{equation}
+where $\Delta_{ij}g(Y)=g(Y^{+ij})-g(Y^{-ij})$.  A directed transitive-triple term has change statistic $c_{ij}(Y)$; a one-covariate conditional logit therefore ranks dyads in the same order as $c_{ij}$ when its coefficient is positive.  The empirical check in Appendix~\ref{app:checks} estimates this relation separately on the Senate training projections.
+
+The ERGM ladder comprises M0 (edges), M1 (edges plus mutuality), M2 (plus geometrically weighted in- and out-degree), M3 (plus transitive closure), M4 (plus additional directed shared-partner terms), and M4c (M4 plus cyclic triples).  Each model is fitted by MPLE to each masked training projection.  We report an event-footprint score that factorizes the conditional probabilities over the footprint, including $L_{1g}=\prod_{(i,j)\in\phi(T,H)}p_{ij}$.  It is a discriminative conditional footprint score; no result below interprets it as the joint probability of a bill coalition.  MPLE is computationally useful in this setting but is distinct from likelihood-based ERGM inference \citep{vanDuijnEtAl2009,hunterEtAl2008}.
+
+\section{Data and benchmark design}\label{sec:data-methods}
+\subsection{Senate Bill Status event construction}
+We use the completed 118th Congress (3 January 2023--3 January 2025) and Senate bills (S.) only.  The official GPO Bill Status XML archive supplies a stable bill identifier, introduction information, a sponsor Bioguide identifier, and a co-sponsor record with \texttt{bioguideId}, \texttt{isOriginalCosponsor}, sponsorship date, and withdrawal information \citep{gpoBillStatus,congressGovBillStatus}.  A bill enters the native target exactly when it has one sponsor and a nonempty set of distinct original co-sponsors.  We retain original co-sponsors even when an associated later withdrawal is recorded, because the target is membership at introduction.
+
+The primary actor universe is every distinct person with a Senate term overlapping the Congress.  It contains 105 persons; no people are merged by seat.  This policy retains all valid nonempty-head events and avoids manufacturing identity continuity across vacancies or replacements.  Table~\ref{tab:senate-data} records the resulting accounting.  The 1,275 S. bills without original co-sponsors are reported but lie outside the nonempty-head hyperlink target.
+\input{tables/table_01_senate_data.tex}
+
+Head arities are not assumed to resemble those of the e-mail or question--answer data.  Before full masking, we profiled caps $|H|\leq1,2,3,5,10$, cap-first formal-concept feasibility, and candidate-panel viability.  Cap three discarded a substantively nonrandom portion of the Senate events.  The primary Senate analysis therefore uses $|T|\leq3,|H|\leq10$, selected before the 30-mask runs because concept enumeration, panels, and conditional scoring all completed at that common cap.  We report an independent cap-three sensitivity to preserve comparability with the original benchmark design.
+
+\subsection{Masking, panels, and estimand}
+For each of 30 matched replicates per mechanism, MCAR selects an exact count of distinct event types uniformly.  MNAR-out is an oracle activity-biased inclusion mechanism that preferentially withholds types associated with lower tail out-activity; its realised event rate may vary.  All occurrences of a selected type are withheld together.  A surviving dyadic footprint is not leakage: it can be induced by another observed event type.
+
+The random evaluation panel pairs each held-out event with arity-matched non-events sampled from the admissible role grammar.  A positive event is also compared with a Senate-specific hard negative: one eligible co-sponsor replaces the recorded sponsor while the participant set and one-sponsor-to-many-co-sponsor grammar remain fixed.  Finally, role assignment enumerates compatible sponsor/co-sponsor partitions for a held-out participant set and evaluates the rank of the recorded sponsor.  These latter two tasks directly address role direction; a literal tail/head reversal would create an implausible multi-sponsor event and is therefore not the primary political test.
+
+We report PR-AUC as the principal ranking measure because panels are balanced only by design, alongside ROC-AUC, top-$k$ quantities, and role-assignment top-1 accuracy and mean reciprocal rank (MRR) \citep{saitoRehmsmeier2015}.  For a comparison within a dataset and mechanism, uncertainty is descriptive of the fixed Senate network: a percentile bootstrap resamples the 30 whole masks 10,000 times and a two-sided sign-flip test uses 20,000 replicates.  It does not support population or cross-legislature inference.
+
+\subsection{Scope checks and constraints}
+The same event-first pipeline is retained for an Enron strict custodian core and a reconstructed MathOverflow core.  They demonstrate that the pipeline is not defined exclusively by Senate records, but are not political cases.  Raw e-mail content, e-mail addresses, candidate-level predictions, actor identifiers, and processed Senate event rows are excluded from the public repository.  Only code, policy records, source checksums, and aggregate outputs are released.
+
+\section{Results}\label{sec:results}
+\subsection{Projection-derived concepts differ from recorded coalitions}
+At the selected cap, the Senate projection yields 16 formal concepts and 3,209 cap-eligible recorded bill types.  Their ordered tail/head intersection is exactly zero.  The concepts cover 251 directed arcs, while recorded bill types cover 4,290; their footprint Jaccard similarity is 0.048 (Table~\ref{tab:senate-fidelity}; Figure~\ref{fig:senate-fidelity}).  Derived concepts therefore represent a highly selective closure structure in the aggregate co-sponsorship relation, rather than a recovered partition of recorded bill coalitions.  This finding is substantive for political data processing: a coalition inferred from a dyadic co-sponsorship network must be named and validated as a derived structure, not equated with a filed bill's original sponsorship group.
+\input{tables/table_06_concept_fidelity.tex}
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.96\textwidth]{figures/fig3_senate_concept_event_fidelity.pdf}
+\vspace{3mm}
+\caption{Recorded Senate bill coalition types and their directed footprints versus formal concepts generated from the aggregate projection.  The difference in scale and the zero exact ordered matches show that closure-derived concepts are not a reconstruction of bill coalitions.}
+\label{fig:senate-fidelity}
+\end{figure}
+
+\subsection{Footprint discrimination depends on the candidate task}
+Table~\ref{tab:senate-performance} and Figure~\ref{fig:senate-performance} compare the declared local reference with M4c conditional $L_{1g}$.  On random panels, M4c reaches PR-AUC 0.704 under MCAR and 0.749 under MNAR-out.  Relative to M0's density-only score, the paired PR-AUC increase is 0.204 (95\% CI [0.200, 0.209]) under MCAR and 0.249 ([0.243, 0.254]) under MNAR-out, with the simulation-limited sign-flip $p=0.00005$ in each case.  Thus, conditional structural terms yield substantial discrimination beyond density when alternatives are random arity-matched coalitions.
+
+The appropriate comparison is nevertheless not density alone.  Directed Adamic--Adar total has PR-AUC 0.743 and 0.793 on the two random-panel conditions, exceeding M4c by 0.038 ([0.035, 0.042]) and 0.044 ([0.039, 0.050]), respectively.  On grammar-preserving sponsor substitution, degree product likewise exceeds M4c: the paired PR-AUC differences are 0.108 ([0.103, 0.114]) for MCAR and 0.081 ([0.074, 0.089]) for MNAR-out.  Every interval is a within-network whole-mask interval.  The conclusion is not that ERGMs fail as generative network models; it is that this conditional M4c score does not dominate transparent local references in this coalition-recovery task.
+\input{tables/table_02_primary_performance.tex}
+\input{tables/table_03_competitive_contrasts.tex}
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.96\textwidth]{figures/fig2_senate_primary_pr_auc.pdf}
+\vspace{2mm}
+\caption{Mean PR-AUC across 30 matched masks for the Senate native-event footprint target.  The random and sponsor-substitution panels ask different questions; the latter preserves the one-sponsor political event grammar.}
+\label{fig:senate-performance}
+\end{figure}
+
+\subsection{Sponsor identification is harder than random-event ranking}
+The role-assignment task conditions on the actors and arities of each bill coalition and asks which compatible partition places the recorded sponsor in the tail.  The local AA-OI reference yields top-1 accuracy 0.429 under MCAR and 0.402 under MNAR-out, with MRR 0.649 and 0.633.  M4c produces top-1 accuracy 0.304 and 0.311, with MRR 0.562 and 0.567 (Table~\ref{tab:senate-role}).  These are not prevalence-weighted binary classification measures: each event is compared against all compatible partitions under the same one-sponsor grammar.  The result separates the ability to rank a withheld coalition above random alternatives from the political role-identification question.
+\input{tables/table_04_sponsor_identification.tex}
+
+\subsection{Sensitivity and static checks}
+The independent $|H|\leq3$ rerun retains the same actor universe, whole-event masking, and 30 masks.  Relative to density, M4c $L_{1g}$ improves random-panel PR-AUC by 0.191 (95\% CI [0.187, 0.196]) under MCAR and 0.218 ([0.213, 0.223]) under MNAR-out (Table~\ref{tab:senate-cap-sensitivity}).  The cap-sensitive magnitude reinforces the reason for retaining a Senate-specific cap-ten primary analysis while displaying the cap-three result as a sensitivity rather than silently changing the target.
+\input{tables/table_05_cap_sensitivity.tex}
+
+A bounded static arc diagnostic and a one-covariate transitive-triple logistic check are reported in Appendix~\ref{app:checks}.  In all 60 Senate training projections, the directed transitive-triple coefficient is positive and the resulting conditional rank order increases with the common-neighbour statistic.  These checks support the directed-link component of the benchmark, but they neither forecast future co-sponsorship nor establish a joint probability for an event.
+
+\section{Discussion}\label{sec:discussion}
+The Senate application makes explicit a distinction that is often implicit in political-network analysis.  A sponsor-to-co-sponsor dyadic network is a useful projection, but it is not a record of coalition membership.  Its formal concepts are also not bill coalitions simply because both are built from sponsor-to-co-sponsor arcs.  The observed zero exact matches and low footprint overlap make the non-identifiability concrete in a public legislative record.
+
+A second contribution is a role-respecting benchmark.  The sponsor-substitution and fixed-participant tasks preserve the legislative grammar and therefore ask more meaningful questions than arbitrary reversed events.  The empirical pattern is stable across the two controlled omission mechanisms: M4c conditional scores improve over a density-only reference on random panels, while directed local references have the stronger score on random and sponsor-substitution panels and in sponsor identification.  Reporting both comparisons prevents a density baseline from becoming a misleading proxy for the best transparent alternative.
+
+The results are intentionally bounded.  The missingness mechanisms are controlled stress tests, not assertions that the official Bill Status archive is MCAR or activity-biased MNAR.  The conditional ERGM scores are MPLE-based tie conditionals and factorized footprint summaries, not simulated joint probabilities.  The 30-mask intervals quantify resampling variation within the fixed Senate construction, not a sampling distribution over legislatures.  Formal concepts are evaluated as a derived representation, not as observed political coalitions.  Finally, the design does not conduct rolling-origin forecasting, STERGM estimation, relational hyperevent modelling, or neural hyperlink-prediction comparisons; these require distinct temporal targets and validation designs.
+
+The framework travels beyond Senate co-sponsorship whenever public political records join ordered roles with collective membership.  The immediate next step is not a wider claim from this one Congress, but an externally validated comparison across political record systems with event semantics and actor identities audited separately.  For the present legislative record, the main lesson is clear: a projection can preserve dyadic support while changing the prediction target, and ERGM evaluation must be tied to the target and candidate grammar that the political question actually specifies.
+
+\section*{Data and code availability}
+The official Bill Status source is publicly available from GovInfo.  The private repository accompanying this submission contains the full reproducible pipeline, public-source manifests and checksums, data-policy records, aggregate non-sensitive results, table and figure generators, and the anonymized manuscript source.  It deliberately excludes raw e-mail material, address-bearing files, actor-level candidate panels, processed event rows, fitted objects, and prediction-level records.  A public archival release can be made upon acceptance subject to the repository's data-policy record.
+
+\section*{Competing interests}
+The author declares no competing interests.
+
+\section*{Funding statement}
+No external funding supported this research.
+
+\appendix
+\section{Directed-link and scope checks}\label{app:checks}
+\input{tables/table_a1_mtt_check.tex}
+\input{tables/table_a2_static_diagnostic.tex}
+\input{tables/table_a3_scope_checks.tex}
+
+\bibliographystyle{plainnat}
+\bibliography{Paper1_NetworkScience}
+
+\end{document}

@@ -49,6 +49,13 @@ SOURCES = (
         "data/metadata/mathoverflow_stackexchange_2024_audit.json",
         "Prepared reconstructed native/static core under the approved 30-day window policy.",
     ),
+    (
+        "Senate 118 S. bills",
+        "senate_118_s_bills",
+        "data/metadata/senate_118_s_bills_audit.json",
+        "Public sponsor-to-original-co-sponsor events; primary cap and model branch await "
+        "cap gate.",
+    ),
 )
 
 

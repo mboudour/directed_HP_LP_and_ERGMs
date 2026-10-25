@@ -1,0 +1,9 @@
+{
+  "candidate_rule": "all fixed-arity tail/head partitions of the known event node set",
+  "dataset_id": "senate_118_s_bills_cap3_sensitivity",
+  "driver": "scripts/49_evaluate_native_event_role_assignment.py",
+  "scores": "same split-observed lifted directed LP scores as native-event ranking",
+  "source_masks": "results/phase2/senate_118_s_bills_cap3_sensitivity_masks",
+  "target": "role_partition_of_heldout_native_event_node_set",
+  "ties": "expected top-1 and reciprocal rank under uniform tie breaking"
+}

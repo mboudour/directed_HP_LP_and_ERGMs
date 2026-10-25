@@ -67,6 +67,13 @@ DATASET_DEFAULTS: dict[str, dict[str, str]] = {
         "tail_column": "tail",
         "head_column": "head",
     },
+    "senate_118_s_bills": {
+        "arcs": "data/processed/senate_118_s_bills/static_arcs.parquet",
+        "nodes": "data/processed/senate_118_s_bills/nodes.csv",
+        "node_column": "node",
+        "tail_column": "tail",
+        "head_column": "head",
+    },
 }
 
 PREDICTION_SCHEMA = pa.schema(

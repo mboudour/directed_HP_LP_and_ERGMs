@@ -1,0 +1,14 @@
+\begin{table}[tbp]
+\centering
+\caption{Empirical transitive-triple logistic check on primary Senate training projections.}
+\label{tab:mtt-check}
+\begin{tabular}{lrrrl}
+\toprule
+Mask & fits & positive $\hat\theta_{tr}$ & mean $\hat\theta_{tr}$ & relation \\
+\midrule
+MCAR & 30/30 & 30 & 0.0571 & increasing, same order as directed CN \\
+MNAR-out & 30/30 & 30 & 0.0565 & increasing, same order as directed CN \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\footnotesize For each split, $y_{ij}$ is regressed on the exact directed transitive-triple change statistic. This checks the sign and ranking relation only.
+\end{table}

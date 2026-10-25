@@ -1,0 +1,492 @@
+{
+  "artifacts": [
+    {
+      "bytes": "3006",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap_profile/summary.md",
+      "sha256": "22cae716ea25f5d57ff1103068f21111c9eb5b2f695fa2be99b56d54218dad3f",
+      "source": "results/phase2/senate_118_s_bills_cap_profile/summary.md"
+    },
+    {
+      "bytes": "4112",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap_profile/summary.json",
+      "sha256": "8a0db564af452d9700252340aa22328444353d4e0210b1ffd0dea601fae72a98",
+      "source": "results/phase2/senate_118_s_bills_cap_profile/summary.json"
+    },
+    {
+      "bytes": "828",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap_profile/cap_profile.csv",
+      "sha256": "5dcaae04c48ed90cafc0a54d99a1d1efc42f8a0091ca3d965e7c8b72d70e6720",
+      "source": "results/phase2/senate_118_s_bills_cap_profile/cap_profile.csv"
+    },
+    {
+      "bytes": "2661",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap_profile/head_arity_distribution.csv",
+      "sha256": "e9d5244de08fd6381ec1c2a025593a4dbb40cf89d99685961779d95d60db56db",
+      "source": "results/phase2/senate_118_s_bills_cap_profile/head_arity_distribution.csv"
+    },
+    {
+      "bytes": "616",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap_gate/summary.md",
+      "sha256": "58952c3fcb42918586f7309448c9f0240d4baf8a287b3774a8f60a8462cf730a",
+      "source": "results/phase2/senate_118_s_bills_cap_gate/summary.md"
+    },
+    {
+      "bytes": "2220",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap_gate/summary.json",
+      "sha256": "187a379873b584b905eee4f31741e648b7c5ce1ec3a89971254017539042c680",
+      "source": "results/phase2/senate_118_s_bills_cap_gate/summary.json"
+    },
+    {
+      "bytes": "708",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap_gate/formal_concept_feasibility.csv",
+      "sha256": "e779ad6331f4f493a7cbb431675b635dd07814cbbbc0a6eab78b3156e7099ea0",
+      "source": "results/phase2/senate_118_s_bills_cap_gate/formal_concept_feasibility.csv"
+    },
+    {
+      "bytes": "1187",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_native_event_fidelity_tail3_head10/summary.md",
+      "sha256": "506813df685e4da6f152efa6172e5c6e30cf2430845aadcb34859e38d8b78746",
+      "source": "results/phase2/senate_118_s_bills_native_event_fidelity_tail3_head10/summary.md"
+    },
+    {
+      "bytes": "3607",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_native_event_fidelity_tail3_head10/summary.json",
+      "sha256": "9cad07ad3d9a3052eec95da6b71a5773d484eb9f3463bd8ee1600ca2f7308706",
+      "source": "results/phase2/senate_118_s_bills_native_event_fidelity_tail3_head10/summary.json"
+    },
+    {
+      "bytes": "4648",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_masks/summary.md",
+      "sha256": "c313d139de38fa42933496293025ab08a186856415704d7303ea1aafdd4728f5",
+      "source": "results/phase2/senate_118_s_bills_primary_masks/summary.md"
+    },
+    {
+      "bytes": "73471",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_masks/split_summary.csv",
+      "sha256": "536584732fc83eaeaffbf7013ebe87524709343536ec2f30efb9e9dacceb71d7",
+      "source": "results/phase2/senate_118_s_bills_primary_masks/split_summary.csv"
+    },
+    {
+      "bytes": "155888",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_masks/manifest.json",
+      "sha256": "3bfa08bc1c4ca535f1b1375d59dc882d8d06db0b21b23d86dce15658ce2027eb",
+      "source": "results/phase2/senate_118_s_bills_primary_masks/manifest.json"
+    },
+    {
+      "bytes": "9491",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_heuristics/summary.md",
+      "sha256": "b917c0c7f126351fc6b2eea7bd4af65f4c4e9bc20b82630ce228d4d32066e19d",
+      "source": "results/phase2/senate_118_s_bills_primary_heuristics/summary.md"
+    },
+    {
+      "bytes": "7401",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_heuristics/metric_summary.csv",
+      "sha256": "c2f6525ee55b02e13af6c8633ac737bb731147a8db9a53ef313484ef4ebbbd96",
+      "source": "results/phase2/senate_118_s_bills_primary_heuristics/metric_summary.csv"
+    },
+    {
+      "bytes": "2549",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_heuristics/split_summary.csv",
+      "sha256": "beb910a3da103dc73c9aa24d5691a3d20b53fba18b73b4002db35a5da87853bb",
+      "source": "results/phase2/senate_118_s_bills_primary_heuristics/split_summary.csv"
+    },
+    {
+      "bytes": "727",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_heuristics/manifest.json",
+      "sha256": "4ee20cde223d98ac3947784882d272d501de256f8ff1b8dcb24e06441b9546c2",
+      "source": "results/phase2/senate_118_s_bills_primary_heuristics/manifest.json"
+    },
+    {
+      "bytes": "8516",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_sponsor_substitution/summary.md",
+      "sha256": "84065fd6a9b6ebb9d3130dbfebdc0bab8aca7f0f2e006d3bd66bfe7110becf58",
+      "source": "results/phase2/senate_118_s_bills_primary_sponsor_substitution/summary.md"
+    },
+    {
+      "bytes": "9255",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_sponsor_substitution/metric_summary.csv",
+      "sha256": "a2a4d642ef68e6289d069c9d5739985dc4ccb31d1f933c133f092e9901547b58",
+      "source": "results/phase2/senate_118_s_bills_primary_sponsor_substitution/metric_summary.csv"
+    },
+    {
+      "bytes": "1919",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_sponsor_substitution/split_summary.csv",
+      "sha256": "b5db0314635e0bc19141c66d09c646f129c25d080f868245a050b1ed1d8794fb",
+      "source": "results/phase2/senate_118_s_bills_primary_sponsor_substitution/split_summary.csv"
+    },
+    {
+      "bytes": "582",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_sponsor_substitution/manifest.json",
+      "sha256": "4dec3213adad38598ca65448843503d2ac4f2df3c7d652e341d41b1664d421e1",
+      "source": "results/phase2/senate_118_s_bills_primary_sponsor_substitution/manifest.json"
+    },
+    {
+      "bytes": "2646",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_role_assignment/summary.md",
+      "sha256": "38721218fa3bb009747443bfd922bb4c4b9eda70bf8e42e03a20e152df448994",
+      "source": "results/phase2/senate_118_s_bills_primary_role_assignment/summary.md"
+    },
+    {
+      "bytes": "40380",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_role_assignment/metric_summary_by_arity.csv",
+      "sha256": "bfc9751f7578260d9abf968d1412bfeab8e321df7286a14b802560c468dec9e7",
+      "source": "results/phase2/senate_118_s_bills_primary_role_assignment/metric_summary_by_arity.csv"
+    },
+    {
+      "bytes": "2258",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_role_assignment/split_summary.csv",
+      "sha256": "4e0b8d57078d3c9c96300e62901bce945dc571ebcaaf109e51e5251729446c02",
+      "source": "results/phase2/senate_118_s_bills_primary_role_assignment/split_summary.csv"
+    },
+    {
+      "bytes": "488",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_role_assignment/manifest.json",
+      "sha256": "d4476439a84413803450ae3d097492239772fa00bb91ece6ffde15d9224a3751",
+      "source": "results/phase2/senate_118_s_bills_primary_role_assignment/manifest.json"
+    },
+    {
+      "bytes": "532",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_heuristic_paired_uncertainty/summary.md",
+      "sha256": "1c4f8afd214f56fa4d30b30278738abdbe128f7413bff4a54ee98e067d3cf4d7",
+      "source": "results/phase2/senate_118_s_bills_primary_heuristic_paired_uncertainty/summary.md"
+    },
+    {
+      "bytes": "17340",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_heuristic_paired_uncertainty/paired_differences.csv",
+      "sha256": "da4ad3e558cd10e6a2c087534d14b0db014c4b7af05b7bd4afeee082674ae296",
+      "source": "results/phase2/senate_118_s_bills_primary_heuristic_paired_uncertainty/paired_differences.csv"
+    },
+    {
+      "bytes": "1661",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_competitive_contrasts/competitive_contrasts.csv",
+      "sha256": "d1f717fddad6a958bfc1327cea7b3b2b443e69bf24a96b400417001c4cdc86e4",
+      "source": "results/phase2/senate_118_s_bills_primary_competitive_contrasts/competitive_contrasts.csv"
+    },
+    {
+      "bytes": "499",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_competitive_contrasts/manifest.json",
+      "sha256": "545ead15b73b0db6d10b37d9feb988f535ec72a94ab4bc6dbc75128ac7ab90f2",
+      "source": "results/phase2/senate_118_s_bills_primary_competitive_contrasts/manifest.json"
+    },
+    {
+      "bytes": "3640",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_static_arc_pilot/arc_lp_metrics.csv",
+      "sha256": "21bfa9940c2ebd1db4a10dfb89e8fb46aef88e305d9a139a7e6795bfc6135186",
+      "source": "results/phase2/senate_118_s_bills_static_arc_pilot/arc_lp_metrics.csv"
+    },
+    {
+      "bytes": "1853",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_static_arc_pilot/run_manifest.json",
+      "sha256": "5ada0d0fb0cab9266b20757be383ea714ebdf7f1fe47c06b1e08ac2c28270c57",
+      "source": "results/phase2/senate_118_s_bills_static_arc_pilot/run_manifest.json"
+    },
+    {
+      "bytes": "4653",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_masks/summary.md",
+      "sha256": "e9adf15e60ce8d2c4483272d4c932348acba3a225e6cda9c5fedc3862d8f4c0b",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_masks/summary.md"
+    },
+    {
+      "bytes": "71521",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_masks/split_summary.csv",
+      "sha256": "8abe82534a3413d8ee9dd552b35e52b0a2c3cfa232e66df77165fdc6ebbb8bd7",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_masks/split_summary.csv"
+    },
+    {
+      "bytes": "153955",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_masks/manifest.json",
+      "sha256": "1d9c57ac632682706c02ad742ae133f204b448dcd6c37dcf3b648b85bb581075",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_masks/manifest.json"
+    },
+    {
+      "bytes": "9502",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_heuristics/summary.md",
+      "sha256": "3e2fb9038bbe0c21a69ab45c92971e7d65e6c6465e87911426e7b06eced4bd46",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_heuristics/summary.md"
+    },
+    {
+      "bytes": "7384",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_heuristics/metric_summary.csv",
+      "sha256": "6d4da4fbbdab3d0e135f391ddd1a99f0f64eca1af1364e1c78954704a49c45b7",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_heuristics/metric_summary.csv"
+    },
+    {
+      "bytes": "3137",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_heuristics/split_summary.csv",
+      "sha256": "b3644dffeed3615918997e901d3f31b9a2e6073315259c5c7da712b960f45e24",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_heuristics/split_summary.csv"
+    },
+    {
+      "bytes": "753",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_heuristics/manifest.json",
+      "sha256": "17dca7b7dd40323ba47d9af0e75cc0b2afe87133a856c9883d450b4948864634",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_heuristics/manifest.json"
+    },
+    {
+      "bytes": "8531",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_sponsor_substitution/summary.md",
+      "sha256": "d640508d14c65ef3cc8e90870a21880a2d55fc8635a3dbb37b4f6f987c62eb90",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_sponsor_substitution/summary.md"
+    },
+    {
+      "bytes": "9244",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_sponsor_substitution/metric_summary.csv",
+      "sha256": "ce890a09ba6945cfdcee65ad9fda829715b0ea497e9d2650299c109b17e17e51",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_sponsor_substitution/metric_summary.csv"
+    },
+    {
+      "bytes": "2509",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_sponsor_substitution/split_summary.csv",
+      "sha256": "fbc4e20366cadaf438778738388a5bdde6bbafc7cc00aba3d1f6f8b715811b5d",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_sponsor_substitution/split_summary.csv"
+    },
+    {
+      "bytes": "608",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_sponsor_substitution/manifest.json",
+      "sha256": "764911ac8408af6b79a8d4a31a09061210c5425666f7baac69c27433982c99ca",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_sponsor_substitution/manifest.json"
+    },
+    {
+      "bytes": "2659",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_role_assignment/summary.md",
+      "sha256": "d3d1004f93b8b2efd40512482030ad70bee001a13f9162a7a31efbba39dcdaec",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_role_assignment/summary.md"
+    },
+    {
+      "bytes": "13550",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_role_assignment/metric_summary_by_arity.csv",
+      "sha256": "8ebae3a8f2eafd22a470f14eb46732bda593866808899e5f80eb16b3feb14651",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_role_assignment/metric_summary_by_arity.csv"
+    },
+    {
+      "bytes": "2250",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_role_assignment/split_summary.csv",
+      "sha256": "6babb7ed049170831501d840f4e6e4dc5c71381ad2f8c9f8876a62bd328533e9",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_role_assignment/split_summary.csv"
+    },
+    {
+      "bytes": "514",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_role_assignment/manifest.json",
+      "sha256": "2aa871fb0c5c15bb27427d92fe76049906b1abb4266917b21dc68a8748a2a3e9",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_role_assignment/manifest.json"
+    },
+    {
+      "bytes": "549",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_heuristic_paired_uncertainty/summary.md",
+      "sha256": "cf999d47939da77d6215f192b92d1f1e6e9f4061ae7f735c0c14585bf705c17b",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_heuristic_paired_uncertainty/summary.md"
+    },
+    {
+      "bytes": "18696",
+      "published": "results/published/network_science_20261025/phase2/senate_118_s_bills_cap3_sensitivity_heuristic_paired_uncertainty/paired_differences.csv",
+      "sha256": "1443191fda8633a4f66a0884012f950c85cc444610fd013d8d3b1ed06dea7c20",
+      "source": "results/phase2/senate_118_s_bills_cap3_sensitivity_heuristic_paired_uncertainty/paired_differences.csv"
+    },
+    {
+      "bytes": "22170",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_scores/summary.md",
+      "sha256": "bda4b407fe04a89c4ec5cd2de2bc5139978390c37170b39b6f9ab4d01ea7c381",
+      "source": "results/models/senate_118_s_bills_primary_ergm_scores/summary.md"
+    },
+    {
+      "bytes": "24052",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_scores/metric_summary.csv",
+      "sha256": "27977e01758d6cea376cde4d8a6e824386c2388887e1966900c2747636df1220",
+      "source": "results/models/senate_118_s_bills_primary_ergm_scores/metric_summary.csv"
+    },
+    {
+      "bytes": "74989",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_scores/model_status.csv",
+      "sha256": "b82533cb51ad5d0ab96a768b1c543a5f7c97236a4cb8074f25f0a84ba080b9e5",
+      "source": "results/models/senate_118_s_bills_primary_ergm_scores/model_status.csv"
+    },
+    {
+      "bytes": "6120",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_scores/network_summary.csv",
+      "sha256": "aa054d530f8676a46328e3c15c870ed76a0952117f00b6ba91b8086f8f584eee",
+      "source": "results/models/senate_118_s_bills_primary_ergm_scores/network_summary.csv"
+    },
+    {
+      "bytes": "31735",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_scores/split_status.csv",
+      "sha256": "d6b448800d04b309452a934b5f82fcb8724ed68434b7747baced2deb6ddcf1f8",
+      "source": "results/models/senate_118_s_bills_primary_ergm_scores/split_status.csv"
+    },
+    {
+      "bytes": "1932",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_scores/run_manifest.json",
+      "sha256": "efebbe2d2ba234b1cec2b1335a5586f64d94ab18e8c1a473dbb4c6b88c31d250",
+      "source": "results/models/senate_118_s_bills_primary_ergm_scores/run_manifest.json"
+    },
+    {
+      "bytes": "504",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_paired_uncertainty/summary.md",
+      "sha256": "9d587d866559bee325fb43f787b968ba94d0c15fe91c4c3a3171f1cc0dcfed72",
+      "source": "results/models/senate_118_s_bills_primary_ergm_paired_uncertainty/summary.md"
+    },
+    {
+      "bytes": "45848",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_paired_uncertainty/paired_differences.csv",
+      "sha256": "4e8f9508549cd53c008b66f7c6646fad9173e5ee13d7219b6cb16e3bbbdbad9f",
+      "source": "results/models/senate_118_s_bills_primary_ergm_paired_uncertainty/paired_differences.csv"
+    },
+    {
+      "bytes": "320",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_role_assignment/manifest.json",
+      "sha256": "d4b6faf4af25638fa7470982ba68f2c206ab6f71914978562b6aa3a652dbd90d",
+      "source": "results/models/senate_118_s_bills_primary_ergm_role_assignment/manifest.json"
+    },
+    {
+      "bytes": "327",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_role_assignment/metric_summary.csv",
+      "sha256": "fcecc231ef1cfe95d37e9dd2afe5820f6ed430ba49cff6e5c3c4b78303d3ae27",
+      "source": "results/models/senate_118_s_bills_primary_ergm_role_assignment/metric_summary.csv"
+    },
+    {
+      "bytes": "4273",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_ergm_role_assignment/split_summary.csv",
+      "sha256": "2e26c8d26a92669febec3f4bcd9b207f3dbbae3d81479b60b0a1e865a157e165",
+      "source": "results/models/senate_118_s_bills_primary_ergm_role_assignment/split_summary.csv"
+    },
+    {
+      "bytes": "884",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_mtt_logistic/summary.md",
+      "sha256": "2f5d65e24954e222219a93ed373620745d258f02cbe01cdfd07de7b5bab816e0",
+      "source": "results/models/senate_118_s_bills_primary_mtt_logistic/summary.md"
+    },
+    {
+      "bytes": "456",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_mtt_logistic/mechanism_summary.csv",
+      "sha256": "44b150a3c427d6cf1c318e9006dfddc332124260b3c681af0ccf9bcd54c3cb76",
+      "source": "results/models/senate_118_s_bills_primary_mtt_logistic/mechanism_summary.csv"
+    },
+    {
+      "bytes": "11745",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_mtt_logistic/split_coefficients.csv",
+      "sha256": "4df84435c3e669d9cba5b6a923af2b28be4c64058e38235b2fed22569ea3c06d",
+      "source": "results/models/senate_118_s_bills_primary_mtt_logistic/split_coefficients.csv"
+    },
+    {
+      "bytes": "506",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_primary_mtt_logistic/run_manifest.json",
+      "sha256": "41425687597cb78572ef8898f89b2de525b4188bfaecbaead615922563f09f41",
+      "source": "results/models/senate_118_s_bills_primary_mtt_logistic/run_manifest.json"
+    },
+    {
+      "bytes": "2801",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_static_arc_ergm/summary.md",
+      "sha256": "21f218856f2257b5ba7c382d9fc63894d2f1a66418ee15df166ed2f7fe0ceab0",
+      "source": "results/models/senate_118_s_bills_static_arc_ergm/summary.md"
+    },
+    {
+      "bytes": "13215",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_static_arc_ergm/metrics.csv",
+      "sha256": "557826a9a2849078574c8ff9257126d469f033e4848ff9efaf00b2a6a7df4cf8",
+      "source": "results/models/senate_118_s_bills_static_arc_ergm/metrics.csv"
+    },
+    {
+      "bytes": "3544",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_static_arc_ergm/model_status.csv",
+      "sha256": "96571844d1f8b9eb138e2d699f061d3ae0ff4605a91868c7cc53dba0e1993aa0",
+      "source": "results/models/senate_118_s_bills_static_arc_ergm/model_status.csv"
+    },
+    {
+      "bytes": "1173",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_static_arc_ergm/replicate_status.csv",
+      "sha256": "509136329cde1ff931d6edd56a0e573b94ac9d1ec607c6c1a25de9b0555cbd65",
+      "source": "results/models/senate_118_s_bills_static_arc_ergm/replicate_status.csv"
+    },
+    {
+      "bytes": "417",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_static_arc_ergm/replicate_network_summary.csv",
+      "sha256": "093140ce1291f9fe1d4491f9ad57ecc3f90cadb784e8ec0a54d6e819a69157b3",
+      "source": "results/models/senate_118_s_bills_static_arc_ergm/replicate_network_summary.csv"
+    },
+    {
+      "bytes": "2712",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_static_arc_ergm/run_manifest.json",
+      "sha256": "285402b81da0fc8451c6702cb59090746a4014d244a7241615d98d993c13794f",
+      "source": "results/models/senate_118_s_bills_static_arc_ergm/run_manifest.json"
+    },
+    {
+      "bytes": "8195",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/summary.md",
+      "sha256": "faaf20d8d063dec092ff26b975fb3e5a92950f4d7897daa807ce425730b5b108",
+      "source": "results/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/summary.md"
+    },
+    {
+      "bytes": "7072",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/metric_summary.csv",
+      "sha256": "86bfc35ae1a9a4d389cd0caafff95e2e512f07bda9cf27424eaa50d25291e414",
+      "source": "results/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/metric_summary.csv"
+    },
+    {
+      "bytes": "25501",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/model_status.csv",
+      "sha256": "5cd305e613cdc5492f35a1131167c43fd5e0ba160b9c68e9d8dac7004b2dbbdb",
+      "source": "results/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/model_status.csv"
+    },
+    {
+      "bytes": "6110",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/network_summary.csv",
+      "sha256": "39dcc9864db670d31c658ad461329b2b1e0a9ffaf57aae04ccbc150c567dcdaf",
+      "source": "results/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/network_summary.csv"
+    },
+    {
+      "bytes": "33355",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/split_status.csv",
+      "sha256": "be768f4ce1302f749f4e7bc43d7a3b7dca88694e13d6f62bf0c4daa82596df15",
+      "source": "results/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/split_status.csv"
+    },
+    {
+      "bytes": "1909",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/run_manifest.json",
+      "sha256": "4f72d72771eeb9da5982b845e1d7366ed6b4fc2beab8899e4a4589b5e0e02c3b",
+      "source": "results/models/senate_118_s_bills_cap3_sensitivity_ergm_scores/run_manifest.json"
+    },
+    {
+      "bytes": "521",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_ergm_paired_uncertainty/summary.md",
+      "sha256": "a224d96c40fd9133ca1e390de2642dd3dd18c992d6ca585f6b62af9d58380f4c",
+      "source": "results/models/senate_118_s_bills_cap3_sensitivity_ergm_paired_uncertainty/summary.md"
+    },
+    {
+      "bytes": "13500",
+      "published": "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_ergm_paired_uncertainty/paired_differences.csv",
+      "sha256": "c952ee9bae119b18f2a96cd1c9344853b7fdeafac002f1722087f14a33b88e13",
+      "source": "results/models/senate_118_s_bills_cap3_sensitivity_ergm_paired_uncertainty/paired_differences.csv"
+    },
+    {
+      "bytes": "1570",
+      "published": "results/published/network_science_20261025/records/senate_118_s_bills.md",
+      "sha256": "50189d745c490c5a8bc9acaa0368f67adb4014e3eb6295da42ea1bfca393de88",
+      "source": "docs/data_audits/senate_118_s_bills.md"
+    },
+    {
+      "bytes": "2759",
+      "published": "results/published/network_science_20261025/records/SENATE_CAP_GATE_DECISION.md",
+      "sha256": "b6eb6002a72e2b0c90330bc12c60f4bd9a4b3766c29e0414e959a8823579b59f",
+      "source": "docs/SENATE_CAP_GATE_DECISION.md"
+    },
+    {
+      "bytes": "3414",
+      "published": "results/published/network_science_20261025/records/senate_118_s_bills_audit.json",
+      "sha256": "8c281d1ba4778dc74cd5dbe8c46e8d020adfca1f72cfdb7fe7b6252a0da33bde",
+      "source": "data/metadata/senate_118_s_bills_audit.json"
+    },
+    {
+      "bytes": "1648",
+      "published": "results/published/network_science_20261025/records/senate_118_s_bills_policy.json",
+      "sha256": "37bbf247990c53b3678094a4108264cefc9de620ccb0492e91a5c1b1050c0134",
+      "source": "data/metadata/gates/senate_118_s_bills_policy.json"
+    },
+    {
+      "bytes": "1705",
+      "published": "results/published/network_science_20261025/records/senate_118_s_bills_cap_selection.json",
+      "sha256": "98238fe37671909b616b1fa64f38631261a7cad62eeff526ed312439bc37b735",
+      "source": "data/metadata/gates/senate_118_s_bills_cap_selection.json"
+    }
+  ],
+  "privacy_policy": "No raw XML, roster files, processed events, actor identifiers, candidate panels, conditional prediction rows, fitted objects, or free-form logs are included.",
+  "purpose": "aggregate-only Senate co-sponsorship evidence for the Network Science manuscript"
+}

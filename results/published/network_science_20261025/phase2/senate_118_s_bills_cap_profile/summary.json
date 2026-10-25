@@ -1,0 +1,98 @@
+{
+  "candidate_interpretation": {
+    "random_capacity": "All grammar-valid singleton-sponsor/nonoverlapping-head non-event types in the full fixed universe at retained observed head arities; it precedes split-specific weak-distance restrictions.",
+    "role_assignment": "All singleton-tail partitions of a known event participant set; h+1 candidate sponsor assignments for a head of size h.",
+    "sponsor_substitution": "An unseen candidate created by swapping the recorded sponsor with one recorded original co-sponsor, preserving the one-sponsor grammar and participant set."
+  },
+  "caps": [
+    {
+      "cap_projection_arcs": 1271,
+      "full_static_arc_coverage": 0.22619683217654388,
+      "grammar_valid_random_non_event_capacity": 9649,
+      "head_cap": 1,
+      "record_retention": 0.452217649748514,
+      "retained_event_records": 1978,
+      "retained_event_types": 1271,
+      "role_assignment_event_types": 1271,
+      "role_assignment_partitions": 2542,
+      "sponsor_substitution_eligible_event_types": 823,
+      "sponsor_substitution_valid_alternatives": 823,
+      "type_retention": 0.3506206896551724
+    },
+    {
+      "cap_projection_arcs": 1785,
+      "full_static_arc_coverage": 0.31767218366257344,
+      "grammar_valid_random_non_event_capacity": 571578,
+      "head_cap": 2,
+      "record_retention": 0.5585276634659351,
+      "retained_event_records": 2443,
+      "retained_event_types": 1722,
+      "role_assignment_event_types": 1722,
+      "role_assignment_partitions": 3895,
+      "sponsor_substitution_eligible_event_types": 1271,
+      "sponsor_substitution_valid_alternatives": 1691,
+      "type_retention": 0.4750344827586207
+    },
+    {
+      "cap_projection_arcs": 2523,
+      "full_static_arc_coverage": 0.44901227976508273,
+      "grammar_valid_random_non_event_capacity": 19691980,
+      "head_cap": 3,
+      "record_retention": 0.6803840877914952,
+      "retained_event_records": 2976,
+      "retained_event_types": 2240,
+      "role_assignment_event_types": 2240,
+      "role_assignment_partitions": 5967,
+      "sponsor_substitution_eligible_event_types": 1789,
+      "sponsor_substitution_valid_alternatives": 3217,
+      "type_retention": 0.6179310344827587
+    },
+    {
+      "cap_projection_arcs": 3221,
+      "full_static_arc_coverage": 0.5732336714717922,
+      "grammar_valid_random_non_event_capacity": 10158559371,
+      "head_cap": 5,
+      "record_retention": 0.7814357567443987,
+      "retained_event_records": 3418,
+      "retained_event_types": 2679,
+      "role_assignment_event_types": 2679,
+      "role_assignment_partitions": 8377,
+      "sponsor_substitution_eligible_event_types": 2228,
+      "sponsor_substitution_valid_alternatives": 5186,
+      "type_retention": 0.7390344827586207
+    },
+    {
+      "cap_projection_arcs": 4290,
+      "full_static_arc_coverage": 0.7634810464495462,
+      "grammar_valid_random_non_event_capacity": 3058533617374666,
+      "head_cap": 10,
+      "record_retention": 0.904435299497028,
+      "retained_event_records": 3956,
+      "retained_event_types": 3209,
+      "role_assignment_event_types": 3209,
+      "role_assignment_partitions": 12941,
+      "sponsor_substitution_eligible_event_types": 2758,
+      "sponsor_substitution_valid_alternatives": 9220,
+      "type_retention": 0.8852413793103449
+    }
+  ],
+  "dataset_id": "senate_118_s_bills",
+  "driver": "scripts/66_profile_senate_cap_gate.py",
+  "event_target": {
+    "distinct_ordered_types": 3625,
+    "head_cap_policy": "exclusion_only; no coalition is truncated",
+    "records": 4374,
+    "tail_arity": 1
+  },
+  "inputs": {
+    "events": "data/processed/senate_118_s_bills/native_events.parquet",
+    "nodes": "data/processed/senate_118_s_bills/nodes.csv",
+    "static_arcs": "data/processed/senate_118_s_bills/static_arcs.parquet"
+  },
+  "next_gate": "Run cap-first formal-concept enumeration at each viable cap and a one-split end-to-end candidate/ERGM pilot before freezing the primary Senate head cap.",
+  "static_projection": {
+    "directed_arcs": 5619,
+    "nodes": 105
+  },
+  "status": "completed_pending_formal_concept_feasibility"
+}

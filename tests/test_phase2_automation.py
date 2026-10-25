@@ -40,6 +40,12 @@ PHASE2_SCRIPTS = (
     "44_prepare_mathoverflow_static_projection.py",
     "45_collect_phase2_aggregate_outputs.py",
     "46_run_arcfirst_concept_recovery.py",
+    "63_acquire_senate_billstatus.py",
+    "64_acquire_congress_legislator_roster.py",
+    "65_prepare_senate_118_s_bills.py",
+    "66_profile_senate_cap_gate.py",
+    "67_run_senate_sponsor_substitution.py",
+    "68_run_senate_formal_concept_gate.py",
 )
 
 
@@ -55,6 +61,7 @@ def test_dataset_registry_has_all_planned_sources() -> None:
         "ciel",
         "jmail_v1_2026_02",
         "mathoverflow_stackexchange_2024",
+        "senate_118_s_bills",
     }
 
 

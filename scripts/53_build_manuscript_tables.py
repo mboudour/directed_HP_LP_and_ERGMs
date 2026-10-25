@@ -29,6 +29,7 @@ DATASET_LABELS = {
     "ciel": "Ciel",
     "jmail_v1_2026_02": "Jmail v1",
     "mathoverflow_stackexchange_2024": "MathOverflow reconstructed core",
+    "senate_118_s_bills": "U.S. Senate 118th Congress",
 }
 
 MECHANISM_LABELS = {"mcar": "MCAR", "mnar_out": "MNAR-out"}

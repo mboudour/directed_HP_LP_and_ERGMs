@@ -1,0 +1,6 @@
+tail_cap,head_cap,max_candidates,elapsed_seconds,output_dir,footprint_coverage,status,concepts,message
+3,1,250000,0.2699947219953174,results/phase2/senate_118_s_bills_cap_gate/formal_concepts_tail3_head1,0.0,completed,0,
+3,2,250000,0.4470177250041161,results/phase2/senate_118_s_bills_cap_gate/formal_concepts_tail3_head2,0.0,completed,0,
+3,3,250000,6.177828714004136,results/phase2/senate_118_s_bills_cap_gate/formal_concepts_tail3_head3,0.0,completed,0,
+3,5,250000,6.544360433006659,results/phase2/senate_118_s_bills_cap_gate/formal_concepts_tail3_head5,0.0,completed,0,
+3,10,250000,6.64019355000346,results/phase2/senate_118_s_bills_cap_gate/formal_concepts_tail3_head10,0.04466987008364478,completed,16,

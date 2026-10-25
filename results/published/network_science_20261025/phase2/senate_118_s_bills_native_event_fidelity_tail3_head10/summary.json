@@ -1,0 +1,106 @@
+{
+  "best_role_similarity": {
+    "concept_to_native_event": {
+      "maximum": 0.45833333333333337,
+      "mean": 0.35157706876456873,
+      "median": 0.32575757575757575,
+      "minimum": 0.26666666666666666,
+      "p95": 0.45833333333333337
+    },
+    "native_event_to_concept": {
+      "maximum": 0.45833333333333337,
+      "mean": 0.0851320444374869,
+      "median": 0.05555555555555555,
+      "minimum": 0.0,
+      "p95": 0.21666666666666667
+    }
+  },
+  "caps": {
+    "head": 10,
+    "max_concept_candidates": 250000,
+    "tail": 3
+  },
+  "cover_structure": {
+    "aggregation_ratio_native_event_occurrences": {
+      "maximum": 68.0,
+      "mean": 41.5625,
+      "median": 41.5,
+      "minimum": 12.0,
+      "p95": 65.0
+    },
+    "aggregation_ratio_native_event_types": {
+      "maximum": 53.0,
+      "mean": 35.625,
+      "median": 34.5,
+      "minimum": 12.0,
+      "p95": 51.5
+    },
+    "best_event_to_concept_role_distortions": 350,
+    "formal_concepts_with_two_or_more_contributing_native_event_types": 16,
+    "native_event_types_with_two_or_more_strictly_contained_concepts": 0,
+    "spurious_closure_formal_concepts_without_exact_native_event": 16,
+    "strictly_contained_concepts_per_native_event_type": {
+      "maximum": 0.0,
+      "mean": 0.0,
+      "median": 0.0,
+      "minimum": 0.0,
+      "p95": 0.0
+    }
+  },
+  "dataset_id": "senate_118_s_bills",
+  "driver": "scripts/29_audit_native_event_fidelity.py",
+  "exact_tail_head_equality": {
+    "concept_precision": 0.0,
+    "matching_pairs": 0,
+    "native_event_type_recall": 0.0
+  },
+  "fixed_node_universe": 105,
+  "footprint_agreement": {
+    "formal_concept_footprint_arcs": 251,
+    "formal_concept_footprint_covered_by_native_events": 0.8247011952191236,
+    "intersection_arcs": 207,
+    "jaccard": 0.047761882787263496,
+    "native_event_cap_footprint_arcs": 4290,
+    "native_event_footprint_covered_by_concepts": 0.04825174825174825,
+    "union_arcs": 4334
+  },
+  "formal_concepts": {
+    "count": 16
+  },
+  "inputs": {
+    "native_events": {
+      "path": "data/processed/senate_118_s_bills/native_events.parquet",
+      "sha256": "b9b2404d35c77395e34bea4504961bcd7dafbbd59b23bea4b88797e039f37ae1"
+    },
+    "nodes": {
+      "path": "data/processed/senate_118_s_bills/nodes.csv",
+      "sha256": "fcd6a96c83221a4972c8329e120201bd2b31178ed321e496e5ab986c57c639b8"
+    },
+    "static_arcs": {
+      "path": "data/processed/senate_118_s_bills/static_arcs.parquet",
+      "sha256": "1614ae9e711ecfaf03486335f10d00a576806a08e3aa23470f784345f1895868"
+    }
+  },
+  "limitations": [
+    "The capped concept section is a derived representation, not a reconstruction of recorded messages.",
+    "Exact equality is assessed on tail/head event types; repeated records contribute occurrence counts but do not create new types.",
+    "This audit has no degree-preserving-rewiring comparison and makes no chance-corrected fidelity claim.",
+    "Containment fragmentation and aggregation ratio are descriptive cover diagnostics, not a unique inverse of the dyadic projection."
+  ],
+  "native_events": {
+    "cap_eligible_event_records": 3956,
+    "cap_eligible_event_type_occurrences": 3956,
+    "cap_eligible_event_types": 3209,
+    "event_records_read": 4374,
+    "excluded_by_arity_cap_event_records": 418,
+    "fixed_universe_event_records": 4374
+  },
+  "outputs": {
+    "concept_to_event_aggregation": "concept_to_event_aggregation.csv",
+    "event_to_concept_matches": "event_to_concept_matches.csv",
+    "summary_json": "summary.json",
+    "summary_markdown": "summary.md"
+  },
+  "static_arcs": 5619,
+  "status": "completed"
+}

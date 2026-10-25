@@ -1,0 +1,50 @@
+{
+  "concept_fidelity": {
+    "augmented_section_pairs": 5635,
+    "concept_section": "results/phase2/senate_118_s_bills_static_arc_pilot/concept_section.csv",
+    "formal_concepts": 16,
+    "formal_footprint_coverage": 0.04466987008364478,
+    "formal_footprint_covered_arcs": 251,
+    "head_cap": 10,
+    "interpretation": "Formal-section coverage measures representation fidelity only. The augmented section adds observed singleton arcs to guarantee arc coverage; it is not itself a formal-concept-only target set.",
+    "tail_cap": 3
+  },
+  "dataset": "senate_118_s_bills",
+  "head_column": "head",
+  "input_arcs": "data/processed/senate_118_s_bills/static_arcs.parquet",
+  "input_nodes": "data/processed/senate_118_s_bills/nodes.csv",
+  "limitations": [
+    "This bounded pilot evaluates static arc LP only. It is not a hyperlink-event evaluation.",
+    "The final plan additionally requires event-first masks, target-specific hard panels, ERGM score lifts, conditional simulation, and pilot-gate review.",
+    "AUC values evaluate uncalibrated heuristic scores; log loss is reserved for calibrated probabilities such as ERGM conditional scores."
+  ],
+  "masking": {
+    "mechanism": "mcar",
+    "regime": "arc_first",
+    "replicates": 3,
+    "requested_rate": 0.3,
+    "seed": 20261013
+  },
+  "negative_panel": "random_true_nonedges",
+  "nodes": 105,
+  "pilot_type": "static_arc_lp_and_representation_fidelity",
+  "possible_nonloop_dyads": 10920,
+  "r_inputs": {
+    "driver": "r/models/static_directed_ergm_ladder.R",
+    "edges": "r_inputs/static_edges.csv",
+    "nodes": "r_inputs/nodes.csv"
+  },
+  "scores": [
+    "oi",
+    "oo",
+    "ii",
+    "common_neighbor_total",
+    "adamic_adar_oi",
+    "adamic_adar_oo",
+    "adamic_adar_ii",
+    "adamic_adar_total"
+  ],
+  "static_arcs": 5619,
+  "tail_column": "tail",
+  "true_nonedge_pool": 5301
+}

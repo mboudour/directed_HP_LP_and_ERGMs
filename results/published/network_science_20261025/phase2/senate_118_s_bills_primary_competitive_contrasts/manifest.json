@@ -1,0 +1,11 @@
+{
+  "comparisons": {
+    "random": "lifted_adamic_adar_total_mean",
+    "sponsor_substitution": "lifted_degree_product_mean"
+  },
+  "dataset_id": "senate_118_s_bills",
+  "driver": "scripts/69_summarize_senate_competitive_contrasts.py",
+  "estimand": "within-fixed-network mean of matched-mask M4c L1g minus declared local score",
+  "privacy": "Only aggregate contrast rows are emitted; no candidate or actor records are copied.",
+  "resampling_unit": "whole frozen mask within the Senate network"
+}

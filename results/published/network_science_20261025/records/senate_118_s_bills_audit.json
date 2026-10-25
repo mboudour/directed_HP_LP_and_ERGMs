@@ -1,0 +1,78 @@
+{
+  "actor_policies": [
+    {
+      "description": "Persons with a Senate term covering the declared 118th-Congress reference date 2024-01-01.",
+      "excluded_outside_actor_universe": 204,
+      "name": "reference_date_2024_01_01",
+      "nodes": 100,
+      "retained_event_records": 4170,
+      "static_arcs": 5209
+    },
+    {
+      "description": "Persons with a Senate term overlapping 2023-01-03 through 2025-01-03; people are never merged by seat.",
+      "excluded_outside_actor_universe": 0,
+      "name": "all_serving_persons_during_118th_congress",
+      "nodes": 105,
+      "retained_event_records": 4374,
+      "static_arcs": 5619
+    }
+  ],
+  "dataset_id": "senate_118_s_bills",
+  "driver": "scripts/65_prepare_senate_118_s_bills.py",
+  "event_construction": {
+    "cosponsor_rows_read": 28003,
+    "duplicate_original_cosponsor_rows": 0,
+    "nonoriginal_cosponsor_rows": 9145,
+    "original_cosponsor_rows": 18858,
+    "original_cosponsor_withdrawals_retained": 6,
+    "valid_nonempty_head_event_records": 4374,
+    "xml_records_read": 5649,
+    "zero_original_cosponsor_measures": 1275
+  },
+  "event_definition": {
+    "empty_head_policy": "reported and excluded from nonempty-head native-event target",
+    "event_record": "one stable bill identifier",
+    "head": "distinct Bill Status original-co-sponsor Bioguide IDs",
+    "identity_policy": "opaque Bioguide IDs only; no person-name matching or seat merging",
+    "original_member_policy": "isOriginalCosponsor == True; later withdrawal retained",
+    "source_scope": "118th Congress, S. bills only",
+    "tail": "unique Bill Status sponsor Bioguide ID"
+  },
+  "inputs": {
+    "billstatus_raw_directory": {
+      "path": "data/raw/us_senate_118_billstatus_s",
+      "source_manifest_sha256": "8af49bcc76e6d8f1642b9c409f0390ec730d7bd41f8220177183f12b0fb7b33f"
+    },
+    "roster_raw_directory": {
+      "current_sha256": "ae8cb9477c48715df71a7d860854229d799dc90a254d61badc1efb770f892b2c",
+      "historical_sha256": "25187633f3215a096fe9d14d8a40db1fb0841ab1d24c6da52da3a80c93698cbc",
+      "path": "data/raw/us_congress_legislators_gh_pages"
+    }
+  },
+  "next_gate": "Run cap-first retention, formal-concept feasibility, and candidate-panel audit before selecting the Senate head cap or creating primary masks.",
+  "primary_policy": {
+    "description": "Persons with a Senate term overlapping 2023-01-03 through 2025-01-03; people are never merged by seat.",
+    "name": "all_serving_persons_during_118th_congress",
+    "nodes": 105,
+    "selection_reason": "It preserves every valid nonempty-head event while retaining distinct persons throughout the completed Congress; no people are merged by Senate seat."
+  },
+  "processed_outputs": {
+    "native_events": {
+      "path": "data/processed/senate_118_s_bills/native_events.parquet",
+      "sha256": "b9b2404d35c77395e34bea4504961bcd7dafbbd59b23bea4b88797e039f37ae1"
+    },
+    "nodes": {
+      "path": "data/processed/senate_118_s_bills/nodes.csv",
+      "sha256": "fcd6a96c83221a4972c8329e120201bd2b31178ed321e496e5ab986c57c639b8"
+    },
+    "static_arcs": {
+      "path": "data/processed/senate_118_s_bills/static_arcs.parquet",
+      "sha256": "1614ae9e711ecfaf03486335f10d00a576806a08e3aa23470f784345f1895868"
+    }
+  },
+  "roster_accounting": {
+    "roster_people_read": 12770,
+    "roster_people_with_senate_terms": 2019
+  },
+  "status": "stage_a_event_and_actor_policy_audited"
+}

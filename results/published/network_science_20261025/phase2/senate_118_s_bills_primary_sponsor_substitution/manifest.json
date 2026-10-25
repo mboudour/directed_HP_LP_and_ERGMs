@@ -1,0 +1,13 @@
+{
+  "candidate_universe": "weak distance two in each split's observed projection",
+  "dataset_id": "senate_118_s_bills",
+  "driver": "scripts/67_run_senate_sponsor_substitution.py",
+  "hard_panel": "sponsor_substitution",
+  "negative_exclusion": "all observed and held-out native event types",
+  "reversal_orientation": "not evaluated because it would violate the Senate event grammar",
+  "source_masks": "results/phase2/senate_118_s_bills_primary_masks",
+  "splits_completed": 60,
+  "status": "completed",
+  "tail_grammar": "exactly one sponsor",
+  "target": "native_event_type"
+}

@@ -76,3 +76,20 @@ datasets:
     static_targets: [arc, footprint, concept, conditional_native_event, role_assignment]
     hard_gate: fixed_answer_window_deleted_post_anonymous_user_and_duplicate_answerer_policy
     gate_record: data/metadata/gates/mathoverflow_reconstruction_policy.json
+
+  senate_118_s_bills:
+    status: approved_primary_native_cap10_pending_execution
+    raw_input_glob: data/raw/us_senate_118_billstatus_s/BILLSTATUS-118s*.xml
+    roster_inputs:
+      - data/raw/us_congress_legislators_gh_pages/legislators-current.json
+      - data/raw/us_congress_legislators_gh_pages/legislators-historical.json
+    source_scope: 118th_Congress_Senate_bills_only
+    core_rule: all_persons_with_a_Senate_term_overlapping_the_118th_Congress
+    native_event_policy: singleton_bill_sponsor_to_distinct_original_cosponsors_at_introduction
+    role_policy: retain_original_cosponsors_despite_later_withdrawal; no_seat_merging
+    primary_caps:
+      tail: 1
+      head: 10
+    static_targets: [arc, footprint, concept, native_event, sponsor_assignment]
+    hard_gate: cap_first_event_retention_formal_concept_feasibility_candidate_and_model_pilot
+    gate_record: data/metadata/gates/senate_118_s_bills_cap_selection.json

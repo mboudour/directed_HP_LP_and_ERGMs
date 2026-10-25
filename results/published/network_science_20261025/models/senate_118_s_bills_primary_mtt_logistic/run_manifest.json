@@ -1,0 +1,14 @@
+{
+  "status": "completed",
+  "script": "r/models/fit_mtt_logistic.R",
+  "dataset_id": "senate_118_s_bills",
+  "input": {
+    "contract": "nodes.csv[id]; splits/<mechanism>_replicate_NNN/train_edges.csv[from,to]"
+  },
+  "model": {
+    "label": "M_tt",
+    "formula": "y_ij ~ 1 + s_CN,ij",
+    "interpretation": "Exact MPLE/logistic form of edges plus unweighted directed transitive triples."
+  },
+  "privacy": "Outputs are split-level coefficient summaries without actors, dyads, candidates, or records."
+}

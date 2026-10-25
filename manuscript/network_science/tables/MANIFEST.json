@@ -1,0 +1,22 @@
+{
+  "driver": "scripts/71_build_network_science_tables.py",
+  "privacy": "Generated tables contain aggregate counts, metrics, intervals, and no actor identifiers.",
+  "sources": [
+    "data/metadata/senate_118_s_bills_audit.json",
+    "results/phase2/senate_118_s_bills_primary_*",
+    "results/models/senate_118_s_bills_primary_*",
+    "results/models/senate_118_s_bills_cap3_sensitivity_*",
+    "manuscript/tables/table_03a_primary_native_random_panel_pr_auc.csv"
+  ],
+  "tables": [
+    "table_01_senate_data.tex",
+    "table_02_primary_performance.tex",
+    "table_03_competitive_contrasts.tex",
+    "table_04_sponsor_identification.tex",
+    "table_05_cap_sensitivity.tex",
+    "table_06_concept_fidelity.tex",
+    "table_a1_mtt_check.tex",
+    "table_a2_static_diagnostic.tex",
+    "table_a3_scope_checks.tex"
+  ]
+}

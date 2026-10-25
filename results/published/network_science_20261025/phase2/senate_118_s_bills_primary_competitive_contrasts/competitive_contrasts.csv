@@ -1,0 +1,9 @@
+dataset_id,mechanism,panel,metric,ergm_method,local_method,paired_masks,mean_difference,bootstrap_ci_low,bootstrap_ci_high,paired_sign_flip_p_value,bootstrap_reps,permutation_reps
+senate_118_s_bills,mcar,random,pr_auc,M4c::L1g,lifted_adamic_adar_total_mean,30,-0.03833974065635279,-0.04159845755675348,-0.0352011841595783,4.999750012499375e-05,10000,20000
+senate_118_s_bills,mcar,random,roc_auc,M4c::L1g,lifted_adamic_adar_total_mean,30,-0.0201828358035656,-0.023238605813571046,-0.017195524864599493,4.999750012499375e-05,10000,20000
+senate_118_s_bills,mnar_out,random,pr_auc,M4c::L1g,lifted_adamic_adar_total_mean,30,-0.044268993403863664,-0.049611265058093865,-0.039184664428702255,4.999750012499375e-05,10000,20000
+senate_118_s_bills,mnar_out,random,roc_auc,M4c::L1g,lifted_adamic_adar_total_mean,30,-0.03910941959833889,-0.04266469205573397,-0.03566581008476844,4.999750012499375e-05,10000,20000
+senate_118_s_bills,mcar,sponsor_substitution,pr_auc,M4c::L1g,lifted_degree_product_mean,30,-0.10831728924774561,-0.11374351994575113,-0.10299346986541405,4.999750012499375e-05,10000,20000
+senate_118_s_bills,mcar,sponsor_substitution,roc_auc,M4c::L1g,lifted_degree_product_mean,30,-0.1266882404636823,-0.13216164450410678,-0.12158316763872166,4.999750012499375e-05,10000,20000
+senate_118_s_bills,mnar_out,sponsor_substitution,pr_auc,M4c::L1g,lifted_degree_product_mean,30,-0.08134914429579923,-0.0893310445420008,-0.07373034595474051,4.999750012499375e-05,10000,20000
+senate_118_s_bills,mnar_out,sponsor_substitution,roc_auc,M4c::L1g,lifted_degree_product_mean,30,-0.10162154540167494,-0.10995082079290847,-0.09338781831290606,4.999750012499375e-05,10000,20000

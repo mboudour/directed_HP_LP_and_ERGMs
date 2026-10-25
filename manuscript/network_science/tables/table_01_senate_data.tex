@@ -1,0 +1,19 @@
+\begin{table}[tbp]
+\centering
+\caption{Senate co-sponsorship record construction and fixed actor universe.}
+\label{tab:senate-data}
+\begin{tabular}{lr}
+\toprule
+Quantity & Value \\
+\midrule
+Bill Status XML records (118th Congress, S. bills) & 5,649 \\
+Measures with nonempty original-co-sponsor head & 4,374 \\
+Measures with zero original co-sponsors & 1,275 \\
+Distinct Senate persons in primary universe & 105 \\
+Directed sponsor-to-co-sponsor arcs & 5,619 \\
+Primary event target & one sponsor $\to$ up to ten original co-sponsors \\
+Missingness grid & 30 MCAR + 30 activity-biased MNAR-out masks \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\footnotesize A record is an S. bill with its sole recorded sponsor as tail and its original co-sponsors as head. Later withdrawals remain in the introduction-time membership target.
+\end{table}

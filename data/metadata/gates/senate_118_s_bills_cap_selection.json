@@ -1,0 +1,35 @@
+{
+  "dataset_id": "senate_118_s_bills",
+  "status": "approved_for_primary_native_benchmark",
+  "decision": {
+    "tail_cap": 1,
+    "head_cap": 10,
+    "tail_policy": "singleton sponsor",
+    "head_policy": "original co-sponsor set; no truncation; exclude heads above cap"
+  },
+  "actor_universe": {
+    "policy": "all_serving_persons_during_118th_congress",
+    "nodes": 105,
+    "no_seat_merging": true
+  },
+  "selection_criteria": {
+    "retention": "highest evaluated cap retaining 90.444% of valid bill records and 88.524% of ordered event types",
+    "formal_concept_feasibility": "16 cap-first concepts under tail cap 3 and head cap 10; lower evaluated head caps yielded zero",
+    "candidate_viability": "960 to 962 random-panel positive types eligible of 962 held-out types in each of three MCAR pilot masks",
+    "model_stability": "M0 and M4c MPLE conditional-score fits completed for all three cap-10 MCAR pilot masks"
+  },
+  "primary_design": {
+    "mask_rate": 0.3,
+    "mechanisms": ["mcar", "mnar_out"],
+    "replicates_per_mechanism": 30,
+    "hard_panel": "sponsor_substitution",
+    "reversal_orientation": "not evaluated because reversal violates the singleton-sponsor event grammar"
+  },
+  "pilot_exclusion": "Cap-selection pilot masks are not primary masks and are excluded from primary effect estimates and uncertainty calculations.",
+  "evidence": {
+    "event_actor_audit": "docs/data_audits/senate_118_s_bills.md",
+    "cap_profile": "results/phase2/senate_118_s_bills_cap_profile/summary.md",
+    "concept_gate": "results/phase2/senate_118_s_bills_cap_gate/summary.md",
+    "cap10_model_pilot": "results/models/senate_118_s_bills_cap10_pilot_ergm_scores/model_status.csv"
+  }
+}

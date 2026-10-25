@@ -1,0 +1,47 @@
+{
+  "status": "completed",
+  "script": "r/models/score_masked_ergm.R",
+  "generated_at_utc": "2026-10-25 17:31:32 UTC",
+  "input": {
+    "input_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/phase2/senate_118_s_bills_static_arc_pilot",
+    "nodes_csv": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/phase2/senate_118_s_bills_static_arc_pilot/r_inputs/nodes.csv",
+    "masks_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/phase2/senate_118_s_bills_static_arc_pilot/masks",
+    "contract": "r_inputs/nodes.csv[id]; masks/replicate_NNN_train_edges.csv[from,to]; masks/replicate_NNN_candidates.csv[candidate_tail,candidate_head,label]"
+  },
+  "output_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/senate_118_s_bills_static_arc_ergm",
+  "models": [
+    "M0",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M4c"
+  ],
+  "estimation": {
+    "estimate": "MPLE",
+    "seed": 20261026
+  },
+  "conditional_prediction": {
+    "call": "predict(fit, conditional=TRUE, type='response', output='data.frame')",
+    "extraction": "Statnet tail/head node indices are mapped through r_inputs/nodes.csv id labels, then joined only to candidate dyads."
+  },
+  "metrics": {
+    "roc_auc": "Average-rank ROC-AUC; ties receive half-credit.",
+    "pr_auc": "Threshold-step average precision with equal-score rows pooled.",
+    "classification": "Accuracy, precision, recall, F1, and Matthews correlation use the predeclared conditional-probability threshold 0.5.",
+    "log_loss": "Mean binary cross-entropy of conditional probabilities; exact 0/1 probabilities are machine-epsilon clipped only for the logarithm.",
+    "degenerate_labels": "Both values are NA with status not_defined_degenerate_labels when a replicate has no positives or no negatives."
+  },
+  "package_versions": {
+    "network": "1.20.0",
+    "ergm": "4.12.0",
+    "jsonlite": "2.0.0"
+  },
+  "counts": {
+    "replicates_discovered": 3,
+    "replicates_with_status": 3,
+    "models_requested_per_valid_replicate": 6,
+    "conditional_prediction_rows": 60660
+  },
+  "limitations": ["Each model is fitted only to that replicate's train_edges CSV and scores only its candidate CSV; no full-network fit is substituted.", "Conditional probabilities condition on all other dyads in the fitted masked training network. They are not simulated forecasts or estimates of an unconditional future tie probability.", "ERGM terms can be unavailable, degenerate, or fail to estimate on a masked network. These errors are retained per replicate/model in model_status.csv rather than replaced by another model.", "No raw-data paths, full pilot edge list, or source-data provenance are inferred or read by this driver."]
+}

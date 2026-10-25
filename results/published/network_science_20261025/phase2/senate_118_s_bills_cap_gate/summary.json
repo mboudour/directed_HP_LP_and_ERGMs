@@ -1,0 +1,75 @@
+{
+  "dataset_id": "senate_118_s_bills",
+  "driver": "scripts/68_run_senate_formal_concept_gate.py",
+  "head_caps": [
+    1,
+    2,
+    3,
+    5,
+    10
+  ],
+  "inputs": {
+    "edges": "data/processed/senate_118_s_bills/static_arcs.parquet",
+    "nodes": "data/processed/senate_118_s_bills/nodes.csv"
+  },
+  "interpretation": "A feasibility-gate failure means cap-first enumeration did not complete under the declared candidate budget. It is not a substitute for a different cap or algorithm.",
+  "max_candidates": 250000,
+  "outcomes": [
+    {
+      "concepts": 0,
+      "elapsed_seconds": 0.2699947219953174,
+      "footprint_coverage": 0.0,
+      "head_cap": 1,
+      "max_candidates": 250000,
+      "message": "",
+      "output_dir": "results/phase2/senate_118_s_bills_cap_gate/formal_concepts_tail3_head1",
+      "status": "completed",
+      "tail_cap": 3
+    },
+    {
+      "concepts": 0,
+      "elapsed_seconds": 0.4470177250041161,
+      "footprint_coverage": 0.0,
+      "head_cap": 2,
+      "max_candidates": 250000,
+      "message": "",
+      "output_dir": "results/phase2/senate_118_s_bills_cap_gate/formal_concepts_tail3_head2",
+      "status": "completed",
+      "tail_cap": 3
+    },
+    {
+      "concepts": 0,
+      "elapsed_seconds": 6.177828714004136,
+      "footprint_coverage": 0.0,
+      "head_cap": 3,
+      "max_candidates": 250000,
+      "message": "",
+      "output_dir": "results/phase2/senate_118_s_bills_cap_gate/formal_concepts_tail3_head3",
+      "status": "completed",
+      "tail_cap": 3
+    },
+    {
+      "concepts": 0,
+      "elapsed_seconds": 6.544360433006659,
+      "footprint_coverage": 0.0,
+      "head_cap": 5,
+      "max_candidates": 250000,
+      "message": "",
+      "output_dir": "results/phase2/senate_118_s_bills_cap_gate/formal_concepts_tail3_head5",
+      "status": "completed",
+      "tail_cap": 3
+    },
+    {
+      "concepts": 16,
+      "elapsed_seconds": 6.64019355000346,
+      "footprint_coverage": 0.04466987008364478,
+      "head_cap": 10,
+      "max_candidates": 250000,
+      "message": "",
+      "output_dir": "results/phase2/senate_118_s_bills_cap_gate/formal_concepts_tail3_head10",
+      "status": "completed",
+      "tail_cap": 3
+    }
+  ],
+  "tail_cap": 3
+}

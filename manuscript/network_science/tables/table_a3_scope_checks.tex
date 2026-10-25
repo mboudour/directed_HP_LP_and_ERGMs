@@ -1,0 +1,16 @@
+\begin{table}[tbp]
+\centering
+\caption{Non-political scope checks: strongest reported random-panel native-event PR-AUC.}
+\label{tab:scope-checks}
+\begin{tabular}{lllr}
+\toprule
+Dataset & mask & score & PR-AUC \\
+\midrule
+Enron & MCAR & M4c $L_{1g}$ & 0.858 \\
+Enron & MNAR-out & M4c $L_{1g}$ & 0.832 \\
+MathOverflow & MCAR & M4c $L_{1g}$ & 0.740 \\
+MathOverflow & MNAR-out & M4c $L_{1g}$ & 0.739 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\footnotesize Existing fixed-network event-first benchmarks are retained as scope checks; the Senate is the political worked application and is analysed in the main text.
+\end{table}

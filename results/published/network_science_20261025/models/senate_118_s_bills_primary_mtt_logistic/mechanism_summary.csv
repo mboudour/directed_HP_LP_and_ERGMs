@@ -1,0 +1,3 @@
+"mechanism","completed_masks","positive_theta_masks","negative_theta_masks","zero_theta_masks","theta_triple_mean","theta_triple_sd","theta_triple_min","theta_triple_max","rank_relation"
+"mcar",30,30,0,0,0.0570580214205168,0.00104513026950029,0.054209809698451,0.0592944801173529,"increasing_same_order_as_directed_CN"
+"mnar_out",30,30,0,0,0.0565072940828608,0.000946481920034333,0.054788463201364,0.0592338425095918,"increasing_same_order_as_directed_CN"

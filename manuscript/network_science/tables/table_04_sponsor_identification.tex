@@ -1,0 +1,16 @@
+\begin{table}[tbp]
+\centering
+\caption{Sponsor identification with participants and arities held fixed.}
+\label{tab:senate-role}
+\begin{tabular}{lrrr}
+\toprule
+Mask & score & top-1 accuracy & MRR \\
+\midrule
+MCAR & AA-OI & 0.429 & 0.649 \\
+MCAR & M4c conditional & 0.304 & 0.562 \\
+MNAR-out & AA-OI & 0.402 & 0.633 \\
+MNAR-out & M4c conditional & 0.311 & 0.567 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\footnotesize Each held-out bill is evaluated against every compatible sponsor/co-sponsor partition. Local rows are event-weighted over observed arities; ERGM rows use M4c $L_{1g}$.
+\end{table}

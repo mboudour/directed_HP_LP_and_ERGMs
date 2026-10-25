@@ -1,0 +1,34 @@
+{
+  "actor_universe": {
+    "description": "Persons with a Senate term overlapping 2023-01-03 through 2025-01-03; people are never merged by seat.",
+    "name": "all_serving_persons_during_118th_congress",
+    "nodes": 105,
+    "selection_reason": "It preserves every valid nonempty-head event while retaining distinct persons throughout the completed Congress; no people are merged by Senate seat."
+  },
+  "cap_policy": "pending_cap_first_audit; no masking or model fit permitted",
+  "dataset_id": "senate_118_s_bills",
+  "event_definition": {
+    "empty_head_policy": "reported and excluded from nonempty-head native-event target",
+    "event_record": "one stable bill identifier",
+    "head": "distinct Bill Status original-co-sponsor Bioguide IDs",
+    "identity_policy": "opaque Bioguide IDs only; no person-name matching or seat merging",
+    "original_member_policy": "isOriginalCosponsor == True; later withdrawal retained",
+    "source_scope": "118th Congress, S. bills only",
+    "tail": "unique Bill Status sponsor Bioguide ID"
+  },
+  "processed_paths": {
+    "native_events": {
+      "path": "data/processed/senate_118_s_bills/native_events.parquet",
+      "sha256": "b9b2404d35c77395e34bea4504961bcd7dafbbd59b23bea4b88797e039f37ae1"
+    },
+    "nodes": {
+      "path": "data/processed/senate_118_s_bills/nodes.csv",
+      "sha256": "fcd6a96c83221a4972c8329e120201bd2b31178ed321e496e5ab986c57c639b8"
+    },
+    "static_arcs": {
+      "path": "data/processed/senate_118_s_bills/static_arcs.parquet",
+      "sha256": "1614ae9e711ecfaf03486335f10d00a576806a08e3aa23470f784345f1895868"
+    }
+  },
+  "status": "approved_for_cap_gate_only"
+}

@@ -1,0 +1,30 @@
+{
+  "dataset_id": "us_senate_118_billstatus_s",
+  "privacy": "Official public legislative source; raw XML remains excluded from Git.",
+  "raw_tree": {
+    "detailed_manifest": "SOURCE_MANIFEST.json",
+    "path": "data/raw/us_senate_118_billstatus_s",
+    "total_xml_bytes": 59515929,
+    "tree_sha256": "f8f766477fc506e7e504d4b769a4c0a5ae5aa602c47d6b5f04507772c5d6a44d",
+    "xml_records": 5649
+  },
+  "run": {
+    "downloaded": 5,
+    "driver": "scripts/63_acquire_senate_billstatus.py",
+    "retries": 10,
+    "reused": 5644,
+    "workers": 1
+  },
+  "scope": {
+    "congress": 118,
+    "measure_prefix": "s",
+    "record_type": "BILLSTATUS XML"
+  },
+  "source": {
+    "accessed_utc": "2026-10-25T16:41:47Z",
+    "listing_sha256": "70019c7304b38dd0fcb0e982c9bf424719a1ae0aa0662fc06a07ce95bf1ee89a",
+    "listing_url": "https://www.govinfo.gov/bulkdata/json/BILLSTATUS/118/s",
+    "provider": "U.S. Government Publishing Office GovInfo"
+  },
+  "status": "acquired"
+}
