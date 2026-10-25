@@ -12,6 +12,7 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = PROJECT_ROOT / "manuscript" / "network_science" / "tables"
+ROW_END = r"\\"
 
 
 def parse_args() -> argparse.Namespace:
@@ -80,6 +81,7 @@ def tex_table(
     return (
         "\\begin{table}[tbp]\n"
         "\\centering\n"
+        "\\small\n"
         f"\\caption{{{caption}}}\n"
         f"\\label{{{label}}}\n"
         f"\\begin{{tabular}}{{{column_spec}}}\n"
@@ -101,6 +103,9 @@ def main() -> None:
     if output_dir.exists() and any(output_dir.iterdir()) and not args.overwrite:
         raise SystemExit(f"STOP: table directory is nonempty; pass --overwrite: {output_dir}")
     output_dir.mkdir(parents=True, exist_ok=True)
+    if args.overwrite:
+        for stale in output_dir.glob("table_*.tex"):
+            stale.unlink()
 
     audit = json.loads((PROJECT_ROOT / "data/metadata/senate_118_s_bills_audit.json").read_text())
     event = audit["event_construction"]
@@ -148,11 +153,58 @@ def main() -> None:
     original_scope = pd.read_csv(
         PROJECT_ROOT / "manuscript/tables/table_03a_primary_native_random_panel_pr_auc.csv"
     )
+    scope_fidelity = pd.read_csv(
+        PROJECT_ROOT / "manuscript/tables/table_02_concept_event_fidelity.csv"
+    )
+    scope_hard = pd.read_csv(
+        PROJECT_ROOT / "manuscript/tables/table_03b_primary_native_hard_panel_pr_auc.csv"
+    )
+    scope_ergm = {
+        "Enron": pd.read_csv(
+            PROJECT_ROOT
+            / "results/published/phase2_20261015/models/enron_native_event_ergm_footprints"
+            / "metric_summary.csv"
+        ),
+        "MathOverflow": pd.read_csv(
+            PROJECT_ROOT
+            / "results/published/phase2_20261015/models/mathoverflow_native_event_ergm_footprints"
+            / "metric_summary.csv"
+        ),
+    }
+    scope_intermediate = {
+        "Enron": pd.read_csv(
+            PROJECT_ROOT / "results/models/enron_native_event_ergm_intermediate/metric_summary.csv"
+        ),
+        "MathOverflow": pd.read_csv(
+            PROJECT_ROOT
+            / "results/models/mathoverflow_native_event_ergm_intermediate/metric_summary.csv"
+        ),
+    }
+    scope_mtt = {
+        "Enron": pd.read_csv(
+            PROJECT_ROOT / "results/models/enron_mtt_logistic/mechanism_summary.csv"
+        ),
+        "MathOverflow": pd.read_csv(
+            PROJECT_ROOT / "results/models/mathoverflow_mtt_logistic/mechanism_summary.csv"
+        ),
+    }
+    cap_profile = pd.read_csv(
+        PROJECT_ROOT / "results/phase2/senate_118_s_bills_cap_profile/cap_profile.csv"
+    )
+    concept_gate = pd.read_csv(
+        PROJECT_ROOT / "results/phase2/senate_118_s_bills_cap_gate/formal_concept_feasibility.csv"
+    )
+    mask_summary = pd.read_csv(
+        PROJECT_ROOT / "results/phase2/senate_118_s_bills_primary_masks/split_summary.csv"
+    )
+    temporal_diagnostic = pd.read_csv(
+        PROJECT_ROOT / "manuscript/tables/table_05_bounded_temporal_diagnostic.csv"
+    )
 
     table1 = tex_table(
         "Senate co-sponsorship record construction and fixed actor universe.",
         "tab:senate-data",
-        "lr",
+        "p{0.50\\textwidth}p{0.40\\textwidth}",
         "Quantity & Value",
         [
             "Bill Status XML records (118th Congress, S. bills) & "
@@ -168,6 +220,46 @@ def main() -> None:
         ],
         "A record is an S. bill with its sole recorded sponsor as tail and its original co-sponsors as head."
         " Later withdrawals remain in the introduction-time membership target.",
+    )
+
+    actor_rows = []
+    for policy in audit["actor_policies"]:
+        display = (
+            "100 persons serving on 1 January 2024"
+            if policy["name"] == "reference_date_2024_01_01"
+            else "all persons serving during the 118th Congress"
+        )
+        retention = policy["retained_event_records"] / event["valid_nonempty_head_event_records"]
+        actor_rows.append(
+            f"{display} & {policy['nodes']:,} & {policy['retained_event_records']:,} & "
+            f"{100 * retention:.1f}\% & {policy['static_arcs']:,} " + ROW_END
+        )
+    table_a1 = tex_table(
+        "Actor-universe audit before the primary Senate benchmark.",
+        "tab:actor-universe-audit",
+        "p{0.40\\textwidth}rrrr",
+        "Policy & persons & retained bills & retention & projected arcs",
+        actor_rows,
+        "The selected policy retains every valid bill with a nonempty original-co-sponsor head and never merges distinct people by Senate seat.",
+    )
+
+    cap_rows = []
+    concept_counts = dict(zip(concept_gate["head_cap"], concept_gate["concepts"], strict=True))
+    for _, row in cap_profile.iterrows():
+        cap = int(row["head_cap"])
+        cap_rows.append(
+            f"{cap} & {100 * row['record_retention']:.1f}\% & {100 * row['type_retention']:.1f}\% & "
+            f"{int(row['cap_projection_arcs']):,} & {int(concept_counts[cap]):,} & "
+            f"{int(row['sponsor_substitution_eligible_event_types']):,} & "
+            f"{int(row['role_assignment_event_types']):,} " + ROW_END
+        )
+    table_a2 = tex_table(
+        "Cap-first Senate target audit across original-co-sponsor head limits.",
+        "tab:cap-audit",
+        "lrrrrrr",
+        "Head cap & bill retention & type retention & arcs & concepts & sponsor swaps & role events",
+        cap_rows,
+        "All rows use the same 105-person universe. Concepts use the cap-first $|T|\leq3$ enumeration; the primary cap $|H|\leq10$ was selected before the 30-mask study.",
     )
 
     performance_rows: list[str] = []
@@ -293,6 +385,45 @@ def main() -> None:
         " Exact agreement requires equality of ordered tail and head sets.",
     )
 
+    mask_rows = []
+    for mechanism, display in (("mcar", "MCAR"), ("mnar_out", "MNAR-out")):
+        subset = mask_summary.loc[mask_summary["mechanism"] == mechanism]
+        mask_rows.append(
+            f"{display} & {len(subset)} & {100 * subset['realized_event_type_mask_rate'].mean():.2f}\% & "
+            f"{100 * subset['realized_event_record_mask_rate'].mean():.2f}\% & "
+            f"{100 * subset['realized_arc_removal_rate'].mean():.2f}\% & "
+            f"{100 * subset['already_observed_footprint_type_fraction'].mean():.2f}\% " + ROW_END
+        )
+    table_a3 = tex_table(
+        "Realised omission and footprint-survival rates across primary Senate masks.",
+        "tab:mask-realisation",
+        "lrrrrr",
+        "Mask & masks & type rate & record rate & arc-removal rate & surviving footprints",
+        mask_rows,
+        "A surviving footprint means every dyad of a held-out bill type remains induced by at least one distinct observed bill type; it is a representation feature, not target leakage.",
+    )
+
+    ladder_rows = []
+    for model in ("M0", "M1", "M2", "M3", "M4", "M4c"):
+        values = [
+            metric(primary_ergm, "random", "mcar", model, "L1g", "pr_auc"),
+            metric(primary_ergm, "random", "mnar_out", model, "L1g", "pr_auc"),
+            metric(primary_ergm, "sponsor_substitution", "mcar", model, "L1g", "pr_auc"),
+            metric(primary_ergm, "sponsor_substitution", "mnar_out", model, "L1g", "pr_auc"),
+        ]
+        ladder_rows.append(
+            f"{model} & {fmt(values[0])} & {fmt(values[1])} & {fmt(values[2])} & {fmt(values[3])} "
+            + ROW_END
+        )
+    table_a4 = tex_table(
+        "Full split-specific MPLE ERGM ladder: mean $L_{1g}$ PR-AUC across 30 Senate masks.",
+        "tab:ergm-ladder",
+        "lrrrr",
+        "Model & random MCAR & random MNAR-out & sponsor swap MCAR & sponsor swap MNAR-out",
+        ladder_rows,
+        "M0 contains edges only; M1 adds mutuality; M2 adds degree terms; M3 adds transitive closure; M4 adds directed shared-partner terms; M4c also adds cyclic triples. Values are conditional footprint-score rankings, not joint event probabilities.",
+    )
+
     mtt_rows = [
         f"{'MCAR' if row['mechanism'] == 'mcar' else 'MNAR-out'} & "
         f"{int(row['completed_masks'])}/{int(row['completed_masks'])} & "
@@ -300,7 +431,7 @@ def main() -> None:
         "increasing, same order as directed CN \\\\"
         for _, row in mtt.iterrows()
     ]
-    table_a1 = tex_table(
+    table_a5 = tex_table(
         "Empirical transitive-triple logistic check on primary Senate training projections.",
         "tab:mtt-check",
         "lrrrl",
@@ -318,7 +449,7 @@ def main() -> None:
         ]
         grouped = sub.groupby("metric", as_index=True)["value"].mean()
         static_rows.append(f"{model} & {fmt(grouped['pr_auc'])} & {fmt(grouped['roc_auc'])} \\\\")
-    table_a2 = tex_table(
+    table_a6 = tex_table(
         "Bounded static directed-arc diagnostic for the Senate projection.",
         "tab:static-diagnostic",
         "lrr",
@@ -342,7 +473,7 @@ def main() -> None:
             scope_rows.append(
                 f"{short_name} & {mechanism} & M4c $L_{{1g}}$ & {fmt(row['pr_auc_mean'])}" + r" \\"
             )
-    table_a3 = tex_table(
+    table_a7 = tex_table(
         "Non-political scope checks: strongest reported random-panel native-event PR-AUC.",
         "tab:scope-checks",
         "lllr",
@@ -352,6 +483,121 @@ def main() -> None:
         " political worked application and is analysed in the main text.",
     )
 
+    scope_fidelity_rows: list[str] = []
+    for _, row in scope_fidelity.iterrows():
+        short_name = "Enron" if row["dataset"].startswith("Enron") else "MathOverflow"
+        scope_fidelity_rows.append(
+            f"{short_name} & {int(row['nodes'])} & {int(row['static_arcs']):,} & "
+            f"{int(row['native_event_types']):,} & {int(row['formal_concepts']):,} & "
+            f"{int(row['exact_tail_head_matches'])} & {fmt(row['footprint_jaccard'])} " + ROW_END
+        )
+    table_a8 = tex_table(
+        "Non-political target and representation-fidelity audit at common tail/head cap three.",
+        "tab:scope-fidelity",
+        "lrrrrrr",
+        "Core & actors & arcs & types & concepts & exact & footprint $J$",
+        scope_fidelity_rows,
+        "Exact equality requires identical ordered tail and head sets. Footprint $J$ compares unions of directed arcs and is not event-type recovery.",
+    )
+
+    scope_panel_rows: list[str] = []
+    scope_panel_specs = (
+        ("Random arity-matched", "Directed Adamic-Adar total", "random: AA-total"),
+        ("Random arity-matched", "M4c::L1g", "random: M4c $L_{1g}$"),
+        ("Reversal/orientation", "Directed Adamic-Adar total", "reversal: AA-total"),
+        ("Reversal/orientation", "M4c::L1g", "reversal: M4c $L_{1g}$"),
+        ("Role exchange", "Directed Adamic-Adar total", "role exchange: AA-total"),
+        ("Role exchange", "M4c::L1g", "role exchange: M4c $L_{1g}$"),
+    )
+    for panel, method, display in scope_panel_specs:
+        values: list[str] = []
+        for dataset in scope_datasets:
+            source = original_scope if panel == "Random arity-matched" else scope_hard
+            for mechanism in ("MCAR", "MNAR-out"):
+                subset = source.loc[
+                    (source["dataset"] == dataset)
+                    & (source["panel"] == panel)
+                    & (source["mechanism"] == mechanism)
+                    & (source["method"] == method)
+                ]
+                if len(subset) != 1:
+                    raise ValueError(
+                        "Expected one scope panel metric for "
+                        f"{dataset}/{panel}/{mechanism}/{method}"
+                    )
+                values.append(fmt(float(subset.iloc[0]["pr_auc_mean"])))
+        scope_panel_rows.append(f"{display} & " + " & ".join(values) + " " + ROW_END)
+    table_a9 = tex_table(
+        "Non-political event-first panel profiles: mean PR-AUC across 30 masks per cell.",
+        "tab:scope-panels",
+        "lrrrr",
+        "Panel and score & Enron M & Enron MN & MO M & MO MN",
+        scope_panel_rows,
+        "M = MCAR and MN = MNAR-out. Random panels are arity-matched non-event comparisons. Reversal and role-exchange panels contain only valid unseen transformed alternatives and are not pooled with random panels.",
+    )
+
+    scope_ladder_rows: list[str] = []
+    for model in ("M0", "M1", "M2", "M3", "M4", "M4c"):
+        values = [
+            metric(
+                scope_intermediate[dataset] if model in {"M2", "M4"} else scope_ergm[dataset],
+                "random",
+                mechanism,
+                model,
+                "L1g",
+                "pr_auc",
+            )
+            for dataset in ("Enron", "MathOverflow")
+            for mechanism in ("mcar", "mnar_out")
+        ]
+        scope_ladder_rows.append(
+            f"{model} & " + " & ".join(fmt(value) for value in values) + " " + ROW_END
+        )
+    table_a10 = tex_table(
+        "Full conditional-score ladder in the non-political event-first scope checks: mean random-panel PR-AUC across 30 masks per cell.",
+        "tab:scope-ladder",
+        "lrrrr",
+        "Model & Enron MCAR & Enron MNAR-out & MathOverflow MCAR & MathOverflow MNAR-out",
+        scope_ladder_rows,
+        "All entries use split-specific MPLE conditional scores with geometric footprint lifting $L_{1g}$. The table reports rankings on the stated case-control panels, not joint event probabilities.",
+    )
+
+    scope_mtt_rows: list[str] = []
+    for dataset in ("Enron", "MathOverflow"):
+        for mechanism, display in (("mcar", "MCAR"), ("mnar_out", "MNAR-out")):
+            row = scope_mtt[dataset].loc[scope_mtt[dataset]["mechanism"] == mechanism].iloc[0]
+            scope_mtt_rows.append(
+                f"{dataset} & {display} & {int(row['completed_masks'])}/{int(row['completed_masks'])} & "
+                f"{int(row['positive_theta_masks'])}/{int(row['completed_masks'])} & "
+                f"{fmt(row['theta_triple_mean'], 4)} & "
+                f"[{fmt(row['theta_triple_min'], 4)}, {fmt(row['theta_triple_max'], 4)}] " + ROW_END
+            )
+    table_a11 = tex_table(
+        "Cross-source empirical check of the directed transitive-triple conditional dictionary.",
+        "tab:scope-mtt",
+        "llrrrr",
+        "Core & mask & fits & positive & mean $\hat\theta_{tr}$ & range",
+        scope_mtt_rows,
+        "Every fit is the restricted split-specific logistic/MPLE check using the exact directed transitive-triple change statistic. Positive coefficients imply that its arc-level conditional score is increasing in directed out--in common neighbours.",
+    )
+
+    temporal_rows: list[str] = []
+    for _, row in temporal_diagnostic.iterrows():
+        source = "Enron" if row["dataset"].startswith("Enron") else "EU-core"
+        btergm = "3/5 fit; T2 and T2--H nonfinite" if source == "Enron" else "5/5 fit"
+        temporal_rows.append(
+            f"{source} & {int(row['nodes'])} & {int(row['panels'])} & {int(row['transitions'])} & "
+            f"{row['factorized_lagged_models']} & {btergm} " + ROW_END
+        )
+    table_a12 = tex_table(
+        "Bounded chronological diagnostic status; this is a conditional-score check, not a forecasting experiment.",
+        "tab:bounded-temporal",
+        "lrrrll",
+        "Source & actors & panels & transitions & lagged models & btergm MPLE ladder",
+        temporal_rows,
+        "Both sources use three frozen panels and two transitions. The btergm branch has 20 temporal bootstrap replicates and no simulation, forecast, TERGM, STERGM, or relational-hyperevent claim.",
+    )
+
     tables = {
         "table_01_senate_data.tex": table1,
         "table_02_primary_performance.tex": table2,
@@ -359,9 +605,18 @@ def main() -> None:
         "table_04_sponsor_identification.tex": table4,
         "table_05_cap_sensitivity.tex": table5,
         "table_06_concept_fidelity.tex": table6,
-        "table_a1_mtt_check.tex": table_a1,
-        "table_a2_static_diagnostic.tex": table_a2,
-        "table_a3_scope_checks.tex": table_a3,
+        "table_a1_actor_universe.tex": table_a1,
+        "table_a2_cap_audit.tex": table_a2,
+        "table_a3_mask_realisation.tex": table_a3,
+        "table_a4_ergm_ladder.tex": table_a4,
+        "table_a5_mtt_check.tex": table_a5,
+        "table_a6_static_diagnostic.tex": table_a6,
+        "table_a7_scope_checks.tex": table_a7,
+        "table_a8_scope_fidelity.tex": table_a8,
+        "table_a9_scope_panels.tex": table_a9,
+        "table_a10_scope_ladder.tex": table_a10,
+        "table_a11_scope_mtt.tex": table_a11,
+        "table_a12_bounded_temporal.tex": table_a12,
     }
     for name, content in tables.items():
         (output_dir / name).write_text(content, encoding="utf-8")
@@ -373,6 +628,12 @@ def main() -> None:
             "results/models/senate_118_s_bills_primary_*",
             "results/models/senate_118_s_bills_cap3_sensitivity_*",
             "manuscript/tables/table_03a_primary_native_random_panel_pr_auc.csv",
+            "manuscript/tables/table_02_concept_event_fidelity.csv",
+            "manuscript/tables/table_03b_primary_native_hard_panel_pr_auc.csv",
+            "results/published/phase2_20261015/models/*_native_event_ergm_footprints/metric_summary.csv",
+            "results/models/*_native_event_ergm_intermediate/metric_summary.csv",
+            "results/models/*_mtt_logistic/mechanism_summary.csv",
+            "manuscript/tables/table_05_bounded_temporal_diagnostic.csv",
         ],
         "privacy": "Generated tables contain aggregate counts, metrics, intervals, and no actor identifiers.",
         "tables": sorted(tables),
