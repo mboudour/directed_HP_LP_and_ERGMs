@@ -24,7 +24,7 @@ from itertools import product
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PANEL_NAMES = ("random", "reversal_orientation", "role_exchange")
+DEFAULT_PANEL_NAMES = ("random", "reversal_orientation", "role_exchange")
 
 
 @dataclass(frozen=True, slots=True)
@@ -52,9 +52,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--hard-panel-dir", type=Path, required=True)
     parser.add_argument("--nodes", type=Path, required=True)
     parser.add_argument("--node-column", required=True)
+    parser.add_argument(
+        "--panels",
+        default=",".join(DEFAULT_PANEL_NAMES),
+        help=(
+            "Comma-separated frozen panels to export. Must include random; default: "
+            f"{','.join(DEFAULT_PANEL_NAMES)}."
+        ),
+    )
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--overwrite", action="store_true")
-    return parser.parse_args()
+    args = parser.parse_args()
+    panels = tuple(panel.strip() for panel in args.panels.split(",") if panel.strip())
+    if not panels or panels[0] != "random" or len(set(panels)) != len(panels):
+        parser.error("--panels must start with random and contain unique nonempty panel names.")
+    if any(not panel.replace("_", "").isalnum() for panel in panels):
+        parser.error("--panels may contain only letters, digits, and underscores.")
+    args.panels = panels
+    return args
 
 
 def resolve_path(path: Path) -> Path:
@@ -251,7 +266,7 @@ def main() -> None:
         panel_rows: list[dict[str, object]] = []
         unique_dyads: set[tuple[str, str]] = set()
         panel_counts: dict[str, int] = {}
-        for panel in PANEL_NAMES:
+        for panel in args.panels:
             candidates = read_panel(
                 panel_path(panel, split_dir.name, heuristic_dir, hard_panel_dir), panel, node_set
             )
@@ -288,9 +303,7 @@ def main() -> None:
                 "replicate": replicate,
                 "split": split_dir.name,
                 "training_arcs": len(arcs),
-                "random_candidates": panel_counts["random"],
-                "reversal_orientation_candidates": panel_counts["reversal_orientation"],
-                "role_exchange_candidates": panel_counts["role_exchange"],
+                **{f"{panel}_candidates": panel_counts[panel] for panel in args.panels},
                 "candidate_footprint_dyad_rows": len(panel_rows),
                 "unique_candidate_dyads": len(unique_dyads),
             }
@@ -315,7 +328,7 @@ def main() -> None:
             "per_split_unique_dyads": "splits/<split>/candidate_dyads.csv["
             "candidate_tail,candidate_head,label]",
         },
-        "panels": list(PANEL_NAMES),
+        "panels": list(args.panels),
         "limitations": [
             "The export reads only frozen split artifacts; it never recreates a complete graph.",
             "Candidate footprints are graph footprints, not observed-event probability targets.",

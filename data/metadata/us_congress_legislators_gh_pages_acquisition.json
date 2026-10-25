@@ -1,0 +1,36 @@
+{
+  "dataset_id": "us_congress_legislators_gh_pages",
+  "raw_tree": {
+    "files": [
+      {
+        "bytes": 1469059,
+        "disposition": "downloaded",
+        "filename": "legislators-current.json",
+        "records": 539,
+        "sha256": "ae8cb9477c48715df71a7d860854229d799dc90a254d61badc1efb770f892b2c",
+        "source_url": "https://raw.githubusercontent.com/unitedstates/congress-legislators/gh-pages/legislators-current.json"
+      },
+      {
+        "bytes": 13483039,
+        "disposition": "downloaded",
+        "filename": "legislators-historical.json",
+        "records": 12231,
+        "sha256": "25187633f3215a096fe9d14d8a40db1fb0841ab1d24c6da52da3a80c93698cbc",
+        "source_url": "https://raw.githubusercontent.com/unitedstates/congress-legislators/gh-pages/legislators-historical.json"
+      }
+    ],
+    "path": "data/raw/us_congress_legislators_gh_pages"
+  },
+  "run": {
+    "driver": "scripts/64_acquire_congress_legislator_roster.py",
+    "retries": 4
+  },
+  "scope": "Public Bioguide-keyed member and term records used only to define Senate actor universe policies; Bill Status XML remains the event-record source.",
+  "source": {
+    "accessed_utc": "2026-10-25T16:05:18Z",
+    "branch": "gh-pages",
+    "documentation_url": "https://github.com/unitedstates/congress-legislators",
+    "provider": "unitedstates/congress-legislators"
+  },
+  "status": "acquired"
+}
