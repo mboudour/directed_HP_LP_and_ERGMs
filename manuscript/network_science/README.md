@@ -19,7 +19,18 @@ From the repository root, run:
 make manuscript-network-science
 ```
 
-The target regenerates the Senate aggregate evidence bundle, manuscript tables, and quantitative figures, then compiles both PDFs into `manuscript/network_science/build/`. The source-level manual sequence for the anonymized main document is:
+The target regenerates the Senate aggregate evidence bundle, manuscript tables, and quantitative figures, then compiles both PDFs into `manuscript/network_science/build/`.
+
+For a downloaded, self-contained source package, the simplest reliable command is:
+
+```sh
+bash compile_network_science.sh
+```
+
+Run it from the directory containing this README. It creates
+`build/Paper1_NetworkScience.pdf` and applies the required `pdflatex`,
+`bibtex`, `pdflatex`, `pdflatex` sequence. The source-level manual sequence
+for the anonymized main document is:
 
 ```sh
 cd manuscript/network_science
