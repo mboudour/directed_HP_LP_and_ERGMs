@@ -25,6 +25,7 @@ PHASE2 = {
     ),
     "senate_118_s_bills_cap_gate": ("summary.md", "summary.json", "formal_concept_feasibility.csv"),
     "senate_118_s_bills_native_event_fidelity_tail3_head10": ("summary.md", "summary.json"),
+    "senate_118_s_bills_native_event_fidelity_tail3_head15": ("summary.md", "summary.json"),
     "senate_118_s_bills_primary_masks": ("summary.md", "split_summary.csv", "manifest.json"),
     "senate_118_s_bills_primary_heuristics": (
         "summary.md",
@@ -119,12 +120,41 @@ MODELS = {
         "summary.md",
         "paired_differences.csv",
     ),
+    "senate_118_s_bills_primary_ergm_m6_scores": (
+        "summary.md",
+        "metric_summary.csv",
+        "model_status.csv",
+        "network_summary.csv",
+        "split_status.csv",
+        "run_manifest.json",
+    ),
+    "senate_118_s_bills_primary_m6_vs_m5_paired_uncertainty": (
+        "summary.md",
+        "paired_differences.csv",
+    ),
+    "senate_118_s_bills_primary_ergm_no_mutual_scores": (
+        "summary.md",
+        "metric_summary.csv",
+        "model_status.csv",
+        "network_summary.csv",
+        "split_status.csv",
+        "run_manifest.json",
+    ),
+    "senate_118_s_bills_primary_no_mutual_vs_m4c_paired_uncertainty": (
+        "summary.md",
+        "paired_differences.csv",
+    ),
     "senate_118_s_bills_primary_ergm_role_assignment": (
         "manifest.json",
         "metric_summary.csv",
         "split_summary.csv",
     ),
     "senate_118_s_bills_primary_m5_ergm_role_assignment": (
+        "manifest.json",
+        "metric_summary.csv",
+        "split_summary.csv",
+    ),
+    "senate_118_s_bills_primary_m6_ergm_role_assignment": (
         "manifest.json",
         "metric_summary.csv",
         "split_summary.csv",

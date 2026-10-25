@@ -54,6 +54,13 @@ def test_network_science_table_generator_writes_full_appendix_bundle(tmp_path: P
     assert (
         "M5 minus M4c" in (output_dir / "table_03b_political_covariate_contrasts.tex").read_text()
     )
+    political_contrasts = (output_dir / "table_03b_political_covariate_contrasts.tex").read_text()
+    assert "M6 minus M5" in political_contrasts
+    assert "without mutuality minus M4c" in political_contrasts
+    assert (
+        "M6 sender-effect conditional"
+        in (output_dir / "table_02_primary_performance.tex").read_text()
+    )
     assert "recoverability" in (output_dir / "table_a5b_sponsor_recoverability.tex").read_text()
     assert (
         "Bounded chronological diagnostic"

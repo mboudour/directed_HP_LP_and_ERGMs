@@ -190,7 +190,8 @@ read_directed_edges <- function(input_path, source_col, target_col, drop_loops, 
   )
 }
 
-static_ladder_specs <- function(degree_decay = 0.5, esp_decay = 0.5, include_political = FALSE) {
+static_ladder_specs <- function(degree_decay = 0.5, esp_decay = 0.5, include_political = FALSE,
+                                include_mutuality_sensitivity = FALSE) {
   number <- function(x) format(x, scientific = FALSE, trim = TRUE)
   d <- number(degree_decay)
   e <- number(esp_decay)
@@ -240,6 +241,41 @@ static_ladder_specs <- function(degree_decay = 0.5, esp_decay = 0.5, include_pol
         ),
         required_terms = paste(
           "M4c terms; nodematch(party); nodematch(state); absdiff(ideology)"
+        ),
+        stringsAsFactors = FALSE
+      )
+    )
+    specs <- rbind(
+      specs,
+      data.frame(
+        model = "M6",
+        rhs = paste(
+          specs$rhs[specs$model == "M5"],
+          "+ nodeocov('majority_caucus') + nodeocov('seniority_years')"
+        ),
+        description = paste(
+          "M5 plus sender-side majority-caucus membership and baseline Senate",
+          "seniority effects."
+        ),
+        required_terms = paste(
+          "M5 terms; nodeocov(majority_caucus); nodeocov(seniority_years)"
+        ),
+        stringsAsFactors = FALSE
+      )
+    )
+  }
+  if (include_mutuality_sensitivity) {
+    specs <- rbind(
+      specs,
+      data.frame(
+        model = "M4c_no_mutual",
+        rhs = paste("edges +", degree_terms, "+", otp, "+", osp, "+", isp, "+ ctriple"),
+        description = paste(
+          "M4c without the mutuality statistic; a targeted sponsor-substitution",
+          "sensitivity specification."
+        ),
+        required_terms = paste(
+          "edges; gwodegree; gwidegree; gwesp(OTP); gwesp(OSP); gwesp(ISP); ctriple"
         ),
         stringsAsFactors = FALSE
       )

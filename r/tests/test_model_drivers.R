@@ -29,6 +29,17 @@ stopifnot(grepl("type='OSP'", specs$rhs[specs$model == "M4"], fixed = TRUE))
 stopifnot(grepl("type='ISP'", specs$rhs[specs$model == "M4"], fixed = TRUE))
 stopifnot(grepl("ctriple", specs$rhs[specs$model == "M4c"], fixed = TRUE))
 
+political_specs <- static_ladder_specs(
+  include_political = TRUE,
+  include_mutuality_sensitivity = TRUE
+)
+stopifnot(all(c("M5", "M6", "M4c_no_mutual") %in% political_specs$model))
+stopifnot(grepl("nodeocov('majority_caucus')", political_specs$rhs[political_specs$model == "M6"], fixed = TRUE))
+stopifnot(grepl("nodeocov('seniority_years')", political_specs$rhs[political_specs$model == "M6"], fixed = TRUE))
+no_mutual_rhs <- political_specs$rhs[political_specs$model == "M4c_no_mutual"]
+stopifnot(grepl("edges", no_mutual_rhs, fixed = TRUE))
+stopifnot(!grepl("mutual", no_mutual_rhs, fixed = TRUE))
+
 identity <- proposition6_lagged_cn_identity()
 stopifnot(isTRUE(identity$pass))
 stopifnot(isTRUE(identity$logit_identity))

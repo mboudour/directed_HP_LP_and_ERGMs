@@ -381,31 +381,41 @@ native_model_ids <- function(models_text) {
 }
 
 native_read_political_attributes <- function(path, node_ids) {
-  # Read complete Senate party, state, and ideology attributes for M5.
+  # Read complete Senate attributes for M5/M6 political specifications.
   nodes <- utils::read.csv(
     path, stringsAsFactors = FALSE, check.names = FALSE, colClasses = "character", na.strings = "NA"
   )
-  required <- c("id", "party", "state", "ideology")
+  required <- c("id", "party", "state", "ideology", "majority_caucus", "seniority_years")
   if (!all(required %in% names(nodes))) {
-    stop("M5 requires nodes.csv columns: ", paste(required, collapse = ", "), ".", call. = FALSE)
+    stop("Political models require nodes.csv columns: ", paste(required, collapse = ", "), ".", call. = FALSE)
   }
   if (anyDuplicated(nodes$id) || anyNA(nodes$id) || any(!nzchar(nodes$id))) {
-    stop("M5 nodes.csv IDs must be unique and nonempty.", call. = FALSE)
+    stop("Political-model nodes.csv IDs must be unique and nonempty.", call. = FALSE)
   }
   positions <- match(node_ids, nodes$id)
   if (anyNA(positions) || length(nodes$id) != length(node_ids)) {
-    stop("M5 nodes.csv IDs must match the fixed ERGM node universe exactly.", call. = FALSE)
+    stop("Political-model nodes.csv IDs must match the fixed ERGM node universe exactly.", call. = FALSE)
   }
   attributes <- nodes[positions, required, drop = FALSE]
   if (anyNA(attributes$party) || anyNA(attributes$state) ||
       any(!nzchar(attributes$party)) || any(!nzchar(attributes$state))) {
-    stop("M5 requires nonmissing party and state attributes for every node.", call. = FALSE)
+    stop("Political models require nonmissing party and state attributes for every node.", call. = FALSE)
   }
   ideology <- suppressWarnings(as.numeric(attributes$ideology))
   if (anyNA(ideology) || any(!is.finite(ideology))) {
-    stop("M5 requires finite numeric ideology values for every node.", call. = FALSE)
+    stop("Political models require finite numeric ideology values for every node.", call. = FALSE)
   }
   attributes$ideology <- ideology
+  majority_caucus <- suppressWarnings(as.numeric(attributes$majority_caucus))
+  seniority_years <- suppressWarnings(as.numeric(attributes$seniority_years))
+  if (anyNA(majority_caucus) || any(!majority_caucus %in% c(0, 1))) {
+    stop("M6 requires binary majority_caucus values for every node.", call. = FALSE)
+  }
+  if (anyNA(seniority_years) || any(!is.finite(seniority_years)) || any(seniority_years < 0)) {
+    stop("M6 requires finite nonnegative seniority_years values for every node.", call. = FALSE)
+  }
+  attributes$majority_caucus <- majority_caucus
+  attributes$seniority_years <- seniority_years
   attributes
 }
 
@@ -430,8 +440,13 @@ native_score_main <- function() {
   input_dir <- normalizePath(option_value(options, "input-dir"), winslash = "/", mustWork = TRUE)
   models_text <- option_value(options, "models", "M0,M1,M3,M4c")
   selected_model_ids <- native_model_ids(models_text)
-  uses_political_covariates <- "M5" %in% selected_model_ids
-  selected_specs <- score_select_models(models_text, include_political = uses_political_covariates)
+  uses_political_covariates <- any(c("M5", "M6") %in% selected_model_ids)
+  uses_mutuality_sensitivity <- "M4c_no_mutual" %in% selected_model_ids
+  selected_specs <- score_select_models(
+    models_text,
+    include_political = uses_political_covariates,
+    include_mutuality_sensitivity = uses_mutuality_sensitivity
+  )
   estimate <- toupper(option_value(options, "estimate", "MPLE"))
   if (!estimate %in% c("MPLE", "MCMLE")) stop("--estimate must be MPLE or MCMLE.", call. = FALSE)
   seed <- as_positive_number(option_value(options, "seed", "20261013"), "seed", integer = TRUE)

@@ -56,8 +56,8 @@ def parse_args() -> argparse.Namespace:
         "--political-covariates",
         type=Path,
         help=(
-            "Optional Senate node covariate CSV with node, party_118_entry, state, and "
-            "dw_nominate_dim1. It is copied as party, state, ideology in nodes.csv."
+            "Optional Senate node covariate CSV with node, party, state, ideology, majority "
+            "caucus, and seniority fields. It is normalized for political ERGM inputs."
         ),
     )
     parser.add_argument(
@@ -122,7 +122,14 @@ def read_nodes(path: Path, node_column: str) -> tuple[str, ...]:
 def read_political_covariates(path: Path, nodes: tuple[str, ...]) -> list[dict[str, object]]:
     """Read an audited complete Senate covariate table and normalize output field names."""
     require_file(path, "political covariate table")
-    required = {"node", "party_118_entry", "state", "dw_nominate_dim1"}
+    required = {
+        "node",
+        "party_118_entry",
+        "majority_caucus_entry",
+        "state",
+        "dw_nominate_dim1",
+        "senate_service_years_at_118_entry",
+    }
     values: dict[str, dict[str, object]] = {}
     with path.open(encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
@@ -136,13 +143,26 @@ def read_political_covariates(path: Path, nodes: tuple[str, ...]) -> list[dict[s
             state = row["state"].strip()
             try:
                 ideology = float(row["dw_nominate_dim1"])
+                majority_caucus = int(row["majority_caucus_entry"])
+                seniority_years = float(row["senate_service_years_at_118_entry"])
             except ValueError as error:
-                raise SystemExit(f"STOP: invalid DW-NOMINATE value for {node!r}.") from error
+                raise SystemExit(
+                    f"STOP: invalid political covariate value for {node!r}."
+                ) from error
+            if majority_caucus not in {0, 1} or seniority_years < 0:
+                raise SystemExit(f"STOP: invalid political covariate range for {node!r}.")
             if not node or not party or not state or node in values:
                 raise SystemExit(
                     "STOP: political covariate table has empty or duplicate node values."
                 )
-            values[node] = {"id": node, "party": party, "state": state, "ideology": ideology}
+            values[node] = {
+                "id": node,
+                "party": party,
+                "state": state,
+                "ideology": ideology,
+                "majority_caucus": majority_caucus,
+                "seniority_years": seniority_years,
+            }
     if set(values) != set(nodes):
         missing = sorted(set(nodes) - set(values))
         extra = sorted(set(values) - set(nodes))
@@ -376,7 +396,7 @@ def main() -> None:
         },
         "contract": {
             "nodes": (
-                "nodes.csv[id,party,state,ideology]"
+                "nodes.csv[id,party,state,ideology,majority_caucus,seniority_years]"
                 if political_covariates_path
                 else "nodes.csv[id]"
             ),

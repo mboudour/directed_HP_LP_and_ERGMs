@@ -48,4 +48,4 @@ The compiled PDF has placeholder journal metadata (`1--1` and `doi: to be assign
 
 The primary political evidence is the cap-ten native-event benchmark for Senate bills with a sole sponsor and nonempty original-co-sponsor head. The methods use controlled MCAR and activity-biased MNAR-out omissions of full recorded event types. Reported bootstrap intervals resample the 30 matched masks within the fixed constructed Senate network; they are not population-level uncertainty intervals. ERGM rows are split-specific MPLE conditional scores and factorized footprint summaries, never estimates of a joint coalition probability.
 
-The Enron and MathOverflow analyses appear only as non-political scope checks. Raw or private data, actor-level event tables, prediction-level candidates, fitted objects, and sensitive e-mail material are deliberately excluded from this package and from repository publication.
+Raw or private data, actor-level event tables, prediction-level candidates, fitted objects, and sensitive e-mail material are deliberately excluded from this package and from repository publication.

@@ -85,6 +85,9 @@ def main() -> None:
     m5 = pd.read_csv(
         publication / "models/senate_118_s_bills_primary_ergm_m5_scores/metric_summary.csv"
     )
+    m6 = pd.read_csv(
+        publication / "models/senate_118_s_bills_primary_ergm_m6_scores/metric_summary.csv"
+    )
     party_random = pd.read_csv(
         publication / "phase2/senate_118_s_bills_primary_same_party_random/metric_summary.csv"
     )
@@ -95,10 +98,10 @@ def main() -> None:
 
     mechanisms = ("mcar", "mnar_out")
     labels = (
-        "MCAR\nrandom",
-        "MNAR-out\nrandom",
-        "MCAR\nsponsor substitution",
-        "MNAR-out\nsponsor substitution",
+        "MCAR",
+        "MNAR-out",
+        "MCAR",
+        "MNAR-out",
     )
     local_values = [
         local_metric(heuristic, "mcar", "lifted_adamic_adar_total_mean"),
@@ -118,6 +121,12 @@ def main() -> None:
         ergm_metric(m5, "sponsor_substitution", mechanisms[0], "M5"),
         ergm_metric(m5, "sponsor_substitution", mechanisms[1], "M5"),
     ]
+    m6_values = [
+        ergm_metric(m6, "random", mechanisms[0], "M6"),
+        ergm_metric(m6, "random", mechanisms[1], "M6"),
+        ergm_metric(m6, "sponsor_substitution", mechanisms[0], "M6"),
+        ergm_metric(m6, "sponsor_substitution", mechanisms[1], "M6"),
+    ]
     party_values = [
         local_metric(party_random, "mcar", "lifted_same_party_mean"),
         local_metric(party_random, "mnar_out", "lifted_same_party_mean"),
@@ -125,17 +134,22 @@ def main() -> None:
         local_metric(party_hard, "mnar_out", "lifted_same_party_mean"),
     ]
     x = np.arange(len(labels))
-    width = 0.19
-    fig, ax = plt.subplots(figsize=(10.2, 5.0))
+    width = 0.155
+    fig, ax = plt.subplots(figsize=(10.2, 5.35))
     local_bars = ax.bar(
-        x - 1.5 * width, local_values, width, label="Strongest local reference", color=NAVY
+        x - 2 * width, local_values, width, label="Strongest local reference", color=NAVY
     )
-    party_bars = ax.bar(x - 0.5 * width, party_values, width, label="Same-party share", color=GRAY)
-    ergm_bars = ax.bar(
-        x + 0.5 * width, ergm_values, width, label="M4c conditional $L_{1g}$", color=ORANGE
-    )
+    party_bars = ax.bar(x - width, party_values, width, label="Same-party share", color=GRAY)
+    ergm_bars = ax.bar(x, ergm_values, width, label="M4c conditional $L_{1g}$", color=ORANGE)
     m5_bars = ax.bar(
-        x + 1.5 * width, m5_values, width, label="M5 political conditional $L_{1g}$", color=TEAL
+        x + width, m5_values, width, label="M5 political conditional $L_{1g}$", color=TEAL
+    )
+    m6_bars = ax.bar(
+        x + 2 * width,
+        m6_values,
+        width,
+        label="M6 sender-effect conditional $L_{1g}$",
+        color="#7a5195",
     )
     ax.set_ylabel("Mean PR-AUC across 30 matched masks")
     ax.set_ylim(0.35, 0.90)
@@ -145,13 +159,19 @@ def main() -> None:
     ax.text(
         2.5, 0.885, "grammar-preserving sponsor substitution", ha="center", va="top", fontsize=9
     )
-    ax.legend(frameon=False, loc="lower left", ncol=2, fontsize=8)
+    fig.legend(
+        frameon=False,
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.02),
+        ncol=3,
+        fontsize=8,
+    )
     ax.grid(axis="y", alpha=0.25)
-    for bars in (local_bars, party_bars, ergm_bars, m5_bars):
+    for bars in (local_bars, party_bars, ergm_bars, m5_bars, m6_bars):
         ax.bar_label(
             bars, labels=[f"{height:.3f}" for height in bars.datavalues], padding=2, fontsize=7
         )
-    fig.tight_layout()
+    fig.subplots_adjust(bottom=0.28, top=0.79)
     save_both(fig, output_dir / "fig2_senate_primary_pr_auc")
 
     import json

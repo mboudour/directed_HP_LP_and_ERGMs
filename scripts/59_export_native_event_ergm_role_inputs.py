@@ -48,8 +48,8 @@ def parse_args() -> argparse.Namespace:
         "--node-covariates",
         type=Path,
         help=(
-            "Optional node table with party, state, and ideology attributes for political "
-            "ERGM models."
+            "Optional node table with symmetric and sender-side political attributes for "
+            "M5/M6 political ERGM models."
         ),
     )
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -110,7 +110,14 @@ def node_rows(
         return [{"id": node} for node in nodes]
     with covariates_path.open(encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
-        required = {node_column, "party_118_entry", "state", "dw_nominate_dim1"}
+        required = {
+            node_column,
+            "party_118_entry",
+            "majority_caucus_entry",
+            "state",
+            "dw_nominate_dim1",
+            "senate_service_years_at_118_entry",
+        }
         if reader.fieldnames is None or required - set(reader.fieldnames):
             raise RuntimeError(
                 "node covariate table lacks node, party_118_entry, state, "
@@ -128,6 +135,8 @@ def node_rows(
             "party": str(mapping[node]["party_118_entry"]),
             "state": str(mapping[node]["state"]),
             "ideology": str(mapping[node]["dw_nominate_dim1"]),
+            "majority_caucus": str(mapping[node]["majority_caucus_entry"]),
+            "seniority_years": str(mapping[node]["senate_service_years_at_118_entry"]),
         }
         for node in nodes
     ]

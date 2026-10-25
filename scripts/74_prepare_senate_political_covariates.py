@@ -3,9 +3,10 @@
 
 The benchmark aggregates bill events over the 118th Congress. This driver
 creates a fixed actor table for static ERGM scoring: party at the Congress
-start (2023-01-03), serving state, and Voteview first-dimension DW-NOMINATE.
-It preserves a separate audit of affiliation changes rather than silently
-assuming that party was constant over each senator's full term.
+start (2023-01-03), serving state, Voteview first-dimension DW-NOMINATE,
+majority-caucus membership, and prior Senate-service tenure. It preserves a
+separate audit of affiliation changes rather than silently assuming that party
+was constant over each senator's full term.
 """
 
 from __future__ import annotations
@@ -157,6 +158,23 @@ def party_at_reference_date(term: dict[str, Any], reference: date) -> tuple[str,
     return party, False
 
 
+def senate_service_days_before(record: dict[str, Any], reference: date) -> int:
+    """Return cumulative completed Senate service days before an actor's reference date."""
+    service_days = 0
+    for term in record.get("terms", []):
+        if term.get("type") != "sen":
+            continue
+        try:
+            start = date.fromisoformat(str(term["start"]))
+            end = date.fromisoformat(str(term["end"]))
+        except (KeyError, TypeError, ValueError) as error:
+            raise SystemExit(f"STOP: malformed Senate term dates: {term}") from error
+        completed_end = min(end, reference)
+        if start < completed_end:
+            service_days += (completed_end - start).days
+    return service_days
+
+
 def roster_lookup(records: list[dict[str, Any]], node_set: set[str]) -> dict[str, dict[str, str]]:
     """Select exactly one 118th Senate service record per benchmark actor."""
     selected: dict[str, dict[str, str]] = {}
@@ -188,8 +206,12 @@ def roster_lookup(records: list[dict[str, Any]], node_set: set[str]) -> dict[str
         candidate = {
             "node": bioguide,
             "party_118_entry": party,
+            "majority_caucus_entry": str(int(party != "Republican")),
             "state": state,
             "icpsr": icpsr,
+            "senate_service_years_at_118_entry": (
+                f"{senate_service_days_before(record, reference) / 365.25:.12g}"
+            ),
             "term_start": str(candidates[0]["start"]),
             "term_end": str(candidates[-1]["end"]),
             "party_changed_during_118": str(changed).lower(),
@@ -317,6 +339,10 @@ def build_audit(summary: dict[str, object], resolutions: list[dict[str, str]]) -
             "and ideology is Voteview's "
             "first-dimension DW-NOMINATE estimate. This is a static covariate policy; "
             "it does not treat party or ideology as a time-varying event covariate.",
+            "Majority-caucus entry is coded one for Democratic and Independent actors and "
+            "zero for Republican actors, reflecting the 118th Senate's Democratic/Independent "
+            "majority caucus. Senate seniority is cumulative completed Senate service before "
+            "the actor's own 118th-service entry date, expressed in years.",
             "",
             "## Join checks",
             "",
@@ -325,6 +351,9 @@ def build_audit(summary: dict[str, object], resolutions: list[dict[str, str]]) -
             f"- Voteview matches: `{summary['voteview_matches']}`",
             f"- States represented: `{summary['states_represented']}`",
             f"- Party-at-entry categories: `{summary['party_categories']}`",
+            f"- Majority-caucus entrants: `{summary['majority_caucus_actors']}`",
+            f"- Senate seniority years at service entry (median): "
+            f"`{summary['seniority_years_median']:.2f}`",
             f"- Actors with a recorded affiliation change during the Congress: "
             f"`{summary['party_change_actors']}`",
             f"- {resolution_line}",
@@ -362,8 +391,10 @@ def main() -> None:
         {
             "node": node,
             "party_118_entry": roster[node]["party_118_entry"],
+            "majority_caucus_entry": roster[node]["majority_caucus_entry"],
             "state": roster[node]["state"],
             "dw_nominate_dim1": f"{scores[node]:.12g}",
+            "senate_service_years_at_118_entry": roster[node]["senate_service_years_at_118_entry"],
         }
         for node in nodes
     ]
@@ -378,6 +409,12 @@ def main() -> None:
         "party_change_actors": sum(
             details["party_changed_during_118"] == "true" for details in roster.values()
         ),
+        "majority_caucus_actors": sum(
+            details["majority_caucus_entry"] == "1" for details in roster.values()
+        ),
+        "seniority_years_median": sorted(
+            float(details["senate_service_years_at_118_entry"]) for details in roster.values()
+        )[len(roster) // 2],
         "voteview_duplicate_resolutions": len(resolutions),
     }
     metadata_path.write_text(
@@ -387,8 +424,14 @@ def main() -> None:
                 "covariate_policy": {
                     "congress_interval": [str(CONGRESS_START), str(CONGRESS_END)],
                     "party": "party at 118th-service entry (Congress start for incumbents)",
+                    "majority_caucus": (
+                        "Democratic/Independent majority-caucus indicator at 118th-service entry"
+                    ),
                     "state": "serving state in selected Senate term",
                     "ideology": "Voteview first-dimension DW-NOMINATE",
+                    "seniority": (
+                        "cumulative completed Senate-service years before 118th-service entry"
+                    ),
                     "voteview_duplicate_resolution": (
                         "unique 118th-Senate Bioguide record where available; exact ICPSR "
                         "match for duplicated Bioguide records; latest prior-Senate record only "

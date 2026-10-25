@@ -5,7 +5,9 @@
       "2025-01-03"
     ],
     "ideology": "Voteview first-dimension DW-NOMINATE",
+    "majority_caucus": "Democratic/Independent majority-caucus indicator at 118th-service entry",
     "party": "party at 118th-service entry (Congress start for incumbents)",
+    "seniority": "cumulative completed Senate-service years before 118th-service entry",
     "state": "serving state in selected Senate term",
     "voteview_duplicate_resolution": "unique 118th-Senate Bioguide record where available; exact ICPSR match for duplicated Bioguide records; latest prior-Senate record only for event-isolated actors; never score-value selection"
   },
@@ -36,6 +38,7 @@
   "privacy": "Actor-level covariate table is excluded from version control.",
   "summary": {
     "actors": 105,
+    "majority_caucus_actors": 55,
     "party_categories": {
       "Democrat": 52,
       "Independent": 3,
@@ -43,6 +46,7 @@
     },
     "party_change_actors": 1,
     "roster_matches": 105,
+    "seniority_years_median": 9.99863107461,
     "states_represented": 50,
     "voteview_duplicate_resolutions": 2,
     "voteview_matches": 105
