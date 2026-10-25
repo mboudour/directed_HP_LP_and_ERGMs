@@ -15,6 +15,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ACQUIRE_DRIVER = PROJECT_ROOT / "scripts" / "63_acquire_senate_billstatus.py"
 PREPARE_DRIVER = PROJECT_ROOT / "scripts" / "65_prepare_senate_118_s_bills.py"
 CAP_DRIVER = PROJECT_ROOT / "scripts" / "66_profile_senate_cap_gate.py"
+HARD_DRIVER = PROJECT_ROOT / "scripts" / "67_run_senate_sponsor_substitution.py"
 
 
 def load_module(path: Path):  # type: ignore[no-untyped-def]
@@ -193,3 +194,63 @@ def test_senate_preparation_and_cap_profile_enforce_event_policy(tmp_path: Path)
     assert cap_rows[0]["retained_event_records"] == "0"
     assert cap_rows[1]["retained_event_records"] == "1"
     assert cap_rows[1]["sponsor_substitution_eligible_event_types"] == "1"
+
+
+def test_sponsor_substitution_preserves_singleton_sponsor_grammar(tmp_path: Path) -> None:
+    """The Senate hard panel emits no reversal and never creates multi-sponsor negatives."""
+    nodes = tmp_path / "nodes.csv"
+    with nodes.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["node"], lineterminator="\n")
+        writer.writeheader()
+        writer.writerows({"node": node} for node in ("A", "B", "C", "D"))
+    split = tmp_path / "masks" / "mcar_replicate_1"
+    split.mkdir(parents=True)
+    event_fields = ["event_type_id", "tail_nodes_json", "head_nodes_json"]
+    for filename, records in (
+        (
+            "observed_event_types.csv",
+            [
+                {"event_type_id": "e1", "tail_nodes_json": '["A"]', "head_nodes_json": '["B"]'},
+                {"event_type_id": "e2", "tail_nodes_json": '["A"]', "head_nodes_json": '["C"]'},
+            ],
+        ),
+        (
+            "heldout_event_types.csv",
+            [{"event_type_id": "e3", "tail_nodes_json": '["A"]', "head_nodes_json": '["B", "C"]'}],
+        ),
+    ):
+        with (split / filename).open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=event_fields, lineterminator="\n")
+            writer.writeheader()
+            writer.writerows(records)
+    with (split / "observed_arcs.csv").open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["tail", "head"], lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(({"tail": "A", "head": "B"}, {"tail": "A", "head": "C"}))
+
+    output = tmp_path / "hard"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            str(HARD_DRIVER),
+            "--mask-dir",
+            str(tmp_path / "masks"),
+            "--nodes",
+            str(nodes),
+            "--output-dir",
+            str(output),
+        ],
+        cwd=PROJECT_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
+    manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["hard_panel"] == "sponsor_substitution"
+    assert "not evaluated" in manifest["reversal_orientation"]
+    predictions = rows(
+        output / "mcar_replicate_1" / "sponsor_substitution_candidate_predictions.csv"
+    )
+    assert {row["panel"] for row in predictions} == {"sponsor_substitution"}
+    assert {row["tail_arity"] for row in predictions} == {"1"}
