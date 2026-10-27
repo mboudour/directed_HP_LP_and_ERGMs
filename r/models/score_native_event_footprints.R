@@ -18,12 +18,14 @@ native_score_usage <- function() {
     "",
     "Options:",
     "  --models=M0,M1,M3,M4c       Static ERGM ladder IDs.",
+    "  --splits=NAME[,NAME]        Optional explicit frozen split subset for checkpointed runs.",
     "  --estimate=MPLE             MPLE (default) or MCMLE.",
     "  --seed=20261013             Random seed before split-specific fitting.",
     "  --overwrite=FALSE           Refuse non-empty output unless TRUE.",
     "",
     "Outputs: event_footprint_scores.csv, ranking_metrics.csv, metric_summary.csv,",
-    "model_status.csv, split_status.csv, network_summary.csv, summary.md, run_manifest.json.",
+    "model_status.csv, fit_diagnostics.csv, fit_diagnostics_summary.csv, split_status.csv,",
+    "network_summary.csv, summary.md, run_manifest.json.",
     sep = "\n"
   )
 }
@@ -94,6 +96,93 @@ native_empty_metrics <- function() {
   )
 }
 
+native_empty_fit_diagnostics <- function() {
+  data.frame(
+    split = character(), mechanism = character(), replicate = integer(), model = character(),
+    outcome = character(), fit_warning_count = integer(), prediction_warning_count = integer(),
+    coefficient_count = integer(), nonfinite_coefficient_count = integer(),
+    max_abs_finite_coefficient = numeric(), conditional_dyads_scored = integer(),
+    min_conditional_probability = numeric(), max_conditional_probability = numeric(),
+    exact_zero_probability_count = integer(), exact_one_probability_count = integer(),
+    stringsAsFactors = FALSE
+  )
+}
+
+native_fit_diagnostic_row <- function(split, mechanism, replicate, model, outcome,
+                                      fit_result, prediction_result = NULL) {
+  # This records no coefficient values or dyad identities. It is deliberately a
+  # numerical-stability diagnostic, not a coefficient-inference result.
+  fit_warnings <- if (is.null(fit_result$warnings)) character() else fit_result$warnings
+  prediction_warnings <- if (is.null(prediction_result) || is.null(prediction_result$warnings)) {
+    character()
+  } else {
+    prediction_result$warnings
+  }
+  coefficients <- if (identical(fit_result$status, "fit_succeeded")) {
+    tryCatch(stats::coef(fit_result$fit), error = function(error) numeric())
+  } else {
+    numeric()
+  }
+  finite_coefficients <- coefficients[is.finite(coefficients)]
+  probabilities <- if (!is.null(prediction_result) &&
+                       identical(prediction_result$status, "prediction_succeeded")) {
+    prediction_result$predictions$conditional_probability
+  } else {
+    numeric()
+  }
+  data.frame(
+    split = split, mechanism = mechanism, replicate = replicate, model = model, outcome = outcome,
+    fit_warning_count = length(fit_warnings), prediction_warning_count = length(prediction_warnings),
+    coefficient_count = length(coefficients),
+    nonfinite_coefficient_count = sum(!is.finite(coefficients)),
+    max_abs_finite_coefficient = if (length(finite_coefficients) > 0L) {
+      max(abs(finite_coefficients))
+    } else {
+      NA_real_
+    },
+    conditional_dyads_scored = length(probabilities),
+    min_conditional_probability = if (length(probabilities) > 0L) min(probabilities) else NA_real_,
+    max_conditional_probability = if (length(probabilities) > 0L) max(probabilities) else NA_real_,
+    exact_zero_probability_count = sum(probabilities == 0),
+    exact_one_probability_count = sum(probabilities == 1),
+    stringsAsFactors = FALSE
+  )
+}
+
+native_summarise_fit_diagnostics <- function(diagnostics) {
+  if (nrow(diagnostics) == 0L) {
+    return(data.frame(
+      model = character(), attempted_fits = integer(), scored_fits = integer(),
+      fit_or_prediction_failures = integer(), fit_warning_count = integer(),
+      prediction_warning_count = integer(), nonfinite_coefficient_count = integer(),
+      max_abs_finite_coefficient = numeric(), conditional_dyads_scored = integer(),
+      min_conditional_probability = numeric(), max_conditional_probability = numeric(),
+      exact_zero_probability_count = integer(), exact_one_probability_count = integer(),
+      stringsAsFactors = FALSE
+    ))
+  }
+  do.call(rbind, lapply(split(diagnostics, diagnostics$model), function(frame) {
+    finite_maxima <- frame$max_abs_finite_coefficient[is.finite(frame$max_abs_finite_coefficient)]
+    finite_minima <- frame$min_conditional_probability[is.finite(frame$min_conditional_probability)]
+    finite_prob_maxima <- frame$max_conditional_probability[is.finite(frame$max_conditional_probability)]
+    data.frame(
+      model = frame$model[[1L]], attempted_fits = nrow(frame),
+      scored_fits = sum(frame$outcome == "scored"),
+      fit_or_prediction_failures = sum(frame$outcome != "scored"),
+      fit_warning_count = sum(frame$fit_warning_count),
+      prediction_warning_count = sum(frame$prediction_warning_count),
+      nonfinite_coefficient_count = sum(frame$nonfinite_coefficient_count),
+      max_abs_finite_coefficient = if (length(finite_maxima) > 0L) max(finite_maxima) else NA_real_,
+      conditional_dyads_scored = sum(frame$conditional_dyads_scored),
+      min_conditional_probability = if (length(finite_minima) > 0L) min(finite_minima) else NA_real_,
+      max_conditional_probability = if (length(finite_prob_maxima) > 0L) max(finite_prob_maxima) else NA_real_,
+      exact_zero_probability_count = sum(frame$exact_zero_probability_count),
+      exact_one_probability_count = sum(frame$exact_one_probability_count),
+      stringsAsFactors = FALSE
+    )
+  }))
+}
+
 native_split_identity <- function(split) {
   pieces <- strsplit(split, "_replicate_", fixed = TRUE)[[1L]]
   if (length(pieces) != 2L || !grepl("^[0-9]+$", pieces[[2L]])) {
@@ -120,6 +209,25 @@ native_discover_splits <- function(input_dir) {
     candidate_footprints_path = file.path(splits_dir, sort(complete), "candidate_footprints.csv"),
     stringsAsFactors = FALSE
   )
+}
+
+native_select_splits <- function(split_files, splits_text = NULL) {
+  # Restrict a run to an explicit, complete subset of frozen split directories.
+  if (is.null(splits_text) || !nzchar(splits_text)) return(split_files)
+  requested <- trimws(unlist(strsplit(splits_text, ",", fixed = TRUE)))
+  requested <- requested[nzchar(requested)]
+  if (length(requested) == 0L || anyDuplicated(requested)) {
+    stop("--splits must name one or more unique frozen split directories.", call. = FALSE)
+  }
+  unknown <- setdiff(requested, split_files$split)
+  if (length(unknown) > 0L) {
+    stop(
+      "--splits names unknown frozen split(s): ", paste(unknown, collapse = ", "),
+      call. = FALSE
+    )
+  }
+  selected <- split_files[split_files$split %in% requested, , drop = FALSE]
+  selected[match(requested, selected$split), , drop = FALSE]
 }
 
 native_read_footprints <- function(path, node_ids) {
@@ -329,7 +437,7 @@ native_summarise_metrics <- function(metrics) {
   }))
 }
 
-native_write_summary <- function(path, dataset_id, split_status, metric_summary) {
+native_write_summary <- function(path, dataset_id, split_status, metric_summary, fit_diagnostics) {
   completed <- split_status[split_status$status == "completed", , drop = FALSE]
   lines <- c(
     "# ERGM conditional footprint scores for native-event panels",
@@ -338,7 +446,7 @@ native_write_summary <- function(path, dataset_id, split_status, metric_summary)
     "- Each static ERGM is fit separately to a frozen event-first observed projection.",
     "- L1 is the arithmetic mean of conditional-pseudolikelihood dyad scores; L1g is their geometric mean; L2 is their product.",
     "- L2 metrics use `log_L2`, a strictly monotone numeric representation of the L2 product.",
-    "- These scores estimate **graph-footprint completion**, not the probability that a recorded email group event occurred.",
+    "- These scores estimate **graph-footprint completion**, not the probability that a recorded native event occurred.",
     "",
     "## Completion status",
     "",
@@ -366,10 +474,40 @@ native_write_summary <- function(path, dataset_id, split_status, metric_summary)
       ))
     }
   }
+  diagnostic_lines <- c(
+    "",
+    "## Aggregate MPLE numerical diagnostics",
+    "",
+    "No coefficient-inference claim is made. Models use MPLE without coefficient regularization or input standardization.",
+    "The table reports fitting and conditional-score stability only; no coefficient values are released.",
+    "",
+    "| Model | fits attempted/scored | failures | fit/prediction warnings | nonfinite coefficients | max $|\\hat\\theta|$ | exact $p=0/1$ |",
+    "|---|---:|---:|---:|---:|---:|---:|"
+  )
+  if (nrow(fit_diagnostics) == 0L) {
+    diagnostic_lines <- c(diagnostic_lines, "| — | 0/0 | — | — | — | — | — |")
+  } else {
+    fit_diagnostics <- fit_diagnostics[order(fit_diagnostics$model), , drop = FALSE]
+    for (index in seq_len(nrow(fit_diagnostics))) {
+      row <- fit_diagnostics[index, , drop = FALSE]
+      maximum <- if (is.finite(row$max_abs_finite_coefficient)) {
+        sprintf("%.3f", row$max_abs_finite_coefficient)
+      } else {
+        "—"
+      }
+      diagnostic_lines <- c(diagnostic_lines, sprintf(
+        "| %s | %d/%d | %d | %d/%d | %d | %s | %d/%d |",
+        row$model, row$attempted_fits, row$scored_fits, row$fit_or_prediction_failures,
+        row$fit_warning_count, row$prediction_warning_count, row$nonfinite_coefficient_count,
+        maximum, row$exact_zero_probability_count, row$exact_one_probability_count
+      ))
+    }
+  }
   lines <- c(
     lines,
     "",
     "This L2 is a product of single-dyad conditional-pseudolikelihood scores, not the matched-marginal L2 used for the plan's dependence increment. No L3-F joint simulation, L3-C concept score, or native-event probability is reported here. Those require separate conditional simulation and target-specific analysis.",
+    diagnostic_lines,
     ""
   )
   writeLines(lines, path, useBytes = TRUE)
@@ -431,7 +569,7 @@ native_score_main <- function() {
     cat(native_score_usage(), "\n", file = stderr())
     stop("Missing required options: ", paste(paste0("--", missing), collapse = ", "), call. = FALSE)
   }
-  allowed <- c(required, "models", "estimate", "seed", "overwrite")
+  allowed <- c(required, "models", "splits", "estimate", "seed", "overwrite")
   unknown <- setdiff(names(options), allowed)
   if (length(unknown) > 0L) {
     stop("Unknown option(s): ", paste(paste0("--", unknown), collapse = ", "), call. = FALSE)
@@ -473,11 +611,14 @@ native_score_main <- function() {
   } else {
     NULL
   }
-  split_files <- native_discover_splits(input_dir)
+  split_files <- native_select_splits(
+    native_discover_splits(input_dir), option_value(options, "splits", NULL)
+  )
   control <- ergm::control.ergm()
   all_scores <- list()
   all_metrics <- list()
   all_model_status <- list()
+  all_fit_diagnostics <- list()
   all_split_status <- list()
   all_network_summary <- list()
 
@@ -549,6 +690,9 @@ native_score_main <- function() {
           event_candidates = length(unique(paste(footprints$panel, footprints$candidate_id, sep = "\r"))),
           stringsAsFactors = FALSE
         )
+        all_fit_diagnostics[[length(all_fit_diagnostics) + 1L]] <- native_fit_diagnostic_row(
+          split, identity$mechanism, identity$replicate, fit_result$model, "fit_failed", fit_result
+        )
         model_outcomes[[model_index]] <- "fit_failed"
         next
       }
@@ -562,6 +706,10 @@ native_score_main <- function() {
           message = prediction_result$message, warnings = warning_text, unique_candidate_dyads = nrow(dyads),
           event_candidates = length(unique(paste(footprints$panel, footprints$candidate_id, sep = "\r"))),
           stringsAsFactors = FALSE
+        )
+        all_fit_diagnostics[[length(all_fit_diagnostics) + 1L]] <- native_fit_diagnostic_row(
+          split, identity$mechanism, identity$replicate, fit_result$model,
+          "prediction_failed", fit_result, prediction_result
         )
         model_outcomes[[model_index]] <- "prediction_failed"
         next
@@ -578,6 +726,10 @@ native_score_main <- function() {
           message = conditionMessage(event_scores), warnings = warning_text, unique_candidate_dyads = nrow(dyads),
           event_candidates = length(unique(paste(footprints$panel, footprints$candidate_id, sep = "\r"))),
           stringsAsFactors = FALSE
+        )
+        all_fit_diagnostics[[length(all_fit_diagnostics) + 1L]] <- native_fit_diagnostic_row(
+          split, identity$mechanism, identity$replicate, fit_result$model,
+          "aggregation_failed", fit_result, prediction_result
         )
         model_outcomes[[model_index]] <- "aggregation_failed"
         next
@@ -597,6 +749,10 @@ native_score_main <- function() {
         message = "", warnings = warning_text, unique_candidate_dyads = nrow(dyads),
         event_candidates = nrow(event_scores), stringsAsFactors = FALSE
       )
+      all_fit_diagnostics[[length(all_fit_diagnostics) + 1L]] <- native_fit_diagnostic_row(
+        split, identity$mechanism, identity$replicate, fit_result$model, "scored",
+        fit_result, prediction_result
+      )
       model_outcomes[[model_index]] <- "scored"
     }
     all_split_status[[length(all_split_status) + 1L]] <- data.frame(
@@ -615,16 +771,32 @@ native_score_main <- function() {
   scores <- if (length(all_scores) > 0L) do.call(rbind, all_scores) else native_empty_scores()
   metrics <- if (length(all_metrics) > 0L) do.call(rbind, all_metrics) else native_empty_metrics()
   model_status <- if (length(all_model_status) > 0L) do.call(rbind, all_model_status) else native_empty_model_status()
+  fit_diagnostics <- if (length(all_fit_diagnostics) > 0L) {
+    do.call(rbind, all_fit_diagnostics)
+  } else {
+    native_empty_fit_diagnostics()
+  }
   split_status <- if (length(all_split_status) > 0L) do.call(rbind, all_split_status) else native_empty_split_status()
   network_summary <- if (length(all_network_summary) > 0L) do.call(rbind, all_network_summary) else data.frame()
   metric_summary <- native_summarise_metrics(metrics)
+  fit_diagnostic_summary <- native_summarise_fit_diagnostics(fit_diagnostics)
   utils::write.csv(scores, file.path(output_dir, "event_footprint_scores.csv"), row.names = FALSE, na = "")
   utils::write.csv(metrics, file.path(output_dir, "ranking_metrics.csv"), row.names = FALSE, na = "")
   utils::write.csv(metric_summary, file.path(output_dir, "metric_summary.csv"), row.names = FALSE, na = "")
   utils::write.csv(model_status, file.path(output_dir, "model_status.csv"), row.names = FALSE, na = "")
+  utils::write.csv(fit_diagnostics, file.path(output_dir, "fit_diagnostics.csv"), row.names = FALSE, na = "")
+  utils::write.csv(
+    fit_diagnostic_summary,
+    file.path(output_dir, "fit_diagnostics_summary.csv"),
+    row.names = FALSE,
+    na = ""
+  )
   utils::write.csv(split_status, file.path(output_dir, "split_status.csv"), row.names = FALSE, na = "")
   utils::write.csv(network_summary, file.path(output_dir, "network_summary.csv"), row.names = FALSE, na = "")
-  native_write_summary(file.path(output_dir, "summary.md"), basename(input_dir), split_status, metric_summary)
+  native_write_summary(
+    file.path(output_dir, "summary.md"), basename(input_dir), split_status, metric_summary,
+    fit_diagnostic_summary
+  )
 
   manifest <- list(
     status = if (nrow(split_status) == 0L || any(split_status$status != "completed")) "completed_with_failures" else "completed",
@@ -648,7 +820,10 @@ native_score_main <- function() {
     } else {
       NULL
     },
-    estimation = list(estimate = estimate, seed = seed),
+    estimation = list(
+      estimate = estimate, seed = seed,
+      regularization = "none", input_standardization = "none"
+    ),
     conditional_prediction = list(
       call = "predict(fit, conditional=TRUE, type='response', output='data.frame')",
       aggregation = "L1=mean(p); L1g=exp(mean(log(p))); L2=product(p) of single-dyad conditional-pseudolikelihood scores; metrics use log_L2 as a monotone numerically stable representation"
@@ -660,7 +835,10 @@ native_score_main <- function() {
     package_versions = lapply(package_names, function(package) as.character(utils::packageVersion(package))),
     counts = list(
       splits_discovered = nrow(split_files), splits_with_status = nrow(split_status),
-      conditional_footprint_score_rows = nrow(scores), ranking_metric_rows = nrow(metrics)
+      selected_splits = as.list(split_files$split),
+      conditional_footprint_score_rows = nrow(scores), ranking_metric_rows = nrow(metrics),
+      fit_diagnostic_rows = nrow(fit_diagnostics),
+      fit_diagnostic_summary_rows = nrow(fit_diagnostic_summary)
     ),
     limitations = c(
       "Every model is fit to one split's observed projection only; full-network coefficients are not reused.",

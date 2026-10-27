@@ -1,0 +1,24 @@
+\begin{table}[tbp]
+\centering
+\small
+\caption{Aggregate numerical diagnostics for the 60 primary split-specific MPLE fits.}
+\label{tab:mple-diagnostics}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrrr}
+\toprule
+Model & fits & failures & fit/pred. warnings & nonfinite $\hat\theta$ & max $|\hat\theta|$ & conditional $p$ range & exact $0/1$ \\
+\midrule
+M0 & 60/60 & 0 & 0/0 & 0 & 0.767 & 3.2e-01--0.341 & 0/0 \\
+M1 & 60/60 & 0 & 0/0 & 0 & 1.484 & 2.2e-01--0.558 & 0/0 \\
+M2 & 60/60 & 0 & 0/0 & 0 & 205.426 & 1.8e-80--0.559 & 0/0 \\
+M3 & 60/59 & 1 & 0/0 & 0 & 202.344 & 1.4e-78--0.814 & 0/0 \\
+M4 & 60/60 & 0 & 0/0 & 0 & 134.129 & 6.7e-60--0.837 & 0/0 \\
+M4c & 60/60 & 0 & 0/0 & 0 & 85.034 & 1.6e-37--0.906 & 0/0 \\
+M5 & 60/60 & 0 & 0/0 & 0 & 95.495 & 1.9e-43--0.982 & 0/0 \\
+M6 & 60/60 & 0 & 0/0 & 0 & 102.675 & 1.5e-46--0.983 & 0/0 \\
+M4c-no-mutual & 60/60 & 0 & 0/0 & 0 & 82.059 & 5.1e-36--0.937 & 0/0 \\
+\bottomrule
+\end{tabular}
+}
+\par\vspace{2pt}\footnotesize Fits/scored counts are across both 30-mask mechanisms. MPLE uses no coefficient regularization or input standardization. This is a numerical diagnostic only: no coefficient estimates or coefficient-inference claims are reported.
+\end{table}

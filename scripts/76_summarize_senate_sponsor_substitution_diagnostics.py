@@ -25,6 +25,7 @@ import numpy as np
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 BOOTSTRAP_REPS = 10_000
 SCORE_MODELS = ("M4c", "M5")
+NO_MUTUALITY_MODEL = "M4c_no_mutual"
 
 
 def parse_args() -> argparse.Namespace:
@@ -33,6 +34,22 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset-id", default="senate_118_s_bills")
     parser.add_argument("--hard-panel-dir", type=Path, required=True)
     parser.add_argument("--ergm-dir", type=Path, required=True)
+    parser.add_argument(
+        "--structural-ergm-dir",
+        type=Path,
+        help=(
+            "Optional M4c score bundle when --ergm-dir contains M5 only. Without it, "
+            "--ergm-dir must contain M4c and M5."
+        ),
+    )
+    parser.add_argument(
+        "--no-mutuality-ergm-dir",
+        type=Path,
+        help=(
+            "Optional matched score bundle containing M4c and M4c_no_mutual for the direct "
+            "within-stratum mutuality diagnostic."
+        ),
+    )
     parser.add_argument("--node-covariates", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--overwrite", action="store_true")
@@ -102,18 +119,20 @@ def read_party(path: Path) -> dict[str, str]:
     return values
 
 
-def read_ergm_scores(path: Path) -> dict[tuple[str, int, str, str], float]:
+def read_ergm_scores(
+    path: Path, required_models: tuple[str, ...]
+) -> dict[tuple[str, int, str, str], float]:
     """Index geometric footprint scores by complete split, model, and candidate ID."""
     scores: dict[tuple[str, int, str, str], float] = {}
     for row in read_csv(path):
         model = row["model"]
-        if model not in SCORE_MODELS or row["panel"] != "sponsor_substitution":
+        if model not in required_models or row["panel"] != "sponsor_substitution":
             continue
         key = (row["mechanism"], int(row["replicate"]), model, row["candidate_id"])
         if key in scores:
             raise SystemExit(f"STOP: duplicate ERGM score record: {key}")
         scores[key] = float(row["L1g"])
-    for model in SCORE_MODELS:
+    for model in required_models:
         if not any(key[2] == model for key in scores):
             raise SystemExit(f"STOP: expected {model} sponsor-substitution scores are absent.")
     return scores
@@ -165,13 +184,16 @@ def summarize(split_rows: list[dict[str, object]], dataset_id: str) -> list[dict
     """Summarize mask-level exact fractions and pair preferences with CIs."""
     groups: dict[tuple[str, str, str], list[float]] = defaultdict(list)
     for row in split_rows:
-        for measure in (
+        measures = (
             "positive_footprint_survival",
             "substitution_footprint_survival",
             "M4c_positive_preference",
             "M5_positive_preference",
             "same_party_positive_preference",
-        ):
+        )
+        if "M4c_no_mutual_positive_preference" in row:
+            measures += ("M4c_no_mutual_positive_preference",)
+        for measure in measures:
             groups[(str(row["mechanism"]), str(row["recoverability_stratum"]), measure)].append(
                 float(row[measure])
             )
@@ -240,15 +262,33 @@ def main() -> None:
     args = parse_args()
     hard_dir = resolve(args.hard_panel_dir)
     ergm_dir = resolve(args.ergm_dir)
+    structural_ergm_dir = resolve(args.structural_ergm_dir) if args.structural_ergm_dir else None
+    no_mutuality_dir = resolve(args.no_mutuality_ergm_dir) if args.no_mutuality_ergm_dir else None
     covariate_path = resolve(args.node_covariates)
     output_dir = resolve(args.output_dir)
-    if not hard_dir.is_dir() or not ergm_dir.is_dir() or not covariate_path.is_file():
+    if (
+        not hard_dir.is_dir()
+        or not ergm_dir.is_dir()
+        or not covariate_path.is_file()
+        or (structural_ergm_dir is not None and not structural_ergm_dir.is_dir())
+        or (no_mutuality_dir is not None and not no_mutuality_dir.is_dir())
+    ):
         raise SystemExit(
             "STOP: hard-panel directory, ERGM directory, or covariate input is missing."
         )
     prepare_output(output_dir, args.overwrite)
     party = read_party(covariate_path)
-    ergm_scores = read_ergm_scores(ergm_dir / "event_footprint_scores.csv")
+    m5_scores = read_ergm_scores(ergm_dir / "event_footprint_scores.csv", ("M5",))
+    m4c_scores = read_ergm_scores(
+        (structural_ergm_dir or ergm_dir) / "event_footprint_scores.csv", ("M4c",)
+    )
+    no_mutuality_scores = (
+        read_ergm_scores(
+            no_mutuality_dir / "event_footprint_scores.csv", ("M4c", NO_MUTUALITY_MODEL)
+        )
+        if no_mutuality_dir is not None
+        else None
+    )
     split_rows: list[dict[str, object]] = []
     for split_dir in sorted(path for path in hard_dir.iterdir() if path.is_dir()):
         prediction_path = split_dir / "sponsor_substitution_candidate_predictions.csv"
@@ -278,7 +318,7 @@ def main() -> None:
                     party_footprint_mean(positive, party), party_footprint_mean(negative, party)
                 ),
             }
-            for model in SCORE_MODELS:
+            for model, score_source in (("M4c", m4c_scores), ("M5", m5_scores)):
                 positive_key = (
                     mechanism,
                     replicate,
@@ -291,12 +331,35 @@ def main() -> None:
                     model,
                     f"sponsor_substitution::{negative['candidate_id']}",
                 )
-                if positive_key not in ergm_scores or negative_key not in ergm_scores:
+                if positive_key not in score_source or negative_key not in score_source:
                     raise SystemExit(
                         f"STOP: missing {model} ERGM score for {split_dir.name}:{source_id}"
                     )
                 record[f"{model}_positive_preference"] = preference(
-                    ergm_scores[positive_key], ergm_scores[negative_key]
+                    score_source[positive_key], score_source[negative_key]
+                )
+            if no_mutuality_scores is not None:
+                positive_key = (
+                    mechanism,
+                    replicate,
+                    NO_MUTUALITY_MODEL,
+                    f"sponsor_substitution::{positive['candidate_id']}",
+                )
+                negative_key = (
+                    mechanism,
+                    replicate,
+                    NO_MUTUALITY_MODEL,
+                    f"sponsor_substitution::{negative['candidate_id']}",
+                )
+                if (
+                    positive_key not in no_mutuality_scores
+                    or negative_key not in no_mutuality_scores
+                ):
+                    raise SystemExit(
+                        f"STOP: missing M4c_no_mutual score for {split_dir.name}:{source_id}"
+                    )
+                record["M4c_no_mutual_positive_preference"] = preference(
+                    no_mutuality_scores[positive_key], no_mutuality_scores[negative_key]
                 )
             grouped[pattern].append(record)
         for pattern, records in sorted(grouped.items()):
@@ -322,13 +385,21 @@ def main() -> None:
                 "driver": "scripts/76_summarize_senate_sponsor_substitution_diagnostics.py",
                 "dataset_id": args.dataset_id,
                 "source_hard_panels": recorded(hard_dir),
-                "source_ergm_scores": recorded(ergm_dir),
+                "source_m5_ergm_scores": recorded(ergm_dir),
+                "source_m4c_ergm_scores": recorded(structural_ergm_dir or ergm_dir),
+                "source_no_mutuality_ergm_scores": (
+                    recorded(no_mutuality_dir) if no_mutuality_dir is not None else None
+                ),
                 "score_contract": {
                     "M4c_and_M5": (
                         "tie-aware within-pair preference using L1g conditional footprint scores"
                     ),
                     "same_party": (
                         "tie-aware within-pair preference using mean same-party footprint share"
+                    ),
+                    "M4c_no_mutual": (
+                        "tie-aware within-pair preference using density-controlled structural "
+                        "conditional footprint scores with mutuality removed"
                     ),
                 },
                 "survival_definition": (

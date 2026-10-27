@@ -36,6 +36,14 @@ def fmt(value: float, digits: int = 3) -> str:
     return f"{float(value):.{digits}f}"
 
 
+def fmt_sign_flip_p(value: float, repetitions: int) -> str:
+    """Format a Monte Carlo sign-flip p-value without overstating resolution."""
+    lower_bound = 1 / (repetitions + 1)
+    if float(value) <= lower_bound * (1 + 1e-12):
+        return rf"$\leq{lower_bound:.5f}$"
+    return f"{float(value):.5f}"
+
+
 def metric(
     frame: pd.DataFrame, panel: str, mechanism: str, model: str, score: str, name: str
 ) -> float:
@@ -118,6 +126,10 @@ def main() -> None:
         NETWORK_SCIENCE_PUBLICATION
         / "phase2/senate_118_s_bills_primary_heuristics/metric_summary.csv"
     )
+    primary_heuristic_splits = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "phase2/senate_118_s_bills_primary_heuristics/split_summary.csv"
+    )
     primary_hard = pd.read_csv(
         NETWORK_SCIENCE_PUBLICATION
         / "phase2/senate_118_s_bills_primary_sponsor_substitution/metric_summary.csv"
@@ -165,6 +177,22 @@ def main() -> None:
         NETWORK_SCIENCE_PUBLICATION
         / "models/senate_118_s_bills_primary_no_mutual_vs_m4c_paired_uncertainty"
         / "paired_differences.csv"
+    )
+    primary_fit_diagnostics = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_primary_ergm_scores/fit_diagnostics_summary.csv"
+    )
+    m5_fit_diagnostics = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_primary_ergm_m5_scores/fit_diagnostics_summary.csv"
+    )
+    m6_fit_diagnostics = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_primary_ergm_m6_scores/fit_diagnostics_summary.csv"
+    )
+    no_mutuality_fit_diagnostics = pd.read_csv(
+        NETWORK_SCIENCE_PUBLICATION
+        / "models/senate_118_s_bills_primary_ergm_no_mutual_scores/fit_diagnostics_summary.csv"
     )
     competitive = pd.read_csv(
         NETWORK_SCIENCE_PUBLICATION
@@ -255,6 +283,12 @@ def main() -> None:
     )
     mask_summary = pd.read_csv(
         NETWORK_SCIENCE_PUBLICATION / "phase2/senate_118_s_bills_primary_masks/split_summary.csv"
+    )
+    temporal_policy = json.loads(
+        (
+            NETWORK_SCIENCE_PUBLICATION
+            / "records/senate_118_s_bills_temporal_candidate_policy.json"
+        ).read_text()
     )
     temporal_diagnostic = pd.read_csv(
         PROJECT_ROOT / "manuscript/tables/table_05_bounded_temporal_diagnostic.csv"
@@ -407,7 +441,8 @@ def main() -> None:
         metric_label = "PR-AUC" if row["metric"] == "pr_auc" else "ROC-AUC"
         mechanism_label = "MCAR" if row["mechanism"] == "mcar" else "MNAR-out"
         contrast_rows.append(
-            f"{mechanism_label} & {panel} & {metric_label} & {fmt(row['mean_difference'])} & {interval} & {row['paired_sign_flip_p_value']:.5f} \\\\"
+            f"{mechanism_label} & {panel} & {metric_label} & {fmt(row['mean_difference'])} & {interval} & "
+            f"{fmt_sign_flip_p(row['paired_sign_flip_p_value'], int(row['permutation_reps']))} \\\\"
         )
     table3 = tex_table(
         "Matched-mask difference between M4c $L_{1g}$ and the declared local reference.",
@@ -453,7 +488,8 @@ def main() -> None:
                     f"{display} & {panel_display} & {contrast_label} & "
                     f"{fmt(row['mean_difference'])} & "
                     f"[{fmt(row['bootstrap_ci_low'])}, {fmt(row['bootstrap_ci_high'])}] & "
-                    f"{row['paired_sign_flip_p_value']:.5f} " + ROW_END
+                    f"{fmt_sign_flip_p(row['paired_sign_flip_p_value'], int(row['permutation_reps']))} "
+                    + ROW_END
                 )
     table3b = tex_table(
         "Matched-mask PR-AUC contrasts for political covariates and mutuality.",
@@ -593,13 +629,92 @@ def main() -> None:
             + ROW_END
         )
     table_a4 = tex_table(
-        "Full split-specific MPLE ERGM ladder: mean $L_{1g}$ PR-AUC across 30 Senate masks.",
+        "Full split-specific MPLE ERGM ladder: mean $L_{1g}$ PR-AUC across completed Senate masks.",
         "tab:ergm-ladder",
         "lrrrr",
         "Model & random MCAR & random MNAR-out & sponsor swap MCAR & sponsor swap MNAR-out",
         ladder_rows,
-        "M0 contains edges only; M1 adds mutuality; M2 adds degree terms; M3 adds transitive closure; M4 adds directed shared-partner terms; M4c also adds cyclic triples; M5 adds dyadic political covariates; and M6 adds sender-side majority-caucus and seniority terms. Values are conditional footprint-score rankings, not joint event probabilities.",
+        "M0 contains edges only; M1 adds mutuality; M2 adds degree terms; M3 adds transitive closure; M4 adds directed shared-partner terms; M4c also adds cyclic triples; M5 adds dyadic political covariates; and M6 adds sender-side majority-caucus and seniority terms. M3's MCAR entries use 29 completed masks because one MPLE fit reached the declared runtime guard; all other displayed cells use 30. Values are conditional footprint-score rankings, not joint event probabilities.",
     )
+
+    cap10_temporal = next(
+        summary
+        for summary in temporal_policy["cap_summaries"]
+        if summary["accounting"]["head_cap"] == 10
+    )
+    legacy_random = cap10_temporal["legacy_random_negative_audit"]
+    legacy_total = sum(int(row["synthetic_random_negatives"]) for row in legacy_random)
+    legacy_infeasible = sum(int(row["date_infeasible_random_negatives"]) for row in legacy_random)
+    corrected_negatives = int(primary_heuristic_splits["temporal_service_accepted"].sum())
+    corrected_draw_rejections = int(primary_heuristic_splits["temporal_service_rejections"].sum())
+    source_coverage = temporal_policy["source_positive_service_coverage"]
+    table_a4b = tex_table(
+        "Temporal-feasibility audit for the primary Senate random-negative comparison.",
+        "tab:temporal-feasibility",
+        "p{0.49\\textwidth}rr",
+        "Quantity & count & share",
+        [
+            "Source-positive records service-covered at their introduction date & "
+            f"{source_coverage['event_records_service_covered']:,}/"
+            f"{source_coverage['event_records_checked']:,} & "
+            f"{source_coverage['event_records_without_full_service_coverage']:,} retained exception "
+            + ROW_END,
+            "Superseded random negatives failing all-associated-date service coverage & "
+            f"{legacy_infeasible:,}/{legacy_total:,} & {100 * legacy_infeasible / legacy_total:.2f}\\% "
+            + ROW_END,
+            "Corrected random negatives emitted under the all-date service rule & "
+            f"{corrected_negatives:,}/{corrected_negatives:,} & 0 infeasible emitted " + ROW_END,
+            "Candidate draws rejected by the corrected service filter & "
+            f"{corrected_draw_rejections:,} & not a panel rate " + ROW_END,
+        ],
+        "The frozen masks and source-positive events are unchanged. Each synthetic negative is paired "
+        "to one held-out type and every participant must serve on every associated Bill Status "
+        "introduction date under half-open Senate-term intervals.",
+    )
+
+    diagnostic_frames = [
+        primary_fit_diagnostics,
+        m5_fit_diagnostics.loc[m5_fit_diagnostics["model"] == "M5"],
+        m6_fit_diagnostics.loc[m6_fit_diagnostics["model"] == "M6"],
+        no_mutuality_fit_diagnostics.loc[no_mutuality_fit_diagnostics["model"] == "M4c_no_mutual"],
+    ]
+    primary_diagnostics = pd.concat(diagnostic_frames, ignore_index=True)
+    diagnostic_rows: list[str] = []
+    model_order = ("M0", "M1", "M2", "M3", "M4", "M4c", "M5", "M6", "M4c_no_mutual")
+    for model in model_order:
+        row = primary_diagnostics.loc[primary_diagnostics["model"] == model]
+        if len(row) != 1:
+            raise ValueError(f"Expected one aggregate MPLE diagnostic row for {model}")
+        diagnostic = row.iloc[0]
+        probability_range = (
+            f"{diagnostic['min_conditional_probability']:.1e}--"
+            f"{diagnostic['max_conditional_probability']:.3f}"
+        )
+        diagnostic_rows.append(
+            f"{model.replace('_', '-')} & {int(diagnostic['attempted_fits'])}/"
+            f"{int(diagnostic['scored_fits'])} & "
+            f"{int(diagnostic['fit_or_prediction_failures'])} & "
+            f"{int(diagnostic['fit_warning_count'])}/"
+            f"{int(diagnostic['prediction_warning_count'])} & "
+            f"{int(diagnostic['nonfinite_coefficient_count'])} & "
+            f"{fmt(diagnostic['max_abs_finite_coefficient'])} & {probability_range} & "
+            f"{int(diagnostic['exact_zero_probability_count'])}/"
+            f"{int(diagnostic['exact_one_probability_count'])} " + ROW_END
+        )
+    table_a4c = tex_table(
+        "Aggregate numerical diagnostics for the 60 primary split-specific MPLE fits.",
+        "tab:mple-diagnostics",
+        "lrrrrrrr",
+        "Model & fits & failures & fit/pred. warnings & nonfinite $\\hat\\theta$ & "
+        "max $|\\hat\\theta|$ & conditional $p$ range & exact $0/1$",
+        diagnostic_rows,
+        "Fits/scored counts are across both 30-mask mechanisms. MPLE uses no coefficient "
+        "regularization or input standardization. This is a numerical diagnostic only: no "
+        "coefficient estimates or coefficient-inference claims are reported.",
+    )
+    table_a4c = table_a4c.replace(
+        "\\begin{tabular}", "\\resizebox{\\textwidth}{!}{%\n\\begin{tabular}", 1
+    ).replace("\\end{tabular}", "\\end{tabular}\n}", 1)
 
     sponsor_pattern_rows: list[str] = []
     sponsor_patterns = (
@@ -610,6 +725,7 @@ def main() -> None:
     )
     preference_measures = {
         "M4c::L1g": "M4c_positive_preference",
+        "M4c-no-mutual::L1g": "M4c_no_mutual_positive_preference",
         "M5::L1g": "M5_positive_preference",
         "party_match": "same_party_positive_preference",
     }
@@ -621,7 +737,7 @@ def main() -> None:
             if len(prevalence_row) != 1:
                 raise ValueError(f"Expected one recoverability row for {mechanism}/{pattern}")
             preference_cells: list[str] = []
-            for score in ("M4c::L1g", "M5::L1g", "party_match"):
+            for score in ("M4c::L1g", "M4c-no-mutual::L1g", "M5::L1g", "party_match"):
                 preference_row = sponsor_diagnostics.loc[
                     (sponsor_diagnostics["mechanism"] == mechanism)
                     & (sponsor_diagnostics["recoverability_stratum"] == pattern)
@@ -648,12 +764,13 @@ def main() -> None:
     table_a5b = tex_table(
         "Sponsor-substitution pair recoverability and true-bill preference by score.",
         "tab:sponsor-recoverability",
-        "llrrrr",
-        "Mask & footprint pattern & pair share & M4c preference & M5 preference & party preference",
+        "llrrrrr",
+        "Mask & footprint pattern & pair share & M4c & no-mutual & M5 & party preference",
         sponsor_pattern_rows,
         "Each preference is the tie-aware probability that the score ranks the held-out true bill above "
-        "one valid sponsor substitution; brackets are 95\% mask-bootstrap intervals. The true-bill-only "
-        "pattern preserves the true sponsor-to-co-sponsor footprint but removes the substitution's reverse footprint.",
+        "one valid sponsor substitution; brackets are 95\% mask-bootstrap intervals. The no-mutuality "
+        "score removes mutuality while retaining density and other M4c terms. The true-bill-only pattern "
+        "preserves the true sponsor-to-co-sponsor footprint but removes the substitution's reverse footprint.",
     )
     table_a5b = table_a5b.replace(
         "\\begin{tabular}", "\\resizebox{\\textwidth}{!}{%\n\\begin{tabular}", 1
@@ -845,6 +962,8 @@ def main() -> None:
         "table_a2_cap_audit.tex": table_a2,
         "table_a3_mask_realisation.tex": table_a3,
         "table_a4_ergm_ladder.tex": table_a4,
+        "table_a4b_temporal_feasibility.tex": table_a4b,
+        "table_a4c_mple_diagnostics.tex": table_a4c,
         "table_a5b_sponsor_recoverability.tex": table_a5b,
         "table_a5_mtt_check.tex": table_a5,
         "table_a6_static_diagnostic.tex": table_a6,
@@ -861,6 +980,7 @@ def main() -> None:
         "driver": "scripts/71_build_network_science_tables.py",
         "sources": [
             "results/published/network_science_20261025/records/senate_118_s_bills_audit.json",
+            "results/published/network_science_20261025/records/senate_118_s_bills_temporal_candidate_policy.json",
             "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_*",
             "results/published/network_science_20261025/models/senate_118_s_bills_primary_*",
             "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_*",

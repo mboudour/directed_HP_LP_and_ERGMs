@@ -35,6 +35,8 @@ def test_network_science_table_generator_writes_full_appendix_bundle(tmp_path: P
         "table_a2_cap_audit.tex",
         "table_a3_mask_realisation.tex",
         "table_a4_ergm_ladder.tex",
+        "table_a4b_temporal_feasibility.tex",
+        "table_a4c_mple_diagnostics.tex",
         "table_a5_mtt_check.tex",
         "table_a5b_sponsor_recoverability.tex",
         "table_a6_static_diagnostic.tex",
@@ -62,6 +64,15 @@ def test_network_science_table_generator_writes_full_appendix_bundle(tmp_path: P
         in (output_dir / "table_02_primary_performance.tex").read_text()
     )
     assert "recoverability" in (output_dir / "table_a5b_sponsor_recoverability.tex").read_text()
+    assert "no-mutual" in (output_dir / "table_a5b_sponsor_recoverability.tex").read_text()
+    assert (
+        "Temporal-feasibility audit"
+        in (output_dir / "table_a4b_temporal_feasibility.tex").read_text()
+    )
+    assert (
+        "Aggregate numerical diagnostics"
+        in (output_dir / "table_a4c_mple_diagnostics.tex").read_text()
+    )
     assert (
         "Bounded chronological diagnostic"
         in (output_dir / "table_a12_bounded_temporal.tex").read_text()

@@ -80,6 +80,11 @@ PHASE2 = {
         "split_summary.csv",
         "manifest.json",
     ),
+    "senate_118_s_bills_cap3_sensitivity_same_party_random": (
+        "metric_summary.csv",
+        "split_summary.csv",
+        "manifest.json",
+    ),
     "senate_118_s_bills_cap3_sensitivity_sponsor_substitution": (
         "summary.md",
         "metric_summary.csv",
@@ -103,6 +108,7 @@ MODELS = {
         "summary.md",
         "metric_summary.csv",
         "model_status.csv",
+        "fit_diagnostics_summary.csv",
         "network_summary.csv",
         "split_status.csv",
         "run_manifest.json",
@@ -112,6 +118,7 @@ MODELS = {
         "summary.md",
         "metric_summary.csv",
         "model_status.csv",
+        "fit_diagnostics_summary.csv",
         "network_summary.csv",
         "split_status.csv",
         "run_manifest.json",
@@ -124,6 +131,7 @@ MODELS = {
         "summary.md",
         "metric_summary.csv",
         "model_status.csv",
+        "fit_diagnostics_summary.csv",
         "network_summary.csv",
         "split_status.csv",
         "run_manifest.json",
@@ -136,6 +144,7 @@ MODELS = {
         "summary.md",
         "metric_summary.csv",
         "model_status.csv",
+        "fit_diagnostics_summary.csv",
         "network_summary.csv",
         "split_status.csv",
         "run_manifest.json",
@@ -177,6 +186,7 @@ MODELS = {
         "summary.md",
         "metric_summary.csv",
         "model_status.csv",
+        "fit_diagnostics_summary.csv",
         "network_summary.csv",
         "split_status.csv",
         "run_manifest.json",
@@ -194,8 +204,10 @@ RECORDS = (
     "data/metadata/gates/senate_118_s_bills_policy.json",
     "data/metadata/gates/senate_118_s_bills_cap_selection.json",
     "data/metadata/senate_118_s_bills_political_covariates.json",
+    "data/metadata/senate_118_s_bills_temporal_candidate_policy.json",
     "data/metadata/voteview_members_acquisition.json",
     "docs/data_audits/senate_118_s_bills_political_covariates.md",
+    "docs/data_audits/senate_118_s_bills_temporal_candidate_feasibility.md",
 )
 
 

@@ -1,39 +1,47 @@
 mechanism,recoverability_stratum,measure,completed_masks,mean,sd,bootstrap_reps,bootstrap_ci_lower,bootstrap_ci_upper
+mcar,both footprints survive,M4c_no_mutual_positive_preference,30,0.4206601230340319,0.04598288151858606,10000,0.4046477794496843,0.4365187605845506
 mcar,both footprints survive,M4c_positive_preference,30,0.43519116246127854,0.03977227205093294,10000,0.42154274910654693,0.449484005128698
 mcar,both footprints survive,M5_positive_preference,30,0.4517662432303765,0.044079915512320926,10000,0.4362323839138001,0.46702126779301845
 mcar,both footprints survive,positive_footprint_survival,30,1.0,0.0,10000,1.0,1.0
 mcar,both footprints survive,same_party_positive_preference,30,0.5098452212810097,0.009649943211534829,10000,0.5065606116687954,0.5132358374193866
 mcar,both footprints survive,substitution_footprint_survival,30,1.0,0.0,10000,1.0,1.0
+mcar,neither footprint survives,M4c_no_mutual_positive_preference,30,0.4217669217537016,0.02681798097583704,10000,0.41235230691123775,0.4311998998682209
 mcar,neither footprint survives,M4c_positive_preference,30,0.4502153968514579,0.027579448531176835,10000,0.44013827409299017,0.45980291856541616
 mcar,neither footprint survives,M5_positive_preference,30,0.4657743566801982,0.02864900029556478,10000,0.4550964033704124,0.4753756658966373
 mcar,neither footprint survives,positive_footprint_survival,30,0.0,0.0,10000,0.0,0.0
 mcar,neither footprint survives,same_party_positive_preference,30,0.5151073457372263,0.009478944181559066,10000,0.5117883019077947,0.5184703114619251
 mcar,neither footprint survives,substitution_footprint_survival,30,0.0,0.0,10000,0.0,0.0
+mcar,substitution only survives,M4c_no_mutual_positive_preference,30,0.4876519966566339,0.04662929789928561,10000,0.4712764545494545,0.5047123184539248
 mcar,substitution only survives,M4c_positive_preference,30,0.693623994307356,0.04391672046200225,10000,0.6785207892405256,0.7091694518019616
 mcar,substitution only survives,M5_positive_preference,30,0.6767456531673691,0.04408304757070275,10000,0.6608708726659062,0.6917712320542571
 mcar,substitution only survives,positive_footprint_survival,30,0.0,0.0,10000,0.0,0.0
 mcar,substitution only survives,same_party_positive_preference,30,0.4983054678983639,0.015681745964238544,10000,0.49280914188378416,0.5038877543468071
 mcar,substitution only survives,substitution_footprint_survival,30,1.0,0.0,10000,1.0,1.0
+mcar,true bill only survives,M4c_no_mutual_positive_preference,30,0.36283750959872463,0.0477942627404791,10000,0.3458991856409909,0.379411863891261
 mcar,true bill only survives,M4c_positive_preference,30,0.2959701627590246,0.04002599710612088,10000,0.2820446956809095,0.31010965266006085
 mcar,true bill only survives,M5_positive_preference,30,0.3335780455804385,0.03862090911710028,10000,0.3204531520021252,0.34753270356924565
 mcar,true bill only survives,positive_footprint_survival,30,1.0,0.0,10000,1.0,1.0
 mcar,true bill only survives,same_party_positive_preference,30,0.5211359892805333,0.012445804039552895,10000,0.5165544634709258,0.5253198693948207
 mcar,true bill only survives,substitution_footprint_survival,30,0.0,0.0,10000,0.0,0.0
+mnar_out,both footprints survive,M4c_no_mutual_positive_preference,30,0.46768419999143523,0.036552921858146833,10000,0.45531085783324027,0.48072458785108785
 mnar_out,both footprints survive,M4c_positive_preference,30,0.48087015025901986,0.0390660463457293,10000,0.46755594463721556,0.4944648956592831
 mnar_out,both footprints survive,M5_positive_preference,30,0.4949626029006566,0.038227843264272574,10000,0.4812524589507193,0.5086693817682864
 mnar_out,both footprints survive,positive_footprint_survival,30,1.0,0.0,10000,1.0,1.0
 mnar_out,both footprints survive,same_party_positive_preference,30,0.5162914563625552,0.012701032831846287,10000,0.5117507533447672,0.5207607079711309
 mnar_out,both footprints survive,substitution_footprint_survival,30,1.0,0.0,10000,1.0,1.0
+mnar_out,neither footprint survives,M4c_no_mutual_positive_preference,30,0.4806297213076563,0.029173504476376393,10000,0.470245648001082,0.49062741793782366
 mnar_out,neither footprint survives,M4c_positive_preference,30,0.5000009434750011,0.02712545338371035,10000,0.49018731070208515,0.5092955166609153
 mnar_out,neither footprint survives,M5_positive_preference,30,0.5102439769235918,0.020657820708350563,10000,0.5030543911936913,0.5174961071774138
 mnar_out,neither footprint survives,positive_footprint_survival,30,0.0,0.0,10000,0.0,0.0
 mnar_out,neither footprint survives,same_party_positive_preference,30,0.5187813666591349,0.007364705191973432,10000,0.5162221988343674,0.5213446623009861
 mnar_out,neither footprint survives,substitution_footprint_survival,30,0.0,0.0,10000,0.0,0.0
+mnar_out,substitution only survives,M4c_no_mutual_positive_preference,30,0.5129077014193122,0.04317258644411766,10000,0.497399630765071,0.5280660446051189
 mnar_out,substitution only survives,M4c_positive_preference,30,0.7226767675125485,0.04600936992666189,10000,0.7062418357090365,0.7385678414398371
 mnar_out,substitution only survives,M5_positive_preference,30,0.6980530305046877,0.049273999837928774,10000,0.6804111189707334,0.7149753317065138
 mnar_out,substitution only survives,positive_footprint_survival,30,0.0,0.0,10000,0.0,0.0
 mnar_out,substitution only survives,same_party_positive_preference,30,0.5023273735993754,0.013824664968719837,10000,0.49747202323955647,0.5071604713662184
 mnar_out,substitution only survives,substitution_footprint_survival,30,1.0,0.0,10000,1.0,1.0
+mnar_out,true bill only survives,M4c_no_mutual_positive_preference,30,0.37786716044322577,0.03999324665064101,10000,0.36377653571687996,0.392040569812218
 mnar_out,true bill only survives,M4c_positive_preference,30,0.32266752809649407,0.03718936875340733,10000,0.3093804428045634,0.33629143676826284
 mnar_out,true bill only survives,M5_positive_preference,30,0.3537237881591156,0.035687624303323645,10000,0.341307065754278,0.3668695946276193
 mnar_out,true bill only survives,positive_footprint_survival,30,1.0,0.0,10000,1.0,1.0

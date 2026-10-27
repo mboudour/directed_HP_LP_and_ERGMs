@@ -1,21 +1,22 @@
 {
   "status": "completed",
   "script": "r/models/score_native_event_footprints.R",
-  "generated_at_utc": "2026-10-25 22:00:33 UTC",
+  "generated_at_utc": "2026-10-26 11:24:54 UTC",
   "input": {
     "input_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/senate_118_s_bills_primary_ergm_inputs",
     "contract": "nodes.csv[id]; splits/<split>/train_edges.csv[from,to]; candidate_dyads.csv; candidate_footprints.csv"
   },
   "output_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/senate_118_s_bills_primary_ergm_no_mutual_scores",
   "models": [
-    "M0",
     "M4c",
     "M4c_no_mutual"
   ],
   "political_covariates": null,
   "estimation": {
     "estimate": "MPLE",
-    "seed": 20261025
+    "seed": 20261013,
+    "regularization": "none",
+    "input_standardization": "none"
   },
   "conditional_prediction": {
     "call": "predict(fit, conditional=TRUE, type='response', output='data.frame')",
@@ -33,8 +34,10 @@
   "counts": {
     "splits_discovered": 60,
     "splits_with_status": 60,
-    "conditional_footprint_score_rows": 645360,
-    "ranking_metric_rows": 4320
+    "conditional_footprint_score_rows": 430240,
+    "ranking_metric_rows": 2880,
+    "fit_diagnostic_rows": 120,
+    "fit_diagnostic_summary_rows": 2
   },
   "limitations": ["Every model is fit to one split's observed projection only; full-network coefficients are not reused.", "L1, L1g, and L2 describe conditional dyadic graph-footprint completion, not a probability of a recorded native email event.", "L2 is a product of single-dyad conditional-pseudolikelihood scores. It is not the matched-marginal L2 or L3-F required for the plan's joint conditional ERGM simulation.", "Model fit, conditional prediction, and aggregation failures remain visible in model_status.csv."]
 }

@@ -1,6 +1,6 @@
 # Paired frozen-mask uncertainty analysis
 
-- Dataset: `senate_118_s_bills_cap3_sensitivity`
+- Dataset: `senate_118_s_bills`
 - Source family: `native_ergm`
 - Fixed reference: `M0::L1`
 - Resampling unit: the whole frozen mask replicate.

@@ -1,10 +1,9 @@
 {
-  "status": "completed",
-  "script": "r/models/score_native_event_footprints.R",
-  "generated_at_utc": "2026-10-25 17:19:06 UTC",
+  "status": "completed_with_declared_runtime_guard",
+  "script": "r/models/merge_native_event_ergm_model_bundles.R",
+  "generated_at_utc": "2026-10-27 02:33:52 UTC",
   "input": {
-    "input_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/senate_118_s_bills_primary_ergm_inputs",
-    "contract": "nodes.csv[id]; splits/<split>/train_edges.csv[from,to]; candidate_dyads.csv; candidate_footprints.csv"
+    "input_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/senate_118_s_bills_primary_ergm_inputs"
   },
   "output_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/senate_118_s_bills_primary_ergm_scores",
   "models": [
@@ -15,28 +14,38 @@
     "M4",
     "M4c"
   ],
-  "estimation": {
-    "estimate": "MPLE",
-    "seed": 20261026
-  },
-  "conditional_prediction": {
-    "call": "predict(fit, conditional=TRUE, type='response', output='data.frame')",
-    "aggregation": "L1=mean(p); L1g=exp(mean(log(p))); L2=product(p) of single-dyad conditional-pseudolikelihood scores; metrics use log_L2 as a monotone numerically stable representation"
-  },
-  "metrics": {
-    "scope": "ranking only: ROC-AUC, PR-AUC, precision@k, recall@k",
-    "excluded": "No accuracy, F1, MCC, log loss, or native-event probability claim is made."
-  },
-  "package_versions": {
-    "network": "1.20.0",
-    "ergm": "4.12.0",
-    "jsonlite": "2.0.0"
-  },
+  "source_bundles": [
+    {
+      "path": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/senate_118_s_bills_primary_ergm_m0_m3_scores",
+      "models": [
+        "M0",
+        "M1",
+        "M2",
+        "M3"
+      ],
+      "status": "completed_with_declared_runtime_guard"
+    },
+    {
+      "path": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/senate_118_s_bills_primary_ergm_m4_scores",
+      "models": [
+        "M4"
+      ],
+      "status": "completed"
+    },
+    {
+      "path": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/senate_118_s_bills_primary_ergm_no_mutual_scores",
+      "models": [
+        "M4c"
+      ],
+      "status": "completed"
+    }
+  ],
   "counts": {
-    "splits_discovered": 60,
-    "splits_with_status": 60,
-    "conditional_footprint_score_rows": 1290720,
-    "ranking_metric_rows": 8640
+    "conditional_footprint_score_rows": 1287118,
+    "ranking_metric_rows": 8616,
+    "fit_diagnostic_rows": 360,
+    "fit_diagnostic_summary_rows": 6
   },
-  "limitations": ["Every model is fit to one split's observed projection only; full-network coefficients are not reused.", "L1, L1g, and L2 describe conditional dyadic graph-footprint completion, not a probability of a recorded native email event.", "L2 is a product of single-dyad conditional-pseudolikelihood scores. It is not the matched-marginal L2 or L3-F required for the plan's joint conditional ERGM simulation.", "Model fit, conditional prediction, and aggregation failures remain visible in model_status.csv."]
+  "contract": "Model-disjoint score bundles use the same frozen splits; rows are untransformed and summaries are recomputed.",
+  "privacy": "Merged output is ignored; only aggregate outputs may be published through script 70."
 }

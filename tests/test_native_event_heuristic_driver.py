@@ -108,6 +108,57 @@ def read_rows(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def write_temporal_inputs(tmp_path: Path, masks: Path, nodes: Path) -> tuple[Path, Path, Path]:
+    """Add one locally reachable senator who is not serving on the positive bill date."""
+    write_csv(nodes, ["node"], [{"node": node} for node in ("a", "b", "c", "d")])
+    split = masks / "mcar_replicate_001"
+    write_csv(
+        split / "observed_arcs.csv",
+        ["tail", "head"],
+        [
+            {"tail": "a", "head": "b"},
+            {"tail": "b", "head": "c"},
+            {"tail": "c", "head": "d"},
+        ],
+    )
+    sidecar = tmp_path / "temporal_sidecar.json"
+    sidecar.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "service_rule": (
+                    "term_start <= introduction_date < term_end for every associated date"
+                ),
+                "event_types": [
+                    {
+                        "event_type_id": "event_type_00003",
+                        "introduction_dates": ["2023-06-01", "2024-01-01"],
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    current_roster = tmp_path / "current.json"
+    historical_roster = tmp_path / "historical.json"
+    roster = [
+        {
+            "id": {"bioguide": node},
+            "terms": [
+                {
+                    "type": "sen",
+                    "start": "2023-01-03" if node != "d" else "2024-01-03",
+                    "end": "2025-01-03",
+                }
+            ],
+        }
+        for node in ("a", "b", "c", "d")
+    ]
+    current_roster.write_text(json.dumps(roster), encoding="utf-8")
+    historical_roster.write_text("[]", encoding="utf-8")
+    return sidecar, current_roster, historical_roster
+
+
 def test_native_event_heuristics_exclude_all_known_event_types_from_negatives(
     tmp_path: Path,
 ) -> None:
@@ -147,6 +198,7 @@ def test_native_event_heuristics_exclude_all_known_event_types_from_negatives(
     manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["target"] == "native_event_type"
     assert manifest["splits_completed"] == 1
+    assert manifest["temporal_random_negative_eligibility"] == {"status": "not_requested"}
 
 
 def test_native_event_heuristics_require_explicit_overwrite(tmp_path: Path) -> None:
@@ -178,3 +230,44 @@ def test_native_event_heuristics_require_explicit_overwrite(tmp_path: Path) -> N
         check=False,
     )
     assert rerun.returncode == 0, rerun.stderr
+
+
+def test_native_event_heuristics_reject_date_infeasible_senate_negatives(tmp_path: Path) -> None:
+    """Every Senate random negative must cover every date attached to its positive type."""
+    masks, nodes = write_fixture(tmp_path)
+    sidecar, current_roster, historical_roster = write_temporal_inputs(tmp_path, masks, nodes)
+    output = tmp_path / "temporal_output"
+    completed = subprocess.run(
+        command(
+            masks,
+            nodes,
+            output,
+            "--seed",
+            "1",
+            "--temporal-constraint-sidecar",
+            str(sidecar),
+            "--senate-current-roster",
+            str(current_roster),
+            "--senate-historical-roster",
+            str(historical_roster),
+        ),
+        cwd=PROJECT_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
+    predictions = read_rows(output / "mcar_replicate_001" / "candidate_predictions.csv")
+    negative = next(row for row in predictions if int(row["label"]) == 0)
+    assert "d" not in json.loads(negative["tail_nodes_json"])
+    assert "d" not in json.loads(negative["head_nodes_json"])
+    assert negative["paired_source_event_type_id"] == "event_type_00003"
+    assert negative["paired_introduction_dates_json"] == '["2023-06-01", "2024-01-01"]'
+    assert negative["temporal_rule_applies_to_synthetic_negative"] == "1"
+    assert negative["all_date_service_eligible"] == "1"
+    split_manifest = json.loads(
+        (output / "mcar_replicate_001" / "manifest.json").read_text(encoding="utf-8")
+    )
+    eligibility = split_manifest["temporal_random_negative_eligibility"]
+    assert eligibility["rejected_temporal_service"] >= 1
+    assert eligibility["accepted"] == eligibility["positive_types_paired"] == 1

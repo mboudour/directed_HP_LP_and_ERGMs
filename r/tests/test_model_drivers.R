@@ -154,4 +154,54 @@ stopifnot(grepl("conditional = TRUE", score_source, fixed = TRUE))
 stopifnot(grepl('type = "response"', score_source, fixed = TRUE))
 stopifnot(grepl('output = "data.frame"', score_source, fixed = TRUE))
 
+# Package-enabled semantic regression. Fixed offset coefficients remove fitting
+# variation: the a->b conditional must be identical whether that candidate tie
+# is currently present or absent, because its own observed state is excluded
+# from its change statistic. The b->a tie remains present, yielding the
+# explicit toggle increment c(edges=1, mutual=1).
+if (requireNamespace("network", quietly = TRUE) && requireNamespace("ergm", quietly = TRUE)) {
+  make_conditional_fixture <- function(candidate_present) {
+    nw <- network::network.initialize(3L, directed = TRUE, loops = FALSE)
+    network::set.vertex.attribute(nw, "vertex.names", c("a", "b", "c"))
+    network::add.edge(nw, 2L, 1L)
+    network::add.edge(nw, 2L, 3L)
+    if (candidate_present) network::add.edge(nw, 1L, 2L)
+    nw
+  }
+  absent_network <- make_conditional_fixture(FALSE)
+  present_network <- make_conditional_fixture(TRUE)
+  change_statistic <- summary(present_network ~ edges + mutual) -
+    summary(absent_network ~ edges + mutual)
+  stopifnot(identical(unname(as.numeric(change_statistic)), c(1, 1)))
+  fit_with_fixed_offsets <- function(nw) {
+    ergm::ergm(
+      nw ~ offset(edges) + offset(mutual),
+      offset.coef = c(-1.2, 0.7),
+      estimate = "MPLE"
+    )
+  }
+  candidate_dyad <- data.frame(
+    candidate_tail = "a", candidate_head = "b", label = 1L, stringsAsFactors = FALSE
+  )
+  absent_score <- score_predict_candidates(
+    fit_with_fixed_offsets(absent_network), candidate_dyad, c("a", "b", "c")
+  )
+  present_score <- score_predict_candidates(
+    fit_with_fixed_offsets(present_network), candidate_dyad, c("a", "b", "c")
+  )
+  stopifnot(identical(absent_score$status, "prediction_succeeded"))
+  stopifnot(identical(present_score$status, "prediction_succeeded"))
+  expected_probability <- stats::plogis(sum(c(-1.2, 0.7) * change_statistic))
+  stopifnot(isTRUE(all.equal(
+    absent_score$predictions$conditional_probability,
+    present_score$predictions$conditional_probability,
+    tolerance = 1e-12
+  )))
+  stopifnot(isTRUE(all.equal(
+    absent_score$predictions$conditional_probability,
+    expected_probability,
+    tolerance = 1e-12
+  )))
+}
+
 cat("PASS: static ladder, masked-ERGM conditional scoring contract, and Proposition 6 lagged-CN identity.\n")

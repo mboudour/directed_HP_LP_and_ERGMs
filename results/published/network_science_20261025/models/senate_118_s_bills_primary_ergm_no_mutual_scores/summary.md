@@ -4,7 +4,7 @@
 - Each static ERGM is fit separately to a frozen event-first observed projection.
 - L1 is the arithmetic mean of conditional-pseudolikelihood dyad scores; L1g is their geometric mean; L2 is their product.
 - L2 metrics use `log_L2`, a strictly monotone numeric representation of the L2 product.
-- These scores estimate **graph-footprint completion**, not the probability that a recorded email group event occurred.
+- These scores estimate **graph-footprint completion**, not the probability that a recorded native event occurred.
 
 ## Completion status
 
@@ -15,90 +15,54 @@
 
 | Panel | Mechanism | Model | Score | Metric | Replicates | Mean | SD |
 |---|---|---|---|---|---:|---:|---:|
-| random | mcar | M0 | L1 | pr_auc | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L1 | precision_at_k | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L1 | recall_at_k | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L1 | roc_auc | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L1g | pr_auc | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L1g | precision_at_k | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L1g | recall_at_k | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L1g | roc_auc | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L2 | pr_auc | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L2 | precision_at_k | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L2 | recall_at_k | 30 | 0.5000 | 0.0000 |
-| random | mcar | M0 | L2 | roc_auc | 30 | 0.5000 | 0.0000 |
-| random | mcar | M4c | L1 | pr_auc | 30 | 0.7022 | 0.0137 |
-| random | mcar | M4c | L1 | precision_at_k | 30 | 0.6690 | 0.0091 |
-| random | mcar | M4c | L1 | recall_at_k | 30 | 0.6690 | 0.0091 |
-| random | mcar | M4c | L1 | roc_auc | 30 | 0.7173 | 0.0082 |
-| random | mcar | M4c | L1g | pr_auc | 30 | 0.7042 | 0.0133 |
-| random | mcar | M4c | L1g | precision_at_k | 30 | 0.6740 | 0.0092 |
-| random | mcar | M4c | L1g | recall_at_k | 30 | 0.6740 | 0.0092 |
-| random | mcar | M4c | L1g | roc_auc | 30 | 0.7223 | 0.0076 |
-| random | mcar | M4c | L2 | pr_auc | 30 | 0.5979 | 0.0092 |
-| random | mcar | M4c | L2 | precision_at_k | 30 | 0.5607 | 0.0056 |
-| random | mcar | M4c | L2 | recall_at_k | 30 | 0.5607 | 0.0056 |
-| random | mcar | M4c | L2 | roc_auc | 30 | 0.6073 | 0.0065 |
-| random | mcar | M4c_no_mutual | L1 | pr_auc | 30 | 0.6595 | 0.0145 |
-| random | mcar | M4c_no_mutual | L1 | precision_at_k | 30 | 0.6209 | 0.0089 |
-| random | mcar | M4c_no_mutual | L1 | recall_at_k | 30 | 0.6209 | 0.0089 |
-| random | mcar | M4c_no_mutual | L1 | roc_auc | 30 | 0.6693 | 0.0105 |
-| random | mcar | M4c_no_mutual | L1g | pr_auc | 30 | 0.6619 | 0.0143 |
-| random | mcar | M4c_no_mutual | L1g | precision_at_k | 30 | 0.6271 | 0.0085 |
-| random | mcar | M4c_no_mutual | L1g | recall_at_k | 30 | 0.6271 | 0.0085 |
-| random | mcar | M4c_no_mutual | L1g | roc_auc | 30 | 0.6745 | 0.0099 |
-| random | mcar | M4c_no_mutual | L2 | pr_auc | 30 | 0.5690 | 0.0092 |
-| random | mcar | M4c_no_mutual | L2 | precision_at_k | 30 | 0.5430 | 0.0051 |
-| random | mcar | M4c_no_mutual | L2 | recall_at_k | 30 | 0.5430 | 0.0051 |
-| random | mcar | M4c_no_mutual | L2 | roc_auc | 30 | 0.5746 | 0.0058 |
-| random | mnar_out | M0 | L1 | pr_auc | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L1 | precision_at_k | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L1 | recall_at_k | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L1 | roc_auc | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L1g | pr_auc | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L1g | precision_at_k | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L1g | recall_at_k | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L1g | roc_auc | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L2 | pr_auc | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L2 | precision_at_k | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L2 | recall_at_k | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M0 | L2 | roc_auc | 30 | 0.5000 | 0.0000 |
-| random | mnar_out | M4c | L1 | pr_auc | 30 | 0.7471 | 0.0151 |
-| random | mnar_out | M4c | L1 | precision_at_k | 30 | 0.7075 | 0.0124 |
-| random | mnar_out | M4c | L1 | recall_at_k | 30 | 0.7075 | 0.0124 |
-| random | mnar_out | M4c | L1 | roc_auc | 30 | 0.7669 | 0.0112 |
-| random | mnar_out | M4c | L1g | pr_auc | 30 | 0.7489 | 0.0152 |
-| random | mnar_out | M4c | L1g | precision_at_k | 30 | 0.7109 | 0.0123 |
-| random | mnar_out | M4c | L1g | recall_at_k | 30 | 0.7109 | 0.0123 |
-| random | mnar_out | M4c | L1g | roc_auc | 30 | 0.7717 | 0.0114 |
-| random | mnar_out | M4c | L2 | pr_auc | 30 | 0.6219 | 0.0107 |
-| random | mnar_out | M4c | L2 | precision_at_k | 30 | 0.5812 | 0.0078 |
-| random | mnar_out | M4c | L2 | recall_at_k | 30 | 0.5812 | 0.0078 |
-| random | mnar_out | M4c | L2 | roc_auc | 30 | 0.6360 | 0.0079 |
-| random | mnar_out | M4c_no_mutual | L1 | pr_auc | 30 | 0.7110 | 0.0145 |
-| random | mnar_out | M4c_no_mutual | L1 | precision_at_k | 30 | 0.6732 | 0.0108 |
-| random | mnar_out | M4c_no_mutual | L1 | recall_at_k | 30 | 0.6732 | 0.0108 |
-| random | mnar_out | M4c_no_mutual | L1 | roc_auc | 30 | 0.7322 | 0.0115 |
-| random | mnar_out | M4c_no_mutual | L1g | pr_auc | 30 | 0.7133 | 0.0144 |
-| random | mnar_out | M4c_no_mutual | L1g | precision_at_k | 30 | 0.6757 | 0.0104 |
-| random | mnar_out | M4c_no_mutual | L1g | recall_at_k | 30 | 0.6757 | 0.0104 |
-| random | mnar_out | M4c_no_mutual | L1g | roc_auc | 30 | 0.7365 | 0.0118 |
-| random | mnar_out | M4c_no_mutual | L2 | pr_auc | 30 | 0.5925 | 0.0093 |
-| random | mnar_out | M4c_no_mutual | L2 | precision_at_k | 30 | 0.5618 | 0.0059 |
-| random | mnar_out | M4c_no_mutual | L2 | recall_at_k | 30 | 0.5618 | 0.0059 |
-| random | mnar_out | M4c_no_mutual | L2 | roc_auc | 30 | 0.6004 | 0.0068 |
-| sponsor_substitution | mcar | M0 | L1 | pr_auc | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L1 | precision_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L1 | recall_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L1 | roc_auc | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L1g | pr_auc | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L1g | precision_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L1g | recall_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L1g | roc_auc | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L2 | pr_auc | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L2 | precision_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L2 | recall_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mcar | M0 | L2 | roc_auc | 30 | 0.5000 | 0.0000 |
+| random | mcar | M4c | L1 | pr_auc | 30 | 0.6883 | 0.0144 |
+| random | mcar | M4c | L1 | precision_at_k | 30 | 0.6618 | 0.0112 |
+| random | mcar | M4c | L1 | recall_at_k | 30 | 0.6618 | 0.0112 |
+| random | mcar | M4c | L1 | roc_auc | 30 | 0.7062 | 0.0093 |
+| random | mcar | M4c | L1g | pr_auc | 30 | 0.6899 | 0.0144 |
+| random | mcar | M4c | L1g | precision_at_k | 30 | 0.6664 | 0.0090 |
+| random | mcar | M4c | L1g | recall_at_k | 30 | 0.6664 | 0.0090 |
+| random | mcar | M4c | L1g | roc_auc | 30 | 0.7103 | 0.0092 |
+| random | mcar | M4c | L2 | pr_auc | 30 | 0.5866 | 0.0102 |
+| random | mcar | M4c | L2 | precision_at_k | 30 | 0.5524 | 0.0061 |
+| random | mcar | M4c | L2 | recall_at_k | 30 | 0.5524 | 0.0061 |
+| random | mcar | M4c | L2 | roc_auc | 30 | 0.5966 | 0.0045 |
+| random | mcar | M4c_no_mutual | L1 | pr_auc | 30 | 0.6467 | 0.0144 |
+| random | mcar | M4c_no_mutual | L1 | precision_at_k | 30 | 0.6146 | 0.0107 |
+| random | mcar | M4c_no_mutual | L1 | recall_at_k | 30 | 0.6146 | 0.0107 |
+| random | mcar | M4c_no_mutual | L1 | roc_auc | 30 | 0.6571 | 0.0101 |
+| random | mcar | M4c_no_mutual | L1g | pr_auc | 30 | 0.6482 | 0.0145 |
+| random | mcar | M4c_no_mutual | L1g | precision_at_k | 30 | 0.6195 | 0.0101 |
+| random | mcar | M4c_no_mutual | L1g | recall_at_k | 30 | 0.6195 | 0.0101 |
+| random | mcar | M4c_no_mutual | L1g | roc_auc | 30 | 0.6612 | 0.0102 |
+| random | mcar | M4c_no_mutual | L2 | pr_auc | 30 | 0.5590 | 0.0095 |
+| random | mcar | M4c_no_mutual | L2 | precision_at_k | 30 | 0.5348 | 0.0065 |
+| random | mcar | M4c_no_mutual | L2 | recall_at_k | 30 | 0.5348 | 0.0065 |
+| random | mcar | M4c_no_mutual | L2 | roc_auc | 30 | 0.5641 | 0.0044 |
+| random | mnar_out | M4c | L1 | pr_auc | 30 | 0.7418 | 0.0139 |
+| random | mnar_out | M4c | L1 | precision_at_k | 30 | 0.7028 | 0.0104 |
+| random | mnar_out | M4c | L1 | recall_at_k | 30 | 0.7028 | 0.0104 |
+| random | mnar_out | M4c | L1 | roc_auc | 30 | 0.7605 | 0.0088 |
+| random | mnar_out | M4c | L1g | pr_auc | 30 | 0.7431 | 0.0140 |
+| random | mnar_out | M4c | L1g | precision_at_k | 30 | 0.7063 | 0.0102 |
+| random | mnar_out | M4c | L1g | recall_at_k | 30 | 0.7063 | 0.0102 |
+| random | mnar_out | M4c | L1g | roc_auc | 30 | 0.7644 | 0.0089 |
+| random | mnar_out | M4c | L2 | pr_auc | 30 | 0.6155 | 0.0091 |
+| random | mnar_out | M4c | L2 | precision_at_k | 30 | 0.5732 | 0.0069 |
+| random | mnar_out | M4c | L2 | recall_at_k | 30 | 0.5732 | 0.0069 |
+| random | mnar_out | M4c | L2 | roc_auc | 30 | 0.6264 | 0.0050 |
+| random | mnar_out | M4c_no_mutual | L1 | pr_auc | 30 | 0.7051 | 0.0145 |
+| random | mnar_out | M4c_no_mutual | L1 | precision_at_k | 30 | 0.6689 | 0.0085 |
+| random | mnar_out | M4c_no_mutual | L1 | recall_at_k | 30 | 0.6689 | 0.0085 |
+| random | mnar_out | M4c_no_mutual | L1 | roc_auc | 30 | 0.7249 | 0.0099 |
+| random | mnar_out | M4c_no_mutual | L1g | pr_auc | 30 | 0.7070 | 0.0146 |
+| random | mnar_out | M4c_no_mutual | L1g | precision_at_k | 30 | 0.6717 | 0.0100 |
+| random | mnar_out | M4c_no_mutual | L1g | recall_at_k | 30 | 0.6717 | 0.0100 |
+| random | mnar_out | M4c_no_mutual | L1g | roc_auc | 30 | 0.7283 | 0.0101 |
+| random | mnar_out | M4c_no_mutual | L2 | pr_auc | 30 | 0.5855 | 0.0097 |
+| random | mnar_out | M4c_no_mutual | L2 | precision_at_k | 30 | 0.5536 | 0.0070 |
+| random | mnar_out | M4c_no_mutual | L2 | recall_at_k | 30 | 0.5536 | 0.0070 |
+| random | mnar_out | M4c_no_mutual | L2 | roc_auc | 30 | 0.5905 | 0.0051 |
 | sponsor_substitution | mcar | M4c | L1 | pr_auc | 30 | 0.4710 | 0.0076 |
 | sponsor_substitution | mcar | M4c | L1 | precision_at_k | 30 | 0.4742 | 0.0117 |
 | sponsor_substitution | mcar | M4c | L1 | recall_at_k | 30 | 0.4742 | 0.0117 |
@@ -123,18 +87,6 @@
 | sponsor_substitution | mcar | M4c_no_mutual | L2 | precision_at_k | 30 | 0.4880 | 0.0045 |
 | sponsor_substitution | mcar | M4c_no_mutual | L2 | recall_at_k | 30 | 0.4880 | 0.0045 |
 | sponsor_substitution | mcar | M4c_no_mutual | L2 | roc_auc | 30 | 0.4770 | 0.0050 |
-| sponsor_substitution | mnar_out | M0 | L1 | pr_auc | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L1 | precision_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L1 | recall_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L1 | roc_auc | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L1g | pr_auc | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L1g | precision_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L1g | recall_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L1g | roc_auc | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L2 | pr_auc | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L2 | precision_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L2 | recall_at_k | 30 | 0.5000 | 0.0000 |
-| sponsor_substitution | mnar_out | M0 | L2 | roc_auc | 30 | 0.5000 | 0.0000 |
 | sponsor_substitution | mnar_out | M4c | L1 | pr_auc | 30 | 0.4857 | 0.0088 |
 | sponsor_substitution | mnar_out | M4c | L1 | precision_at_k | 30 | 0.4987 | 0.0110 |
 | sponsor_substitution | mnar_out | M4c | L1 | recall_at_k | 30 | 0.4987 | 0.0110 |
@@ -161,3 +113,13 @@
 | sponsor_substitution | mnar_out | M4c_no_mutual | L2 | roc_auc | 30 | 0.4867 | 0.0040 |
 
 This L2 is a product of single-dyad conditional-pseudolikelihood scores, not the matched-marginal L2 used for the plan's dependence increment. No L3-F joint simulation, L3-C concept score, or native-event probability is reported here. Those require separate conditional simulation and target-specific analysis.
+
+## Aggregate MPLE numerical diagnostics
+
+No coefficient-inference claim is made. Models use MPLE without coefficient regularization or input standardization.
+The table reports fitting and conditional-score stability only; no coefficient values are released.
+
+| Model | fits attempted/scored | failures | fit/prediction warnings | nonfinite coefficients | max $|\hat\theta|$ | exact $p=0/1$ |
+|---|---:|---:|---:|---:|---:|---:|
+| M4c | 60/60 | 0 | 0/0 | 0 | 85.034 | 0/0 |
+| M4c_no_mutual | 60/60 | 0 | 0/0 | 0 | 82.059 | 0/0 |

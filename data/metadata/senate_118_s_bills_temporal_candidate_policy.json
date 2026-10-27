@@ -1,0 +1,128 @@
+{
+  "cap_summaries": [
+    {
+      "accounting": {
+        "cap_eligible_event_records": 2976,
+        "cap_eligible_event_types": 2240,
+        "distinct_type_introduction_dates": 2913,
+        "event_records_read": 4374,
+        "event_types_with_multiple_introduction_dates": 367,
+        "excluded_by_arity_cap": 1398,
+        "excluded_empty_head": 0,
+        "excluded_empty_tail": 0,
+        "excluded_outside_fixed_node_universe": 0,
+        "excluded_role_overlap": 0,
+        "head_cap": 3,
+        "recurrent_event_types": 381,
+        "types_with_full_participant_service_coverage": 2240
+      },
+      "frozen_mask_directory": "results/phase2/senate_118_s_bills_cap3_sensitivity_masks",
+      "frozen_mask_identity_check": {
+        "rows_checked": 134400,
+        "splits_checked": 60,
+        "type_tables_checked": 120
+      },
+      "legacy_random_negative_audit": [
+        {
+          "date_infeasible_random_negatives": 977,
+          "date_infeasible_share": 0.04860696517412935,
+          "mechanism": "mcar",
+          "splits_checked": 30,
+          "synthetic_random_negatives": 20100
+        },
+        {
+          "date_infeasible_random_negatives": 948,
+          "date_infeasible_share": 0.04688195440383759,
+          "mechanism": "mnar_out",
+          "splits_checked": 30,
+          "synthetic_random_negatives": 20221
+        }
+      ],
+      "sidecar": {
+        "path": "data/processed/senate_118_s_bills/temporal_constraints/event_type_introduction_dates_tail1_head3.json",
+        "sha256": "e11bbecd5bcb0593cec36d4b52f8055a6c239ba3ded107250dd7db45f355d7a9"
+      }
+    },
+    {
+      "accounting": {
+        "cap_eligible_event_records": 3956,
+        "cap_eligible_event_types": 3209,
+        "distinct_type_introduction_dates": 3884,
+        "event_records_read": 4374,
+        "event_types_with_multiple_introduction_dates": 369,
+        "excluded_by_arity_cap": 418,
+        "excluded_empty_head": 0,
+        "excluded_empty_tail": 0,
+        "excluded_outside_fixed_node_universe": 0,
+        "excluded_role_overlap": 0,
+        "head_cap": 10,
+        "recurrent_event_types": 388,
+        "types_with_full_participant_service_coverage": 3208
+      },
+      "frozen_mask_directory": "results/phase2/senate_118_s_bills_primary_masks",
+      "frozen_mask_identity_check": {
+        "rows_checked": 192540,
+        "splits_checked": 60,
+        "type_tables_checked": 120
+      },
+      "legacy_random_negative_audit": [
+        {
+          "date_infeasible_random_negatives": 1917,
+          "date_infeasible_share": 0.06646096241852725,
+          "mechanism": "mcar",
+          "splits_checked": 30,
+          "synthetic_random_negatives": 28844
+        },
+        {
+          "date_infeasible_random_negatives": 2004,
+          "date_infeasible_share": 0.0692060641641054,
+          "mechanism": "mnar_out",
+          "splits_checked": 30,
+          "synthetic_random_negatives": 28957
+        }
+      ],
+      "sidecar": {
+        "path": "data/processed/senate_118_s_bills/temporal_constraints/event_type_introduction_dates_tail1_head10.json",
+        "sha256": "965963db571ab2a7b1bdb5384ffb94f1caed07075ab88690e07f782f1eebb6bd"
+      }
+    }
+  ],
+  "dataset_id": "senate_118_s_bills",
+  "driver": "scripts/77_prepare_senate_temporal_constraints.py",
+  "fixed_actor_universe": 105,
+  "inputs": {
+    "current_roster": {
+      "path": "data/raw/us_congress_legislators_gh_pages/legislators-current.json",
+      "sha256": "ae8cb9477c48715df71a7d860854229d799dc90a254d61badc1efb770f892b2c"
+    },
+    "historical_roster": {
+      "path": "data/raw/us_congress_legislators_gh_pages/legislators-historical.json",
+      "sha256": "25187633f3215a096fe9d14d8a40db1fb0841ab1d24c6da52da3a80c93698cbc"
+    },
+    "native_events": {
+      "path": "data/processed/senate_118_s_bills/native_events.parquet",
+      "sha256": "b9b2404d35c77395e34bea4504961bcd7dafbbd59b23bea4b88797e039f37ae1"
+    },
+    "nodes": {
+      "path": "data/processed/senate_118_s_bills/nodes.csv",
+      "sha256": "fcd6a96c83221a4972c8329e120201bd2b31178ed321e496e5ab986c57c639b8"
+    }
+  },
+  "policy": {
+    "date_reference": "every distinct Bill Status introduction date associated with the paired positive event type",
+    "negative_eligibility": "every synthetic candidate participant covers every associated date",
+    "positive_exception_policy": "source-positive roster-date exceptions are retained and reported",
+    "scope": "Senate random native-event negatives only; frozen masks and positives unchanged",
+    "service_interval": "half-open: term_start <= introduction_date < term_end"
+  },
+  "privacy": "No actor IDs, event rows, candidate panels, or roster intervals are published.",
+  "source_positive_service_coverage": {
+    "event_records_checked": 4374,
+    "event_records_service_covered": 4373,
+    "event_records_without_full_service_coverage": 1,
+    "participant_appearances_checked": 23232,
+    "participant_appearances_service_covered": 23231,
+    "participant_appearances_without_service_coverage": 1
+  },
+  "status": "temporal_random_negative_policy_ready"
+}

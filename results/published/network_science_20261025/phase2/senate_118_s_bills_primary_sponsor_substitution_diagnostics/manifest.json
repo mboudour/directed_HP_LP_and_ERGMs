@@ -4,10 +4,13 @@
   "privacy": "actor-level pair records are not emitted",
   "score_contract": {
     "M4c_and_M5": "tie-aware within-pair preference using L1g conditional footprint scores",
+    "M4c_no_mutual": "tie-aware within-pair preference using density-controlled structural conditional footprint scores with mutuality removed",
     "same_party": "tie-aware within-pair preference using mean same-party footprint share"
   },
-  "source_ergm_scores": "results/models/senate_118_s_bills_primary_ergm_m5_scores",
   "source_hard_panels": "results/phase2/senate_118_s_bills_primary_sponsor_substitution",
+  "source_m4c_ergm_scores": "results/models/senate_118_s_bills_primary_ergm_no_mutual_scores",
+  "source_m5_ergm_scores": "results/models/senate_118_s_bills_primary_ergm_m5_scores",
+  "source_no_mutuality_ergm_scores": "results/models/senate_118_s_bills_primary_ergm_no_mutual_scores",
   "survival_definition": "all candidate footprint arcs appear in the split-observed projection",
   "uncertainty": "10,000 percentile bootstrap resamples of complete frozen masks within each mechanism and stratum"
 }

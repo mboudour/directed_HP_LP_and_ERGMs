@@ -9,6 +9,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pyarrow as pa
 import pyarrow.parquet as pq
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -16,6 +17,7 @@ ACQUIRE_DRIVER = PROJECT_ROOT / "scripts" / "63_acquire_senate_billstatus.py"
 PREPARE_DRIVER = PROJECT_ROOT / "scripts" / "65_prepare_senate_118_s_bills.py"
 CAP_DRIVER = PROJECT_ROOT / "scripts" / "66_profile_senate_cap_gate.py"
 HARD_DRIVER = PROJECT_ROOT / "scripts" / "67_run_senate_sponsor_substitution.py"
+TEMPORAL_DRIVER = PROJECT_ROOT / "scripts" / "77_prepare_senate_temporal_constraints.py"
 
 
 def load_module(path: Path):  # type: ignore[no-untyped-def]
@@ -254,3 +256,118 @@ def test_sponsor_substitution_preserves_singleton_sponsor_grammar(tmp_path: Path
     )
     assert {row["panel"] for row in predictions} == {"sponsor_substitution"}
     assert {row["tail_arity"] for row in predictions} == {"1"}
+
+
+def test_temporal_sidecar_reconciles_frozen_type_ids_and_all_dates(tmp_path: Path) -> None:
+    """The date sidecar must preserve mask IDs while retaining every recurrent-type date."""
+    events = tmp_path / "native_events.parquet"
+    pq.write_table(
+        pa.Table.from_pylist(
+            [
+                {
+                    "event_id": "118-S-1",
+                    "introduced_date": "2023-01-03",
+                    "tail_sponsor_bioguide": "A",
+                    "head_original_cosponsors_bioguide": ["B"],
+                },
+                {
+                    "event_id": "118-S-2",
+                    "introduced_date": "2024-01-03",
+                    "tail_sponsor_bioguide": "A",
+                    "head_original_cosponsors_bioguide": ["B"],
+                },
+                {
+                    "event_id": "118-S-3",
+                    "introduced_date": "2023-01-03",
+                    "tail_sponsor_bioguide": "B",
+                    "head_original_cosponsors_bioguide": ["C"],
+                },
+            ]
+        ),
+        events,
+    )
+    nodes = tmp_path / "nodes.csv"
+    with nodes.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["node"], lineterminator="\n")
+        writer.writeheader()
+        writer.writerows({"node": node} for node in ("A", "B", "C"))
+    roster = [roster_person(identifier) for identifier in ("A", "B", "C")]
+    current = tmp_path / "current.json"
+    historical = tmp_path / "historical.json"
+    current.write_text(json.dumps(roster), encoding="utf-8")
+    historical.write_text("[]", encoding="utf-8")
+    mask = tmp_path / "masks" / "mcar_replicate_001"
+    mask.mkdir(parents=True)
+    fields = ["event_type_id", "tail_nodes_json", "head_nodes_json"]
+    for filename, values in (
+        (
+            "observed_event_types.csv",
+            [
+                {
+                    "event_type_id": "event_type_00001",
+                    "tail_nodes_json": '["A"]',
+                    "head_nodes_json": '["B"]',
+                }
+            ],
+        ),
+        (
+            "heldout_event_types.csv",
+            [
+                {
+                    "event_type_id": "event_type_00002",
+                    "tail_nodes_json": '["B"]',
+                    "head_nodes_json": '["C"]',
+                }
+            ],
+        ),
+    ):
+        with (mask / filename).open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
+            writer.writeheader()
+            writer.writerows(values)
+    sidecars = tmp_path / "sidecars"
+    metadata = tmp_path / "metadata.json"
+    audit = tmp_path / "audit.md"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            str(TEMPORAL_DRIVER),
+            "--events",
+            str(events),
+            "--nodes",
+            str(nodes),
+            "--current-roster",
+            str(current),
+            "--historical-roster",
+            str(historical),
+            "--head-caps",
+            "1",
+            "--mask-dirs",
+            f"1={tmp_path / 'masks'}",
+            "--sidecar-dir",
+            str(sidecars),
+            "--metadata-output",
+            str(metadata),
+            "--audit-output",
+            str(audit),
+        ],
+        cwd=PROJECT_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
+    payload = json.loads(
+        (sidecars / "event_type_introduction_dates_tail1_head1.json").read_text(encoding="utf-8")
+    )
+    assert payload["service_rule"] == (
+        "term_start <= introduction_date < term_end for every associated date"
+    )
+    assert payload["event_types"][0]["event_type_id"] == "event_type_00001"
+    assert payload["event_types"][0]["introduction_dates"] == ["2023-01-03", "2024-01-03"]
+    aggregate = json.loads(metadata.read_text(encoding="utf-8"))
+    summary = aggregate["cap_summaries"][0]
+    assert summary["frozen_mask_identity_check"]["rows_checked"] == 2
+    assert summary["accounting"]["event_types_with_multiple_introduction_dates"] == 1
+    assert aggregate["source_positive_service_coverage"]["event_records_service_covered"] == 3
+    assert "half-open" in audit.read_text(encoding="utf-8")

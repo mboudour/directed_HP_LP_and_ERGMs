@@ -1,0 +1,3 @@
+"model","attempted_fits","scored_fits","fit_or_prediction_failures","fit_warning_count","prediction_warning_count","nonfinite_coefficient_count","max_abs_finite_coefficient","conditional_dyads_scored","min_conditional_probability","max_conditional_probability","exact_zero_probability_count","exact_one_probability_count"
+"M0",60,60,0,0,0,0,1.55886533877892,152888,0.173809523812331,0.184615384616249,0,0
+"M4c",60,60,0,0,0,0,12.7623966527293,152888,1.54690065762643e-05,0.895913588811748,0,0

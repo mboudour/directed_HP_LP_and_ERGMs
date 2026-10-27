@@ -1,6 +1,6 @@
 {
   "candidate_universe": "all participants pairwise within weak distance two in observed projection",
-  "dataset_id": "senate_118_s_bills_cap3_sensitivity",
+  "dataset_id": "senate_118_s_bills",
   "driver": "scripts/37_run_native_event_heuristics.py",
   "metrics": "ranking only; no calibration or threshold metrics",
   "negative_panel": "random true non-event types, exactly matched on tail and head arity",
@@ -13,5 +13,26 @@
   "source_masks": "results/phase2/senate_118_s_bills_cap3_sensitivity_masks",
   "splits_completed": 60,
   "status": "completed",
-  "target": "native_event_type"
+  "target": "native_event_type",
+  "temporal_random_negative_eligibility": {
+    "all_associated_introduction_dates": true,
+    "inputs": {
+      "current_roster": {
+        "path": "data/raw/us_congress_legislators_gh_pages/legislators-current.json",
+        "sha256": "ae8cb9477c48715df71a7d860854229d799dc90a254d61badc1efb770f892b2c"
+      },
+      "historical_roster": {
+        "path": "data/raw/us_congress_legislators_gh_pages/legislators-historical.json",
+        "sha256": "25187633f3215a096fe9d14d8a40db1fb0841ab1d24c6da52da3a80c93698cbc"
+      },
+      "sidecar": {
+        "path": "data/processed/senate_118_s_bills/temporal_constraints/event_type_introduction_dates_tail1_head3.json",
+        "sha256": "e11bbecd5bcb0593cec36d4b52f8055a6c239ba3ded107250dd7db45f355d7a9"
+      }
+    },
+    "paired_positive": "one deterministic paired_source_event_type_id per negative",
+    "scope": "synthetic random negative candidates only; frozen positives and masks unchanged",
+    "service_rule": "term_start <= introduction_date < term_end for every associated introduction date",
+    "status": "enabled"
+  }
 }

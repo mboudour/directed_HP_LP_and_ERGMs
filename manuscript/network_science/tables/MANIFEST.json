@@ -3,6 +3,7 @@
   "privacy": "Generated tables contain aggregate counts, metrics, intervals, and no actor identifiers.",
   "sources": [
     "results/published/network_science_20261025/records/senate_118_s_bills_audit.json",
+    "results/published/network_science_20261025/records/senate_118_s_bills_temporal_candidate_policy.json",
     "results/published/network_science_20261025/phase2/senate_118_s_bills_primary_*",
     "results/published/network_science_20261025/models/senate_118_s_bills_primary_*",
     "results/published/network_science_20261025/models/senate_118_s_bills_cap3_sensitivity_*",
@@ -29,6 +30,8 @@
     "table_a2_cap_audit.tex",
     "table_a3_mask_realisation.tex",
     "table_a4_ergm_ladder.tex",
+    "table_a4b_temporal_feasibility.tex",
+    "table_a4c_mple_diagnostics.tex",
     "table_a5_mtt_check.tex",
     "table_a5b_sponsor_recoverability.tex",
     "table_a6_static_diagnostic.tex",

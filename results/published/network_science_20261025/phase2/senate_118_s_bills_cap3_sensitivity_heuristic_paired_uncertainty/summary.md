@@ -1,6 +1,6 @@
 # Paired frozen-mask uncertainty analysis
 
-- Dataset: `senate_118_s_bills_cap3_sensitivity`
+- Dataset: `senate_118_s_bills`
 - Source family: `native_heuristic`
 - Fixed reference: `lifted_adamic_adar_total_mean`
 - Resampling unit: the whole frozen mask replicate.

@@ -37,6 +37,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset-id", required=True)
     parser.add_argument("--kind", choices=("native_heuristic", "native_ergm"), required=True)
     parser.add_argument("--input-dir", type=Path, required=True)
+    parser.add_argument(
+        "--additional-input-dirs",
+        help=(
+            "Optional comma-separated additional result directories. This is available only for "
+            "native_ergm and combines nonduplicate aggregate ranking-metric rows."
+        ),
+    )
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--bootstrap-reps", type=int, default=10_000)
     parser.add_argument("--permutation-reps", type=int, default=20_000)
@@ -115,6 +122,32 @@ def source_rows(kind: str, input_dir: Path) -> list[dict[str, str]]:
     return rows
 
 
+def source_rows_from_inputs(
+    kind: str, input_dir: Path, additional_input_dirs: tuple[Path, ...]
+) -> list[dict[str, str]]:
+    """Combine explicitly declared nonduplicate source bundles for one matched analysis."""
+    if kind == "native_heuristic" and additional_input_dirs:
+        raise SystemExit("STOP: --additional-input-dirs is supported only for native_ergm.")
+    rows: list[dict[str, str]] = []
+    seen: set[tuple[str, str, str, str, str]] = set()
+    for directory in (input_dir, *additional_input_dirs):
+        for row in source_rows(kind, directory):
+            key = (
+                row["mechanism"],
+                row["replicate"],
+                row["panel"],
+                row["metric"],
+                row["method"],
+            )
+            if key in seen:
+                raise SystemExit(
+                    f"STOP: duplicate metric row across declared uncertainty inputs: {key}."
+                )
+            seen.add(key)
+            rows.append(row)
+    return rows
+
+
 def reference_for(kind: str) -> str:
     """Return the predeclared comparison reference for one source family."""
     return HEURISTIC_REFERENCE if kind == "native_heuristic" else ERGM_REFERENCE
@@ -162,12 +195,21 @@ def main() -> None:
     """Run paired comparisons using one frozen-mask sequence per dataset."""
     args = parse_args()
     input_dir, output_dir = resolve(args.input_dir), resolve(args.output_dir)
+    additional_input_dirs = tuple(
+        resolve(Path(value.strip()))
+        for value in (args.additional_input_dirs or "").split(",")
+        if value.strip()
+    )
+    if any(not path.is_dir() for path in (input_dir, *additional_input_dirs)):
+        raise SystemExit(
+            "STOP: one or more declared paired-inference input directories are missing."
+        )
     if output_dir.exists():
         if not args.overwrite:
             raise SystemExit(f"STOP: paired-inference output exists: {output_dir}")
         shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True)
-    rows = source_rows(args.kind, input_dir)
+    rows = source_rows_from_inputs(args.kind, input_dir, additional_input_dirs)
     grouped: dict[tuple[str, str, str], dict[str, dict[int, float]]] = defaultdict(
         lambda: defaultdict(dict)
     )
@@ -230,6 +272,7 @@ def main() -> None:
         "dataset_id": args.dataset_id,
         "kind": args.kind,
         "source": recorded_path(input_dir),
+        "additional_sources": [recorded_path(path) for path in additional_input_dirs],
         "resampling_unit": "frozen whole-mask replicate",
         "reference_method": reference,
         "bootstrap": {
