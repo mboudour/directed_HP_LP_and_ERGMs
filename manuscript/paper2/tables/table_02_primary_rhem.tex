@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Primary conditional-sender RHEM evaluation, pooled over four expanding 2001 quarters. Every event is ranked only against Eventnet-sampled receiver sets of the same observed size for the observed sender. Metrics are therefore sampled-choice-set discrimination measures, not unconditional event probabilities.}
+\label{tab:primary-rhem}
+\small
+\begin{tabular}{llrrrrr}
+\toprule
+Scope & Model & Choice sets & Log score & Top-1 & MRR & Mean rank \\
+\midrule
+All receiver-set events & Dyadic history & 2,797 & -1.483 & 0.644 & 0.780 & 2.125 \\
+All receiver-set events & Dyadic + group history & 2,797 & -1.447 & 0.652 & 0.786 & 2.226 \\
+Singleton receiver & Dyadic history & 2,689 & -1.467 & 0.640 & 0.779 & 2.118 \\
+Singleton receiver & Dyadic + group history & 2,689 & -1.467 & 0.644 & 0.781 & 2.252 \\
+Multiple receivers & Dyadic history & 108 & -1.877 & 0.753 & 0.822 & 2.296 \\
+Multiple receivers & Dyadic + group history & 108 & -0.943 & 0.864 & 0.912 & 1.602 \\
+\bottomrule
+\end{tabular}
+\end{table}

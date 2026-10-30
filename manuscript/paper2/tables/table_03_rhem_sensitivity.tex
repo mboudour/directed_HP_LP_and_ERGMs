@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{Sensitivity of the group-augmented minus dyadic-history comparison for multiple-receiver events. Positive log-score, Top-1, and MRR differences favor the group-augmented model; a negative mean-rank difference favors it. The final sensitivity changes the event representation itself, so it is not an uncertainty interval around the primary design.}
+\label{tab:rhem-sensitivity}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Sensitivity & Choice sets & $\Delta$ log score & $\Delta$ Top-1 & $\Delta$ MRR & $\Delta$ rank \\
+\midrule
+Primary: ascending order, seed 20261030 & 108 & +0.934 & +0.111 & +0.090 & -0.694 \\
+Control-sampling seed 20261031 & 108 & +0.581 & +0.137 & +0.107 & -0.907 \\
+Descending tied-time order & 108 & +0.971 & +0.093 & +0.080 & -0.704 \\
+Collapse identical time--role footprints & 48 & -0.893 & +0.079 & +0.076 & -1.958 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,287 @@
+{
+  "data_policy": {
+    "actor_universe": "50 actors selected from pre-2001 participation only",
+    "evaluation": "four expanding 2001 quarterly folds",
+    "event_task": "receiver-set choice conditional on observed sender and receiver-set size",
+    "raw_event_or_candidate_rows_published": false
+  },
+  "driver": "scripts/79_summarize_enron_rhem_sensitivities.py",
+  "input_run_manifests": {
+    "collapsed_timestamp_footprints_seed_20261030": {
+      "choice_sets": 2345,
+      "estimation": "survival::coxph conditional partial likelihood stratified by EVENT_INTERVAL",
+      "eventnet_observation_sha256": "b2e2033d5e9922e79757f59706a594f4975991d3fed8ff1b00fa6d7bf9316d07",
+      "eventnet_random_seed": 20261030,
+      "eventnet_rows": 118805,
+      "folds": [
+        {
+          "fold": "2001_q1",
+          "test_end_utc_exclusive": "2001-04-01",
+          "test_events": 365,
+          "test_start_utc_inclusive": "2001-01-01",
+          "train_end_utc_exclusive": "2001-01-01",
+          "training_events": 934
+        },
+        {
+          "fold": "2001_q2",
+          "test_end_utc_exclusive": "2001-07-01",
+          "test_events": 403,
+          "test_start_utc_inclusive": "2001-04-01",
+          "train_end_utc_exclusive": "2001-04-01",
+          "training_events": 1299
+        },
+        {
+          "fold": "2001_q3",
+          "test_end_utc_exclusive": "2001-10-01",
+          "test_events": 208,
+          "test_start_utc_inclusive": "2001-07-01",
+          "train_end_utc_exclusive": "2001-07-01",
+          "training_events": 1702
+        },
+        {
+          "fold": "2001_q4",
+          "test_end_utc_exclusive": "2002-01-01",
+          "test_events": 435,
+          "test_start_utc_inclusive": "2001-10-01",
+          "train_end_utc_exclusive": "2001-10-01",
+          "training_events": 1910
+        }
+      ],
+      "input_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/enron_temporal_rhem_inputs_seed20261030_ascending_collapsed",
+      "limitations": [
+        "The case-control table is one frozen Eventnet sample with 20 controls per observed event.",
+        "Evaluation ranks receiver sets conditional on observed sender and observed receiver-set size.",
+        "History covariates are Eventnet EVENT_INTERVAL quantities and depend on its declared within-timestamp order.",
+        "Metrics are sampled-choice-set discrimination metrics, not calibrated probabilities over all possible events."
+      ],
+      "model_terms": {
+        "DYADIC_HISTORY": [
+          "dyad_rep",
+          "reciprocation",
+          "transitive_closure"
+        ],
+        "GROUP_AUGMENTED": [
+          "dyad_rep",
+          "reciprocation",
+          "transitive_closure",
+          "exact_rep",
+          "target_pair_rep"
+        ]
+      },
+      "observation": "CONDITIONAL_SENDER_SET",
+      "purpose": "conditional_sender_sampled_risk_set_rhem_rolling_origin_pilot",
+      "requested_controls_per_event": 100,
+      "statistic_transformation": "square_root_nonnegative"
+    },
+    "descending_order_seed_20261030": {
+      "choice_sets": 5231,
+      "estimation": "survival::coxph conditional partial likelihood stratified by EVENT_INTERVAL",
+      "eventnet_observation_sha256": "ad4f0d7d7aa33a3abe211de8dec09b42b9bbb33c4f76ba43742244b30517a672",
+      "eventnet_random_seed": 20261030,
+      "eventnet_rows": 265575,
+      "folds": [
+        {
+          "fold": "2001_q1",
+          "test_end_utc_exclusive": "2001-04-01",
+          "test_events": 1014,
+          "test_start_utc_inclusive": "2001-01-01",
+          "train_end_utc_exclusive": "2001-01-01",
+          "training_events": 2434
+        },
+        {
+          "fold": "2001_q2",
+          "test_end_utc_exclusive": "2001-07-01",
+          "test_events": 883,
+          "test_start_utc_inclusive": "2001-04-01",
+          "train_end_utc_exclusive": "2001-04-01",
+          "training_events": 3448
+        },
+        {
+          "fold": "2001_q3",
+          "test_end_utc_exclusive": "2001-10-01",
+          "test_events": 269,
+          "test_start_utc_inclusive": "2001-07-01",
+          "train_end_utc_exclusive": "2001-07-01",
+          "training_events": 4331
+        },
+        {
+          "fold": "2001_q4",
+          "test_end_utc_exclusive": "2002-01-01",
+          "test_events": 631,
+          "test_start_utc_inclusive": "2001-10-01",
+          "train_end_utc_exclusive": "2001-10-01",
+          "training_events": 4600
+        }
+      ],
+      "input_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/enron_temporal_rhem_inputs_seed20261030_descending",
+      "limitations": [
+        "The case-control table is one frozen Eventnet sample with 20 controls per observed event.",
+        "Evaluation ranks receiver sets conditional on observed sender and observed receiver-set size.",
+        "History covariates are Eventnet EVENT_INTERVAL quantities and depend on its declared within-timestamp order.",
+        "Metrics are sampled-choice-set discrimination metrics, not calibrated probabilities over all possible events."
+      ],
+      "model_terms": {
+        "DYADIC_HISTORY": [
+          "dyad_rep",
+          "reciprocation",
+          "transitive_closure"
+        ],
+        "GROUP_AUGMENTED": [
+          "dyad_rep",
+          "reciprocation",
+          "transitive_closure",
+          "exact_rep",
+          "target_pair_rep"
+        ]
+      },
+      "observation": "CONDITIONAL_SENDER_SET",
+      "purpose": "conditional_sender_sampled_risk_set_rhem_rolling_origin_pilot",
+      "requested_controls_per_event": 100,
+      "statistic_transformation": "square_root_nonnegative"
+    },
+    "primary_ascending_seed_20261030": {
+      "choice_sets": 5231,
+      "estimation": "survival::coxph conditional partial likelihood stratified by EVENT_INTERVAL",
+      "eventnet_observation_sha256": "f7f95e6a3157abfc91b8145c18d601c5ca22149cd1c6099e8532269110001162",
+      "eventnet_random_seed": 20261030,
+      "eventnet_rows": 265575,
+      "folds": [
+        {
+          "fold": "2001_q1",
+          "test_end_utc_exclusive": "2001-04-01",
+          "test_events": 1014,
+          "test_start_utc_inclusive": "2001-01-01",
+          "train_end_utc_exclusive": "2001-01-01",
+          "training_events": 2434
+        },
+        {
+          "fold": "2001_q2",
+          "test_end_utc_exclusive": "2001-07-01",
+          "test_events": 883,
+          "test_start_utc_inclusive": "2001-04-01",
+          "train_end_utc_exclusive": "2001-04-01",
+          "training_events": 3448
+        },
+        {
+          "fold": "2001_q3",
+          "test_end_utc_exclusive": "2001-10-01",
+          "test_events": 269,
+          "test_start_utc_inclusive": "2001-07-01",
+          "train_end_utc_exclusive": "2001-07-01",
+          "training_events": 4331
+        },
+        {
+          "fold": "2001_q4",
+          "test_end_utc_exclusive": "2002-01-01",
+          "test_events": 631,
+          "test_start_utc_inclusive": "2001-10-01",
+          "train_end_utc_exclusive": "2001-10-01",
+          "training_events": 4600
+        }
+      ],
+      "input_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/enron_temporal_rhem_inputs_seed20261030_ascending",
+      "limitations": [
+        "The case-control table is one frozen Eventnet sample with 20 controls per observed event.",
+        "Evaluation ranks receiver sets conditional on observed sender and observed receiver-set size.",
+        "History covariates are Eventnet EVENT_INTERVAL quantities and depend on its declared within-timestamp order.",
+        "Metrics are sampled-choice-set discrimination metrics, not calibrated probabilities over all possible events."
+      ],
+      "model_terms": {
+        "DYADIC_HISTORY": [
+          "dyad_rep",
+          "reciprocation",
+          "transitive_closure"
+        ],
+        "GROUP_AUGMENTED": [
+          "dyad_rep",
+          "reciprocation",
+          "transitive_closure",
+          "exact_rep",
+          "target_pair_rep"
+        ]
+      },
+      "observation": "CONDITIONAL_SENDER_SET",
+      "purpose": "conditional_sender_sampled_risk_set_rhem_rolling_origin_pilot",
+      "requested_controls_per_event": 100,
+      "statistic_transformation": "square_root_nonnegative"
+    },
+    "sampling_seed_20261031": {
+      "choice_sets": 5231,
+      "estimation": "survival::coxph conditional partial likelihood stratified by EVENT_INTERVAL",
+      "eventnet_observation_sha256": "58a5d83cbbe99027fa77de997112b831365387da58919ced82269b290b0fb058",
+      "eventnet_random_seed": 20261031,
+      "eventnet_rows": 265575,
+      "folds": [
+        {
+          "fold": "2001_q1",
+          "test_end_utc_exclusive": "2001-04-01",
+          "test_events": 1014,
+          "test_start_utc_inclusive": "2001-01-01",
+          "train_end_utc_exclusive": "2001-01-01",
+          "training_events": 2434
+        },
+        {
+          "fold": "2001_q2",
+          "test_end_utc_exclusive": "2001-07-01",
+          "test_events": 883,
+          "test_start_utc_inclusive": "2001-04-01",
+          "train_end_utc_exclusive": "2001-04-01",
+          "training_events": 3448
+        },
+        {
+          "fold": "2001_q3",
+          "test_end_utc_exclusive": "2001-10-01",
+          "test_events": 269,
+          "test_start_utc_inclusive": "2001-07-01",
+          "train_end_utc_exclusive": "2001-07-01",
+          "training_events": 4331
+        },
+        {
+          "fold": "2001_q4",
+          "test_end_utc_exclusive": "2002-01-01",
+          "test_events": 631,
+          "test_start_utc_inclusive": "2001-10-01",
+          "train_end_utc_exclusive": "2001-10-01",
+          "training_events": 4600
+        }
+      ],
+      "input_dir": "/home/ubuntu/workspace/directed_HP_LP_and_ERGMs/results/models/enron_temporal_rhem_inputs_seed20261031_ascending",
+      "limitations": [
+        "The case-control table is one frozen Eventnet sample with 20 controls per observed event.",
+        "Evaluation ranks receiver sets conditional on observed sender and observed receiver-set size.",
+        "History covariates are Eventnet EVENT_INTERVAL quantities and depend on its declared within-timestamp order.",
+        "Metrics are sampled-choice-set discrimination metrics, not calibrated probabilities over all possible events."
+      ],
+      "model_terms": {
+        "DYADIC_HISTORY": [
+          "dyad_rep",
+          "reciprocation",
+          "transitive_closure"
+        ],
+        "GROUP_AUGMENTED": [
+          "dyad_rep",
+          "reciprocation",
+          "transitive_closure",
+          "exact_rep",
+          "target_pair_rep"
+        ]
+      },
+      "observation": "CONDITIONAL_SENDER_SET",
+      "purpose": "conditional_sender_sampled_risk_set_rhem_rolling_origin_pilot",
+      "requested_controls_per_event": 100,
+      "statistic_transformation": "square_root_nonnegative"
+    }
+  },
+  "input_runs": {
+    "collapsed_timestamp_footprints_seed_20261030": "results/models/enron_temporal_rhem_rolling_seed20261030_ascending_collapsed",
+    "descending_order_seed_20261030": "results/models/enron_temporal_rhem_rolling_seed20261030_descending",
+    "primary_ascending_seed_20261030": "results/models/enron_temporal_rhem_rolling_seed20261030_ascending",
+    "sampling_seed_20261031": "results/models/enron_temporal_rhem_rolling_seed20261031_ascending"
+  },
+  "limitations": [
+    "Results are conditional on Eventnet sampled candidate sets, not full-risk-set probabilities.",
+    "The group-event subset is small and must be reported separately from singleton-receiver events.",
+    "The timestamp-order sensitivity does not replace a simultaneous-batch history analysis."
+  ],
+  "status": "conditional_rhem_sampled_risk_set_pilot_completed"
+}

@@ -1,0 +1,193 @@
+{
+  "dataset_id": "enron_20150507",
+  "driver": "scripts/78_prepare_enron_rhem_inputs.py",
+  "eventnet_contract": {
+    "controls_per_event": 100,
+    "event_interval_semantics": "EVENT_INTERVAL",
+    "eventnet_random_seed": 20261030,
+    "halflife_seconds": 604800,
+    "observations": {
+      "CONDITIONAL_SENDER_SET": "receiver-set choice conditional on sender and target size",
+      "FULL_EVENT": "sender plus receiver-set choice conditional on target size"
+    },
+    "time_order": "event_id_ascending"
+  },
+  "limitations": [
+    "The source record policy is preserved; same-timestamp records are not assumed to be duplicates.",
+    "Within-timestamp Eventnet ordering is a sensitivity condition, not a substantive order claim.",
+    "The output is an Eventnet input and candidate-generation contract, not a fitted RHEM or forecast result."
+  ],
+  "rolling_folds": [
+    {
+      "fold": "2001_q1",
+      "test_end_utc_exclusive": "2001-04-01T00:00:00+00:00",
+      "test_events": 1014,
+      "test_start_utc_inclusive": "2001-01-01T00:00:00+00:00",
+      "train_end_utc_exclusive": "2001-01-01T00:00:00+00:00",
+      "training_events": 2434
+    },
+    {
+      "fold": "2001_q2",
+      "test_end_utc_exclusive": "2001-07-01T00:00:00+00:00",
+      "test_events": 883,
+      "test_start_utc_inclusive": "2001-04-01T00:00:00+00:00",
+      "train_end_utc_exclusive": "2001-04-01T00:00:00+00:00",
+      "training_events": 3448
+    },
+    {
+      "fold": "2001_q3",
+      "test_end_utc_exclusive": "2001-10-01T00:00:00+00:00",
+      "test_events": 269,
+      "test_start_utc_inclusive": "2001-07-01T00:00:00+00:00",
+      "train_end_utc_exclusive": "2001-07-01T00:00:00+00:00",
+      "training_events": 4331
+    },
+    {
+      "fold": "2001_q4",
+      "test_end_utc_exclusive": "2002-01-01T00:00:00+00:00",
+      "test_events": 631,
+      "test_start_utc_inclusive": "2001-10-01T00:00:00+00:00",
+      "train_end_utc_exclusive": "2001-10-01T00:00:00+00:00",
+      "training_events": 4600
+    }
+  ],
+  "selected_actor_universe": {
+    "core_size": 50,
+    "evaluation_end_utc_exclusive": "2002-01-01T00:00:00+00:00",
+    "method": "pre_origin_participation_rank",
+    "pre_origin_active_actors": 78,
+    "pre_origin_events_before_participant_filter": 2615,
+    "pre_origin_retained_events": 2434,
+    "retained_events_before_evaluation_end": 5231,
+    "selection_origin_utc": "2001-01-01T00:00:00+00:00"
+  },
+  "selected_event_audit": {
+    "actors": 50,
+    "calendar_months": 32,
+    "distinct_timestamps": 2335,
+    "event_records": 5231,
+    "head_arity_counts": {
+      "1": 5053,
+      "2": 169,
+      "3": 5,
+      "4": 4
+    },
+    "maximum_same_timestamp_sender_head_group_size": 8,
+    "maximum_timestamp_tie_size": 8,
+    "monthly_event_counts": {
+      "1999-05": 21,
+      "1999-06": 10,
+      "1999-07": 22,
+      "1999-08": 40,
+      "1999-09": 64,
+      "1999-10": 44,
+      "1999-11": 16,
+      "1999-12": 52,
+      "2000-01": 55,
+      "2000-02": 60,
+      "2000-03": 57,
+      "2000-04": 162,
+      "2000-05": 193,
+      "2000-06": 219,
+      "2000-07": 164,
+      "2000-08": 225,
+      "2000-09": 231,
+      "2000-10": 180,
+      "2000-11": 341,
+      "2000-12": 278,
+      "2001-01": 287,
+      "2001-02": 327,
+      "2001-03": 400,
+      "2001-04": 327,
+      "2001-05": 415,
+      "2001-06": 141,
+      "2001-07": 104,
+      "2001-08": 52,
+      "2001-09": 113,
+      "2001-10": 339,
+      "2001-11": 218,
+      "2001-12": 74
+    },
+    "multi_receiver_events": 178,
+    "records_in_same_timestamp_sender_head_groups": 4699,
+    "records_in_timestamp_ties": 4699,
+    "same_timestamp_sender_head_groups": 1813,
+    "sender_actors": 48,
+    "time_span_utc": {
+      "maximum": "2001-12-31T15:55:59+00:00",
+      "minimum": "1999-05-11T09:27:00+00:00"
+    },
+    "timestamp_tie_groups": 1803
+  },
+  "source": {
+    "native_event_path": "data/processed/enron_20150507/custodian_native_events.parquet",
+    "native_event_sha256": "5b0af87097a04fe364f9a23f9bd7e354f2be7f37f9501ead63068014554de444"
+  },
+  "source_audit_before_actor_selection": {
+    "actors": 110,
+    "calendar_months": 38,
+    "distinct_timestamps": 4128,
+    "event_records": 7881,
+    "head_arity_counts": {
+      "1": 7421,
+      "2": 378,
+      "3": 55,
+      "4": 12,
+      "5": 9,
+      "6": 6
+    },
+    "maximum_same_timestamp_sender_head_group_size": 8,
+    "maximum_timestamp_tie_size": 8,
+    "monthly_event_counts": {
+      "1999-05": 21,
+      "1999-06": 10,
+      "1999-07": 22,
+      "1999-08": 40,
+      "1999-09": 64,
+      "1999-10": 44,
+      "1999-11": 16,
+      "1999-12": 52,
+      "2000-01": 57,
+      "2000-02": 65,
+      "2000-03": 61,
+      "2000-04": 170,
+      "2000-05": 196,
+      "2000-06": 233,
+      "2000-07": 173,
+      "2000-08": 238,
+      "2000-09": 252,
+      "2000-10": 212,
+      "2000-11": 364,
+      "2000-12": 325,
+      "2001-01": 330,
+      "2001-02": 394,
+      "2001-03": 487,
+      "2001-04": 454,
+      "2001-05": 523,
+      "2001-06": 217,
+      "2001-07": 194,
+      "2001-08": 241,
+      "2001-09": 265,
+      "2001-10": 732,
+      "2001-11": 736,
+      "2001-12": 234,
+      "2002-01": 258,
+      "2002-02": 105,
+      "2002-03": 82,
+      "2002-04": 6,
+      "2002-05": 5,
+      "2002-06": 3
+    },
+    "multi_receiver_events": 460,
+    "records_in_same_timestamp_sender_head_groups": 6160,
+    "records_in_timestamp_ties": 6162,
+    "same_timestamp_sender_head_groups": 2420,
+    "sender_actors": 108,
+    "time_span_utc": {
+      "maximum": "2002-06-12T16:21:36+00:00",
+      "minimum": "1999-05-11T09:27:00+00:00"
+    },
+    "timestamp_tie_groups": 2409
+  },
+  "status": "temporal_directed_hyperevent_input_ready_not_fit"
+}

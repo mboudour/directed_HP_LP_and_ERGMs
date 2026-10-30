@@ -28,6 +28,7 @@ packages <- c(
   "ergm.count",
   "tergm",
   "btergm",
+  "survival",
   "sna",
   "statnet.common",
   "data.table",

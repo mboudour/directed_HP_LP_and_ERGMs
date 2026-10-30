@@ -1,0 +1,31 @@
+\begin{table}[t]
+\centering
+\caption{Origin-safe Enron temporal event design. The 50-actor universe is ranked using sender-or-receiver participation strictly before 1 January 2001. The primary source-record representation preserves distinct projected records; the final row is an explicitly labelled representation sensitivity.}
+\label{tab:design}
+\small
+\begin{tabular}{lrr}
+\toprule
+Quantity & Primary & Footprint-collapse sensitivity \\
+\midrule
+Actor universe & 50 & 50 \\
+Pre-origin retained events & 2,434 & --- \\
+Events through 2001 & 5,231 & 2,345 \\
+Events with $|H|\geq2$ & 178 & 78 \\
+Records in timestamp ties & 4,699 & --- \\
+Identical time--sender--head records removed & 0 & 2,886 \\
+2001 test choice sets & 2,797 & 1,411 \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.6em}
+\begin{tabular}{lrr}
+\toprule
+Fold & Training events & Test events \\
+\midrule
+2001\_q1 & 2,434 & 1,014 \\
+2001\_q2 & 3,448 & 883 \\
+2001\_q3 & 4,331 & 269 \\
+2001\_q4 & 4,600 & 631 \\
+\bottomrule
+\end{tabular}
+\end{table}
