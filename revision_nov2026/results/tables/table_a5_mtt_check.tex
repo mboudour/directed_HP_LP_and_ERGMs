@@ -1,0 +1,15 @@
+\begin{table}[tbp]
+\centering
+\small
+\caption{118th Senate: edges-plus-transitive-triple MPLE on every training projection.}
+\label{tab:mtt-check}
+\begin{tabular}{lrrrr}
+\toprule
+Mask & fits & positive $\hat\theta_{tt}$ & mean $\hat\theta_{tt}$ & range \\
+\midrule
+MCAR & 30/30 & 30 & 0.0571 & [0.0542, 0.0593] \\
+MNAR-out & 30/30 & 30 & 0.0565 & [0.0548, 0.0592] \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\footnotesize The covariate is the transitive-triple change statistic $c^{\mathrm{total}}_{ij}=c^{OI}_{ij}+c^{OO}_{ij}+c^{II}_{ij}$.
+\end{table}

@@ -1,0 +1,29 @@
+\begin{table}[tbp]
+\centering
+\small
+\caption{118th Senate: paired PR-AUC contrasts along the ERGM ladder.}
+\label{tab:political-contrast}
+\begin{tabular}{lllrrr}
+\toprule
+Mask & panel & contrast & difference & 95\% CI & sign-flip $p$ \\
+\midrule
+MCAR & random & M4c minus M0 & 0.190 & [0.185, 0.195] & $<0.0001$ \\
+MCAR & sponsor substitution & M4c minus M0 & -0.028 & [-0.031, -0.026] & $<0.0001$ \\
+MNAR-out & random & M4c minus M0 & 0.243 & [0.238, 0.248] & $<0.0001$ \\
+MNAR-out & sponsor substitution & M4c minus M0 & -0.015 & [-0.018, -0.012] & $<0.0001$ \\
+MCAR & random & M5 minus M4c & 0.031 & [0.028, 0.033] & $<0.0001$ \\
+MCAR & sponsor substitution & M5 minus M4c & 0.018 & [0.016, 0.020] & $<0.0001$ \\
+MNAR-out & random & M5 minus M4c & 0.024 & [0.021, 0.027] & $<0.0001$ \\
+MNAR-out & sponsor substitution & M5 minus M4c & 0.020 & [0.018, 0.021] & $<0.0001$ \\
+MCAR & random & M6 minus M5 & 0.000 & [-0.001, 0.001] & 0.9317 \\
+MCAR & sponsor substitution & M6 minus M5 & 0.004 & [0.004, 0.005] & $<0.0001$ \\
+MNAR-out & random & M6 minus M5 & 0.002 & [0.001, 0.002] & 0.0002 \\
+MNAR-out & sponsor substitution & M6 minus M5 & 0.002 & [0.002, 0.003] & $<0.0001$ \\
+MCAR & random & M4c without mutuality minus M4c & -0.042 & [-0.044, -0.039] & $<0.0001$ \\
+MCAR & sponsor substitution & M4c without mutuality minus M4c & -0.013 & [-0.015, -0.012] & $<0.0001$ \\
+MNAR-out & random & M4c without mutuality minus M4c & -0.036 & [-0.039, -0.034] & $<0.0001$ \\
+MNAR-out & sponsor substitution & M4c without mutuality minus M4c & -0.011 & [-0.013, -0.010] & $<0.0001$ \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\footnotesize M5 adds party and state matching and absolute DW-NOMINATE distance to M4c; M6 adds sender-side majority-caucus and seniority terms; the last contrast removes mutuality alone. Intervals and tests as in Table~\ref{tab:senate-contrasts}.
+\end{table}

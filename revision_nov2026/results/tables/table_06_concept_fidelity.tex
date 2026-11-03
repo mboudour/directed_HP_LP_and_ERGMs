@@ -1,0 +1,23 @@
+\begin{table}[tbp]
+\centering
+\small
+\caption{Formal concepts of the projection versus recorded bill coalitions.}
+\label{tab:senate-fidelity}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llrrrrrr}
+\toprule
+Case & cap & bill types & concepts & exact matches & concept arcs & bill arcs & Jaccard \\
+\midrule
+118th Senate & $|H|\leq10$ & 3,209 & 16 & 0 & 251 & 4,290 & 0.048 \\
+118th Senate & $|H|\leq15$ & 3,398 & 474 & 0 & 3,695 & 4,713 & 0.610 \\
+117th Senate & $|H|\leq10$ & 3,023 & 24 & 0 & 497 & 3,988 & 0.095 \\
+117th Senate & $|H|\leq15$ & 3,222 & 884 & 0 & 4,187 & 4,441 & 0.691 \\
+116th Senate & $|H|\leq10$ & 2,838 & 381 & 0 & 2,690 & 3,939 & 0.452 \\
+116th Senate & $|H|\leq15$ & 3,024 & 4,579 & 0 & 5,106 & 4,439 & 0.797 \\
+118th House & $|H|\leq10$ & 5,433 & 158,565 & 0 & 29,080 & 12,386 & 0.408 \\
+118th House & $|H|\leq15$ & 5,854 & 229,965 & 1 & 29,681 & 15,565 & 0.505 \\
+\bottomrule
+\end{tabular}
+}
+\par\vspace{2pt}\footnotesize Concepts are enumerated cap-first on the full projection with $|T|\leq3$ and the stated head cap; an exact match requires identical ordered tail and head sets.
+\end{table}

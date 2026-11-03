@@ -1,0 +1,17 @@
+\begin{table}[tbp]
+\centering
+\small
+\caption{118th Senate: arc-level diagnostic on the complete projection.}
+\label{tab:static-diagnostic}
+\begin{tabular}{lrr}
+\toprule
+MPLE model & PR-AUC & ROC-AUC \\
+\midrule
+M0 & 0.500 & 0.500 \\
+M2 & 0.730 & 0.750 \\
+M4c & 0.700 & 0.726 \\
+M5 & 0.730 & 0.751 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\footnotesize Thirty arc-first splits: 30\% of arcs are withheld at random and paired with an equal number of random non-arcs; scores are MPLE conditional tie probabilities on the remaining projection.
+\end{table}

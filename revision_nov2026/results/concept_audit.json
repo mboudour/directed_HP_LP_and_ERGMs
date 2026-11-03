@@ -1,0 +1,82 @@
+{
+ "s118": {
+  "10": {
+   "types": 3209,
+   "concepts": 16,
+   "concept_arcs": 251,
+   "type_arcs": 4290,
+   "jaccard": 0.047761882787263496,
+   "exact": 0,
+   "seconds": 6.2
+  },
+  "15": {
+   "types": 3398,
+   "concepts": 474,
+   "concept_arcs": 3695,
+   "type_arcs": 4713,
+   "jaccard": 0.6098027953283554,
+   "exact": 0,
+   "seconds": 6.5
+  }
+ },
+ "s117": {
+  "10": {
+   "types": 3023,
+   "concepts": 24,
+   "concept_arcs": 497,
+   "type_arcs": 3988,
+   "jaccard": 0.09523809523809523,
+   "exact": 0,
+   "seconds": 6.1
+  },
+  "15": {
+   "types": 3222,
+   "concepts": 884,
+   "concept_arcs": 4187,
+   "type_arcs": 4441,
+   "jaccard": 0.6907701352145796,
+   "exact": 0,
+   "seconds": 6.3
+  }
+ },
+ "s116": {
+  "10": {
+   "types": 2838,
+   "concepts": 381,
+   "concept_arcs": 2690,
+   "type_arcs": 3939,
+   "jaccard": 0.4521358159912377,
+   "exact": 0,
+   "seconds": 5.5
+  },
+  "15": {
+   "types": 3024,
+   "concepts": 4579,
+   "concept_arcs": 5106,
+   "type_arcs": 4439,
+   "jaccard": 0.796875,
+   "exact": 0,
+   "seconds": 6.5
+  }
+ },
+ "h118": {
+  "10": {
+   "types": 5433,
+   "concepts": 158565,
+   "concept_arcs": 29080,
+   "type_arcs": 12386,
+   "jaccard": 0.40801358234295415,
+   "exact": 0,
+   "seconds": 444.6
+  },
+  "15": {
+   "types": 5854,
+   "concepts": 229965,
+   "concept_arcs": 29681,
+   "type_arcs": 15565,
+   "jaccard": 0.504639020983672,
+   "exact": 1,
+   "seconds": 430.0
+  }
+ }
+}

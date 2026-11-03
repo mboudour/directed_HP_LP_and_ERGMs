@@ -1,0 +1,23 @@
+\begin{table}[tbp]
+\centering
+\small
+\caption{118th Senate: paired PR-AUC contrasts between the strongest local scores and the political ERGM scores.}
+\label{tab:senate-contrasts}
+\begin{tabular}{lllrrr}
+\toprule
+Mask & panel & contrast & difference & 95\% CI & sign-flip $p$ \\
+\midrule
+MCAR & random & Adamic--Adar total minus M5 & 0.010 & [0.006, 0.014] & 0.0004 \\
+MCAR & random & Adamic--Adar total minus M6 & 0.010 & [0.006, 0.014] & 0.0002 \\
+MCAR & sponsor substitution & degree product minus M5 & 0.090 & [0.086, 0.095] & $<0.0001$ \\
+MCAR & sponsor substitution & degree product minus M6 & 0.086 & [0.082, 0.091] & $<0.0001$ \\
+MCAR & sponsor substitution & sponsor activity minus degree product & -0.013 & [-0.017, -0.010] & $<0.0001$ \\
+MNAR-out & random & Adamic--Adar total minus M5 & 0.021 & [0.017, 0.026] & $<0.0001$ \\
+MNAR-out & random & Adamic--Adar total minus M6 & 0.020 & [0.015, 0.024] & $<0.0001$ \\
+MNAR-out & sponsor substitution & degree product minus M5 & 0.062 & [0.055, 0.069] & $<0.0001$ \\
+MNAR-out & sponsor substitution & degree product minus M6 & 0.059 & [0.053, 0.066] & $<0.0001$ \\
+MNAR-out & sponsor substitution & sponsor activity minus degree product & 0.003 & [-0.001, 0.006] & 0.1760 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}\footnotesize Differences are means over 30 matched masks; intervals are percentile bootstrap intervals over masks (Monte Carlo precision within the fixed record); $p$-values are two-sided sign-flip tests with 20,000 permutations.
+\end{table}
