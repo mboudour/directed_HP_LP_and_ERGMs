@@ -11,8 +11,8 @@ import sys
 R, T = sys.argv[1], sys.argv[2]
 MECHS = [("MCAR", "MCAR"), ("MNAR-out", "MNAR-out")]
 NAMES = {
-    "aa_total": "Adamic--Adar total",
-    "aa_oi": "Adamic--Adar OI",
+    "aa_total": "directed Adamic--Adar",
+    "aa_oi": "Adamic--Adar, two-paths",
     "cn_total": "CN total",
     "degprod": "degree product",
     "sponsor_activity": "sponsor activity",
@@ -29,7 +29,7 @@ NAMES = {
     "S3_L1g": "S3 = S1 + all closure",
     "M4c_nomut_L1g": "M4c without mutuality",
 }
-PANEL = {"random": "random", "sub": "sponsor substitution"}
+PANEL = {"random": "random", "sub": "substitution"}
 
 
 def load(name):
@@ -115,7 +115,7 @@ table(
     "118th Senate: mean ranking performance over 30 matched masks per mechanism.",
     "tab:senate-performance",
     "lllrr",
-    "Mask & panel & score & PR-AUC & ROC-AUC",
+    "Mask & candidate set & score & PR-AUC & ROC-AUC",
     rows,
     "Local and baseline scores are mean lifts over the candidate footprint computed on the training projection. "
     "Sponsor activity is the sponsor's training out-degree; co-sponsor popularity is the mean training in-degree of the head. "
@@ -127,7 +127,7 @@ rows = []
 for mech, lab in MECHS:
     C = S["mechs"][mech]["contrasts"]
     rows.append(
-        f"{lab} & random & M4c minus Adamic--Adar total & "
+        f"{lab} & random & M4c minus directed Adamic--Adar & "
         + ci([-x if i == 0 else x for i, x in enumerate(C["random"]["aa_total - M5_L1g"])])
         if False
         else ""
@@ -136,9 +136,9 @@ rows = []
 for mech, lab in MECHS:
     C = S["mechs"][mech]["contrasts"]
     for p, a, b, txt in [
-        ("random", "aa_total", "M5_L1g", "Adamic--Adar total minus M5"),
+        ("random", "aa_total", "M5_L1g", "directed Adamic--Adar minus M5"),
         ("random", "S1_L1g", "M5_L1g", "S1 minus M5"),
-        ("random", "aa_total", "S1_L1g", "Adamic--Adar total minus S1"),
+        ("random", "aa_total", "S1_L1g", "directed Adamic--Adar minus S1"),
         ("sub", "degprod", "M5_L1g", "degree product minus M5"),
         ("sub", "S1_L1g", "M5_L1g", "S1 minus M5"),
         ("sub", "degprod", "S1_L1g", "degree product minus S1"),
@@ -151,11 +151,10 @@ table(
     "118th Senate: paired PR-AUC contrasts between local scores, nested ERGMs and sender--receiver ERGMs.",
     "tab:senate-contrasts",
     "lllrrr",
-    r"Mask & panel & contrast & difference & 95\% CI & sign-flip $p$",
+    r"Mask & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
     rows,
     "Differences are means over 30 matched masks; intervals are percentile bootstrap intervals over masks "
-    "(Monte Carlo precision within the fixed record); $p$-values are two-sided sign-flip tests with 20,000 permutations.",
-)
+    "(Monte Carlo precision within the fixed record); $p$-values are two-sided sign-flip tests with 20,000 permutations.", resize=True)
 
 # ---------------------------------------------------------------- Table 3b political contrasts
 rows = []
@@ -176,10 +175,11 @@ table(
     "118th Senate: paired PR-AUC contrasts along the nested ERGMs.",
     "tab:political-contrast",
     "lllrrr",
-    r"Mask & panel & contrast & difference & 95\% CI & sign-flip $p$",
+    r"Mask & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
     rows,
     "M5 adds party and state matching and absolute DW-NOMINATE distance to M4c; M6 adds sponsor-side majority-caucus "
     "and seniority terms; the last contrast removes mutuality alone. Intervals and tests as in the main text.",
+resize=True,
 )
 
 # ---------------------------------------------------------------- Table 4 role
@@ -206,7 +206,7 @@ for mech, lab in MECHS:
     )
 table(
     "table_04_sponsor_identification.tex",
-    "118th Senate: identification of the recorded sponsor among all single-sponsor assignments of a bill's participants.",
+    "118th Senate: identification of the recorded sponsor among all single-initiator assignments of a bill's participants.",
     "tab:senate-role",
     "llrrl",
     r"Mask & score & top-1 & MRR & top-1 minus chance [95\% CI]",
@@ -232,6 +232,7 @@ table(
     "M4 adds shared-target and shared-source closure; M4c adds cyclic triples; M5 adds party, state and ideology; M6 adds "
     "majority caucus and seniority of the sponsor. S0 replaces the degree terms of M2 with sender and receiver effects; "
     "S1 adds the political covariates; S2 and S3 add two-path and all three closure terms.",
+resize=True,
 )
 
 # ---------------------------------------------------------------- Mask realisation (all cases)
@@ -256,17 +257,18 @@ table(
     "Realised severity of the two omission mechanisms (means over 30 masks).",
     "tab:mask-realisation",
     "llrrrr",
-    "Case & mask & type rate & record rate & arc removal & surviving footprints",
+    "Case & mask & hyperarc rate & record rate & arc removal & surviving footprints",
     rows,
-    "A surviving footprint means every arc of a held-out bill type remains induced by another observed bill type; it is a "
-    "property of the projection, not target leakage.",
+    "A surviving footprint means every arc of a withheld hyperarc remains in the 2-section through another observed hyperarc; it is a "
+    "property of the projection, not leakage of the withheld record.",
+resize=True,
 )
 
 # ---------------------------------------------------------------- Recoverability
 rows = []
 lab_g = {
     "both": "both survive",
-    "true_only": "true bill only",
+    "true_only": "recorded hyperarc only",
     "sub_only": "substitute only",
     "neither": "neither survives",
 }
@@ -283,12 +285,12 @@ for mech, ml in MECHS:
         )
 table(
     "table_a5b_sponsor_recoverability.tex",
-    "118th Senate: preference for the true bill over its sponsor substitute, by survival of the two footprints in the training projection.",
+    "118th Senate: preference for the recorded hyperarc over its substitute, by survival of the two footprints in the training projection.",
     "tab:sponsor-recoverability",
     "llrlll",
     "Mask & footprint pattern & share & M5 & S1 & degree product",
     rows,
-    "Each entry is the tie-aware probability that the score ranks the held-out true bill above its sponsor substitute; "
+    "Each entry is the tie-aware probability that the score ranks the withheld recorded hyperarc above its substitute; "
     "brackets are 95\\% mask-bootstrap intervals.",
     resize=True,
 )
@@ -300,7 +302,8 @@ for mech, ml in MECHS:
     for p in ["random", "sub"]:
         for lab in ["single_party", "bipartisan"]:
             vals = " & ".join(
-                f3(B[p][lab][k]) for k in ["party_share", "M5_L1g", "S1_L1g", "aa_total", "degprod"]
+                f3(B[p][lab][k])
+                for k in ["party_share", "M5_L1g", "S1_L1g", "aa_total", "degprod"]
             )
             c = B[p][lab + "_contrasts"]["M5_L1g - M4c_L1g"]
             c2 = B[p][lab + "_contrasts"]["S1_L1g - S0_L1g"]
@@ -311,12 +314,12 @@ for mech, ml in MECHS:
 share = S["mechs"]["MCAR"]["bipartisan"]["random"]["share_bipartisan"]
 table(
     "table_r3_bipartisan.tex",
-    "118th Senate: mean PR-AUC by coalition type. A held-out bill is bipartisan if at least one original co-sponsor belongs to a different caucus from the sponsor.",
+    "118th Senate: mean PR-AUC by coalition type. A withheld hyperarc is bipartisan if at least one original co-sponsor belongs to a different caucus from the sponsor.",
     "tab:bipartisan",
     "lllrrrrrll",
-    r"Mask & panel & coalition & party & M5 & S1 & AA total & deg.\ prod. & M5 minus M4c & S1 minus S0",
+    r"Mask & candidate set & coalition & party & M5 & S1 & dir.\ AA & deg.\ prod. & M5 minus M4c & S1 minus S0",
     rows,
-    f"Independents are assigned to the Democratic caucus. Bipartisan bills form {100 * share:.1f}\\% of the held-out positives in the MCAR random panels. "
+    f"Independents are assigned to the Democratic caucus. Bipartisan hyperarcs form {100 * share:.1f}\\% of the withheld positives in the MCAR random candidate sets. "
     "PR-AUC is computed within each stratum; negatives keep their pairing with the positive.",
     resize=True,
 )
@@ -344,7 +347,7 @@ if C3:
         "118th Senate, bills with at most three original co-sponsors: paired PR-AUC contrasts.",
         "tab:senate-limit-sensitivity",
         "lllrrr",
-        r"Mask & panel & contrast & difference & 95\% CI & sign-flip $p$",
+        r"Mask & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
         rows,
         "Separately constructed target of bills with at most three original co-sponsors, with the same actor universe, seeds and evaluation contract (30 masks per mechanism).",
     )
@@ -406,7 +409,7 @@ table(
     "Record accounting for the four cases (Bill Status, at most ten original co-sponsors).",
     "tab:case-data",
     "lrrrlrrrr",
-    "Case & bills & nonempty heads & actors & D/I/R & majority & eligible bills & types & arcs",
+    "Case & bills & nonempty heads & actors & D/I/R & majority & eligible bills & hyperarcs & arcs",
     rows,
     "Actors are all persons who served in the chamber during the Congress. Majority counts members of the majority caucus. "
     "Eligible bills have at most ten original co-sponsors; arcs are those of the projection of eligible bills.",
@@ -453,7 +456,6 @@ def _cell(fn, X):
     except (KeyError, TypeError):
         return ""
 
-
 rows = []
 for mech, ml in MECHS:
     rows.append(f"\\multicolumn{{5}}{{l}}{{\\textit{{{ml}}}}}")
@@ -470,7 +472,7 @@ table(
     "lllll",
     "Contrast & " + " & ".join(lab for _, lab in CASES4),
     rows,
-    "PR-AUC differences for the panel named; top-1 differences on the role task. S = Senate, H = House. "
+    "PR-AUC differences for the candidate set named; top-1 differences on the role-assignment sets. S = Senate, H = House. "
     "Bipartisan bills have at least one original co-sponsor from a different caucus from the sponsor.",
     resize=True,
 )
@@ -496,7 +498,7 @@ if CA:
         "Formal concepts of the projection versus recorded bill coalitions.",
         "tab:senate-fidelity",
         "llrrrrrr",
-        "Case & co-sponsor limit & bill types & concepts & exact matches & concept arcs & bill arcs & Jaccard",
+        "Case & co-sponsor limit & hyperarcs & concepts & exact matches & concept arcs & bill arcs & Jaccard",
         rows,
         "Concepts are enumerated on the full projection with at most three senders and at most the stated number of receivers; an exact match requires identical ordered tail and head sets.",
         resize=True,
