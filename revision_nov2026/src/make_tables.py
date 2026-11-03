@@ -285,7 +285,7 @@ table(
     resize=True,
 )
 
-# ---------------------------------------------------------------- cap sensitivity
+# ---------------------------------------------------------------- co-sponsor limit sensitivity
 C3 = load("s118cap3")
 if C3:
     rows = []
@@ -300,13 +300,13 @@ if C3:
             ]:
                 rows.append(f"{ml} & {PANEL[p]} & {txt} & " + ci(C[p][f"{a} - {b}"]))
     table(
-        "table_05_cap_sensitivity.tex",
-        "118th Senate at head cap $|H|\\leq3$: paired PR-AUC contrasts.",
-        "tab:senate-cap-sensitivity",
+        "table_05_limit_sensitivity.tex",
+        "118th Senate, bills with at most three original co-sponsors: paired PR-AUC contrasts.",
+        "tab:senate-limit-sensitivity",
         "lllrrr",
         r"Mask & panel & contrast & difference & 95\% CI & sign-flip $p$",
         rows,
-        "Separately constructed cap-three target with the same actor universe, seeds and evaluation contract (30 masks per mechanism).",
+        "Separately constructed target of bills with at most three original co-sponsors, with the same actor universe, seeds and evaluation contract (30 masks per mechanism).",
     )
 
 # ---------------------------------------------------------------- extras: ttriple + static
@@ -363,13 +363,13 @@ for name, lab in [
     )
 table(
     "table_r1_case_data.tex",
-    "Record accounting for the four cases (Bill Status, original co-sponsors, head cap $|H|\\leq10$).",
+    "Record accounting for the four cases (Bill Status, at most ten original co-sponsors).",
     "tab:case-data",
     "lrrrlrrrr",
-    "Case & bills & nonempty heads & actors & D/I/R & majority & cap-eligible bills & types & arcs",
+    "Case & bills & nonempty heads & actors & D/I/R & majority & eligible bills & types & arcs",
     rows,
     "Actors are all persons who served in the chamber during the Congress. Majority counts members of the majority caucus. "
-    "Arcs are those of the cap-eligible projection.",
+    "Eligible bills have at most ten original co-sponsors; arcs are those of the projection of eligible bills.",
     resize=True,
 )
 
@@ -439,9 +439,9 @@ if CA:
         "Formal concepts of the projection versus recorded bill coalitions.",
         "tab:senate-fidelity",
         "llrrrrrr",
-        "Case & cap & bill types & concepts & exact matches & concept arcs & bill arcs & Jaccard",
+        "Case & co-sponsor limit & bill types & concepts & exact matches & concept arcs & bill arcs & Jaccard",
         rows,
-        "Concepts are enumerated cap-first on the full projection with $|T|\\leq3$ and the stated head cap; an exact match requires identical ordered tail and head sets.",
+        "Concepts are enumerated on the full projection with at most three senders and at most the stated number of receivers; an exact match requires identical ordered tail and head sets.",
         resize=True,
     )
 print("tables written")

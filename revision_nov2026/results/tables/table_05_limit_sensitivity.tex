@@ -1,8 +1,8 @@
 \begin{table}[tbp]
 \centering
 \small
-\caption{118th Senate at head cap $|H|\leq3$: paired PR-AUC contrasts.}
-\label{tab:senate-cap-sensitivity}
+\caption{118th Senate, bills with at most three original co-sponsors: paired PR-AUC contrasts.}
+\label{tab:senate-limit-sensitivity}
 \begin{tabular}{lllrrr}
 \toprule
 Mask & panel & contrast & difference & 95\% CI & sign-flip $p$ \\
@@ -25,5 +25,5 @@ MNAR-out & sponsor substitution & AA total minus M5 & 0.014 & [0.008, 0.020] & $
 MNAR-out & sponsor substitution & degree product minus M5 & 0.051 & [0.042, 0.061] & $<0.0001$ \\
 \bottomrule
 \end{tabular}
-\par\vspace{2pt}\footnotesize Separately constructed cap-three target with the same actor universe, seeds and evaluation contract (30 masks per mechanism).
+\par\vspace{2pt}\footnotesize Separately constructed target of bills with at most three original co-sponsors, with the same actor universe, seeds and evaluation contract (30 masks per mechanism).
 \end{table}

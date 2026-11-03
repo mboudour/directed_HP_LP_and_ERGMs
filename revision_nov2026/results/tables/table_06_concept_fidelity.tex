@@ -6,7 +6,7 @@
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llrrrrrr}
 \toprule
-Case & cap & bill types & concepts & exact matches & concept arcs & bill arcs & Jaccard \\
+Case & co-sponsor limit & bill types & concepts & exact matches & concept arcs & bill arcs & Jaccard \\
 \midrule
 118th Senate & $|H|\leq10$ & 3,209 & 16 & 0 & 251 & 4,290 & 0.048 \\
 118th Senate & $|H|\leq15$ & 3,398 & 474 & 0 & 3,695 & 4,713 & 0.610 \\
@@ -19,5 +19,5 @@ Case & cap & bill types & concepts & exact matches & concept arcs & bill arcs & 
 \bottomrule
 \end{tabular}
 }
-\par\vspace{2pt}\footnotesize Concepts are enumerated cap-first on the full projection with $|T|\leq3$ and the stated head cap; an exact match requires identical ordered tail and head sets.
+\par\vspace{2pt}\footnotesize Concepts are enumerated on the full projection with at most three senders and at most the stated number of receivers; an exact match requires identical ordered tail and head sets.
 \end{table}

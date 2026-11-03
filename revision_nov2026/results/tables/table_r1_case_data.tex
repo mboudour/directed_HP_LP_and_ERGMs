@@ -1,12 +1,12 @@
 \begin{table}[tbp]
 \centering
 \small
-\caption{Record accounting for the four cases (Bill Status, original co-sponsors, head cap $|H|\leq10$).}
+\caption{Record accounting for the four cases (Bill Status, at most ten original co-sponsors).}
 \label{tab:case-data}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lrrrlrrrr}
 \toprule
-Case & bills & nonempty heads & actors & D/I/R & majority & cap-eligible bills & types & arcs \\
+Case & bills & nonempty heads & actors & D/I/R & majority & eligible bills & types & arcs \\
 \midrule
 118th Senate & 5,649 & 4,374 & 105 & 52/3/50 & 55 & 3,956 (90.4\%) & 3,209 & 4,290 \\
 117th Senate & 5,357 & 4,136 & 102 & 49/2/51 & 51 & 3,709 (89.7\%) & 3,023 & 3,988 \\
@@ -15,5 +15,5 @@ Case & bills & nonempty heads & actors & D/I/R & majority & cap-eligible bills &
 \bottomrule
 \end{tabular}
 }
-\par\vspace{2pt}\footnotesize Actors are all persons who served in the chamber during the Congress. Majority counts members of the majority caucus. Arcs are those of the cap-eligible projection.
+\par\vspace{2pt}\footnotesize Actors are all persons who served in the chamber during the Congress. Majority counts members of the majority caucus. Eligible bills have at most ten original co-sponsors; arcs are those of the projection of eligible bills.
 \end{table}
