@@ -1,21 +1,27 @@
 \begin{table}[tbp]
 \centering
 \small
-\caption{118th Senate: paired PR-AUC contrasts between the strongest local scores and the political ERGM scores.}
+\caption{118th Senate: paired PR-AUC contrasts between local scores, nested ERGMs and sender--receiver ERGMs.}
 \label{tab:senate-contrasts}
 \begin{tabular}{lllrrr}
 \toprule
 Mask & panel & contrast & difference & 95\% CI & sign-flip $p$ \\
 \midrule
 MCAR & random & Adamic--Adar total minus M5 & 0.010 & [0.006, 0.014] & 0.0004 \\
-MCAR & random & Adamic--Adar total minus M6 & 0.010 & [0.006, 0.014] & 0.0002 \\
+MCAR & random & S1 minus M5 & 0.049 & [0.044, 0.053] & $<0.0001$ \\
+MCAR & random & Adamic--Adar total minus S1 & -0.039 & [-0.042, -0.035] & $<0.0001$ \\
 MCAR & sponsor substitution & degree product minus M5 & 0.090 & [0.086, 0.095] & $<0.0001$ \\
-MCAR & sponsor substitution & degree product minus M6 & 0.086 & [0.082, 0.091] & $<0.0001$ \\
+MCAR & sponsor substitution & S1 minus M5 & 0.073 & [0.070, 0.076] & $<0.0001$ \\
+MCAR & sponsor substitution & degree product minus S1 & 0.017 & [0.014, 0.020] & $<0.0001$ \\
+MCAR & sponsor substitution & degree product minus S0 & -0.001 & [-0.004, 0.001] & 0.1883 \\
 MCAR & sponsor substitution & sponsor activity minus degree product & -0.013 & [-0.017, -0.010] & $<0.0001$ \\
 MNAR-out & random & Adamic--Adar total minus M5 & 0.021 & [0.017, 0.026] & $<0.0001$ \\
-MNAR-out & random & Adamic--Adar total minus M6 & 0.020 & [0.015, 0.024] & $<0.0001$ \\
+MNAR-out & random & S1 minus M5 & 0.043 & [0.040, 0.047] & $<0.0001$ \\
+MNAR-out & random & Adamic--Adar total minus S1 & -0.022 & [-0.026, -0.018] & $<0.0001$ \\
 MNAR-out & sponsor substitution & degree product minus M5 & 0.062 & [0.055, 0.069] & $<0.0001$ \\
-MNAR-out & sponsor substitution & degree product minus M6 & 0.059 & [0.053, 0.066] & $<0.0001$ \\
+MNAR-out & sponsor substitution & S1 minus M5 & 0.048 & [0.042, 0.053] & $<0.0001$ \\
+MNAR-out & sponsor substitution & degree product minus S1 & 0.014 & [0.011, 0.017] & $<0.0001$ \\
+MNAR-out & sponsor substitution & degree product minus S0 & -0.004 & [-0.007, -0.002] & 0.0031 \\
 MNAR-out & sponsor substitution & sponsor activity minus degree product & 0.003 & [-0.001, 0.006] & 0.1760 \\
 \bottomrule
 \end{tabular}

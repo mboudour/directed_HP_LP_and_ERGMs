@@ -107,3 +107,16 @@ def test_concepts_are_closed_pairs():
 def test_role_metrics_tie_handling():
     assert benchmark.role_metrics([1.0, 1.0, 0.0], 0) == (0.5, 0.75)
     assert benchmark.role_metrics([0.0, 1.0, 2.0], 0) == (0.0, 1 / 3)
+
+
+def test_sender_receiver_sparse_matches_dense():
+    Y, cov = _toy(n=30, p=0.3, seed=7)
+    terms = ergm.LADDER["S1"]
+    X, y, _ = ergm.design(Y, terms, cov, sparse=False)
+    b1, _ = ergm.mple(X, y)
+    Xs, ys, _ = ergm.design(Y, terms, cov, sparse=True)
+    b2, _ = ergm.mple(Xs, ys)
+    p1, _ = ergm.conditional_probs(Y, terms, b1, cov)
+    p2, _ = ergm.conditional_probs(Y, terms, b2, cov)
+    off = ~np.eye(30, dtype=bool)
+    assert np.abs(p1[off] - p2[off]).max() < 1e-5

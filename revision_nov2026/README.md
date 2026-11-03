@@ -20,6 +20,8 @@ The re-implementation reproduces the published 118th Senate outputs in
 
 | Analysis | Script | Output |
 |---|---|---|
+| Sender–receiver ERGMs S0–S3 (actor-specific activity, p1-type), all cases | `src/run_case.py <case> <dir> M0,M4c,M5,S0,S1,S2,S3` | `summary_<case>_sender_receiver.json` |
+| Goodness of fit of the sender–receiver ERGMs | `r/gof_sender_receiver_senate.R` | `results/sender_receiver_gof/` |
 | Replications: 116th and 117th Senate, 118th House | `src/run_case.py` | `results/<case>/summary.json` |
 | Sponsor-activity, co-sponsor-popularity and same-party baselines with paired intervals | `src/report.py` | `summary.json` |
 | Bipartisan vs single-party coalitions | `src/report.py` | `summary.json`, Table `r3` |
@@ -41,6 +43,8 @@ committed in `results/` are:
 - `s118_joint_footprint_scores.json`
 - `s118_ttriple_and_arc_diagnostic.json`
 - `mple_simulation/`: MPLE coefficients from `ergm` and networks simulated from them
+- `summary_*_sender_receiver.json`: the same summaries for the runs with sender–receiver ERGMs
+- `sender_receiver_gof/`: simulated statistics and goodness of fit for S0–S2
 - `mcmcmle/`: outcome of the MCMC-MLE attempts (both stopped because the sampler did not mix)
 - `tables/` (LaTeX)
 - `figures/`
@@ -76,6 +80,8 @@ python -m pytest ../tests
 A 118th Senate case takes about 3 minutes for all 60 splits on one core. The House takes about 10 minutes.
 
 ## Model notes
+
+- Sender–receiver ERGMs (`S0`–`S3` in `ergm.LADDER`) give every actor its own sender and receiver effect, with actor 0 as the baseline. For the House they are fitted with a sparse Newton MPLE, which a unit test checks against the dense fit.
 
 - Change statistics follow statnet `ergm` definitions with fixed decay 0.5:
   `edges`, `mutual`, `gwodegree`, `gwidegree`, `dgwesp` (OTP, OSP, ISP), `ctriple`,

@@ -4,18 +4,18 @@
 \caption{118th Senate: mean PR-AUC by coalition type. A held-out bill is bipartisan if at least one original co-sponsor belongs to a different caucus from the sponsor.}
 \label{tab:bipartisan}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{lllrrrrrl}
+\begin{tabular}{lllrrrrrll}
 \toprule
-Mask & panel & coalition & party & M4c & M5 & AA total & deg.\ prod. & M5 minus M4c [95\% CI] \\
+Mask & panel & coalition & party & M5 & S1 & AA total & deg.\ prod. & M5 minus M4c & S1 minus S0 \\
 \midrule
-MCAR & random & single-party & 0.800 & 0.801 & 0.885 & 0.825 & 0.704 & 0.084 [0.081, 0.088] \\
-MCAR & random & bipartisan & 0.410 & 0.596 & 0.542 & 0.639 & 0.674 & -0.054 [-0.057, -0.050] \\
-MCAR & sponsor substitution & single-party & 0.500 & 0.478 & 0.496 & 0.537 & 0.572 & 0.017 [0.015, 0.020] \\
-MCAR & sponsor substitution & bipartisan & 0.512 & 0.462 & 0.476 & 0.545 & 0.590 & 0.014 [0.013, 0.015] \\
-MNAR-out & random & single-party & 0.815 & 0.847 & 0.916 & 0.880 & 0.714 & 0.068 [0.065, 0.072] \\
-MNAR-out & random & bipartisan & 0.410 & 0.629 & 0.559 & 0.683 & 0.723 & -0.071 [-0.075, -0.066] \\
-MNAR-out & sponsor substitution & single-party & 0.501 & 0.493 & 0.516 & 0.518 & 0.535 & 0.024 [0.021, 0.026] \\
-MNAR-out & sponsor substitution & bipartisan & 0.514 & 0.470 & 0.482 & 0.558 & 0.601 & 0.012 [0.010, 0.014] \\
+MCAR & random & single-party & 0.800 & 0.885 & 0.898 & 0.825 & 0.704 & 0.084 [0.081, 0.088] & 0.104 [0.100, 0.107] \\
+MCAR & random & bipartisan & 0.410 & 0.542 & 0.621 & 0.639 & 0.674 & -0.054 [-0.057, -0.050] & -0.068 [-0.071, -0.065] \\
+MCAR & sponsor substitution & single-party & 0.500 & 0.496 & 0.566 & 0.537 & 0.572 & 0.017 [0.015, 0.020] & -0.013 [-0.015, -0.010] \\
+MCAR & sponsor substitution & bipartisan & 0.512 & 0.476 & 0.596 & 0.545 & 0.590 & 0.014 [0.013, 0.015] & 0.004 [0.001, 0.006] \\
+MNAR-out & random & single-party & 0.815 & 0.916 & 0.930 & 0.880 & 0.714 & 0.068 [0.065, 0.072] & 0.100 [0.096, 0.105] \\
+MNAR-out & random & bipartisan & 0.410 & 0.559 & 0.645 & 0.683 & 0.723 & -0.071 [-0.075, -0.066] & -0.084 [-0.088, -0.079] \\
+MNAR-out & sponsor substitution & single-party & 0.501 & 0.516 & 0.545 & 0.518 & 0.535 & 0.024 [0.021, 0.026] & -0.003 [-0.006, -0.001] \\
+MNAR-out & sponsor substitution & bipartisan & 0.514 & 0.482 & 0.614 & 0.558 & 0.601 & 0.012 [0.010, 0.014] & 0.008 [0.006, 0.011] \\
 \bottomrule
 \end{tabular}
 }

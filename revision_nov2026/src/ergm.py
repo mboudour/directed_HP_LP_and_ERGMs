@@ -117,17 +117,104 @@ LADDER["M4c_nomut"] = [t for t in LADDER["M4c"] if t != "mutual"]
 LADDER["M5"] = LADDER["M4c"] + ["nodematch_party", "nodematch_state", "absdiff_nominate"]
 LADDER["M6"] = LADDER["M5"] + ["nodeocov_majority", "nodeocov_seniority"]
 LADDER["TT"] = ["edges", "ttriple"]
+_COV = ["nodematch_party", "nodematch_state", "absdiff_nominate"]
+# Sender/receiver (p1-type) heterogeneity instead of geometrically weighted degree terms.
+LADDER["S0"] = ["edges", "mutual", "sender", "receiver"]
+LADDER["S1"] = ["edges", "mutual", "sender", "receiver"] + _COV
+LADDER["S2"] = ["edges", "mutual", "sender", "receiver", "dgwesp_OTP"] + _COV
+LADDER["S3"] = [
+    "edges",
+    "mutual",
+    "sender",
+    "receiver",
+    "dgwesp_OTP",
+    "dgwesp_OSP",
+    "dgwesp_ISP",
+] + _COV
 
 
-def design(Y, terms, cov=None):
-    cs = change_stats(Y, terms, cov)
+def expand_terms(terms, n):
+    """Expand 'sender'/'receiver' into one indicator term per node (node 0 is the baseline)."""
+    out = []
+    for t in terms:
+        if t == "sender":
+            out += [f"sender_{k}" for k in range(1, n)]
+        elif t == "receiver":
+            out += [f"receiver_{k}" for k in range(1, n)]
+        else:
+            out.append(t)
+    return out
+
+
+def _node_effect(t, n):
+    kind, k = t.split("_")
+    M = np.zeros((n, n))
+    if kind == "sender":
+        M[int(k), :] = 1.0
+    else:
+        M[:, int(k)] = 1.0
+    return M
+
+
+def design(Y, terms, cov=None, sparse=None):
     n = Y.shape[0]
+    if sparse is None:
+        sparse = n > 200 and ("sender" in terms or "receiver" in terms)
+    if sparse:
+        return _design_sparse(Y, terms, cov)
+    base = [t for t in terms if t not in ("sender", "receiver")]
+    cs = change_stats(Y, base, cov)
+    terms = expand_terms(terms, n)
     mask = ~np.eye(n, dtype=bool)
-    X = np.stack([cs[t][mask] for t in terms], 1)
+    cols = []
+    for t in terms:
+        if t.startswith(("sender_", "receiver_")):
+            cols.append(_node_effect(t, n)[mask])
+        else:
+            cols.append(cs[t][mask])
+    X = np.stack(cols, 1)
     return X, Y[mask].astype(float), cs
 
 
+def _design_sparse(Y, terms, cov=None):
+    """Sparse design: dense structural columns plus sparse sender/receiver indicators."""
+    from scipy import sparse as sp
+
+    n = Y.shape[0]
+    base = [t for t in terms if t not in ("sender", "receiver")]
+    cs = change_stats(Y, base, cov)
+    mask = ~np.eye(n, dtype=bool)
+    rows_i, cols_j = np.nonzero(mask)
+    m = len(rows_i)
+    blocks = [sp.csr_matrix(np.stack([cs[t][mask] for t in base], 1))]
+    rows = np.arange(m)
+    if "sender" in terms:
+        keep = rows_i > 0
+        blocks.append(
+            sp.csr_matrix((np.ones(keep.sum()), (rows[keep], rows_i[keep] - 1)), shape=(m, n - 1))
+        )
+    if "receiver" in terms:
+        keep = cols_j > 0
+        blocks.append(
+            sp.csr_matrix((np.ones(keep.sum()), (rows[keep], cols_j[keep] - 1)), shape=(m, n - 1))
+        )
+    X = sp.hstack(blocks).tocsr()
+    # reorder columns to match expand_terms order
+    order_names = (
+        base
+        + ([f"sender_{k}" for k in range(1, n)] if "sender" in terms else [])
+        + ([f"receiver_{k}" for k in range(1, n)] if "receiver" in terms else [])
+    )
+    target = expand_terms(terms, n)
+    idx = [order_names.index(t) for t in target]
+    return X[:, idx], Y[mask].astype(float), cs
+
+
 def mple(X, y, ridge=1e-8):
+    from scipy import sparse as sp
+
+    if sp.issparse(X):
+        return _mple_sparse(X, y, ridge)
     """Unpenalised logistic MPLE (tiny ridge for numerical stability)."""
     sc = X.std(0)
     sc[sc == 0] = 1.0
@@ -149,9 +236,57 @@ def mple(X, y, ridge=1e-8):
     return res.x / sc, res
 
 
+def _mple_sparse(X, y, ridge=1e-8, iters=100):
+    """Newton-Raphson logistic MPLE for a sparse design."""
+    from scipy import sparse as sp
+
+    p = X.shape[1]
+    b = np.zeros(p)
+    var = np.asarray(X.multiply(X).mean(0)).ravel() - np.asarray(X.mean(0)).ravel() ** 2
+    sc = np.sqrt(np.maximum(var, 0.0))
+    sc[~(sc > 1e-12)] = 1.0
+    Xs = X @ sp.diags(1 / sc)
+    ll_old = -np.inf
+    for _ in range(iters):
+        eta = Xs @ b
+        pr = 1 / (1 + np.exp(-eta))
+        g = Xs.T @ (y - pr) - 2 * ridge * b
+        W = pr * (1 - pr)
+        H = (Xs.T @ sp.diags(W) @ Xs).toarray() + 2 * ridge * np.eye(p)
+        step = np.linalg.solve(H, g)
+        if not np.all(np.isfinite(step)):
+            step = np.linalg.lstsq(H, g, rcond=None)[0]
+        t = 1.0
+        while True:
+            nb = b + t * step
+            e2 = Xs @ nb
+            ll = (y * e2 - np.logaddexp(0, e2)).sum() - ridge * nb @ nb
+            if ll >= ll_old - 1e-9 or t < 1e-6:
+                break
+            t /= 2
+        b = nb
+        if abs(ll - ll_old) < 1e-9 * max(1, abs(ll)):
+            break
+        ll_old = ll
+
+    class R:
+        success = True
+
+    return b / sc, R()
+
+
 def conditional_probs(Y, terms, theta, cov=None):
-    cs = change_stats(Y, terms, cov)
-    eta = sum(theta[k] * cs[t] for k, t in enumerate(terms))
+    n = Y.shape[0]
+    base = [t for t in terms if t not in ("sender", "receiver")]
+    cs = change_stats(Y, base, cov)
+    eta = np.zeros((n, n))
+    for k, t in enumerate(expand_terms(terms, n)):
+        if t.startswith("sender_"):
+            eta[int(t.split("_")[1]), :] += theta[k]
+        elif t.startswith("receiver_"):
+            eta[:, int(t.split("_")[1])] += theta[k]
+        else:
+            eta += theta[k] * cs[t]
     P = 1 / (1 + np.exp(-eta))
     np.fill_diagonal(P, np.nan)
     return P, eta

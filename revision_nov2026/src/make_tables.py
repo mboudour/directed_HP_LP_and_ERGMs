@@ -23,6 +23,10 @@ NAMES = {
     "M4c_L1g": "M4c structural",
     "M5_L1g": "M5 political",
     "M6_L1g": "M6 sponsor attributes",
+    "S0_L1g": "S0 sender--receiver",
+    "S1_L1g": "S1 sender--receiver, political",
+    "S2_L1g": "S2 = S1 + two-path closure",
+    "S3_L1g": "S3 = S1 + all closure",
     "M4c_nomut_L1g": "M4c without mutuality",
 }
 PANEL = {"random": "random", "sub": "sponsor substitution"}
@@ -31,6 +35,27 @@ PANEL = {"random": "random", "sub": "sponsor substitution"}
 def load(name):
     p = f"{R}/{name}/summary.json"
     return json.load(open(p)) if os.path.exists(p) else None
+
+
+def _merge(a, b):
+    """Recursively merge summary b into a (b supplies sender-receiver model entries)."""
+    for k, v in b.items():
+        if k in a and isinstance(a[k], dict) and isinstance(v, dict):
+            _merge(a[k], v)
+        elif k not in a:
+            a[k] = v
+    return a
+
+
+def loadm(name):
+    """Original summary merged with the sender-receiver run, when present."""
+    a = load(name)
+    b = load(name + "_S")
+    if a is None:
+        return b
+    if b is not None:
+        _merge(a["mechs"], b["mechs"])
+    return a
 
 
 def f3(x):
@@ -64,7 +89,7 @@ def table(path, caption, label, cols, header, rows, note, small=True, resize=Fal
     open(f"{T}/{path}", "w").write("\n".join(line for line in lines if line != ""))
 
 
-S = load("s118")
+S = loadm("s118")
 # ---------------------------------------------------------------- Table 2 primary performance
 rows = []
 for mech, lab in MECHS:
@@ -79,6 +104,8 @@ for mech, lab in MECHS:
             "M4c_L1g",
             "M5_L1g",
             "M6_L1g",
+            "S0_L1g",
+            "S1_L1g",
         ]:
             rows.append(
                 f"{lab} & {PANEL[p]} & {NAMES[k]} & {f3(M['pr_auc'][p][k])} & {f3(M['roc_auc'][p][k])}"
@@ -110,15 +137,18 @@ for mech, lab in MECHS:
     C = S["mechs"][mech]["contrasts"]
     for p, a, b, txt in [
         ("random", "aa_total", "M5_L1g", "Adamic--Adar total minus M5"),
-        ("random", "aa_total", "M6_L1g", "Adamic--Adar total minus M6"),
+        ("random", "S1_L1g", "M5_L1g", "S1 minus M5"),
+        ("random", "aa_total", "S1_L1g", "Adamic--Adar total minus S1"),
         ("sub", "degprod", "M5_L1g", "degree product minus M5"),
-        ("sub", "degprod", "M6_L1g", "degree product minus M6"),
+        ("sub", "S1_L1g", "M5_L1g", "S1 minus M5"),
+        ("sub", "degprod", "S1_L1g", "degree product minus S1"),
+        ("sub", "degprod", "S0_L1g", "degree product minus S0"),
         ("sub", "sponsor_activity", "degprod", "sponsor activity minus degree product"),
     ]:
         rows.append(f"{lab} & {PANEL[p]} & {txt} & " + ci(C[p][f"{a} - {b}"]))
 table(
     "table_03_competitive_contrasts.tex",
-    "118th Senate: paired PR-AUC contrasts between the strongest local scores and the political ERGM scores.",
+    "118th Senate: paired PR-AUC contrasts between local scores, nested ERGMs and sender--receiver ERGMs.",
     "tab:senate-contrasts",
     "lllrrr",
     r"Mask & panel & contrast & difference & 95\% CI & sign-flip $p$",
@@ -134,6 +164,8 @@ for a, b, txt in [
     ("M5_L1g", "M4c_L1g", "M5 minus M4c"),
     ("M6_L1g", "M5_L1g", "M6 minus M5"),
     ("M4c_nomut_L1g", "M4c_L1g", "M4c without mutuality minus M4c"),
+    ("S1_L1g", "S0_L1g", "S1 minus S0"),
+    ("S3_L1g", "S1_L1g", "S3 minus S1"),
 ]:
     for mech, lab in MECHS:
         C = S["mechs"][mech]["contrasts"]
@@ -147,7 +179,7 @@ table(
     r"Mask & panel & contrast & difference & 95\% CI & sign-flip $p$",
     rows,
     "M5 adds party and state matching and absolute DW-NOMINATE distance to M4c; M6 adds sponsor-side majority-caucus "
-    "and seniority terms; the last contrast removes mutuality alone. Intervals and tests as in Table~\\ref{tab:senate-contrasts}.",
+    "and seniority terms; the last contrast removes mutuality alone. Intervals and tests as in the main text.",
 )
 
 # ---------------------------------------------------------------- Table 4 role
@@ -162,6 +194,8 @@ for mech, lab in MECHS:
         "M4c_L1g",
         "M5_L1g",
         "M6_L1g",
+        "S0_L1g",
+        "S1_L1g",
     ]:
         d = M["role_vs_uniform"][k]["top1"]
         rows.append(
@@ -183,7 +217,7 @@ table(
 
 # ---------------------------------------------------------------- Ladder
 rows = []
-for m in ["M0", "M1", "M2", "M3", "M4", "M4c", "M4c_nomut", "M5", "M6"]:
+for m in ["M0", "M1", "M2", "M3", "M4", "M4c", "M4c_nomut", "M5", "M6", "S0", "S1", "S2", "S3"]:
     k = f"{m}_L1g"
     vals = [S["mechs"][mech]["pr_auc"][p][k] for p in ["random", "sub"] for mech, _ in MECHS]
     rows.append(f"{m.replace('_nomut', ' without mutuality')} & " + " & ".join(f3(v) for v in vals))
@@ -196,7 +230,8 @@ table(
     rows,
     "M0 edges; M1 adds mutuality; M2 adds geometrically weighted out- and in-degree; M3 adds outgoing two-path closure; "
     "M4 adds shared-target and shared-source closure; M4c adds cyclic triples; M5 adds party, state and ideology; M6 adds "
-    "majority caucus and seniority of the sponsor.",
+    "majority caucus and seniority of the sponsor. S0 replaces the degree terms of M2 with sender and receiver effects; "
+    "S1 adds the political covariates; S2 and S3 add two-path and all three closure terms.",
 )
 
 # ---------------------------------------------------------------- Mask realisation (all cases)
@@ -243,7 +278,7 @@ for mech, ml in MECHS:
             f"{ml} & {lab_g[g]} & {f3(M['strata_share'][g])} & "
             + " & ".join(
                 f"{f3(w[k][g][0])} [{f3(w[k][g][1])}, {f3(w[k][g][2])}]"
-                for k in ["M4c_L1g", "M5_L1g", "degprod"]
+                for k in ["M5_L1g", "S1_L1g", "degprod"]
             )
         )
 table(
@@ -251,7 +286,7 @@ table(
     "118th Senate: preference for the true bill over its sponsor substitute, by survival of the two footprints in the training projection.",
     "tab:sponsor-recoverability",
     "llrlll",
-    "Mask & footprint pattern & share & M4c & M5 & degree product",
+    "Mask & footprint pattern & share & M5 & S1 & degree product",
     rows,
     "Each entry is the tie-aware probability that the score ranks the held-out true bill above its sponsor substitute; "
     "brackets are 95\\% mask-bootstrap intervals.",
@@ -265,20 +300,21 @@ for mech, ml in MECHS:
     for p in ["random", "sub"]:
         for lab in ["single_party", "bipartisan"]:
             vals = " & ".join(
-                f3(B[p][lab][k])
-                for k in ["party_share", "M4c_L1g", "M5_L1g", "aa_total", "degprod"]
+                f3(B[p][lab][k]) for k in ["party_share", "M5_L1g", "S1_L1g", "aa_total", "degprod"]
             )
             c = B[p][lab + "_contrasts"]["M5_L1g - M4c_L1g"]
+            c2 = B[p][lab + "_contrasts"]["S1_L1g - S0_L1g"]
             rows.append(
                 f"{ml} & {PANEL[p]} & {lab.replace('_', '-')} & {vals} & {f3(c[0])} [{f3(c[1])}, {f3(c[2])}]"
+                f" & {f3(c2[0])} [{f3(c2[1])}, {f3(c2[2])}]"
             )
 share = S["mechs"]["MCAR"]["bipartisan"]["random"]["share_bipartisan"]
 table(
     "table_r3_bipartisan.tex",
     "118th Senate: mean PR-AUC by coalition type. A held-out bill is bipartisan if at least one original co-sponsor belongs to a different caucus from the sponsor.",
     "tab:bipartisan",
-    "lllrrrrrl",
-    r"Mask & panel & coalition & party & M4c & M5 & AA total & deg.\ prod. & M5 minus M4c [95\% CI]",
+    "lllrrrrrll",
+    r"Mask & panel & coalition & party & M5 & S1 & AA total & deg.\ prod. & M5 minus M4c & S1 minus S0",
     rows,
     f"Independents are assigned to the Democratic caucus. Bipartisan bills form {100 * share:.1f}\\% of the held-out positives in the MCAR random panels. "
     "PR-AUC is computed within each stratum; negatives keep their pairing with the positive.",
@@ -286,7 +322,7 @@ table(
 )
 
 # ---------------------------------------------------------------- co-sponsor limit sensitivity
-C3 = load("s118cap3")
+C3 = loadm("s118cap3")
 if C3:
     rows = []
     for mech, ml in MECHS:
@@ -297,8 +333,12 @@ if C3:
                 ("M5_L1g", "M4c_L1g", "M5 minus M4c"),
                 ("aa_total", "M5_L1g", "AA total minus M5"),
                 ("degprod", "M5_L1g", "degree product minus M5"),
+                ("S1_L1g", "M5_L1g", "S1 minus M5"),
+                ("aa_total", "S1_L1g", "AA total minus S1"),
+                ("degprod", "S1_L1g", "degree product minus S1"),
             ]:
-                rows.append(f"{ml} & {PANEL[p]} & {txt} & " + ci(C[p][f"{a} - {b}"]))
+                if f"{a} - {b}" in C[p]:
+                    rows.append(f"{ml} & {PANEL[p]} & {txt} & " + ci(C[p][f"{a} - {b}"]))
     table(
         "table_05_limit_sensitivity.tex",
         "118th Senate, bills with at most three original co-sponsors: paired PR-AUC contrasts.",
@@ -374,7 +414,7 @@ table(
 )
 
 CASES4 = [("s118", "118th S"), ("s117", "117th S"), ("s116", "116th S"), ("h118", "118th H")]
-XS = {n: load(n) for n, _ in CASES4}
+XS = {n: loadm(n) for n, _ in CASES4}
 
 
 def _c(c):
@@ -396,7 +436,24 @@ ITEMS = [
     ("degree product minus M5, substitution", lambda M: M["contrasts"]["sub"]["degprod - M5_L1g"]),
     ("M6 top-1 minus chance", lambda M: M["role_vs_uniform"]["M6_L1g"]["top1"]),
     ("AA-OI top-1 minus chance", lambda M: M["role_vs_uniform"]["aa_oi"]["top1"]),
+    ("S1 minus M5, random", lambda M: M["contrasts"]["random"]["S1_L1g - M5_L1g"]),
+    ("AA total minus S1, random", lambda M: M["contrasts"]["random"]["aa_total - S1_L1g"]),
+    ("degree product minus S1, substitution", lambda M: M["contrasts"]["sub"]["degprod - S1_L1g"]),
+    ("S1 top-1 minus chance", lambda M: M["role_vs_uniform"]["S1_L1g"]["top1"]),
+    (
+        "S1 minus S0, bipartisan bills",
+        lambda M: M["bipartisan"]["random"]["bipartisan_contrasts"]["S1_L1g - S0_L1g"],
+    ),
 ]
+
+
+def _cell(fn, X):
+    try:
+        return _c(fn(X))
+    except (KeyError, TypeError):
+        return ""
+
+
 rows = []
 for mech, ml in MECHS:
     rows.append(f"\\multicolumn{{5}}{{l}}{{\\textit{{{ml}}}}}")
@@ -404,7 +461,7 @@ for mech, ml in MECHS:
         rows.append(
             lab
             + " & "
-            + " & ".join(_c(fn(XS[n]["mechs"][mech])) if XS[n] else "" for n, _ in CASES4)
+            + " & ".join(_cell(fn, XS[n]["mechs"][mech]) if XS[n] else "" for n, _ in CASES4)
         )
 table(
     "table_r2_case_results.tex",
@@ -452,10 +509,14 @@ if os.path.exists(SIM):
     import csv
 
     rows = []
-    for r in csv.DictReader(open(SIM)):
-        if r["statistic"] in ("edges", "mutual", "ttriple"):
+    SIM2 = f"{R}/gof_sr_s118/simulation_summary.csv"
+    recs = list(csv.DictReader(open(SIM)))
+    if os.path.exists(SIM2):
+        recs += [r for r in csv.DictReader(open(SIM2)) if r["model"] in ("S0", "S1")]
+    for r in recs:
+        if r["statistic"] in ("edges", "mutual", "ttriple", "ctriple"):
             rows.append(
-                f"{r['model']} & {r['statistic'].replace('ttriple', 'transitive triples')} & "
+                f"{r['model']} & {r['statistic'].replace('ttriple', 'transitive triples').replace('ctriple', 'cyclic triples')} & "
                 f"{float(r['observed']):,.0f} & {float(r['sim_mean']):,.0f} & "
                 f"[{float(r['sim_q025']):,.0f}, {float(r['sim_q975']):,.0f}]"
             )
@@ -466,5 +527,5 @@ if os.path.exists(SIM):
         "llrrl",
         "Model & statistic & observed & simulated mean & 95\\% range",
         rows,
-        "One hundred networks per model simulated with the statnet \\texttt{ergm} package (burn-in 200,000, interval 10,000) from the MPLE coefficients, which agree with the Python MPLE to four decimal places.",
+        "One hundred networks per model simulated with the statnet \\texttt{ergm} package (burn-in 200,000, interval 10,000) from the MPLE coefficients, which agree with the Python MPLE to four decimal places. M models use geometrically weighted degree terms; S models use sender and receiver effects.",
     )

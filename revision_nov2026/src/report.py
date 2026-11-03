@@ -62,8 +62,44 @@ ROLE = [
 WIN = ["M4c_L1g", "M5_L1g", "M6_L1g", "degprod", "aa_total", "sponsor_activity"]
 
 
+def _extend(r):
+    """Add sender-receiver model scores and contrasts when present in the run."""
+    keys = r["random"][0][0].keys()
+    for m in ["S0", "S1", "S2", "S3"]:
+        k = f"{m}_L1g"
+        if k in keys and k not in SCORES:
+            SCORES.append(k)
+            ROLE.append(k)
+            WIN.append(k)
+    extra = [
+        ("S1_L1g", "M5_L1g"),
+        ("S2_L1g", "S1_L1g"),
+        ("S3_L1g", "S1_L1g"),
+        ("S1_L1g", "S0_L1g"),
+        ("aa_total", "S1_L1g"),
+        ("degprod", "S1_L1g"),
+        ("sponsor_activity", "S1_L1g"),
+        ("S1_L1g", "M0_L1g"),
+        ("degprod", "S0_L1g"),
+    ]
+    for a, b in extra:
+        if a in SCORES and b in SCORES and (a, b) not in CONTRASTS:
+            CONTRASTS.append((a, b))
+    for k in list(SCORES):
+        if k not in keys:
+            SCORES.remove(k)
+    for lst in (ROLE, WIN):
+        for k in list(lst):
+            if k not in keys:
+                lst.remove(k)
+    for c in list(CONTRASTS):
+        if c[0] not in keys or c[1] not in keys:
+            CONTRASTS.remove(c)
+
+
 def build(outdir, caucus):
     res = ag.load(outdir)
+    _extend(next(iter(res.values())))
     meta = pickle.load(open(f"{outdir}/meta.pkl", "rb"))
     S = {"meta": meta, "mechs": {}}
     for mech in ["MCAR", "MNAR-out"]:
@@ -145,7 +181,11 @@ def build(outdir, caucus):
                         ("aa_total", "M5_L1g"),
                         ("degprod", "M5_L1g"),
                         ("party_share", "M0_L1g"),
+                        ("S1_L1g", "S0_L1g"),
+                        ("S1_L1g", "M5_L1g"),
+                        ("degprod", "S1_L1g"),
                     ]
+                    if a in SCORES and b in SCORES
                 }
         M["bipartisan"] = B
         # coefficients

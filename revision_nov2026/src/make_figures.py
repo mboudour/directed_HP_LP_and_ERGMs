@@ -14,6 +14,12 @@ import numpy as np  # noqa: E402
 
 R, F = sys.argv[1], sys.argv[2]
 S = json.load(open(f"{R}/s118/summary.json"))
+S2 = json.load(open(f"{R}/s118_S/summary.json"))
+for _m in S["mechs"]:
+    for _p in ("random", "sub"):
+        S["mechs"][_m]["pr_auc"][_p].update(
+            {k: v for k, v in S2["mechs"][_m]["pr_auc"][_p].items() if k.startswith("S")}
+        )
 cols = [("random", "MCAR"), ("random", "MNAR-out"), ("sub", "MCAR"), ("sub", "MNAR-out")]
 
 
@@ -30,7 +36,7 @@ series = [
     ("Same-party share", v("party_share"), "#7a7a7a"),
     ("M4c conditional $L_{1g}$", v("M4c_L1g"), "#d97a22"),
     ("M5 political conditional $L_{1g}$", v("M5_L1g"), "#21847e"),
-    ("M6 sponsor-attribute conditional $L_{1g}$", v("M6_L1g"), "#7a5195"),
+    ("S1 sender–receiver conditional $L_{1g}$", v("S1_L1g"), "#7a5195"),
 ]
 x = np.arange(4)
 w = 0.135

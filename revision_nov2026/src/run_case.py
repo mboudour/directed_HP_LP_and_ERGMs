@@ -11,7 +11,8 @@ import runlib
 MODELS = ["M0", "M1", "M2", "M3", "M4", "M4c", "M4c_nomut", "M5", "M6"]
 
 
-def main(name, outdir, reps=30):
+def main(name, outdir, reps=30, models=None):
+    models = models or MODELS
     os.makedirs(outdir, exist_ok=True)
     if name.endswith("uncap"):
         case = runlib.make_case(name[:-5])
@@ -46,10 +47,15 @@ def main(name, outdir, reps=30):
             if os.path.exists(f):
                 continue
             t = time.time()
-            r = benchmark.run_split(case, mech, rep, MODELS, with_role=True)
+            r = benchmark.run_split(case, mech, rep, models, with_role=True)
             pickle.dump(r, open(f, "wb"))
             print(name, mech, rep, round(time.time() - t, 1), flush=True)
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(
+        sys.argv[1],
+        sys.argv[2],
+        reps=int(sys.argv[4]) if len(sys.argv) > 4 else 30,
+        models=sys.argv[3].split(",") if len(sys.argv) > 3 else None,
+    )
