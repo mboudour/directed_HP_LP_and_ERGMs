@@ -60,7 +60,7 @@ for ext in ("pdf", "png"):
     fig.savefig(f"{F}/fig2_senate_primary_pr_auc.{ext}", dpi=300)
 print("figure written")
 
-# ---------------------------------------------------------------- Figure 3: hyperarcs versus concepts
+# ---------------------------------------------------------------- Figure 3: hyperarcs versus concepts  # noqa: E501
 CA = json.load(open(f"{R}/concepts_all.json"))["s118"]["10"]
 fig, axes = plt.subplots(1, 2, figsize=(8.8, 4.4))
 for ax, title, vals, labels, ylab in [
