@@ -120,3 +120,22 @@ def test_sender_receiver_sparse_matches_dense():
     p2, _ = ergm.conditional_probs(Y, terms, b2, cov)
     off = ~np.eye(30, dtype=bool)
     assert np.abs(p1[off] - p2[off]).max() < 1e-5
+
+
+def test_p1_mle_score_equations():
+    """At the exact p1 MLE, expected arcs and mutual dyads equal the observed counts."""
+    import p1
+
+    rng = np.random.default_rng(3)
+    n = 25
+    Y = (rng.random((n, n)) < 0.15).astype(np.int8)
+    np.fill_diagonal(Y, 0)
+    cov = {
+        "party": rng.integers(0, 2, n),
+        "state": rng.integers(0, 5, n),
+        "nominate": rng.normal(size=n),
+    }
+    terms = ergm.LADDER["S1"]
+    _, info = p1.fit(Y, terms, cov)
+    assert abs(info["expected_arcs"] - info["observed_arcs"]) < 1e-4
+    assert abs(info["expected_mutual"] - info["observed_mutual"]) < 1e-4
