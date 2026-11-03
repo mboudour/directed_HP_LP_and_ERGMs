@@ -59,3 +59,34 @@ fig.subplots_adjust(bottom=0.09, top=0.88)
 for ext in ("pdf", "png"):
     fig.savefig(f"{F}/fig2_senate_primary_pr_auc.{ext}", dpi=300)
 print("figure written")
+
+# ---------------------------------------------------------------- Figure 3: hyperarcs versus concepts
+CA = json.load(open(f"{R}/concepts_all.json"))["s118"]["10"]
+fig, axes = plt.subplots(1, 2, figsize=(8.8, 4.4))
+for ax, title, vals, labels, ylab in [
+    (
+        axes[0],
+        "Hyperarcs and formal concepts",
+        [CA["types"], CA["concepts"]],
+        ["recorded\nhyperarcs", "formal\nconcepts"],
+        "count",
+    ),
+    (
+        axes[1],
+        "Arcs in their footprints",
+        [CA["type_arcs"], CA["concept_arcs"]],
+        ["hyperarc\nfootprint arcs", "concept\nfootprint arcs"],
+        "directed arcs",
+    ),
+]:
+    bars = ax.bar([0, 1], vals, color=["#174a7c", "#d97a22"], width=0.62)
+    ax.bar_label(bars, labels=[f"{v:,}" for v in vals], padding=3, fontsize=9)
+    ax.set_xticks([0, 1], labels)
+    ax.set_title(title, fontsize=11)
+    ax.set_ylabel(ylab)
+    ax.set_ylim(0, max(vals) * 1.15)
+    ax.grid(axis="y", alpha=0.25)
+fig.tight_layout()
+for ext in ("pdf", "png"):
+    fig.savefig(f"{F}/fig3_senate_concept_event_fidelity.{ext}", dpi=300)
+print("figure 3 written")

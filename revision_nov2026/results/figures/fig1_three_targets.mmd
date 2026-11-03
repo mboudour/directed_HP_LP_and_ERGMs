@@ -1,14 +1,14 @@
 %%{init: {"theme":"base","flowchart":{"wrappingWidth":420},"themeVariables":{"fontFamily":"Arial","fontSize":"18px","lineColor":"#333","edgeLabelBackground":"#e8e8e8"}}}%%
 flowchart TD
-  A["Recorded bill coalition<br/>tail: sponsor<br/>head: original co-sponsors"]
-  B["Directed dyadic footprint<br/>sponsor → co-sponsor arcs"]
-  C["Formal concepts<br/>algebraically closed groups in<br/>the aggregate directed projection"]
+  A["Recorded directed hyperarc (bill)<br/>tail: sponsor<br/>head: original co-sponsors"]
+  B["Footprint in the directed 2-section<br/>sponsor → co-sponsor arcs"]
+  C["Formal concepts<br/>closed tail–head pairs<br/>of the 2-section"]
   D["Arc-level diagnostic"]
-  E["Bill-level benchmark<br/>random panels; sponsor substitution;<br/>fixed-participant sponsor identification"]
+  E["Hyperarc benchmark<br/>random panels; sponsor substitution;<br/>fixed-participant sponsor identification"]
   F["Mask-specific ERGM conditional scores<br/>and directed local scores"]
-  G["Concept–bill comparison"]
+  G["Concept–hyperarc comparison"]
   A --> B
-  A -. "whole bills withheld" .-> E
+  A -. "whole hyperarcs withheld" .-> E
   B --> C
   B -. "arcs withheld" .-> D
   C --> G
