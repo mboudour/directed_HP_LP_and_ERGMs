@@ -362,9 +362,9 @@ for name, lab in [
         f"{m['records']:,} ({100 * m['records'] / m['valid_events']:.1f}\\%) & {m['types']:,} & {m['arcs_cap']:,}"
     )
 table(
-    "table_r1_replication_data.tex",
+    "table_r1_case_data.tex",
     "Record accounting for the four cases (Bill Status, original co-sponsors, head cap $|H|\\leq10$).",
-    "tab:replication-data",
+    "tab:case-data",
     "lrrrlrrrr",
     "Case & bills & nonempty heads & actors & D/I/R & majority & cap-eligible bills & types & arcs",
     rows,
@@ -407,9 +407,9 @@ for mech, ml in MECHS:
             + " & ".join(_c(fn(XS[n]["mechs"][mech])) if XS[n] else "" for n, _ in CASES4)
         )
 table(
-    "table_r2_replication_results.tex",
+    "table_r2_case_results.tex",
     "Main contrasts in all four cases: mean differences over 30 masks with 95\\% mask-bootstrap intervals.",
-    "tab:replication-results",
+    "tab:case-results",
     "lllll",
     "Contrast & " + " & ".join(lab for _, lab in CASES4),
     rows,
