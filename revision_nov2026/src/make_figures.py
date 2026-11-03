@@ -30,7 +30,7 @@ series = [
     ("Same-party share", v("party_share"), "#7a7a7a"),
     ("M4c conditional $L_{1g}$", v("M4c_L1g"), "#d97a22"),
     ("M5 political conditional $L_{1g}$", v("M5_L1g"), "#21847e"),
-    ("M6 sender-effect conditional $L_{1g}$", v("M6_L1g"), "#7a5195"),
+    ("M6 sponsor-attribute conditional $L_{1g}$", v("M6_L1g"), "#7a5195"),
 ]
 x = np.arange(4)
 w = 0.135
@@ -45,8 +45,8 @@ ax.set_ylim(0.35, 0.95)
 ax.set_xticks(x, ["MCAR", "MNAR-out", "MCAR", "MNAR-out"])
 ax.axvline(1.5, color="#b5b5b5", linewidth=1)
 ax.axhline(0.5, color="#b5b5b5", linewidth=0.8, linestyle=":")
-ax.text(0.5, 0.94, "random arity-matched panel", ha="center", va="top", fontsize=9)
-ax.text(2.5, 0.94, "grammar-preserving sponsor substitution", ha="center", va="top", fontsize=9)
+ax.text(0.5, 0.94, "random panel (same number of co-sponsors)", ha="center", va="top", fontsize=9)
+ax.text(2.5, 0.94, "sponsor substitution (same participants)", ha="center", va="top", fontsize=9)
 fig.legend(frameon=False, loc="upper center", bbox_to_anchor=(0.5, 1.0), ncol=3, fontsize=8)
 ax.grid(axis="y", alpha=0.25)
 fig.subplots_adjust(bottom=0.09, top=0.88)

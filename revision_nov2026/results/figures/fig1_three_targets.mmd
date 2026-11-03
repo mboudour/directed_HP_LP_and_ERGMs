@@ -1,0 +1,20 @@
+%%{init: {"theme":"base","flowchart":{"wrappingWidth":420},"themeVariables":{"fontFamily":"Arial","fontSize":"18px","lineColor":"#333","edgeLabelBackground":"#e8e8e8"}}}%%
+flowchart TD
+  A["Recorded bill coalition<br/>tail: sponsor<br/>head: original co-sponsors"]
+  B["Directed dyadic footprint<br/>sponsor → co-sponsor arcs"]
+  C["Formal concepts<br/>algebraically closed groups in<br/>the aggregate directed projection"]
+  D["Arc-level diagnostic"]
+  E["Bill-level benchmark<br/>random panels; sponsor substitution;<br/>fixed-participant sponsor identification"]
+  F["Mask-specific ERGM conditional scores<br/>and directed local scores"]
+  G["Concept–bill comparison"]
+  A --> B
+  A -. "whole bills withheld" .-> E
+  B --> C
+  B -. "arcs withheld" .-> D
+  C --> G
+  D --> F
+  E --> F
+  classDef rec fill:#edf2f9,stroke:#174a7c,stroke-width:2px,color:#0d2a47;
+  classDef ev fill:#fdf6e7,stroke:#a8650f,stroke-width:2px,color:#4a2c05;
+  classDef au fill:#f4f4f4,stroke:#666,stroke-width:2px,color:#222;
+  class A,B,C rec; class D,E,F ev; class G au;

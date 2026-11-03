@@ -22,7 +22,7 @@ NAMES = {
     "M0_L1g": "M0 density",
     "M4c_L1g": "M4c structural",
     "M5_L1g": "M5 political",
-    "M6_L1g": "M6 sender",
+    "M6_L1g": "M6 sponsor attributes",
     "M4c_nomut_L1g": "M4c without mutuality",
 }
 PANEL = {"random": "random", "sub": "sponsor substitution"}
@@ -92,7 +92,7 @@ table(
     rows,
     "Local and baseline scores are mean lifts over the candidate footprint computed on the training projection. "
     "Sponsor activity is the sponsor's training out-degree; co-sponsor popularity is the mean training in-degree of the head. "
-    "ERGM rows use split-specific MPLE fits and the factorized conditional footprint score $L_{1g}$.",
+    "ERGM rows use mask-specific MPLE fits and the factorized conditional footprint score $L_{1g}$.",
 )
 
 # ---------------------------------------------------------------- Table 3 competitive contrasts
@@ -141,12 +141,12 @@ for a, b, txt in [
             rows.append(f"{lab} & {PANEL[p]} & {txt} & " + ci(C[p][f"{a} - {b}"]))
 table(
     "table_03b_political_covariate_contrasts.tex",
-    "118th Senate: paired PR-AUC contrasts along the ERGM ladder.",
+    "118th Senate: paired PR-AUC contrasts along the nested ERGMs.",
     "tab:political-contrast",
     "lllrrr",
     r"Mask & panel & contrast & difference & 95\% CI & sign-flip $p$",
     rows,
-    "M5 adds party and state matching and absolute DW-NOMINATE distance to M4c; M6 adds sender-side majority-caucus "
+    "M5 adds party and state matching and absolute DW-NOMINATE distance to M4c; M6 adds sponsor-side majority-caucus "
     "and seniority terms; the last contrast removes mutuality alone. Intervals and tests as in Table~\\ref{tab:senate-contrasts}.",
 )
 
@@ -189,14 +189,14 @@ for m in ["M0", "M1", "M2", "M3", "M4", "M4c", "M4c_nomut", "M5", "M6"]:
     rows.append(f"{m.replace('_nomut', ' without mutuality')} & " + " & ".join(f3(v) for v in vals))
 table(
     "table_a4_ergm_ladder.tex",
-    "118th Senate: mean PR-AUC of the MPLE ERGM ladder ($L_{1g}$).",
+    "118th Senate: mean PR-AUC of the nested MPLE ERGMs ($L_{1g}$).",
     "tab:ergm-ladder",
     "lrrrr",
     "Model & random MCAR & random MNAR-out & substitution MCAR & substitution MNAR-out",
     rows,
     "M0 edges; M1 adds mutuality; M2 adds geometrically weighted out- and in-degree; M3 adds outgoing two-path closure; "
     "M4 adds shared-target and shared-source closure; M4c adds cyclic triples; M5 adds party, state and ideology; M6 adds "
-    "majority caucus and seniority of the sender.",
+    "majority caucus and seniority of the sponsor.",
 )
 
 # ---------------------------------------------------------------- Mask realisation (all cases)
@@ -333,7 +333,7 @@ table(
     "lrr",
     "MPLE model & PR-AUC & ROC-AUC",
     rows,
-    "Thirty arc-first splits: 30\\% of arcs are withheld at random and paired with an equal number of random non-arcs; "
+    "Thirty arc-level masks: 30\\% of arcs are withheld at random and paired with an equal number of random non-arcs; "
     "scores are MPLE conditional tie probabilities on the remaining projection.",
 )
 
