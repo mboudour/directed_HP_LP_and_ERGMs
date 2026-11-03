@@ -1,0 +1,554 @@
+{
+ "s118": {
+  "n": 105,
+  "arcs": 4290,
+  "mutual": 1316,
+  "tau_profile": {
+   "0.5": -6045.248246070832,
+   "1.0": -6006.575868073511,
+   "2.0": -5820.344218219916,
+   "3.0": -5365.049123862835,
+   "4.0": -5326.275032568832,
+   "5.0": -5347.044852062325
+  },
+  "tau_hat": 4.0,
+  "M4c_mple": {
+   "edges": -7.30096059934481,
+   "mutual": 0.9590179149325126,
+   "gwodegree": 2.6090247073622073,
+   "gwidegree": 2.6424904120700092,
+   "dgwesp_OTP": 0.10986258509948908,
+   "dgwesp_OSP": 0.012060588980850814,
+   "dgwesp_ISP": 0.01803818672140565,
+   "ctriple": -0.09039236482471603
+  },
+  "M5_mple": {
+   "edges": -4.948684844268449,
+   "mutual": 0.9012790839177293,
+   "gwodegree": 1.402955854812577,
+   "gwidegree": 1.287307274126987,
+   "dgwesp_OTP": 0.1001669613854519,
+   "dgwesp_OSP": 0.0021402545135070007,
+   "dgwesp_ISP": 0.017444016565672203,
+   "ctriple": -0.07849614273877463,
+   "nodematch_party": -0.27646631380378306,
+   "nodematch_state": 1.9952135586655873,
+   "absdiff_nominate": -0.7774539713947596
+  },
+  "S0_mple": {
+   "edges": 0.01391104921533491,
+   "mutual": 1.389419367512701
+  },
+  "S0_mle": {
+   "edges": 0.016302025154761146,
+   "mutual": 1.3819887119689873
+  },
+  "S0_mle_info": {
+   "dyads": 5444,
+   "loglik": -5743.357561831088,
+   "iterations": 16,
+   "max_abs_gradient": 6.3982766410450915e-06,
+   "observed_arcs": 4290,
+   "expected_arcs": 4290.000000064148,
+   "observed_mutual": 1316,
+   "expected_mutual": 1315.9999972375585,
+   "zero_outdegree": 3,
+   "zero_indegree": 3
+  },
+  "S0_mle_actor_sd": {
+   "sender": 0.8492154630968541,
+   "receiver": 0.7043574366263983
+  },
+  "S0_sender_regression": {
+   "coef_const_majority_seniority_republican_absnominate": [
+    -0.8794842220127324,
+    -0.24601265882807205,
+    0.012191788636812135,
+    -0.6334715631846618,
+    0.7297308244139671
+   ],
+   "r2_all": 0.045653996715803946,
+   "r2_majority_seniority": 0.030039713203721896,
+   "corr_log_bills": 0.8862943378386804,
+   "actors": 102
+  },
+  "S1_mple": {
+   "edges": 2.7766788284971025,
+   "mutual": 1.043015067441652,
+   "nodematch_party": -1.5292337350805958,
+   "nodematch_state": 2.651921649587015,
+   "absdiff_nominate": -3.223243053218387
+  },
+  "S1_mle": {
+   "edges": 2.7693539135820395,
+   "mutual": 1.0305629353182189,
+   "nodematch_party": -1.536820684724687,
+   "nodematch_state": 2.9546702742435964,
+   "absdiff_nominate": -3.2271876064982234
+  },
+  "S1_mle_info": {
+   "dyads": 5444,
+   "loglik": -5315.177275631318,
+   "iterations": 16,
+   "max_abs_gradient": 1.0596759897762375e-05,
+   "observed_arcs": 4290,
+   "expected_arcs": 4289.999994705147,
+   "observed_mutual": 1316,
+   "expected_mutual": 1315.9999979581066,
+   "zero_outdegree": 3,
+   "zero_indegree": 3
+  },
+  "S1_mle_actor_sd": {
+   "sender": 1.0224322741868188,
+   "receiver": 0.8422598075565849
+  },
+  "S1_sender_regression": {
+   "coef_const_majority_seniority_republican_absnominate": [
+    -1.487828880182336,
+    -0.49433817620395293,
+    0.013254192163203123,
+    -0.9934907039783858,
+    2.498661828037663
+   ],
+   "r2_all": 0.12673508463982308,
+   "r2_majority_seniority": 0.00030176506441803586,
+   "corr_log_bills": 0.8270515300069499,
+   "actors": 102
+  },
+  "SI_mle": {
+   "edges": 0.17893115652690447,
+   "mutual": 1.46906680392191,
+   "nodeocov_majority": 0.15986588020124695,
+   "nodeocov_seniority": 0.007311939346140184,
+   "nodematch_party": -0.47462024624448934,
+   "nodematch_state": 2.091999513127578,
+   "absdiff_nominate": -1.549864401561933
+  },
+  "SI_mle_info": {
+   "dyads": 5444,
+   "loglik": -6072.816748047877,
+   "iterations": 16,
+   "max_abs_gradient": 6.155785297291284e-05,
+   "observed_arcs": 4290,
+   "expected_arcs": 4289.999999841425,
+   "observed_mutual": 1316,
+   "expected_mutual": 1315.9999971702546,
+   "zero_outdegree": 3,
+   "zero_indegree": 3
+  }
+ },
+ "s117": {
+  "n": 102,
+  "arcs": 3988,
+  "mutual": 1198,
+  "tau_profile": {
+   "0.5": -5673.688434827099,
+   "1.0": -5640.24747658948,
+   "2.0": -5466.764377930533,
+   "3.0": -5115.798901122915,
+   "4.0": -5097.193533269867,
+   "5.0": -5117.065655149569
+  },
+  "tau_hat": 4.0,
+  "M4c_mple": {
+   "edges": -7.530963771840099,
+   "mutual": 0.8231655926523475,
+   "gwodegree": 2.7829071049518044,
+   "gwidegree": 3.09387290695785,
+   "dgwesp_OTP": 0.09313105182529233,
+   "dgwesp_OSP": 0.01375596233221351,
+   "dgwesp_ISP": 0.03056555657146887,
+   "ctriple": -0.08359303893578766
+  },
+  "M5_mple": {
+   "edges": -4.648628651435963,
+   "mutual": 0.7329192025821424,
+   "gwodegree": 1.222609151453276,
+   "gwidegree": 1.6564554403247744,
+   "dgwesp_OTP": 0.07952314034565128,
+   "dgwesp_OSP": 0.010768590673545082,
+   "dgwesp_ISP": 0.024023550080812424,
+   "ctriple": -0.07101468459695166,
+   "nodematch_party": -0.40158429761408515,
+   "nodematch_state": 3.1997062993858636,
+   "absdiff_nominate": -1.0457177221819371
+  },
+  "S0_mple": {
+   "edges": -2.2430053973786306,
+   "mutual": 1.2624427627401535
+  },
+  "S0_mle": {
+   "edges": -2.250313243507415,
+   "mutual": 1.2637837595994335
+  },
+  "S0_mle_info": {
+   "dyads": 5145,
+   "loglik": -5522.11454356964,
+   "iterations": 16,
+   "max_abs_gradient": 5.212456367343532e-06,
+   "observed_arcs": 3988,
+   "expected_arcs": 3988.000004603611,
+   "observed_mutual": 1198,
+   "expected_mutual": 1197.9999974724306,
+   "zero_outdegree": 2,
+   "zero_indegree": 2
+  },
+  "S0_mle_actor_sd": {
+   "sender": 0.8386210763029628,
+   "receiver": 0.63654298510592
+  },
+  "S0_sender_regression": {
+   "coef_const_majority_seniority_republican_absnominate": [
+    0.8523937471774969,
+    0.6718497425753143,
+    -0.01113328501972293,
+    0.18054400460218342,
+    0.046351594425272806
+   ],
+   "r2_all": 0.09159612469218126,
+   "r2_majority_seniority": 0.09153295066104616,
+   "corr_log_bills": 0.8994675637367133,
+   "actors": 100
+  },
+  "S1_mple": {
+   "edges": 0.21659133546173645,
+   "mutual": 0.8264589247139368,
+   "nodematch_party": -1.875539038153831,
+   "nodematch_state": 5.113877581617229,
+   "absdiff_nominate": -3.867410808823242
+  },
+  "S1_mle": {
+   "edges": 0.1944958768562194,
+   "mutual": 0.8301563207827053,
+   "nodematch_party": -1.8864164156481864,
+   "nodematch_state": 5.157652380498142,
+   "absdiff_nominate": -3.877909832393481
+  },
+  "S1_mle_info": {
+   "dyads": 5145,
+   "loglik": -5033.222964501,
+   "iterations": 16,
+   "max_abs_gradient": 1.0950106153374069e-05,
+   "observed_arcs": 3988,
+   "expected_arcs": 3988.000000069852,
+   "observed_mutual": 1198,
+   "expected_mutual": 1197.9999983397133,
+   "zero_outdegree": 2,
+   "zero_indegree": 2
+  },
+  "S1_mle_actor_sd": {
+   "sender": 1.04151142949573,
+   "receiver": 0.7833212287989252
+  },
+  "S1_sender_regression": {
+   "coef_const_majority_seniority_republican_absnominate": [
+    0.5135310879593086,
+    0.589194946806345,
+    -0.016381511525260104,
+    -0.07566385884703626,
+    1.934262828402581
+   ],
+   "r2_all": 0.13595334678649396,
+   "r2_majority_seniority": 0.06457566002546555,
+   "corr_log_bills": 0.8428435402604183,
+   "actors": 100
+  },
+  "SI_mle": {
+   "edges": -0.041230754451071196,
+   "mutual": 1.291419350564052,
+   "nodeocov_majority": 0.3069489115741308,
+   "nodeocov_seniority": -0.005422228249488214,
+   "nodematch_party": -0.7839611230987361,
+   "nodematch_state": 3.5323959331330617,
+   "absdiff_nominate": -2.1112048028351937
+  },
+  "SI_mle_info": {
+   "dyads": 5145,
+   "loglik": -5702.290815362308,
+   "iterations": 16,
+   "max_abs_gradient": 5.96793364766166e-05,
+   "observed_arcs": 3988,
+   "expected_arcs": 3988.0000002235283,
+   "observed_mutual": 1198,
+   "expected_mutual": 1197.9999974995521,
+   "zero_outdegree": 2,
+   "zero_indegree": 2
+  }
+ },
+ "s116": {
+  "n": 102,
+  "arcs": 3939,
+  "mutual": 1120,
+  "tau_profile": {
+   "0.5": -5936.773938964957,
+   "1.0": -5916.32352090186,
+   "2.0": -5756.607653790699,
+   "3.0": -5491.861909380732,
+   "4.0": -5469.627446001301,
+   "5.0": -5484.6339158471
+  },
+  "tau_hat": 4.0,
+  "M4c_mple": {
+   "edges": -6.9221553400753715,
+   "mutual": 0.7647624688039941,
+   "gwodegree": 2.6448933452464605,
+   "gwidegree": 2.8142829185441465,
+   "dgwesp_OTP": 0.08121013435657885,
+   "dgwesp_OSP": 0.01696802927501397,
+   "dgwesp_ISP": 0.02759937921142703,
+   "ctriple": -0.07662228506658722
+  },
+  "M5_mple": {
+   "edges": -4.24186747439692,
+   "mutual": 0.6873387311070218,
+   "gwodegree": 1.1051331310112806,
+   "gwidegree": 1.4141822443003527,
+   "dgwesp_OTP": 0.07644704814635772,
+   "dgwesp_OSP": 0.009957508240987106,
+   "dgwesp_ISP": 0.016610229316575475,
+   "ctriple": -0.06340033827831289,
+   "nodematch_party": -0.26622436202320493,
+   "nodematch_state": 2.578214968476678,
+   "absdiff_nominate": -0.905424993458807
+  },
+  "S0_mple": {
+   "edges": -2.804647018769874,
+   "mutual": 1.0894146035116647
+  },
+  "S0_mle": {
+   "edges": -2.8381737152238387,
+   "mutual": 1.0911216498895504
+  },
+  "S0_mle_info": {
+   "dyads": 5148,
+   "loglik": -5754.944936046022,
+   "iterations": 15,
+   "max_abs_gradient": 2.2599691124295297e-05,
+   "observed_arcs": 3939,
+   "expected_arcs": 3939.000008483754,
+   "observed_mutual": 1120,
+   "expected_mutual": 1119.999997817763,
+   "zero_outdegree": 1,
+   "zero_indegree": 1
+  },
+  "S0_mle_actor_sd": {
+   "sender": 0.7290025542884765,
+   "receiver": 0.6481073106384329
+  },
+  "S0_sender_regression": {
+   "coef_const_majority_seniority_republican_absnominate": [
+    1.8835318529523888,
+    -0.21726149248259782,
+    -0.013455837007260541,
+    -0.21726149248259755,
+    0.23121439140918873
+   ],
+   "r2_all": 0.0957613215139641,
+   "r2_majority_seniority": 0.09368009835290259,
+   "corr_log_bills": 0.8663541311834692,
+   "actors": 101
+  },
+  "S1_mple": {
+   "edges": -1.0804454573744584,
+   "mutual": 0.7974006809334812,
+   "nodematch_party": -1.4074085416425244,
+   "nodematch_state": 3.1973934201278884,
+   "absdiff_nominate": -3.0607967975955037
+  },
+  "S1_mle": {
+   "edges": -1.1190649473441532,
+   "mutual": 0.7941786340208444,
+   "nodematch_party": -1.405367280825749,
+   "nodematch_state": 3.3838051286047994,
+   "absdiff_nominate": -3.050943140639979
+  },
+  "S1_mle_info": {
+   "dyads": 5148,
+   "loglik": -5409.51258602733,
+   "iterations": 15,
+   "max_abs_gradient": 2.8683473720553066e-05,
+   "observed_arcs": 3939,
+   "expected_arcs": 3939.000006343412,
+   "observed_mutual": 1120,
+   "expected_mutual": 1119.9999984116646,
+   "zero_outdegree": 1,
+   "zero_indegree": 1
+  },
+  "S1_mle_actor_sd": {
+   "sender": 0.8824287270315996,
+   "receiver": 0.7226785281301917
+  },
+  "S1_sender_regression": {
+   "coef_const_majority_seniority_republican_absnominate": [
+    1.642225297437706,
+    -0.3260105553249154,
+    -0.019286585169537154,
+    -0.3260105553249138,
+    1.8337719062815683
+   ],
+   "r2_all": 0.1875383007242366,
+   "r2_majority_seniority": 0.09789819540316702,
+   "corr_log_bills": 0.8210445509355117,
+   "actors": 101
+  },
+  "SI_mle": {
+   "edges": -0.3096512249162854,
+   "mutual": 1.0858473700861972,
+   "nodeocov_majority": -0.253831111666812,
+   "nodeocov_seniority": -0.007447361533190378,
+   "nodematch_party": -0.4841647334789002,
+   "nodematch_state": 2.6780942310049243,
+   "absdiff_nominate": -1.5966088367251043
+  },
+  "SI_mle_info": {
+   "dyads": 5148,
+   "loglik": -5924.142627111085,
+   "iterations": 16,
+   "max_abs_gradient": 1.84475930643961e-05,
+   "observed_arcs": 3939,
+   "expected_arcs": 3939.0000007330964,
+   "observed_mutual": 1120,
+   "expected_mutual": 1119.9999978990427,
+   "zero_outdegree": 1,
+   "zero_indegree": 1
+  }
+ },
+ "h118": {
+  "n": 451,
+  "arcs": 12386,
+  "mutual": 1520,
+  "tau_profile": {
+   "0.5": -39419.73341287721,
+   "1.0": -38121.251824232204,
+   "2.0": -36553.75598377368,
+   "3.0": -36530.45672134515,
+   "4.0": -36735.40903105559,
+   "5.0": -36849.65220772385
+  },
+  "tau_hat": 3.0,
+  "M4c_mple": {
+   "edges": -3.913221456050223,
+   "mutual": 1.0891718387799247,
+   "gwodegree": -0.7090816727746955,
+   "gwidegree": 0.0773597621083368,
+   "dgwesp_OTP": 0.18565527574481072,
+   "dgwesp_OSP": 0.025327488194389142,
+   "dgwesp_ISP": -0.010773470576343617,
+   "ctriple": -0.11164349585621673
+  },
+  "M5_mple": {
+   "edges": -2.390035114757403,
+   "mutual": 0.9082313487312011,
+   "gwodegree": -1.2166146732353906,
+   "gwidegree": -0.42464376786616637,
+   "dgwesp_OTP": 0.16321413021139103,
+   "dgwesp_OSP": 0.03443302492483597,
+   "dgwesp_ISP": -0.029749466236431394,
+   "ctriple": -0.10076435379584267,
+   "nodematch_party": -0.7092434918613661,
+   "nodematch_state": 1.2888755252688253,
+   "absdiff_nominate": -1.6458835718062987
+  },
+  "S0_mple": {
+   "edges": -5.1545357401150245,
+   "mutual": 1.7093746081738734
+  },
+  "S0_mle": {
+   "edges": -5.16693690710803,
+   "mutual": 1.6994288779415663
+  },
+  "S0_mle_info": {
+   "dyads": 101396,
+   "loglik": -40549.02014827107,
+   "iterations": 17,
+   "max_abs_gradient": 2.6910615096360024e-05,
+   "observed_arcs": 12386,
+   "expected_arcs": 12386.000011175944,
+   "observed_mutual": 1520,
+   "expected_mutual": 1519.9999966631335,
+   "zero_outdegree": 13,
+   "zero_indegree": 0
+  },
+  "S0_mle_actor_sd": {
+   "sender": 0.873045480415578,
+   "receiver": 0.6774447813136445
+  },
+  "S0_sender_regression": {
+   "coef_const_majority_seniority_republican_absnominate": [
+    1.4643129809394415,
+    0.022846213853952416,
+    -0.01533502340856264,
+    0.022846213853950494,
+    -0.22029172987852053
+   ],
+   "r2_all": 0.022912082521754362,
+   "r2_majority_seniority": 0.021752331446795115,
+   "corr_log_bills": 0.8399069291935382,
+   "actors": 438
+  },
+  "S1_mple": {
+   "edges": -2.9561301097704105,
+   "mutual": 1.2086981520309663,
+   "nodematch_party": -1.6230201006915173,
+   "nodematch_state": 1.6642290436157035,
+   "absdiff_nominate": -3.4704229455308857
+  },
+  "S1_mle": {
+   "edges": -2.8840805859722534,
+   "mutual": 1.1775032215245125,
+   "nodematch_party": -1.6225410216975884,
+   "nodematch_state": 1.6664495059116522,
+   "absdiff_nominate": -3.4628573867803714
+  },
+  "S1_mle_info": {
+   "dyads": 101396,
+   "loglik": -37334.40019290051,
+   "iterations": 17,
+   "max_abs_gradient": 3.649888146497432e-05,
+   "observed_arcs": 12386,
+   "expected_arcs": 12386.000007290548,
+   "observed_mutual": 1520,
+   "expected_mutual": 1519.9999977717448,
+   "zero_outdegree": 13,
+   "zero_indegree": 0
+  },
+  "S1_mle_actor_sd": {
+   "sender": 0.9330592655865936,
+   "receiver": 0.7467012472273145
+  },
+  "S1_sender_regression": {
+   "coef_const_majority_seniority_republican_absnominate": [
+    0.9670334859208194,
+    0.04707043618741363,
+    -0.01701862484133313,
+    0.04707043618742064,
+    0.8746275638854875
+   ],
+   "r2_all": 0.05602766261150349,
+   "r2_majority_seniority": 0.04001280574474464,
+   "corr_log_bills": 0.8157852212238126,
+   "actors": 438
+  },
+  "SI_mle": {
+   "edges": -1.9306212876520312,
+   "mutual": 1.4457215087312345,
+   "nodeocov_majority": 0.22337410635319116,
+   "nodeocov_seniority": -0.007731521173264803,
+   "nodematch_party": -1.3303535683357053,
+   "nodematch_state": 1.4954068041989883,
+   "absdiff_nominate": -3.0021135243828914
+  },
+  "SI_mle_info": {
+   "dyads": 101396,
+   "loglik": -40203.62796335254,
+   "iterations": 9,
+   "max_abs_gradient": 4.0358846048475256e-07,
+   "observed_arcs": 12386,
+   "expected_arcs": 12386.000003861292,
+   "observed_mutual": 1520,
+   "expected_mutual": 1519.9999971085442,
+   "zero_outdegree": 13,
+   "zero_indegree": 0
+  }
+ }
+}

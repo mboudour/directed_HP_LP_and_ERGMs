@@ -17,13 +17,16 @@ import numpy as np
 from scipy import sparse as sp
 
 
-def _dyad_design(n, terms, cov):
+def _dyad_design(n, terms, cov, allowed=None):
     names = ergm.expand_terms(terms, n)
     p = len(names)
     km = names.index("mutual")
     base = [t for t in terms if t not in ("sender", "receiver", "mutual")]
     cs = ergm.change_stats(np.zeros((n, n), np.int8), base, cov)
     iu, ju = np.triu_indices(n, 1)
+    if allowed is not None:
+        keep = allowed[iu, ju]
+        iu, ju = iu[keep], ju[keep]
     m = len(iu)
     col = {t: k for k, t in enumerate(names)}
 
@@ -54,10 +57,15 @@ def _dyad_design(n, terms, cov):
     return names, iu, ju, S1, S2, S3
 
 
-def fit(Y, terms, cov=None, ridge=1e-6, iters=200, tol=1e-9):
-    """Return (theta, info) for the exact MLE of a p1-type specification."""
+def fit(Y, terms, cov=None, ridge=1e-6, iters=200, tol=1e-9, allowed=None):
+    """Return (theta, info) for the exact MLE of a p1-type specification.
+
+    allowed: optional symmetric boolean matrix; dyads with allowed[i, j] False are
+    structural zeros (for example, legislators whose service did not overlap)
+    and are excluded from the likelihood.
+    """
     n = Y.shape[0]
-    names, iu, ju, S1, S2, S3 = _dyad_design(n, terms, cov)
+    names, iu, ju, S1, S2, S3 = _dyad_design(n, terms, cov, allowed)
     a, b = Y[iu, ju].astype(bool), Y[ju, iu].astype(bool)
     state = np.where(a & b, 3, np.where(a, 1, np.where(b, 2, 0)))
     Ss = [None, S1, S2, S3]
@@ -101,6 +109,7 @@ def fit(Y, terms, cov=None, ridge=1e-6, iters=200, tol=1e-9):
     expected_mutual = float(pi[:, 3].sum())
     dout, din = Y.sum(1), Y.sum(0)
     info = {
+        "dyads": int(len(iu)),
         "loglik": ll,
         "iterations": it + 1,
         "max_abs_gradient": float(np.max(np.abs(g))),

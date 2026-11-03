@@ -440,8 +440,9 @@ def joint_footprint_logprob(Y, s, Hl, terms, theta, cov):
     return float(weights[2**k - 1] - lz)
 
 
-def _single_change(A, i, j, terms, cov, decay=ergm.DECAY):
+def _single_change(A, i, j, terms, cov, decay=None):
     """Change statistics for one dyad (i,j) on graph A, ignoring the current value of A[i,j]."""
+    decay = ergm.DECAY if decay is None else decay
     A = A.astype(np.float64)
     A[i, j] = 0
     r = 1 - np.exp(-decay)

@@ -4,7 +4,8 @@
 # drifts to empty or complete graphs) is near-degenerate: its MPLE is usable
 # as a source of conditional tie scores but not as a likelihood estimate.
 #
-# Usage: Rscript r/simulate_from_mple_senate.R <export-dir> <output-dir>
+# Usage: Rscript r/simulate_from_mple_senate.R <export-dir> <output-dir> [decay]
+# The optional decay (default 0.5) is used for all geometrically weighted terms.
 
 suppressPackageStartupMessages({
   library(network)
@@ -13,6 +14,7 @@ suppressPackageStartupMessages({
 args <- commandArgs(trailingOnly = TRUE)
 in_dir <- if (length(args) >= 1) args[[1]] else "results/revision/r_export"
 out_dir <- if (length(args) >= 2) args[[2]] else "results/revision/mple_simulation"
+decay <- if (length(args) >= 3) as.numeric(args[[3]]) else 0.5
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 set.seed(20261103)
 
@@ -23,19 +25,19 @@ nw <- network.initialize(n, directed = TRUE, loops = FALSE)
 nw <- add.edges(nw, tail = arcs$tail + 1L, head = arcs$head + 1L)
 for (v in c("party", "state", "nominate", "majority", "seniority")) nw %v% v <- nodes[[v]]
 
-rhs <- list(
+rhs <- lapply(list(
   M1 = "edges + mutual",
-  M2 = "edges + mutual + gwodegree(0.5, fixed = TRUE) + gwidegree(0.5, fixed = TRUE)",
-  M4c = paste("edges + mutual + gwodegree(0.5, fixed = TRUE) + gwidegree(0.5, fixed = TRUE) +",
-              "dgwesp(0.5, fixed = TRUE, type = 'OTP') + dgwesp(0.5, fixed = TRUE, type = 'OSP') +",
-              "dgwesp(0.5, fixed = TRUE, type = 'ISP') + ctriple"),
-  M5 = paste("edges + mutual + gwodegree(0.5, fixed = TRUE) + gwidegree(0.5, fixed = TRUE) +",
-             "dgwesp(0.5, fixed = TRUE, type = 'OTP') + dgwesp(0.5, fixed = TRUE, type = 'OSP') +",
-             "dgwesp(0.5, fixed = TRUE, type = 'ISP') + ctriple +",
+  M2 = "edges + mutual + gwodegree(DECAY, fixed = TRUE) + gwidegree(DECAY, fixed = TRUE)",
+  M4c = paste("edges + mutual + gwodegree(DECAY, fixed = TRUE) + gwidegree(DECAY, fixed = TRUE) +",
+              "dgwesp(DECAY, fixed = TRUE, type = 'OTP') + dgwesp(DECAY, fixed = TRUE, type = 'OSP') +",
+              "dgwesp(DECAY, fixed = TRUE, type = 'ISP') + ctriple"),
+  M5 = paste("edges + mutual + gwodegree(DECAY, fixed = TRUE) + gwidegree(DECAY, fixed = TRUE) +",
+             "dgwesp(DECAY, fixed = TRUE, type = 'OTP') + dgwesp(DECAY, fixed = TRUE, type = 'OSP') +",
+             "dgwesp(DECAY, fixed = TRUE, type = 'ISP') + ctriple +",
              "nodematch('party') + nodematch('state') + absdiff('nominate')")
-)
-monitor <- ~ edges + mutual + ttriple + idegree(0:3) + odegree(0:3)
-obs <- summary(as.formula(paste("nw ~ edges + mutual + ttriple + idegree(0:3) + odegree(0:3)")))
+), function(x) gsub("DECAY", format(decay), x, fixed = TRUE))
+monitor <- ~ edges + mutual + ttriple + ctriple + idegree(0:3) + odegree(0:3)
+obs <- summary(as.formula(paste("nw ~ edges + mutual + ttriple + ctriple + idegree(0:3) + odegree(0:3)")))
 
 rows <- list()
 for (m in names(rhs)) {

@@ -21,8 +21,9 @@ def _gw_f(c, decay):
     return np.exp(decay) * (1.0 - (1.0 - np.exp(-decay)) ** c)
 
 
-def change_stats(Y, terms, cov=None, decay=DECAY):
+def change_stats(Y, terms, cov=None, decay=None):
     """Return dict term -> (n x n) array of change statistics."""
+    decay = DECAY if decay is None else decay
     A = Y.astype(np.float64)
     n = A.shape[0]
     out = {}
@@ -292,8 +293,9 @@ def conditional_probs(Y, terms, theta, cov=None):
     return P, eta
 
 
-def stat_vector(Y, terms, cov=None, decay=DECAY):
+def stat_vector(Y, terms, cov=None, decay=None):
     """Full sufficient statistics g(Y) (used by exact joint footprint scores)."""
+    decay = DECAY if decay is None else decay
     A = Y.astype(np.float64)
     g = []
     dout, din = A.sum(1), A.sum(0)
