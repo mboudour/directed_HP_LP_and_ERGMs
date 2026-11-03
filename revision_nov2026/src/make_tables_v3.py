@@ -435,7 +435,7 @@ if len(sys.argv) > 5:
         [r"Model & statistic & observed & simulated mean & 95\% range \\"],
         rows,
         "One hundred networks per model, simulated with the statnet \\texttt{ergm} package (burn-in 200,000, interval 10,000) from the MPLE coefficients; "
-        "for S0 and S1 the MPLE differs from the MLE by at most 0.011 in the arc, mutuality and covariate coefficients.",
+        "for S1 the MPLE differs from the MLE (which has structural zeros) by up to 0.30 in the state-matching coefficient and by at most 0.04 in the other non-actor coefficients.",
     )
     print("simulation table written")
 
