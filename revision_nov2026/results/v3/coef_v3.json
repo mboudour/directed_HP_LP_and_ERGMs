@@ -53,12 +53,17 @@
    "observed_mutual": 1316,
    "expected_mutual": 1315.9999972375585,
    "zero_outdegree": 3,
-   "zero_indegree": 3
+   "zero_indegree": 3,
+   "se": {
+    "edges": 0.2706126507377684,
+    "mutual": 0.07210098348116303
+   }
   },
   "S0_mle_actor_sd": {
    "sender": 0.8492154630968541,
    "receiver": 0.7043574366263983
   },
+  "S0_max_abs_effect_connected": 4.616399105157261,
   "S0_sender_regression": {
    "coef_const_majority_seniority_republican_absnominate": [
     -0.8794842220127324,
@@ -96,12 +101,20 @@
    "observed_mutual": 1316,
    "expected_mutual": 1315.9999979581066,
    "zero_outdegree": 3,
-   "zero_indegree": 3
+   "zero_indegree": 3,
+   "se": {
+    "edges": 0.3412999142416554,
+    "mutual": 0.07589752089619882,
+    "nodematch_party": 0.12485201855577177,
+    "nodematch_state": 0.4326329888637466,
+    "absdiff_nominate": 0.16956681456596276
+   }
   },
   "S1_mle_actor_sd": {
    "sender": 1.0224322741868188,
    "receiver": 0.8422598075565849
   },
+  "S1_max_abs_effect_connected": 5.322753236888832,
   "S1_sender_regression": {
    "coef_const_majority_seniority_republican_absnominate": [
     -1.487828880182336,
@@ -134,7 +147,16 @@
    "observed_mutual": 1316,
    "expected_mutual": 1315.9999971702546,
    "zero_outdegree": 3,
-   "zero_indegree": 3
+   "zero_indegree": 3,
+   "se": {
+    "edges": 0.2417892163123885,
+    "mutual": 0.06222059647865562,
+    "nodeocov_majority": 0.046481003672437925,
+    "nodeocov_seniority": 0.00268655489005267,
+    "nodematch_party": 0.08790243258169449,
+    "nodematch_state": 0.3333730321893585,
+    "absdiff_nominate": 0.11522413758183093
+   }
   }
  },
  "s117": {
@@ -191,12 +213,17 @@
    "observed_mutual": 1198,
    "expected_mutual": 1197.9999974724306,
    "zero_outdegree": 2,
-   "zero_indegree": 2
+   "zero_indegree": 2,
+   "se": {
+    "edges": 0.3217640185694153,
+    "mutual": 0.07247748319607097
+   }
   },
   "S0_mle_actor_sd": {
    "sender": 0.8386210763029628,
    "receiver": 0.63654298510592
   },
+  "S0_max_abs_effect_connected": 3.1142383953803723,
   "S0_sender_regression": {
    "coef_const_majority_seniority_republican_absnominate": [
     0.8523937471774969,
@@ -234,12 +261,20 @@
    "observed_mutual": 1198,
    "expected_mutual": 1197.9999983397133,
    "zero_outdegree": 2,
-   "zero_indegree": 2
+   "zero_indegree": 2,
+   "se": {
+    "edges": 0.373522412618712,
+    "mutual": 0.07737384543305438,
+    "nodematch_party": 0.1377830543907166,
+    "nodematch_state": 0.8089501904013048,
+    "absdiff_nominate": 0.1933799816679937
+   }
   },
   "S1_mle_actor_sd": {
    "sender": 1.04151142949573,
    "receiver": 0.7833212287989252
   },
+  "S1_max_abs_effect_connected": 3.893202783026257,
   "S1_sender_regression": {
    "coef_const_majority_seniority_republican_absnominate": [
     0.5135310879593086,
@@ -272,7 +307,16 @@
    "observed_mutual": 1198,
    "expected_mutual": 1197.9999974995521,
    "zero_outdegree": 2,
-   "zero_indegree": 2
+   "zero_indegree": 2,
+   "se": {
+    "edges": 0.24735736941754433,
+    "mutual": 0.06438914186256914,
+    "nodeocov_majority": 0.0470892626854825,
+    "nodeocov_seniority": 0.0026491892458798635,
+    "nodematch_party": 0.09649573481647873,
+    "nodematch_state": 0.5994836683630247,
+    "absdiff_nominate": 0.1314433753071724
+   }
   }
  },
  "s116": {
@@ -329,12 +373,17 @@
    "observed_mutual": 1120,
    "expected_mutual": 1119.999997817763,
    "zero_outdegree": 1,
-   "zero_indegree": 1
+   "zero_indegree": 1,
+   "se": {
+    "edges": 0.3715906787504612,
+    "mutual": 0.06982779531549671
+   }
   },
   "S0_mle_actor_sd": {
    "sender": 0.7290025542884765,
    "receiver": 0.6481073106384329
   },
+  "S0_max_abs_effect_connected": 3.1063971278940525,
   "S0_sender_regression": {
    "coef_const_majority_seniority_republican_absnominate": [
     1.8835318529523888,
@@ -372,12 +421,20 @@
    "observed_mutual": 1120,
    "expected_mutual": 1119.9999984116646,
    "zero_outdegree": 1,
-   "zero_indegree": 1
+   "zero_indegree": 1,
+   "se": {
+    "edges": 0.40878822993609343,
+    "mutual": 0.07337434689779417,
+    "nodematch_party": 0.12753312917127085,
+    "nodematch_state": 0.45320044717688096,
+    "absdiff_nominate": 0.18139489482510218
+   }
   },
   "S1_mle_actor_sd": {
    "sender": 0.8824287270315996,
    "receiver": 0.7226785281301917
   },
+  "S1_max_abs_effect_connected": 3.439521414694658,
   "S1_sender_regression": {
    "coef_const_majority_seniority_republican_absnominate": [
     1.642225297437706,
@@ -410,7 +467,16 @@
    "observed_mutual": 1120,
    "expected_mutual": 1119.9999978990427,
    "zero_outdegree": 1,
-   "zero_indegree": 1
+   "zero_indegree": 1,
+   "se": {
+    "edges": 0.2523613361038129,
+    "mutual": 0.0632407571962943,
+    "nodeocov_majority": 0.045901715241218194,
+    "nodeocov_seniority": 0.0026506760973342694,
+    "nodematch_party": 0.09303870136529992,
+    "nodematch_state": 0.3911990051909015,
+    "absdiff_nominate": 0.1294291030416923
+   }
   }
  },
  "h118": {
@@ -467,12 +533,17 @@
    "observed_mutual": 1520,
    "expected_mutual": 1519.9999966631335,
    "zero_outdegree": 13,
-   "zero_indegree": 0
+   "zero_indegree": 0,
+   "se": {
+    "edges": 0.49004568783039637,
+    "mutual": 0.036925136897253026
+   }
   },
   "S0_mle_actor_sd": {
    "sender": 0.873045480415578,
    "receiver": 0.6774447813136445
   },
+  "S0_max_abs_effect_connected": 2.9586684276707094,
   "S0_sender_regression": {
    "coef_const_majority_seniority_republican_absnominate": [
     1.4643129809394415,
@@ -510,12 +581,20 @@
    "observed_mutual": 1520,
    "expected_mutual": 1519.9999977717448,
    "zero_outdegree": 13,
-   "zero_indegree": 0
+   "zero_indegree": 0,
+   "se": {
+    "edges": 0.5015880345324571,
+    "mutual": 0.0392707670789738,
+    "nodematch_party": 0.05739205119239756,
+    "nodematch_state": 0.03257380141003646,
+    "absdiff_nominate": 0.07781954485022172
+   }
   },
   "S1_mle_actor_sd": {
    "sender": 0.9330592655865936,
    "receiver": 0.7467012472273145
   },
+  "S1_max_abs_effect_connected": 3.1978181640824794,
   "S1_sender_regression": {
    "coef_const_majority_seniority_republican_absnominate": [
     0.9670334859208194,
@@ -548,7 +627,16 @@
    "observed_mutual": 1520,
    "expected_mutual": 1519.9999971085442,
    "zero_outdegree": 13,
-   "zero_indegree": 0
+   "zero_indegree": 0,
+   "se": {
+    "edges": 0.301292278761057,
+    "mutual": 0.03518855726870973,
+    "nodeocov_majority": 0.021969902761739133,
+    "nodeocov_seniority": 0.0012275874874873166,
+    "nodematch_party": 0.05257371050111078,
+    "nodematch_state": 0.029172129929482732,
+    "absdiff_nominate": 0.07217633301932157
+   }
   }
  }
 }

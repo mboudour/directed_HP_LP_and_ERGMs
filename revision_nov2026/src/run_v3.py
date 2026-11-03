@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Third benchmark run: estimated decay, structural zeros, head perturbation, survival strata.
 
 Per mask of a case this script fits
@@ -100,6 +101,14 @@ def run_split(case, mech, replicate, allowed):
             Y[s, list(H)] = 1
             W[s, list(H)] += c
             bills[s] += c
+    if getattr(case, "train_uncapped", False):
+        noncap = set(case.noncap)
+        for (sb, Hb), c in case.all_types_count.items():
+            if (case.idx[sb], frozenset(case.idx[h] for h in Hb)) in noncap:
+                s, H = case.idx[sb], [case.idx[h] for h in Hb]
+                Y[s, H] = 1
+                W[s, H] += c
+                bills[s] += c
     R = benchmark.reach2(Y)
     held = [t for t, mm in zip(case.types, m, strict=False) if mm]
     pos = [t for t in held if R[np.ix_(list(t[1] | {t[0]}), list(t[1] | {t[0]}))].all()]
@@ -195,7 +204,15 @@ def run_split(case, mech, replicate, allowed):
 
 def main(name, outdir, reps=30):
     os.makedirs(outdir, exist_ok=True)
-    case = runlib.make_case(name)
+    if name.endswith("uncap"):
+        case = runlib.make_case(name[:-5])
+        case.train_uncapped = True
+        case.name = name
+    elif name.endswith("cap3"):
+        case = runlib.make_case(name[:-4], head_cap=3)
+        case.name = name
+    else:
+        case = runlib.make_case(name)
     allowed = overlap_matrix(case)
     pickle.dump(
         {"structural_zero_dyads": int(((~allowed).sum() - len(allowed)) // 2)},

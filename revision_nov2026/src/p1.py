@@ -119,6 +119,20 @@ def fit(Y, terms, cov=None, ridge=1e-6, iters=200, tol=1e-9, allowed=None):
         "expected_mutual": expected_mutual,
         "zero_outdegree": int((dout == 0).sum()),
         "zero_indegree": int((din == 0).sum()),
+        "se": _standard_errors(H, names),
         "names": names,
     }
     return theta, info
+
+
+def _standard_errors(H, names):
+    """Standard errors of the non-actor terms from the inverse observed information."""
+    try:
+        V = np.linalg.inv(H)
+    except np.linalg.LinAlgError:
+        V = np.linalg.pinv(H)
+    return {
+        t: float(np.sqrt(max(V[k, k], 0.0)))
+        for k, t in enumerate(names)
+        if not t.startswith(("sender_", "receiver_"))
+    }

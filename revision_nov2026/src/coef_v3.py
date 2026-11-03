@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Coefficients on the complete 2-section of each case (third run).
 
 M4c and M5 by MPLE with the decay selected by profile pseudolikelihood of M5;
@@ -64,6 +65,11 @@ def main(out):
                     "sender": float(np.std(se[se > -8])),
                     "receiver": float(np.std(re_[re_ > -8])),
                 }
+                conn_out = (Y.sum(1) > 0)[1:]
+                conn_in = (Y.sum(0) > 0)[1:]
+                r[name + "_max_abs_effect_connected"] = float(
+                    max(np.abs(se[conn_out]).max(), np.abs(re_[conn_in]).max())
+                )
                 # sender effects (node 0 is the baseline, effect 0) regressed on actor attributes
                 sender = np.r_[0.0, se]
                 keep = Y.sum(1) > 0

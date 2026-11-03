@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Summarize run_v3 pickles.
 
 Metrics: within-pair concordance (random, matched, perturb, sub), pooled average
@@ -99,23 +100,27 @@ def role_mrr(role, k):
 
 
 def cluster_boot(vals_by_mask, sponsors_by_mask, seed=1, B=2000):
-    """Resample masks, then sponsors within each mask (all hyperarcs of a sponsor together)."""
+    """Sponsor bootstrap: one resample of sponsors per replicate, shared by all masks.
+
+    Each replicate draws the set of sponsors with replacement (multinomial weights) and
+    recomputes every mask's mean with all hyperarcs of a sponsor weighted together; the
+    replicate value is the average over masks. This reflects the sampling variation of
+    the sponsors of the fixed record, which all masks share.
+    """
     rng = np.random.default_rng(seed)
-    groups = []
-    for v, s in zip(vals_by_mask, sponsors_by_mask, strict=False):
-        u, inv = np.unique(s, return_inverse=True)
-        sums = np.bincount(inv, weights=v)
-        cnts = np.bincount(inv)
-        groups.append((sums, cnts))
-    M = len(groups)
-    means = np.empty(B)
-    for b in range(B):
-        tot = 0.0
-        for mi in rng.integers(M, size=M):
-            sums, cnts = groups[mi]
-            idx = rng.integers(len(sums), size=len(sums))
-            tot += sums[idx].sum() / cnts[idx].sum()
-        means[b] = tot / M
+    allsp = np.unique(np.concatenate(sponsors_by_mask))
+    pos = {v: i for i, v in enumerate(allsp)}
+    S = len(allsp)
+    sums, cnts = [], []
+    for v, sp in zip(vals_by_mask, sponsors_by_mask, strict=False):
+        idx = np.array([pos[x] for x in sp])
+        sums.append(np.bincount(idx, weights=v, minlength=S))
+        cnts.append(np.bincount(idx, minlength=S).astype(float))
+    sums, cnts = np.array(sums), np.array(cnts)  # masks x S
+    W = rng.multinomial(S, np.full(S, 1 / S), size=B).astype(float)  # B x S
+    num = W @ sums.T
+    den = W @ cnts.T
+    means = np.nanmean(np.where(den > 0, num / np.where(den > 0, den, 1), np.nan), axis=1)
     lo, hi = np.percentile(means, [2.5, 97.5])
     return float(lo), float(hi)
 
@@ -240,6 +245,21 @@ def summarize_case(runs):
             o["role"][k] = {"top1": mean_ci([role_top1(r["role"], k).mean() for r in rs])}
             if k != "bills_null":
                 o["role"][k]["mrr"] = mean_ci([role_mrr(r["role"], k).mean() for r in rs])
+        o["role_classes"] = {}
+        for cname, fn in [
+            ("pair", lambda mt: mt["size"] == 1),
+            ("size_2_3", lambda mt: 2 <= mt["size"] <= 3),
+            ("size_4_10", lambda mt: mt["size"] >= 4),
+            ("bipartisan", lambda mt: mt["other"] >= 1),
+            ("single_party", lambda mt: mt["other"] == 0),
+        ]:
+            o["role_classes"][cname] = {
+                "share": float(np.mean([np.mean([fn(mt) for _, _, mt in r["role"]]) for r in rs]))
+            }
+            for k in ["S1", "M5", "sponsor_bills", "sponsor_activity", "chance", "bills_null"]:
+                o["role_classes"][cname][k] = float(
+                    np.mean([role_top1([x for x in r["role"] if fn(x[2])], k).mean() for r in rs])
+                )
         spon = [np.array([mt["sponsor"] for _, _, mt in r["role"]]) for r in rs]
         o["role_contrasts"] = {}
         for x, y in ROLE_CONTRASTS:

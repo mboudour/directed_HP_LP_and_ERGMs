@@ -160,7 +160,7 @@ table(
     "lllrl",
     [r"Mask & set & contrast & difference & 95\% interval \\"],
     rows,
-    "Differences are means over 30 masks. Intervals are clustered bootstrap intervals that resample masks and, within each mask, sponsors together with all their withheld hyperarcs.",
+    "Differences are means over 30 masks. Intervals are sponsor-bootstrap intervals: each replicate resamples the sponsors of the record, with all their withheld hyperarcs, and applies the resample to all masks.",
 )
 
 # ------------------------------------------------------------ bipartisan (party-matched sets)
@@ -186,7 +186,7 @@ table(
     ],
     rows,
     "A hyperarc is bipartisan if at least one original co-sponsor belongs to another caucus than the sponsor; Independents belong to the Democratic caucus. "
-    "Party-matched alternatives have an initiator of the sponsor's caucus and the same number of co-sponsors from each caucus. Random-set results, size classes and intervals are in Supplementary Table~S8.",
+    "Party-matched alternatives have an initiator of the sponsor's caucus and the same number of co-sponsors from each caucus. Random-set results, size classes and intervals are in Supplementary Table~S9.",
     resize=True,
 )
 
@@ -198,7 +198,7 @@ for c, lab in CASES:
     reg = r["S1_sender_regression"]
     rows.append(
         f"{lab} & {r['tau_hat']:.0f} & {f3(m5['mutual'])} & {f3(m5['gwodegree'])} & {f3(m5['gwidegree'])} & {f3(m5['nodematch_party'])} & {f3(m5['absdiff_nominate'])} & "
-        f"{f3(s1['mutual'])} & {f3(s1['nodematch_party'])} & {f3(s1['absdiff_nominate'])} & "
+        f"{f3(s1['mutual'])} ({f3(r['S1_mle_info']['se']['mutual'])}) & {f3(s1['nodematch_party'])} ({f3(r['S1_mle_info']['se']['nodematch_party'])}) & {f3(s1['absdiff_nominate'])} ({f3(r['S1_mle_info']['se']['absdiff_nominate'])}) & "
         f"{f3(si['nodeocov_majority'])} & {f3(si['nodeocov_seniority'])} & {f3(r['S1_mle_actor_sd']['sender'])} & {f3(reg['r2_majority_seniority'])}"
     )
 table(
@@ -213,7 +213,7 @@ table(
     rows,
     "Party: party matching; ideology: absolute difference in first-dimension DW-NOMINATE. Party matching and ideological distance are strongly collinear and are read jointly. "
     "SI replaces the sender effects of S1 by the initiator's majority-caucus membership and seniority (in years). SD: standard deviation of the S1 sender effects of actors with at least one arc. "
-    "$R^2$: share of their variance explained by majority-caucus membership and seniority. Standard errors are omitted; coefficients describe the fitted models and are not interpreted causally.",
+    "$R^2$: share of their variance explained by majority-caucus membership and seniority. Parentheses: standard errors of S1 from the inverse observed information; MPLE standard errors of M5 are not reported because they are unreliable for dependence models. Coefficients describe the fitted models and are not interpreted causally.",
     resize=True,
 )
 
@@ -249,10 +249,10 @@ table(
     "l" + "r" * 8,
     [
         r" & \multicolumn{2}{c}{118th Senate} & \multicolumn{2}{c}{117th Senate} & \multicolumn{2}{c}{116th Senate} & \multicolumn{2}{c}{118th House} \\",
-        r"Contrast & MCAR & MNAR & MCAR & MNAR & MCAR & MNAR & MCAR & MNAR \\",
+        r"Contrast & MCAR & MNAR-out & MCAR & MNAR-out & MCAR & MNAR-out & MCAR & MNAR-out \\",
     ],
     rows,
-    "R, P, H, S, A: random, party-matched, head-perturbation, substitution and role-assignment candidate sets. Supplementary Table~S3 gives clustered intervals.",
+    "R, P, H, S, A: random, party-matched, head-perturbation, substitution and role-assignment candidate sets. Supplementary Table~S3 gives intervals.",
     resize=True,
 )
 
@@ -302,10 +302,10 @@ for c, lab in CASES:
             )
 table(
     "v3_cases_ci.tex",
-    "Main contrasts in all four cases with mask-bootstrap and clustered bootstrap intervals.",
+    "Main contrasts in all four cases with mask-bootstrap and sponsor-bootstrap intervals.",
     "tab:case-ci",
     "llllll",
-    [r"Case & mask & contrast & difference & masks & masks and sponsors \\"],
+    [r"Case & mask & contrast & difference & masks & sponsors \\"],
     rows,
     "R, P, H, S, A: random, party-matched, head-perturbation, substitution and role-assignment candidate sets; concordance for R, P, H, S and top-1 accuracy for A.",
     resize=True,
@@ -438,3 +438,133 @@ if len(sys.argv) > 5:
         "for S0 and S1 the MPLE differs from the MLE by at most 0.011 in the arc, mutuality and covariate coefficients.",
     )
     print("simulation table written")
+
+
+# ------------------------------------------------------------ SI: extra tables (optional inputs)
+if len(sys.argv) > 8:
+    E = json.load(open(sys.argv[6]))  # summary_v3_sens.json
+    D = json.load(open(sys.argv[7]))  # decomp_v3_s118.json
+    J = [json.load(open(x)) for x in sys.argv[8].split(",")]  # joint json per mechanism
+    # role-assignment by class
+    rows = []
+    for c, lab in [("s118", "118th Senate"), ("h118", "118th House")]:
+        for m, ml in MECHS:
+            for cl, cll in [
+                ("pair", "one co-sponsor"),
+                ("size_2_3", "2--3 co-sponsors"),
+                ("size_4_10", "4--10 co-sponsors"),
+                ("bipartisan", "bipartisan"),
+                ("single_party", "single-party"),
+            ]:
+                v = S[c][m]["role_classes"][cl]
+                rows.append(
+                    f"{lab} & {ml} & {cll} & {f3(v['share'])} & {f3(v['S1'])} & {f3(v['M5'])} & {f3(v['sponsor_bills'])} & {f3(v['sponsor_activity'])} & {f3(v['bills_null'])} & {f3(v['chance'])}"
+                )
+    table(
+        "v3_role_classes.tex",
+        "Top-1 accuracy on the role-assignment sets by number of original co-sponsors and coalition type.",
+        "tab:role-classes",
+        "lllrrrrrrr",
+        [
+            r"Case & mask & class & share & S1 & M5 & bill count & out-degree & bill-count draw & chance \\"
+        ],
+        rows,
+        "With one original co-sponsor, role assignment asks which of two legislators filed the bill.",
+        resize=True,
+    )
+    # covariate decomposition
+    rows = []
+    for m, ml in MECHS:
+        for cl, cll in [("bipartisan", "bipartisan"), ("single_party", "single-party")]:
+            v = D[m][cl]
+            rows.append(
+                f"{ml} & {cll} & {f3(v['S0']['mean'])} & "
+                + " & ".join(
+                    f"{f3(v[k]['gain_over_S0'][0])} [{f3(v[k]['gain_over_S0'][1])}, {f3(v[k]['gain_over_S0'][2])}]"
+                    for k in ["S0+party", "S0+state", "S0+ideology", "S1"]
+                )
+            )
+    table(
+        "v3_decomposition.tex",
+        "118th Senate: gain in concordance over S0 on the party-matched sets from each political covariate alone and from all three (S1).",
+        "tab:decomposition",
+        "llrllll",
+        [r"Mask & coalition & S0 & $+$ party & $+$ state & $+$ ideology & S1 \\"],
+        rows,
+        "All models fitted by exact MLE with structural zeros. Brackets: 95\\% mask-bootstrap intervals. On party-matched sets both candidates have the same number of same-caucus arcs, so party matching can distinguish them only through Independents.",
+        resize=True,
+    )
+    # sensitivity (third run)
+    rows = []
+    for c, lab in [("s118cap3", "head limit 3"), ("s118uncap", "training on all hyperarcs")]:
+        for m, ml in MECHS:
+            M = E[c][m]
+            for k in [
+                "M5",
+                "M5_t05",
+                "S1",
+                "aa_total",
+                "degprod",
+                "weighted_footprint",
+                "sponsor_bills",
+            ]:
+                rows.append(
+                    f"{lab} & {ml} & {NAMES[k]} & "
+                    + " & ".join(f3(M[s_][k]["concordance"][0]) for s_, _ in SETS)
+                    + f" & {f3(M['role'][k]['top1'][0])}"
+                )
+            rows.append(
+                f"{lab} & {ml} & chance & 0.500 & 0.500 & 0.500 & 0.500 & {f3(M['role']['chance']['top1'][0])}"
+            )
+    table(
+        "v3_sensitivity.tex",
+        "118th Senate, sensitivity analyses with the final estimators: concordance (R, P, H, S) and top-1 accuracy (A).",
+        "tab:senate-limit-sensitivity",
+        "lllrrrrr",
+        [r"Analysis & mask & score & R & P & H & S & A \\"],
+        rows,
+        "Head limit 3: separately constructed target of hyperarcs with at most three original co-sponsors. Training on all hyperarcs: the training 2-section and the record counts also contain the hyperarcs above the head limit, which are never withheld.",
+        resize=True,
+    )
+    # pooled PR-AUC (current run)
+    rows = []
+    for k in ["aa_total", "degprod", "weighted_footprint", "M5_t05", "M4c", "M5", "S0", "S1", "SI"]:
+        cells = []
+        for m, _ in MECHS:
+            cells += [f3(S["s118"][m][s_][k]["pr_auc"][0]) for s_, _ in SETS]
+        rows.append(NAMES[k] + " & " + " & ".join(cells))
+    table(
+        "v3_prauc.tex",
+        "118th Senate: pooled PR-AUC (average precision over all candidates of a mask) for the final estimators.",
+        "tab:prauc",
+        "l" + "r" * 8,
+        [
+            r" & \multicolumn{4}{c}{MCAR} & \multicolumn{4}{c}{MNAR-out} \\",
+            r"Score & R & P & H & S & R & P & H & S \\",
+        ],
+        rows,
+        "Pooled PR-AUC compares candidates of different sizes and is a secondary metric; concordance is in Table~5 of the main text.",
+    )
+    # joint footprint scores
+    rows = []
+    for (_m, ml), Jm in zip(MECHS, J, strict=False):
+        for key in ["M4c|random", "M4c|perturb", "M5|random", "M5|perturb"]:
+            vals = [Jm[r][key] for r in Jm]
+            import numpy as _np
+
+            lj = _np.array([v["LJ"] for v in vals])
+            l1 = _np.array([v["L1g"] for v in vals])
+            mod, st = key.split("|")
+            rows.append(
+                f"{ml} & {mod} & {'random' if st == 'random' else 'head perturbation'} & {len(vals)} & {f3(lj.mean())} & {f3(l1.mean())} & {f3(_np.abs(lj - l1).max())}"
+            )
+    table(
+        "v3_joint.tex",
+        "118th Senate: within-pair concordance of the exact joint footprint score $L_J$ and of $L_{1g}$ for the degree-term models with the selected decay.",
+        "tab:joint",
+        "lllrrrr",
+        [r"Mask & model & candidate set & masks & $L_J$ & $L_{1g}$ & max.\ $|$difference$|$ \\"],
+        rows,
+        "First ten masks of each mechanism. Within a pair both footprints have the same size, so normalization per arc does not change the comparison.",
+    )
+    print("extra SI tables written")
