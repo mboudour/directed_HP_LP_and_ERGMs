@@ -30,7 +30,7 @@ The re-implementation reproduces the published 118th Senate outputs in
 | Arc-level diagnostic over 30 splits; transitive-triple check | `src/extras.py` | `results/s118_extras/` |
 | Concept audit in all cases | `src/concept_audit.py` | `results/concepts_all.json` |
 | MPLE validation against `ergm` and simulation from the MPLE fits | `r/simulate_from_mple_senate.R` | `results/mple_simulation/` |
-| MCMC-MLE from a contrastive-divergence start, with goodness of fit | `r/mcmcmle_cd_senate.R` | `results/mcmcmle_cd/` |
+| MCMC-MLE from a contrastive-divergence start, with goodness of fit | `r/mcmcmle_cd_senate.R` | `results/mcmcmle/` |
 | MCMC-MLE from the MPLE start (fails to mix for M4c; kept for the record) | `r/mcmcmle_gof_senate.R` | — |
 
 The output paths in the table are working paths. The identifier-free aggregates
@@ -40,7 +40,8 @@ committed in `results/` are:
 - `concept_audit.json`
 - `s118_joint_footprint_scores.json`
 - `s118_ttriple_and_arc_diagnostic.json`
-- `mple_simulation/`
+- `mple_simulation/`: MPLE coefficients from `ergm` and networks simulated from them
+- `mcmcmle/`: outcome of the MCMC-MLE attempts (both stopped because the sampler did not mix)
 - `tables/` (LaTeX)
 - `figures/`
 

@@ -1,0 +1,1 @@
+Unconstrained MCMC sampling did not mix at all. Optimization cannot continue.
