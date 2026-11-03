@@ -117,7 +117,7 @@ table(
     "lllrr",
     "Mask & candidate set & score & PR-AUC & ROC-AUC",
     rows,
-    "Local and baseline scores are mean lifts over the candidate footprint computed on the training projection. "
+    "Local and baseline scores are mean lifts over the candidate footprint computed on the training 2-section. "
     "Sponsor activity is the sponsor's training out-degree; co-sponsor popularity is the mean training in-degree of the head. "
     "ERGM rows use mask-specific MPLE fits and the factorized conditional footprint score $L_{1g}$.",
 )
@@ -260,7 +260,7 @@ table(
     "Case & mask & hyperarc rate & record rate & arc removal & surviving footprints",
     rows,
     "A surviving footprint means every arc of a withheld hyperarc remains in the 2-section through another observed hyperarc; it is a "
-    "property of the projection, not leakage of the withheld record.",
+    "property of the 2-section, not leakage of the withheld record.",
 resize=True,
 )
 
@@ -285,7 +285,7 @@ for mech, ml in MECHS:
         )
 table(
     "table_a5b_sponsor_recoverability.tex",
-    "118th Senate: preference for the recorded hyperarc over its substitute, by survival of the two footprints in the training projection.",
+    "118th Senate: preference for the recorded hyperarc over its substitute, by survival of the two footprints in the training 2-section.",
     "tab:sponsor-recoverability",
     "llrlll",
     "Mask & footprint pattern & share & M5 & S1 & degree product",
@@ -334,10 +334,10 @@ if C3:
             for a, b, txt in [
                 ("M4c_L1g", "M0_L1g", "M4c minus M0"),
                 ("M5_L1g", "M4c_L1g", "M5 minus M4c"),
-                ("aa_total", "M5_L1g", "AA total minus M5"),
+                ("aa_total", "M5_L1g", "directed AA minus M5"),
                 ("degprod", "M5_L1g", "degree product minus M5"),
                 ("S1_L1g", "M5_L1g", "S1 minus M5"),
-                ("aa_total", "S1_L1g", "AA total minus S1"),
+                ("aa_total", "S1_L1g", "directed AA minus S1"),
                 ("degprod", "S1_L1g", "degree product minus S1"),
             ]:
                 if f"{a} - {b}" in C[p]:
@@ -349,7 +349,7 @@ if C3:
         "lllrrr",
         r"Mask & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
         rows,
-        "Separately constructed target of bills with at most three original co-sponsors, with the same actor universe, seeds and evaluation contract (30 masks per mechanism).",
+        "Separately constructed target of bills with at most three original co-sponsors, with the same actor universe, seeds and evaluation design (30 masks per mechanism).",
     )
 
 # ---------------------------------------------------------------- extras: ttriple + static
@@ -361,7 +361,7 @@ rows = [
 ]
 table(
     "table_a5_mtt_check.tex",
-    "118th Senate: edges-plus-transitive-triple MPLE on every training projection.",
+    "118th Senate: edges-plus-transitive-triple MPLE on every training 2-section.",
     "tab:mtt-check",
     "lrrrr",
     r"Mask & fits & positive $\hat\theta_{tt}$ & mean $\hat\theta_{tt}$ & range",
@@ -371,13 +371,13 @@ table(
 rows = [f"{m} & {f3(v['pr_auc'])} & {f3(v['roc_auc'])}" for m, v in E["static"].items()]
 table(
     "table_a6_static_diagnostic.tex",
-    "118th Senate: arc-level diagnostic on the complete projection.",
+    "118th Senate: arc-level diagnostic on the complete 2-section.",
     "tab:static-diagnostic",
     "lrr",
     "MPLE model & PR-AUC & ROC-AUC",
     rows,
     "Thirty arc-level masks: 30\\% of arcs are withheld at random and paired with an equal number of random non-arcs; "
-    "scores are MPLE conditional tie probabilities on the remaining projection.",
+    "scores are MPLE conditional tie probabilities on the remaining 2-section.",
 )
 
 # ---------------------------------------------------------------- replication data + results
@@ -412,7 +412,7 @@ table(
     "Case & bills & nonempty heads & actors & D/I/R & majority & eligible bills & hyperarcs & arcs",
     rows,
     "Actors are all persons who served in the chamber during the Congress. Majority counts members of the majority caucus. "
-    "Eligible bills have at most ten original co-sponsors; arcs are those of the projection of eligible bills.",
+    "Eligible bills have at most ten original co-sponsors; arcs are those of the 2-section of eligible hyperarcs.",
     resize=True,
 )
 
@@ -435,12 +435,12 @@ ITEMS = [
         "\\quad bipartisan bills",
         lambda M: M["bipartisan"]["random"]["bipartisan_contrasts"]["M5_L1g - M4c_L1g"],
     ),
-    ("AA total minus M5, random", lambda M: M["contrasts"]["random"]["aa_total - M5_L1g"]),
+    ("directed AA minus M5, random", lambda M: M["contrasts"]["random"]["aa_total - M5_L1g"]),
     ("degree product minus M5, substitution", lambda M: M["contrasts"]["sub"]["degprod - M5_L1g"]),
     ("M6 top-1 minus chance", lambda M: M["role_vs_uniform"]["M6_L1g"]["top1"]),
-    ("AA-OI top-1 minus chance", lambda M: M["role_vs_uniform"]["aa_oi"]["top1"]),
+    ("AA two-paths top-1 minus chance", lambda M: M["role_vs_uniform"]["aa_oi"]["top1"]),
     ("S1 minus M5, random", lambda M: M["contrasts"]["random"]["S1_L1g - M5_L1g"]),
-    ("AA total minus S1, random", lambda M: M["contrasts"]["random"]["aa_total - S1_L1g"]),
+    ("directed AA minus S1, random", lambda M: M["contrasts"]["random"]["aa_total - S1_L1g"]),
     ("degree product minus S1, substitution", lambda M: M["contrasts"]["sub"]["degprod - S1_L1g"]),
     ("S1 top-1 minus chance", lambda M: M["role_vs_uniform"]["S1_L1g"]["top1"]),
     (
@@ -495,12 +495,12 @@ if CA:
                 )
     table(
         "table_06_concept_fidelity.tex",
-        "Formal concepts of the projection versus recorded bill coalitions.",
+        "Formal concepts of the 2-section versus recorded hyperarcs.",
         "tab:senate-fidelity",
         "llrrrrrr",
         "Case & co-sponsor limit & hyperarcs & concepts & exact matches & concept arcs & bill arcs & Jaccard",
         rows,
-        "Concepts are enumerated on the full projection with at most three senders and at most the stated number of receivers; an exact match requires identical ordered tail and head sets.",
+        "Concepts are enumerated on the 2-section of all recorded hyperarcs, including those above the head limit, with at most three senders and at most the stated number of receivers; an exact match requires identical ordered tail and head sets.",
         resize=True,
     )
 print("tables written")
@@ -524,10 +524,10 @@ if os.path.exists(SIM):
             )
     table(
         "table_r4_mle.tex",
-        "118th Senate: networks simulated from the MPLE fits on the complete projection compared with the observed network.",
+        "118th Senate: networks simulated from the MPLE fits on the complete 2-section compared with the observed network.",
         "tab:mle",
         "llrrl",
         "Model & statistic & observed & simulated mean & 95\\% range",
         rows,
-        "One hundred networks per model simulated with the statnet \\texttt{ergm} package (burn-in 200,000, interval 10,000) from the MPLE coefficients, which agree with the Python MPLE to four decimal places. M models use geometrically weighted degree terms; S models use sender and receiver effects.",
+        "One hundred networks per model simulated with the statnet \\texttt{ergm} package (burn-in 200,000, interval 10,000) from the MPLE coefficients, which for M4c and M5 agree with the Python MPLE to four decimal places. M1 contains arcs and mutual dyads; M2--M5 add geometrically weighted degree terms; S models use sender and receiver effects.",
     )
