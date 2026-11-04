@@ -102,3 +102,111 @@ def score(model, P):
         eta = float(np.dot(model["theta"], [x[t] for t in model["terms"]]))
         lp.append(-np.logaddexp(0, -eta))
     return float(np.exp(np.mean(lp)))
+
+
+# Standard statnet bipartite specification -------------------------------------------------
+TERMS_STD = [
+    "edges",
+    "gwb1degree",
+    "gwb2degree",
+    "cycle4",
+    "b1nodematch_party",
+    "b1nodematch_state",
+]
+
+
+def design_std(events, weights, n, cov, tau, tau2=None):
+    """Change statistics of the statnet terms edges, gwb1degree(tau), gwb2degree(tau), cycle(4),
+    b1nodematch(party), b1nodematch(state) for all actor-event pairs (records as events)."""
+    E = len(events)
+    B = np.zeros((E, n))
+    for e, P in enumerate(events):
+        B[e, list(P)] = 1
+    w = np.asarray(weights, float)
+    r = 1 - np.exp(-tau)
+    r2 = 1 - np.exp(-(tau if tau2 is None else tau2))
+    deg = B.T @ w
+    S = (B * w[:, None]).T @ B
+    np.fill_diagonal(S, 0)
+    size = B.sum(1)
+    pm = pair_mats(cov, n)
+    X = {
+        "edges": np.ones((E, n)),
+        "gwb1degree": r ** (deg[None, :] - B),
+        "gwb2degree": r2 ** (size[:, None] - B),
+        "cycle4": np.where(B > 0, B @ np.maximum(S - 1, 0), B @ S),
+        "b1nodematch_party": B @ pm["party"],
+        "b1nodematch_state": B @ pm["state"],
+    }
+    # for members, B @ (S - 1) includes the diagonal term max(S_ii - 1, 0) = 0 since diag(S) = 0
+    return B, X, deg, S
+
+
+def fit_std(
+    events,
+    weights,
+    n,
+    cov,
+    taus=(1.0, 2.0, 3.0, 4.0, 5.0, 6.0),
+    taus2=(0.5, 1.0, 2.0),
+    ridge=1e-6,
+    iters=60,
+):
+    """Decays of gwb1degree (tau) and gwb2degree (tau2) selected jointly by profile pseudolikelihood."""
+    best = None
+    for tau, tau2 in [(a, b) for a in taus for b in taus2]:
+        B, X, deg, S = design_std(events, weights, n, cov, tau, tau2)
+        Xm = np.stack([X[t].ravel() for t in TERMS_STD], 1)
+        y = B.ravel()
+        sw = np.repeat(np.asarray(weights, float), n)
+        mu_, sd_ = Xm.mean(0), Xm.std(0)
+        mu_[0], sd_[0] = 0.0, 1.0
+        sd_[sd_ == 0] = 1.0
+        Z = (Xm - mu_) / sd_
+        th = np.zeros(len(TERMS_STD))
+        for _ in range(iters):
+            eta = Z @ th
+            p = 1 / (1 + np.exp(-eta))
+            g = Z.T @ (sw * (y - p)) - 2 * ridge * th
+            H = (Z * (sw * p * (1 - p))[:, None]).T @ Z + 2 * ridge * np.eye(len(th))
+            step = np.linalg.solve(H, g)
+            th += step
+            if np.max(np.abs(step)) < 1e-8:
+                break
+        eta = Z @ th
+        pl = float((sw * (y * eta - np.logaddexp(0, eta))).sum())
+        beta = th / sd_
+        beta[0] = th[0] - (th[1:] * mu_[1:] / sd_[1:]).sum()
+        if best is None or pl > best["pl"]:
+            best = {
+                "terms": TERMS_STD,
+                "theta": beta,
+                "deg": deg,
+                "S": S,
+                "pair": pair_mats(cov, n),
+                "tau": tau,
+                "tau2": tau2,
+                "pl": pl,
+            }
+    return best
+
+
+def score_std(model, P):
+    P = list(P)
+    r = 1 - np.exp(-model["tau"])
+    r2 = 1 - np.exp(-model["tau2"])
+    S, deg, pair = model["S"], model["deg"], model["pair"]
+    lp = []
+    for i in P:
+        others = [k for k in P if k != i]
+        x = {
+            "edges": 1.0,
+            "gwb1degree": r ** deg[i],
+            "gwb2degree": r2 ** len(others),
+            "cycle4": float(S[i, others].sum()),
+            "b1nodematch_party": float(pair["party"][i, others].sum()),
+            "b1nodematch_state": float(pair["state"][i, others].sum()),
+        }
+        eta = float(np.dot(model["theta"], [x[t] for t in model["terms"]]))
+        lp.append(-np.logaddexp(0, -eta))
+    return float(np.exp(np.mean(lp)))

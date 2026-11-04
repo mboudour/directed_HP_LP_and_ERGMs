@@ -95,6 +95,7 @@ def build_case(
     case.types = sorted(cnt, key=lambda t: (t[0], sorted(t[1])))
     case.counts = [cnt[t] for t in case.types]
     case.complete = set(case.types)
+    case.type_dates = {t: dates[t] for t in case.types}
     case.accounting = {
         "records_24K_HS": nrec,
         "batches_all": len(batches),
