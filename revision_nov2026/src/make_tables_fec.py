@@ -21,6 +21,8 @@ NAMES = {
     "activity": "committee's recipient count",
     "proximity": "ideological proximity",
     "alignment": "partisan alignment",
+    "degprod": "degree product",
+    "bill_count": "committee's batch count",
     "weighted_footprint": "weighted footprint",
     "observed_fraction": "observed footprint share",
 }
@@ -34,9 +36,12 @@ ROWS = [
     "cofunding",
     "bipartite_aa",
     "path3",
+    "degprod",
     "popularity",
     "activity",
+    "alignment",
     "proximity",
+    "bill_count",
     "weighted_footprint",
     "observed_fraction",
 ]
@@ -372,7 +377,7 @@ def week_table(Wk):
         "\\begin{table}[tbp]",
         "\\centering",
         "\\small",
-        "\\caption{Campaign contributions with hyperarcs defined by committee and seven-day window instead of committee and date. Concordance on the random (R) and head-perturbation (H) sets on the first ten masks of each cycle and mechanism, with the main specification (one date) on the same mask numbers.}",
+        "\\caption{Campaign contributions with hyperarcs defined by committee and seven-day window instead of committee and date. Concordance on the random (R), party-matched (P) and head-perturbation (H) sets on the first ten masks of each cycle and mechanism, with the main specification (one date) on the same mask numbers.}",
         "\\label{tab:fec-week}",
         "\\resizebox{\\textwidth}{!}{%",
         "\\begin{tabular}{ll" + "rr" * 4 + "}",
@@ -384,7 +389,7 @@ def week_table(Wk):
         "Set & Score & " + " & ".join("date & week" for _ in CYC for _ in MECH) + " \\\\",
         "\\midrule",
     ]
-    for s, sl in (("random", "R"), ("perturb", "H")):
+    for s, sl in (("random", "R"), ("matched", "P"), ("perturb", "H")):
         for i, k in enumerate(["BS1", "BM", "LR", "cofunding", "path3", "weighted_footprint"]):
             cells = [
                 f"{Wk[c][m][s][k][v]:.3f}"
