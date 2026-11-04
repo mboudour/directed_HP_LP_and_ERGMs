@@ -55,16 +55,17 @@ def table(S):
 
 def supp(S):
     out = [
-        "\\begin{table}[tbp]",
-        "\\centering",
-        "\\scriptsize",
-        "\\caption{Pairwise and higher-order ERGMs: paired contrasts with 95\\% sponsor-bootstrap intervals on the random, party-matched and head-perturbation sets, and initiator identification by the role-labelled higher-order ERGM (HR).}",
-        "\\label{tab:grid-full}",
-        "\\resizebox{\\textwidth}{!}{%",
-        "\\begin{tabular}{lllll}",
+        "{\\scriptsize",
+        "\\begin{longtable}{lllll}",
+        "\\caption{Pairwise and higher-order ERGMs: paired contrasts with 95\\% sponsor-bootstrap intervals on the random, party-matched and head-perturbation sets, and initiator identification by the role-labelled higher-order ERGM (HR).}\\label{tab:grid-full} \\\\",
         "\\toprule",
         "Case, mask & Contrast & random & party-matched & head perturbation \\\\",
         "\\midrule",
+        "\\endfirsthead",
+        "\\toprule",
+        "Case, mask & Contrast & random & party-matched & head perturbation \\\\",
+        "\\midrule",
+        "\\endhead",
     ]
     keys = [
         ("HM - M5", "HM $-$ M5"),
@@ -95,7 +96,7 @@ def supp(S):
             )
             out.append("\\midrule")
     out[-1] = "\\bottomrule"
-    out += ["\\end{tabular}", "}", "\\end{table}"]
+    out += ["\\end{longtable}", "}"]
     return "\n".join(out)
 
 

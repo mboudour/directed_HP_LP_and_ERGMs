@@ -79,16 +79,17 @@ def main_table(S):
 
 def supp_table(S):
     out = [
-        "\\begin{table}[tbp]",
-        "\\centering",
-        "\\scriptsize",
-        "\\caption{Temporal ERGMs: estimates with 95\\% bootstrap intervals over quarters (co-sponsorship: \\texttt{btergm}, 500 replications; contributions: the same estimator, 100 replications), and paired contrasts in the forecast window with sponsor- or committee-bootstrap intervals.}",
-        "\\label{tab:temporal-full}",
-        "\\resizebox{\\textwidth}{!}{%",
-        "\\begin{tabular}{llll}",
+        "{\\scriptsize",
+        "\\begin{longtable}{lll}",
+        "\\caption{Temporal ERGMs: estimates with 95\\% bootstrap intervals over quarters (co-sponsorship: \\texttt{btergm}, 500 replications; contributions: the same estimator, 100 replications), and paired contrasts in the forecast window with sponsor- or committee-bootstrap intervals.}\\label{tab:temporal-full} \\\\",
         "\\toprule",
-        "Case & Term or contrast & Estimate or difference & \\\\",
+        "Case & Term or contrast & Estimate or difference \\\\",
         "\\midrule",
+        "\\endfirsthead",
+        "\\toprule",
+        "Case & Term or contrast & Estimate or difference \\\\",
+        "\\midrule",
+        "\\endhead",
     ]
     for c, lab in (
         ("s118", "118th Senate"),
@@ -102,22 +103,22 @@ def supp_table(S):
         first = True
         for row in o.get("tergm_coef", [])[1:]:
             out.append(
-                f"{lab if first else ''} & {tname(row[0])} & {float(row[1]):.3f} [{float(row[2]):.3f}, {float(row[3]):.3f}] & \\\\"
+                f"{lab if first else ''} & {tname(row[0])} & {float(row[1]):.3f} [{float(row[2]):.3f}, {float(row[3]):.3f}] \\\\"
             )
             first = False
         for s, sl in (("random", "R"), ("matched", "P"), ("perturb", "H")):
             for k, v in o[s + "_contrasts"].items():
                 out.append(
-                    f" & {k.replace('coparticipation', 'co-participation').replace('cofunding', 'co-funding').replace('BS1', 'B1')}, {sl} & {ci(v)} & \\\\"
+                    f" & {k.replace('coparticipation', 'co-participation').replace('cofunding', 'co-funding').replace('BS1', 'B1')}, {sl} & {ci(v)} \\\\"
                 )
         if "role_contrasts" in o:
             for k, v in o["role_contrasts"].items():
                 out.append(
-                    f" & {k.replace('sponsor_bills', 'most-bills rule')}, top-1 & {ci(v)} & \\\\"
+                    f" & {k.replace('sponsor_bills', 'most-bills rule')}, top-1 & {ci(v)} \\\\"
                 )
         out.append("\\midrule")
     out[-1] = "\\bottomrule"
-    out += ["\\end{tabular}", "}", "\\end{table}"]
+    out += ["\\end{longtable}", "}"]
     return "\n".join(out)
 
 
