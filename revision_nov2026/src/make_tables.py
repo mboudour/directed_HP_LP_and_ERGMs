@@ -154,9 +154,7 @@ table(
     r"Mask & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
     rows,
     "Differences are means over 30 matched masks; intervals are percentile bootstrap intervals over masks "
-    "(Monte Carlo precision within the fixed record); $p$-values are two-sided sign-flip tests with 20,000 permutations.",
-    resize=True,
-)
+    "(Monte Carlo precision within the fixed record); $p$-values are two-sided sign-flip tests with 20,000 permutations.", resize=True)
 
 # ---------------------------------------------------------------- Table 3b political contrasts
 rows = []
@@ -181,7 +179,7 @@ table(
     rows,
     "M5 adds party and state matching and absolute DW-NOMINATE distance to M4c; M6 adds sponsor-side majority-caucus "
     "and seniority terms; the last contrast removes mutuality alone. Intervals and tests as in the main text.",
-    resize=True,
+resize=True,
 )
 
 # ---------------------------------------------------------------- Table 4 role
@@ -234,7 +232,7 @@ table(
     "M4 adds shared-target and shared-source closure; M4c adds cyclic triples; M5 adds party, state and ideology; M6 adds "
     "majority caucus and seniority of the sponsor. S0 replaces the degree terms of M2 with sender and receiver effects; "
     "S1 adds the political covariates; S2 and S3 add two-path and all three closure terms.",
-    resize=True,
+resize=True,
 )
 
 # ---------------------------------------------------------------- Mask realisation (all cases)
@@ -263,7 +261,7 @@ table(
     rows,
     "A surviving footprint means every arc of a withheld hyperarc remains in the 2-section through another observed hyperarc; it is a "
     "property of the 2-section, not leakage of the withheld record.",
-    resize=True,
+resize=True,
 )
 
 # ---------------------------------------------------------------- Recoverability
@@ -304,7 +302,8 @@ for mech, ml in MECHS:
     for p in ["random", "sub"]:
         for lab in ["single_party", "bipartisan"]:
             vals = " & ".join(
-                f3(B[p][lab][k]) for k in ["party_share", "M5_L1g", "S1_L1g", "aa_total", "degprod"]
+                f3(B[p][lab][k])
+                for k in ["party_share", "M5_L1g", "S1_L1g", "aa_total", "degprod"]
             )
             c = B[p][lab + "_contrasts"]["M5_L1g - M4c_L1g"]
             c2 = B[p][lab + "_contrasts"]["S1_L1g - S0_L1g"]
@@ -377,7 +376,7 @@ table(
     "lrr",
     "MPLE model & PR-AUC & ROC-AUC",
     rows,
-    "Thirty arc-level masks: 30\\% of arcs are withheld at random and paired with an equal number of random non-arcs; "
+    "Thirty arc-level masks, in which 30\\% of arcs are withheld at random and paired with an equal number of random non-arcs; "
     "scores are MPLE conditional tie probabilities on the remaining 2-section.",
 )
 
@@ -456,7 +455,6 @@ def _cell(fn, X):
         return _c(fn(X))
     except (KeyError, TypeError):
         return ""
-
 
 rows = []
 for mech, ml in MECHS:

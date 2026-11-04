@@ -14,12 +14,7 @@ E = json.load(open(sys.argv[3]))
 SIM = json.load(open(sys.argv[4]))
 T = sys.argv[5]
 MECHS = [("MCAR", "MCAR"), ("MNAR-out", "MNAR-out")]
-CASES = [
-    ("s118", "118th Senate"),
-    ("s117", "117th Senate"),
-    ("s116", "116th Senate"),
-    ("h118", "118th House"),
-]
+CASES = [("s118", "118th Senate"), ("s117", "117th Senate"), ("s116", "116th Senate"), ("h118", "118th House")]
 
 
 def f3(x):
@@ -27,13 +22,7 @@ def f3(x):
 
 
 def table(path, caption, label, cols, header, rows, note, resize=False):
-    lines = [
-        r"\begin{table}[tbp]",
-        r"\centering",
-        r"\small",
-        rf"\caption{{{caption}}}",
-        rf"\label{{{label}}}",
-    ]
+    lines = [r"\begin{table}[tbp]", r"\centering", r"\small", rf"\caption{{{caption}}}", rf"\label{{{label}}}"]
     if resize:
         lines.append(r"\resizebox{\textwidth}{!}{%")
     lines += [rf"\begin{{tabular}}{{{cols}}}", r"\toprule"] + header + [r"\midrule"]
@@ -67,20 +56,15 @@ for c, clab in [("s118", "118th Senate"), ("h118", "118th House")]:
             o = V4[c][m]
             cells += [f3(o[s][k]) for s in ("random", "perturb", "sub")] + [f3(o["role"][k])]
         rows.append(f"{clab} & {lab} & " + " & ".join(cells))
-    rows.append(
-        f"{clab} & chance & 0.500 & 0.500 & 0.500 & {f3(V4[c]['MCAR']['role']['chance'])} & 0.500 & 0.500 & 0.500 & {f3(V4[c]['MNAR-out']['role']['chance'])}"
-    )
+    rows.append(f"{clab} & chance & 0.500 & 0.500 & 0.500 & {f3(V4[c]['MCAR']['role']['chance'])} & 0.500 & 0.500 & 0.500 & {f3(V4[c]['MNAR-out']['role']['chance'])}")
 table(
     "v4_ablation.tex",
     "Degree-term models at the selected decay, separate decays for the degree and shared-partner terms of M5, and a supervised logistic baseline: concordance on the random (R), head-perturbation (H) and substitution (S) sets and top-1 accuracy (A).",
     "tab:ablation",
     "ll" + "r" * 8,
-    [
-        r" & & \multicolumn{4}{c}{MCAR} & \multicolumn{4}{c}{MNAR-out} \\",
-        r"Case & score & R & H & S & A & R & H & S & A \\",
-    ],
+    [r" & & \multicolumn{4}{c}{MCAR} & \multicolumn{4}{c}{MNAR-out} \\", r"Case & score & R & H & S & A & R & H & S & A \\"],
     rows,
-    "All degree-term models by MPLE with the decay selected for M5 in each mask unless stated. The logistic regression is fitted to the arcs of the training 2-section on standardized dyadic features: directed common neighbours and Adamic--Adar components, reverse arc, out- and in-degrees and their product (computed without the dyad itself), initiator bill count, party and state matching, ideological distance, and the initiator's majority-caucus membership and seniority.",
+    "All degree-term models by MPLE with the decay selected for M5 in each mask unless stated. The logistic regression is fitted to the arcs of the training 2-section on standardized dyadic features, namely directed common neighbours and Adamic--Adar components, reverse arc, out- and in-degrees and their product (computed without the dyad itself), initiator bill count, party and state matching, ideological distance, and the initiator's majority-caucus membership and seniority.",
     resize=True,
 )
 
@@ -101,12 +85,9 @@ table(
     "Sponsor identification relative to the rule that picks the participant with most observed bills: top-1 accuracy of the rule, differences in top-1 accuracy with sponsor-bootstrap intervals, and mean reciprocal rank (MRR).",
     "tab:billrule",
     "llrlllrrr",
-    [
-        r" & & rule & \multicolumn{3}{c}{difference from the rule} & \multicolumn{3}{c}{MRR} \\",
-        r"Case & mask & top-1 & S1 & M5 & logistic & S1 & rule & chance \\",
-    ],
+    [r" & & rule & \multicolumn{3}{c}{difference from the rule} & \multicolumn{3}{c}{MRR} \\", r"Case & mask & top-1 & S1 & M5 & logistic & S1 & rule & chance \\"],
     rows,
-    "Brackets: 95\\% sponsor-bootstrap intervals (fitted models held fixed).",
+    "Brackets give 95\\% sponsor-bootstrap intervals (fitted models held fixed).",
     resize=True,
 )
 
@@ -129,21 +110,14 @@ table(
     "Training on all recorded hyperarcs, including those with more than ten original co-sponsors (which are never withheld): concordance on the random (R) and head-perturbation (H) sets and top-1 accuracy (A).",
     "tab:uncap",
     "ll" + "r" * 10,
-    [
-        r" & & \multicolumn{3}{c}{R} & \multicolumn{3}{c}{H} & \multicolumn{4}{c}{A} \\",
-        r"Case & mask & M5 & S1 & weighted & M5 & S1 & weighted & M5 & S1 & bill count & chance \\",
-    ],
+    [r" & & \multicolumn{3}{c}{R} & \multicolumn{3}{c}{H} & \multicolumn{4}{c}{A} \\", r"Case & mask & M5 & S1 & weighted & M5 & S1 & weighted & M5 & S1 & bill count & chance \\"],
     rows,
-    "Weighted: weighted footprint, the mean number of observed records in which each candidate supporter co-sponsored a bill of the candidate initiator. The training 2-section and the record counts include the bills above the head limit.",
+    "Weighted denotes the weighted footprint, the mean number of observed records in which each candidate supporter co-sponsored a bill of the candidate initiator. The training 2-section and the record counts include the bills above the head limit.",
     resize=True,
 )
 
 # ------------------------------------------------------------ exact simulation
-STATS = [
-    ("ttriple", "transitive triples"),
-    ("ctriple", "cyclic triples"),
-    ("mean_esp_otp", "mean two-path partners per arc"),
-]
+STATS = [("ttriple", "transitive triples"), ("ctriple", "cyclic triples"), ("mean_esp_otp", "mean two-path partners per arc")]
 rows = []
 for c, clab in CASES:
     for k, lab in STATS:
@@ -161,7 +135,7 @@ table(
     "llrlll",
     [r"Case & statistic & observed & S0 & S1 & SI \\"],
     rows,
-    "Five hundred networks per model, each dyad drawn independently from its four-state distribution at the MLE with structural zeros. Brackets: central 95\\% ranges. Arcs and mutual dyads are sufficient statistics and are reproduced in all cases.",
+    "Five hundred networks per model, each dyad drawn independently from its four-state distribution at the MLE with structural zeros. Brackets give central 95\\% ranges. Arcs and mutual dyads are sufficient statistics and are matched in all cases.",
     resize=True,
 )
 print("v4 tables written")

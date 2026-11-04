@@ -107,7 +107,7 @@ table(
     ],
     rows,
     "Concordance is the share of pairs in which the recorded hyperarc scores above its alternative (ties count one half). "
-    "Model scores are $L_{1g}$ from fits to the training 2-section: M4c--M6 by MPLE with decay selected by profile pseudolikelihood (M5, $\\tau=0.5$: fixed decay); "
+    "Model scores are $L_{1g}$ from fits to the training 2-section, M4c--M6 by MPLE with decay selected by profile pseudolikelihood (M5, $\\tau=0.5$: fixed decay); "
     "S0, S1 and SI by exact MLE. The bill-count draw selects the initiator with probability proportional to the observed bill counts. Pooled PR-AUC values are in Supplementary Table~S4.",
     resize=True,
 )
@@ -160,7 +160,7 @@ table(
     "lllrl",
     [r"Mask & set & contrast & difference & 95\% interval \\"],
     rows,
-    "Differences are means over 30 masks. Intervals are sponsor-bootstrap intervals: each replicate resamples the sponsors of the record, with all their withheld hyperarcs, and applies the resample to all masks.",
+    "Differences are means over 30 masks. Intervals are sponsor-bootstrap intervals, in which each bootstrap draw resamples the sponsors of the record, with all their withheld hyperarcs, and applies the resample to all masks.",
 )
 
 # ------------------------------------------------------------ bipartisan (party-matched sets)
@@ -211,9 +211,9 @@ table(
         r"Case & $\hat\tau$ & mutual & $G^+$ & $G^-$ & party & ideology & mutual & party & ideology & majority & seniority & SD & $R^2$ \\",
     ],
     rows,
-    "Party: party matching; ideology: absolute difference in first-dimension DW-NOMINATE. Party matching and ideological distance are strongly collinear and are read jointly. "
-    "SI replaces the sender effects of S1 by the initiator's majority-caucus membership and seniority (in years). SD: standard deviation of the S1 sender effects of actors with at least one arc. "
-    "$R^2$: share of their variance explained by majority-caucus membership and seniority. Parentheses: standard errors of S1 from the inverse observed information; MPLE standard errors of M5 are not reported because they are unreliable for dependence models. Coefficients describe the fitted models and are not interpreted causally.",
+    "Party denotes party matching and ideology the absolute difference in first-dimension DW-NOMINATE. Party matching and ideological distance are strongly collinear and are read jointly. "
+    "SI replaces the sender effects of S1 by the initiator's majority-caucus membership and seniority (in years). SD is the standard deviation of the S1 sender effects of actors with at least one arc. "
+    "$R^2$: share of their variance explained by majority-caucus membership and seniority. Parentheses give standard errors of S1 from the inverse observed information; MPLE standard errors of M5 are not reported because they are unreliable for dependence models. Coefficients describe the fitted models and are not interpreted causally.",
     resize=True,
 )
 
@@ -252,7 +252,7 @@ table(
         r"Contrast & MCAR & MNAR-out & MCAR & MNAR-out & MCAR & MNAR-out & MCAR & MNAR-out \\",
     ],
     rows,
-    "R, P, H, S, A: random, party-matched, head-perturbation, substitution and role-assignment candidate sets. Supplementary Table~S3 gives intervals.",
+    "R, P, H, S and A denote the random, party-matched, head-perturbation, substitution and role-assignment candidate sets. Supplementary Table~S3 gives intervals.",
     resize=True,
 )
 
@@ -307,7 +307,7 @@ table(
     "llllll",
     [r"Case & mask & contrast & difference & masks & sponsors \\"],
     rows,
-    "R, P, H, S, A: random, party-matched, head-perturbation, substitution and role-assignment candidate sets; concordance for R, P, H, S and top-1 accuracy for A.",
+    "R, P, H, S and A denote the random, party-matched, head-perturbation, substitution and role-assignment candidate sets; concordance for R, P, H, S and top-1 accuracy for A.",
     size="scriptsize",
 )
 
@@ -338,7 +338,7 @@ table(
     "llllll",
     [r"Mask & candidate set & class & share & M5 $-$ M4c & S1 $-$ S0 \\"],
     rows,
-    "The last class uses a share-based definition: at least 20\\% of the original co-sponsors belong to another caucus than the sponsor. Brackets: 95\\% mask-bootstrap intervals.",
+    "The last class uses a share-based definition: at least 20\\% of the original co-sponsors belong to another caucus than the sponsor. Brackets give 95\\% mask-bootstrap intervals.",
     resize=True,
 )
 
@@ -491,7 +491,7 @@ if len(sys.argv) > 8:
         "llrllll",
         [r"Mask & coalition & S0 & $+$ party & $+$ state & $+$ ideology & S1 \\"],
         rows,
-        "All models fitted by exact MLE with structural zeros. Brackets: 95\\% mask-bootstrap intervals. On party-matched sets both candidates have the same number of same-caucus arcs, so party matching can distinguish them only through Independents.",
+        "All models fitted by exact MLE with structural zeros. Brackets give 95\\% mask-bootstrap intervals. On party-matched sets both candidates have the same number of same-caucus arcs, so party matching can distinguish them only through Independents.",
         resize=True,
     )
     # sensitivity (third run)
@@ -523,7 +523,7 @@ if len(sys.argv) > 8:
         "lllrrrrr",
         [r"Analysis & mask & score & R & P & H & S & A \\"],
         rows,
-        "Head limit 3: separately constructed target of hyperarcs with at most three original co-sponsors. Training on all hyperarcs: the training 2-section and the record counts also contain the hyperarcs above the head limit, which are never withheld.",
+        "Head limit 3 is a separately constructed target of hyperarcs with at most three original co-sponsors. Training on all hyperarcs means that the training 2-section and the record counts also contain the hyperarcs above the head limit, which are never withheld.",
         resize=True,
     )
     # pooled PR-AUC (current run)

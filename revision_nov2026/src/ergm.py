@@ -93,6 +93,8 @@ def change_stats(Y, terms, cov=None, decay=None):
         if "absdiff_nominate" in terms:
             z = cov["nominate"]
             out["absdiff_nominate"] = np.abs(z[:, None] - z[None, :])
+        if "edgecov_logcount" in terms:
+            out["edgecov_logcount"] = np.asarray(cov["logcount"], float)
         if "nodeocov_majority" in terms:
             out["nodeocov_majority"] = np.repeat(cov["majority"][:, None], n, 1).astype(float)
         if "nodeocov_seniority" in terms:
@@ -335,6 +337,8 @@ def stat_vector(Y, terms, cov=None, decay=None):
         elif t == "absdiff_nominate":
             z = cov["nominate"]
             g.append((A * np.abs(z[:, None] - z[None, :])).sum())
+        elif t == "edgecov_logcount":
+            g.append((A * cov["logcount"]).sum())
         elif t == "nodeocov_majority":
             g.append((A.sum(1) * cov["majority"]).sum())
         elif t == "nodeocov_seniority":

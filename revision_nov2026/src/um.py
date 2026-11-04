@@ -45,6 +45,8 @@ def change_stats(A, cov, tau):
         "state": (cov["state"][:, None] == cov["state"][None, :]).astype(float),
         "ideology": np.abs(cov["nominate"][:, None] - cov["nominate"][None, :]),
     }
+    if "logcount" in cov:
+        X["logcount"] = np.asarray(cov["logcount"], float)
     return X
 
 
@@ -70,7 +72,8 @@ def _logit(Xm, y, ridge=1e-6, iters=60):
     return beta, pl
 
 
-def fit(events, n, cov, taus=TAU_GRID):
+def fit(events, n, cov, taus=TAU_GRID, terms=None):
+    terms = TERMS if terms is None else terms
     A = clique_graph(events, n)
     iu = np.triu_indices(n, 1)
     y = A[iu]
@@ -78,15 +81,15 @@ def fit(events, n, cov, taus=TAU_GRID):
     prof = {}
     for tau in taus:
         X = change_stats(A, cov, tau)
-        Xm = np.stack([X[t][iu] for t in TERMS], 1)
+        Xm = np.stack([X[t][iu] for t in terms], 1)
         beta, pl = _logit(Xm, y)
         prof[tau] = pl
         if best is None or pl > best[2]:
             best = (tau, beta, pl, X)
     tau, beta, _, X = best
-    eta = sum(beta[k] * X[t] for k, t in enumerate(TERMS))
+    eta = sum(beta[k] * X[t] for k, t in enumerate(terms))
     P = 1 / (1 + np.exp(-eta))
-    return {"tau": tau, "theta": beta, "P": P, "profile": prof}
+    return {"tau": tau, "theta": beta, "P": P, "profile": prof, "terms": terms}
 
 
 def score(model, P):
