@@ -255,3 +255,56 @@ def main(sj, tj, outdir):
 
 if __name__ == "__main__":
     main(*sys.argv[1:4])
+
+
+def dime_table(D):
+    names = {
+        "BS1": "B1",
+        "BM": "BM",
+        "LR": "logistic regression",
+        "cofunding": "co-funding similarity",
+        "proximity": "ideological proximity",
+    }
+    out = [
+        "\\begin{table}[tbp]",
+        "\\centering",
+        "\\small",
+        "\\caption{Campaign contributions: concordance with committee ideology measured from the committee's training recipients (main specification) and from DIME contributor CFscores matched by committee name and state (DIME), on the first ten masks of each cycle and mechanism. The last rows give the B1 coefficients of partisan alignment, ideological distance and same state.}",
+        "\\label{tab:fec-dime}",
+        "\\resizebox{\\textwidth}{!}{%",
+        "\\begin{tabular}{ll" + "rr" * 4 + "}",
+        "\\toprule",
+        " & & " + " & ".join(f"\\multicolumn{{4}}{{c}}{{{lab}}}" for _, lab in CYC) + " \\\\",
+        " & & "
+        + " & ".join(f"\\multicolumn{{2}}{{c}}{{{m}}}" for _ in CYC for _, m in MECH)
+        + " \\\\",
+        "Candidate set & Score & " + " & ".join("main & DIME" for _ in CYC for _ in MECH) + " \\\\",
+        "\\midrule",
+    ]
+    for s, sl in [
+        ("random", "random"),
+        ("matched", "party-matched"),
+        ("perturb", "head perturbation"),
+    ]:
+        for i, k in enumerate(["BS1", "BM", "LR", "cofunding", "proximity"]):
+            cells = [
+                f"{D[c][m][s][k][v]:.3f}" for c, _ in CYC for m, _ in MECH for v in ("main", "dime")
+            ]
+            out.append(f"{sl if i == 0 else ''} & {names[k]} & " + " & ".join(cells) + " \\\\")
+        out.append("\\midrule")
+    for j, lab in enumerate(["alignment", "distance", "same state"]):
+        cells = [
+            f"{D[c][m]['theta_BS1'][v][j]:.2f}"
+            for c, _ in CYC
+            for m, _ in MECH
+            for v in ("main", "dime")
+        ]
+        out.append(
+            f"{'B1 coefficients' if j == 0 else ''} & {lab} & " + " & ".join(cells) + " \\\\"
+        )
+    out += ["\\bottomrule", "\\end{tabular}", "}", "\\end{table}"]
+    return "\n".join(out)
+
+
+if __name__ == "__main__" and len(sys.argv) > 4:
+    open(f"{sys.argv[3]}/fec_dime.tex", "w").write(dime_table(json.load(open(sys.argv[4]))) + "\n")
