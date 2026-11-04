@@ -186,7 +186,7 @@ table(
     ],
     rows,
     "A hyperarc is bipartisan if at least one original co-sponsor belongs to another caucus than the sponsor; Independents belong to the Democratic caucus. "
-    "Party-matched alternatives have an initiator of the sponsor's caucus and the same number of co-sponsors from each caucus. Random-set results, size classes and intervals are in Supplementary Table~S9.",
+    "Party-matched alternatives have an initiator of the sponsor's caucus and the same number of co-sponsors from each caucus. Random-set results, size classes and intervals for the 118th Senate are in Supplementary Table~S9.",
     resize=True,
 )
 
