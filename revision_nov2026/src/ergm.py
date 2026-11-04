@@ -12,6 +12,9 @@ from scipy.optimize import minimize
 DECAY = 0.5
 
 
+DECAY_DEG = None  # optional separate decay for the geometrically weighted degree terms
+
+
 def _gw_inc(c, decay):
     """f(c+1) - f(c) for f(c) = e^d [1 - (1 - e^-d)^c]."""
     return (1.0 - np.exp(-decay)) ** c
@@ -37,10 +40,10 @@ def change_stats(Y, terms, cov=None, decay=None):
     if "gwodegree" in terms:
         # out-degree of i excluding arc ij
         d = dout[:, None] - A
-        out["gwodegree"] = _gw_inc(d, decay)
+        out["gwodegree"] = _gw_inc(d, decay if DECAY_DEG is None else DECAY_DEG)
     if "gwidegree" in terms:
         d = din[None, :] - A
-        out["gwidegree"] = _gw_inc(d, decay)
+        out["gwidegree"] = _gw_inc(d, decay if DECAY_DEG is None else DECAY_DEG)
     if any(t.startswith("dgwesp") for t in terms):
         OI = A @ A  # i->k->j
         OO = A @ A.T  # i->k, j->k
@@ -305,9 +308,9 @@ def stat_vector(Y, terms, cov=None, decay=None):
         elif t == "mutual":
             g.append((A * A.T).sum() / 2)
         elif t == "gwodegree":
-            g.append(_gw_f(dout, decay).sum())
+            g.append(_gw_f(dout, decay if DECAY_DEG is None else DECAY_DEG).sum())
         elif t == "gwidegree":
-            g.append(_gw_f(din, decay).sum())
+            g.append(_gw_f(din, decay if DECAY_DEG is None else DECAY_DEG).sum())
         elif t == "dgwesp_OTP":
             g.append((A * _gw_f(A @ A, decay)).sum())
         elif t == "dgwesp_OSP":

@@ -42,6 +42,10 @@ The re-implementation reproduces the published 118th Senate outputs in
 | Third-run coefficients on the complete 2-sections | `src/coef_v3.py` | `results/v3/coef_v3.json` |
 | Simulation from M4c/M5 with decay 4; MCMC-MLE attempt for M5 with decay 4 | `r/simulate_from_mple_senate.R ... 4`, `r/mcmcmle_decay_senate.R` | `results/mple_simulation_tau4/`, `results/mcmcmle_tau4/` |
 | Main-text tables and Figure 2 of the current draft | `src/make_tables_v3.py`, `src/make_figures_v3.py` | `tables/`, `figures/` |
+| Fourth run: decay ablation of the degree-term family (M2–M5 at the selected decay; separate decays for degree and shared-partner terms) and a supervised logistic baseline on local features | `src/run_v4.py`, `src/summary_v4.py` | `results/v3/summary_v4.json` |
+| Training on all recorded bills, all cases | `src/run_v3.py s117uncap` (etc.) | `results/v3/summary_v3_sens.json` |
+| Exact simulation from the MLE of S0, S1, SI | `src/sim_p1.py` | `results/v3/sim_p1.json` |
+| Tables of the fourth run | `src/make_tables_v4.py` | `tables/` |
 
 The output paths in the table are working paths. The identifier-free aggregates
 committed in `results/` are:

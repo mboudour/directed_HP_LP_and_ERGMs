@@ -43,11 +43,11 @@ def f3(x):
     return f"{x:.3f}".replace("-0.000", "0.000")
 
 
-def table(path, caption, label, cols, header, rows, note, resize=False):
+def table(path, caption, label, cols, header, rows, note, resize=False, size="small"):
     lines = [
         r"\begin{table}[tbp]",
         r"\centering",
-        r"\small",
+        "\\" + size,
         rf"\caption{{{caption}}}",
         rf"\label{{{label}}}",
     ]
@@ -308,7 +308,7 @@ table(
     [r"Case & mask & contrast & difference & masks & sponsors \\"],
     rows,
     "R, P, H, S, A: random, party-matched, head-perturbation, substitution and role-assignment candidate sets; concordance for R, P, H, S and top-1 accuracy for A.",
-    resize=True,
+    size="scriptsize",
 )
 
 # ------------------------------------------------------------ SI: classes (118th Senate)
