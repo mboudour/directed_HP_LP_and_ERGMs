@@ -18,6 +18,7 @@ Usage (module): case = build_case(fec_dir, dime_path, cycle)
 """
 
 import collections
+import datetime
 import random
 
 import numpy as np
@@ -32,7 +33,19 @@ class FECCase:
     pass
 
 
-def build_case(fec_dir, dime_path, cycle, min_donors=MIN_DONORS, min_batches=MIN_BATCHES):
+def _period(dte, window_days):
+    if not window_days:
+        return dte
+    try:
+        d = datetime.date(int(dte[4:8]), int(dte[0:2]), int(dte[2:4]))
+    except ValueError:
+        return dte
+    return d.toordinal() // window_days
+
+
+def build_case(
+    fec_dir, dime_path, cycle, min_donors=MIN_DONORS, min_batches=MIN_BATCHES, window_days=None
+):
     cand = {}
     for line in open(f"{fec_dir}/cn.txt", encoding="latin-1"):
         f = line.rstrip("\n").split("|")
@@ -55,7 +68,7 @@ def build_case(fec_dir, dime_path, cycle, min_donors=MIN_DONORS, min_batches=MIN
         except ValueError:
             continue
         nrec += 1
-        batches[(f[0], f[13])].add(f[16])
+        batches[(f[0], _period(f[13], window_days))].add(f[16])
         donors[f[16]].add(f[0])
     keep_c = {c for c, d in donors.items() if len(d) >= min_donors}
     elig = {
@@ -75,7 +88,7 @@ def build_case(fec_dir, dime_path, cycle, min_donors=MIN_DONORS, min_batches=MIN
         cnt[key] += 1
         dates[key].append(dte)
     case = FECCase()
-    case.name = f"fec{str(cycle)[2:]}"
+    case.name = f"fec{str(cycle)[2:]}" + (f"w{window_days}" if window_days else "")
     case.cycle = cycle
     case.comms, case.cands = comms, cands
     case.C, case.K = len(comms), len(cands)
@@ -120,6 +133,7 @@ def build_case(fec_dir, dime_path, cycle, min_donors=MIN_DONORS, min_batches=MIN
     case.comm_state = np.array([comm.get(m, {}).get("state", "") for m in comms])
     case.comm_type = np.array([comm.get(m, {}).get("type", "") for m in comms])
     case.comm_org = np.array([comm.get(m, {}).get("org", "") for m in comms])
+    case.comm_dsgn = np.array([comm.get(m, {}).get("dsgn", "") for m in comms])
     case.same_state = (case.comm_state[:, None] == case.cand_state[None, :]).astype(float)
     case.neg_seed = 20261104 + cycle
     return case
@@ -195,7 +209,7 @@ def negatives(case, pos, Y, mech, rep, kind, lean=None):
                 s2 = rnd.choice(by_cls[int(lean_cls[s])])
                 H2 = []
                 ok = True
-                for g, k in comp.items():
+                for g, k in sorted(comp.items()):
                     if len(groups[g]) < k:
                         ok = False
                         break

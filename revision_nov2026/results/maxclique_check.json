@@ -1,0 +1,34 @@
+{
+ "s118": {
+  "eligible": 3209,
+  "share_maximal_clique": 0.0,
+  "mean_common_neighbours": 91.0623247117482,
+  "median_common_neighbours": 93.0,
+  "density": 0.9091575091575091,
+  "triangles": 155202
+ },
+ "s117": {
+  "eligible": 3023,
+  "share_maximal_clique": 0.0,
+  "mean_common_neighbours": 88.64207740654979,
+  "median_common_neighbours": 90.0,
+  "density": 0.9192389827218016,
+  "triangles": 143754
+ },
+ "s116": {
+  "eligible": 2838,
+  "share_maximal_clique": 0.0,
+  "mean_common_neighbours": 92.35976039464411,
+  "median_common_neighbours": 94.0,
+  "density": 0.9561250242671326,
+  "triangles": 155673
+ },
+ "h118": {
+  "eligible": 5433,
+  "share_maximal_clique": 0.00018406037180195104,
+  "mean_common_neighbours": 256.8540401251611,
+  "median_common_neighbours": 258.0,
+  "density": 0.7482138457748214,
+  "triangles": 7301447
+ }
+}

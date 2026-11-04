@@ -6,6 +6,7 @@ Usage: python summary_fec.py FEC24_DIR FEC22_DIR DIME RESULTS_DIR OUT_JSON
 
 import glob
 import json
+import os
 import pickle
 import sys
 
@@ -19,6 +20,8 @@ KEYS = [
     "BS0",
     "BS1",
     "LR",
+    "coparticipation",
+    "bipartite_aa",
     "activity",
     "popularity",
     "degprod",
@@ -43,6 +46,10 @@ LOCAL = [
     "bill_count",
 ]
 CONTRASTS = [
+    ("coparticipation", "BM"),
+    ("coparticipation", "BS1"),
+    ("coparticipation", "cofunding"),
+    ("LR", "coparticipation"),
     ("BS1", "BM"),
     ("BM", "cofunding"),
     ("BS1", "cofunding"),
@@ -91,10 +98,16 @@ def main(f24, f22, dime, resdir, out):
         }
         o["head_sizes"] = np.bincount([len(H) for _, H in case.types], minlength=11).tolist()
         for mech in ["MCAR", "MNAR-out"]:
-            rs = [
-                pickle.load(open(f, "rb"))
-                for f in sorted(glob.glob(f"{resdir}/{key}/{mech}_*.pkl"))
-            ]
+            fs = sorted(glob.glob(f"{resdir}/{key}/{mech}_*.pkl"))
+            rs = [pickle.load(open(f, "rb")) for f in fs]
+            for r, f in zip(rs, fs, strict=True):
+                c = pickle.load(open(f"{resdir}/coal_{key}/{os.path.basename(f)}", "rb"))
+                for s_ in ("random", "matched", "perturb"):
+                    assert len(c[s_]) == len(r[s_])
+                    r[s_] = [
+                        ({**p[0], **q[0]}, {**p[1], **q[1]}, p[2])
+                        for p, q in zip(r[s_], c[s_], strict=True)
+                    ]
             M = {
                 "masks": len(rs),
                 "tau_hat": [r["info"]["tau_hat"] for r in rs],
