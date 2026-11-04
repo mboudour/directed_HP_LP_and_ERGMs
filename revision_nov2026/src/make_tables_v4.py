@@ -46,7 +46,7 @@ NAMES = [
     ("S1", "S1"),
     ("a:LR", "logistic regression on local features"),
     ("aa_total", "directed Adamic--Adar"),
-    ("sponsor_bills", "initiator bill count"),
+    ("sponsor_bills", "bill count"),
 ]
 rows = []
 for c, clab in [("s118", "118th Senate"), ("h118", "118th House")]:
@@ -64,7 +64,7 @@ table(
     "ll" + "r" * 8,
     [r" & & \multicolumn{4}{c}{MCAR} & \multicolumn{4}{c}{MNAR-out} \\", r"Case & score & R & H & S & A & R & H & S & A \\"],
     rows,
-    "All degree-term models by MPLE with the decay selected for M5 in each mask unless stated. The logistic regression is fitted to the arcs of the training 2-section on standardized dyadic features, namely directed common neighbours and Adamic--Adar components, reverse arc, out- and in-degrees and their product (computed without the dyad itself), initiator bill count, party and state matching, ideological distance, and the initiator's majority-caucus membership and seniority.",
+    "All degree-term models by MPLE with the decay selected for M5 in each mask unless stated. The logistic regression is fitted to the arcs of the training 2-section on standardized dyadic features, namely directed common neighbours and Adamic--Adar components, reverse arc, out- and in-degrees and their product (computed without the dyad itself), bill count, party and state matching, ideological distance, and the initiator's majority-caucus membership and seniority.",
     resize=True,
 )
 
@@ -85,7 +85,7 @@ table(
     "Sponsor identification relative to the rule that picks the participant with most observed bills: top-1 accuracy of the rule, differences in top-1 accuracy with sponsor-bootstrap intervals, and mean reciprocal rank (MRR).",
     "tab:billrule",
     "llrlllrrr",
-    [r" & & rule & \multicolumn{3}{c}{difference from the rule} & \multicolumn{3}{c}{MRR} \\", r"Case & mask & top-1 & S1 & M5 & logistic & S1 & rule & chance \\"],
+    [r" & & rule & \multicolumn{3}{c}{difference from the rule} & \multicolumn{3}{c}{MRR} \\", r"Case & mechanism & top-1 & S1 & M5 & logistic & S1 & rule & chance \\"],
     rows,
     "Brackets give 95\\% sponsor-bootstrap intervals (fitted models held fixed).",
     resize=True,
@@ -107,12 +107,12 @@ for c, clab in CASES:
         rows.append(f"{clab} & {ml} & " + " & ".join(cells))
 table(
     "v4_uncap.tex",
-    "Training on all recorded hyperarcs, including those with more than ten original co-sponsors (which are never hidden): concordance on the random (R) and head-perturbation (H) sets and top-1 accuracy (A).",
+    "Training on all bills, including those with more than ten original co-sponsors (which are never hidden): concordance on the random (R) and head-perturbation (H) sets and top-1 accuracy (A).",
     "tab:uncap",
     "ll" + "r" * 10,
-    [r" & & \multicolumn{3}{c}{R} & \multicolumn{3}{c}{H} & \multicolumn{4}{c}{A} \\", r"Case & mask & M5 & S1 & weighted & M5 & S1 & weighted & M5 & S1 & bill count & chance \\"],
+    [r" & & \multicolumn{3}{c}{R} & \multicolumn{3}{c}{H} & \multicolumn{4}{c}{A} \\", r"Case & mechanism & M5 & S1 & weighted & M5 & S1 & weighted & M5 & S1 & bill count & chance \\"],
     rows,
-    "Weighted denotes the weighted footprint, the mean number of observed records in which each candidate supporter co-sponsored a bill of the candidate initiator. The training 2-section and the record counts include the bills above the head limit.",
+    "Weighted denotes the weighted pair count, the mean number of observed records in which each candidate supporter co-sponsored a bill of the candidate initiator. The training 2-section and the bill counts include the bills above the head limit.",
     resize=True,
 )
 

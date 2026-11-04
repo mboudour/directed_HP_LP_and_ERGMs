@@ -16,10 +16,10 @@ def ci(v):
 
 def table(S):
     out = ["\\begin{table}[tbp]", "\\centering", "\\small",
-           "\\caption{Co-participation, computed from the observed hypergraph, against the best pairwise models and directed Adamic--Adar. Concordance on the random (R), party-matched (P) and head-perturbation (H) sets, and the difference between co-participation and M5 with 95\\% sponsor-bootstrap intervals. Means over 30 masks.}",
+           "\\caption{Co-participation, computed from the observed hypergraph, against the best pairwise models and directed Adamic--Adar. Concordance on the random (R), party-matched (P) and head-perturbation (H) sets, and the difference between co-participation and M5 with 95\\% sponsor-bootstrap intervals. Means over 30 random hidings.}",
            "\\label{tab:records}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{llrrrrrlll}", "\\toprule",
            " & & \\multicolumn{5}{c}{Concordance on R} & \\multicolumn{3}{c}{Co-participation $-$ M5} \\\\",
-           "Case & mask & co-part. & M5 & S1 & logistic & dir.\\ AA & R & P & H \\\\", "\\midrule"]
+           "Case & mechanism & co-part. & M5 & S1 & logistic & dir.\\ AA & R & P & H \\\\", "\\midrule"]
     for c, lab in CASES:
         for m in ("MCAR", "MNAR-out"):
             M = S[c][m]
@@ -37,9 +37,9 @@ def table(S):
 
 def supp(S):
     out = ["\\begin{table}[tbp]", "\\centering", "\\small",
-           "\\caption{Concordance of co-participation and co-support similarity, by candidate set, with the models of the 2-section and directed Adamic--Adar. Means over 30 masks.}",
+           "\\caption{Concordance of co-participation and co-support similarity, by candidate set, with the models of the 2-section and directed Adamic--Adar. Means over 30 random hidings.}",
            "\\label{tab:records-full}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{lllrrrrrr}", "\\toprule",
-           "Case & mask & set & co-participation & co-support & M5 & S1 & logistic & dir.\\ AA \\\\", "\\midrule"]
+           "Case & mechanism & set & co-participation & co-support & M5 & S1 & logistic & dir.\\ AA \\\\", "\\midrule"]
     for c, lab in CASES:
         for m in ("MCAR", "MNAR-out"):
             for s, sl in (("random", "random"), ("matched", "party-matched"), ("perturb", "head perturbation")):

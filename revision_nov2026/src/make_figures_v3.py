@@ -21,7 +21,7 @@ SERIES = [
     ("M5", "M5, estimated decay", "#d97a22", "s"),
     ("M5_t05", "M5, decay 0.5", "#e8b07a", "x"),
     ("aa_total", "directed Adamic–Adar", "#174a7c", "^"),
-    ("weighted_footprint", "weighted footprint", "#7a7a7a", "D"),
+    ("weighted_footprint", "weighted pair count", "#7a7a7a", "D"),
 ]
 PANELS = [
     ("random", "Random candidates (concordance)"),

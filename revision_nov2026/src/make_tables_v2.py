@@ -17,8 +17,8 @@ NAMES = {
     "aa_oi": "Adamic--Adar, two-paths",
     "degprod": "degree product",
     "sponsor_activity": "initiator out-degree",
-    "sponsor_bills": "initiator bill count",
-    "observed_fraction": "observed footprint share",
+    "sponsor_bills": "bill count",
+    "observed_fraction": "observed pair share",
     "party_share": "same-party share",
     "M4c": "M4c (MPLE)",
     "M5": "M5 (MPLE)",
@@ -77,12 +77,12 @@ ch = [f3(S["s118"][m]["role"]["chance"]["top1"][0]) for m, _ in MECHS]
 rows.append(f"chance & 0.500 & 0.500 & 0.500 & {ch[0]} & 0.500 & 0.500 & 0.500 & {ch[1]}")
 table(
     "v2_performance.tex",
-    "118th Senate: mean within-pair concordance on the random (R), party-matched (P) and substitution (S) candidate sets, and top-1 accuracy on the role-assignment sets (A), over 30 masks per mechanism.",
+    "118th Senate: mean within-pair concordance on the random (R), party-matched (P) and substitution (S) candidate sets, and top-1 accuracy on the role-assignment sets (A), over 30 random hidings per mechanism.",
     "tab:senate-performance",
     "lrrrrrrrr",
     [r" & \multicolumn{4}{c}{MCAR} & \multicolumn{4}{c}{MNAR-out} \\", r"Score & R & P & S & A & R & P & S & A \\"],
     rows,
-    "Concordance is the share of pairs in which the recorded hyperarc scores above its alternative (ties count one half). "
+    "Concordance is the share of pairs in which the hidden bill scores above its alternative (ties count one half). "
     "Model scores are $L_{1g}$ from fits to the training 2-section; local scores are footprint averages (Section~4.1). "
     "Pooled PR-AUC values are in Supplementary Table~S4.",
     resize=True,
@@ -109,9 +109,9 @@ table(
     "118th Senate: paired contrasts of concordance (R, P, S) and of top-1 accuracy (A).",
     "tab:senate-contrasts",
     "lllrl",
-    [r"Mask & set & contrast & difference & 95\% interval \\"],
+    [r"Mechanism & set & contrast & difference & 95\% interval \\"],
     rows,
-    "Differences are means over 30 masks. Intervals are two-level bootstrap intervals that resample masks and, within each mask, "
+    "Differences are means over 30 random hidings. Intervals are two-level bootstrap intervals that resample random hidings and, within each mask, "
     "the evaluated hyperarcs; they are wider than the mask-only intervals of Monte Carlo precision.",
 )
 
@@ -133,11 +133,11 @@ table(
     "118th Senate: effect of the political covariates on concordance, by coalition type and candidate set.",
     "tab:bipartisan",
     "llllrll",
-    [r"Mask & candidate set & coalition & share & same-party share & M5 $-$ M4c & S1 $-$ S0 \\"],
+    [r"Mechanism & candidate set & coalition & share & same-party share & M5 $-$ M4c & S1 $-$ S0 \\"],
     rows,
     "A hyperarc is bipartisan if at least one original co-sponsor belongs to another caucus than the sponsor; Independents belong to the "
     "Democratic caucus. Party-matched alternatives have an initiator of the sponsor's caucus and the same number of co-sponsors from each caucus. "
-    "S1 and S0 are fitted by maximum likelihood. Brackets give 95\\% mask-bootstrap intervals.",
+    "S1 and S0 are fitted by maximum likelihood. Brackets give 95\\% bootstrap intervals over random hidings.",
     resize=True,
 )
 
@@ -148,7 +148,7 @@ items = [
     ("S1 $-$ M5, P", lambda M: M["matched_contrasts"]["S1mle - M5"]["concordance"]),
     ("S1 $-$ directed AA, P", lambda M: M["matched_contrasts"]["S1mle - aa_total"]["concordance"]),
     ("S1 $-$ degree product, S", lambda M: M["sub_contrasts"]["S1mle - degprod"]["concordance"]),
-    ("S1 $-$ initiator bill count, S", lambda M: M["sub_contrasts"]["S1mle - sponsor_bills"]["concordance"]),
+    ("S1 $-$ bill count, S", lambda M: M["sub_contrasts"]["S1mle - sponsor_bills"]["concordance"]),
     ("S1 top-1 $-$ chance, A", lambda M: M["role_contrasts"]["S1mle - chance"]["top1"]),
     ("S1 $-$ initiator out-degree, A", lambda M: M["role_contrasts"]["S1mle - sponsor_activity"]["top1"]),
     ("S1 $-$ Adamic--Adar two-paths, A", lambda M: M["role_contrasts"]["S1mle - aa_oi"]["top1"]),
@@ -165,7 +165,7 @@ for lab, fn in items:
     rows.append(lab + " & " + " & ".join(cells))
 table(
     "v2_cases.tex",
-    "Main contrasts in all four cases: mean differences over 30 masks in concordance (R, P, S) or top-1 accuracy (A).",
+    "Main contrasts in all four cases: mean differences over 30 random hidings in concordance (R, P, S) or top-1 accuracy (A).",
     "tab:case-results",
     "l" + "r" * 8,
     [
@@ -216,7 +216,7 @@ for c, lab in CASES:
     )
 table(
     "v2_closure.tex",
-    "Recorded hyperarcs and the formal concepts they generate in the 2-section of all recorded hyperarcs, without size limits.",
+    "Recorded hyperarcs and the formal concepts they generate in the 2-section of all bills, without size limits.",
     "tab:closure",
     "lrrrrrr",
     [r"Case & hyperarcs & equal to concept & $|H^{\downarrow}|$ & $|H|/|H^{\downarrow\uparrow}|$ & Jaccard & $|H|/|N^+(s)|$ \\"],
@@ -248,10 +248,10 @@ for c, lab in CASES:
             rows.append(f"{lab} & {ml} & {name} & {f3(mc[0])} & [{f3(mc[1])}, {f3(mc[2])}] & [{f3(tl[0])}, {f3(tl[1])}]")
 table(
     "v2_cases_ci.tex",
-    "Main contrasts in all four cases with mask-bootstrap and two-level bootstrap intervals.",
+    "Main contrasts in all four cases with bootstrap over random hidings and two-level bootstrap intervals.",
     "tab:case-ci",
     "llllll",
-    [r"Case & mask & contrast & difference & masks & masks and hyperarcs \\"],
+    [r"Case & mechanism & contrast & difference & random hidings & random hidings and hyperarcs \\"],
     rows,
     "R, P, S, A: random, party-matched, substitution and role-assignment candidate sets; concordance for R, P, S and top-1 accuracy for A. S1 is fitted by maximum likelihood.",    resize=True,
 )
@@ -277,9 +277,9 @@ table(
     "118th Senate: effect of the political covariates on concordance by coalition type and number of original co-sponsors.",
     "tab:size-classes",
     "llllll",
-    [r"Mask & candidate set & class & share & M5 $-$ M4c & S1 $-$ S0 \\"],
+    [r"Mechanism & candidate set & class & share & M5 $-$ M4c & S1 $-$ S0 \\"],
     rows,
-    "The last class uses a share-based definition: at least 20\\% of the original co-sponsors belong to another caucus than the sponsor. Brackets give 95\\% mask-bootstrap intervals.",
+    "The last class uses a share-based definition: at least 20\\% of the original co-sponsors belong to another caucus than the sponsor. Brackets give 95\\% bootstrap intervals over random hidings.",
     resize=True,
 )
 
@@ -297,7 +297,7 @@ for c, lab in CASES:
         )
     for m, ml in MECHS:
         d = S[c][m]["random_contrasts"]["S1mle - S1"]["concordance"]
-        rows.append(f"{lab} & S1 masks, {ml} & \\multicolumn{{4}}{{l}}{{concordance MLE $-$ MPLE, random set}} & {f3(d[0])}")
+        rows.append(f"{lab} & S1 random hidings, {ml} & \\multicolumn{{4}}{{l}}{{concordance MLE $-$ MPLE, random set}} & {f3(d[0])}")
 table(
     "v2_mle.tex",
     "Exact maximum likelihood for S0 and S1: score equations on the complete 2-section and agreement with MPLE.",
@@ -306,7 +306,7 @@ table(
     [r"Case & model & arcs & expected & mutual & expected & max.\ $|\hat\theta_{\mathrm{MLE}}-\hat\theta_{\mathrm{MPLE}}|$ \\"],
     rows,
     "Expected counts are computed under the fitted model; at the MLE they equal the observed counts. The last column compares the coefficients of the arc, "
-    "mutuality and covariate terms. Rows labelled masks give the mean difference in concordance between MLE and MPLE fits of S1 over 30 masks.",
+    "mutuality and covariate terms. Rows labelled random hidings give the mean difference in concordance between MLE and MPLE fits of S1 over 30 random hidings.",
     resize=True,
 )
 print("v2 SI tables written")

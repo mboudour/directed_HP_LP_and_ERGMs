@@ -1,7 +1,7 @@
 # ruff: noqa: E501
 """Counts versus binary: summary of run_counts against the binary pairwise models and HM.
 
-For each case and mechanism, mean concordance over 30 masks of M5, S1 and LR with and without
+For each case and mechanism, mean concordance over 30 random hidings of M5, S1 and LR with and without
 the log co-membership count as an edge covariate (suffix c), and of HM, on the random,
 party-matched and head-perturbation sets, with sponsor-bootstrap intervals for the contrasts
 HM - M5c, HM - S1c, HM - LRc, M5c - M5, S1c - S1 and LRc - LR. Also writes the LaTeX table.
@@ -59,7 +59,7 @@ def main(res, out_json, out_tex):
             S[case][mech] = M
     json.dump(S, open(out_json, "w"), indent=1)
     t = ["\\begin{table}[tbp]", "\\centering", "\\small",
-         "\\caption{Pairwise models with co-membership counts. Concordance of M5, S1 and the logistic regression (LR) without and with the logarithm of the number of training bills shared by the two legislators as an edge covariate (suffix c), and of the two-mode ERGM (HM), on the random (R), party-matched (P) and head-perturbation (H) sets. Means over 30 masks; LR was not scored on the party-matched sets.}",
+         "\\caption{Pairwise models with co-membership counts. Concordance of M5, S1 and the logistic regression (LR) without and with the logarithm of the number of training bills shared by the two legislators as an edge covariate (suffix c), and of the two-mode ERGM (HM), on the random (R), party-matched (P) and head-perturbation (H) sets. Means over 30 random hidings; LR without the count covariate was not scored on the party-matched sets.}",
          "\\label{tab:counts}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{ll" + "r" * 21 + "}", "\\toprule",
          " & & \\multicolumn{7}{c}{R} & \\multicolumn{7}{c}{P} & \\multicolumn{7}{c}{H} \\\\",
          "Case & Mechanism" + " & M5 & M5c & S1 & S1c & LR & LRc & HM" * 3 + " \\\\", "\\midrule"]

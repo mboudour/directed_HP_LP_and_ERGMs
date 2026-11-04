@@ -112,10 +112,10 @@ for mech, lab in MECHS:
             )
 table(
     "table_02_primary_performance.tex",
-    "118th Senate: mean ranking performance over 30 matched masks per mechanism.",
+    "118th Senate: mean ranking performance over 30 matched random hidings per mechanism.",
     "tab:senate-performance",
     "lllrr",
-    "Mask & candidate set & score & PR-AUC & ROC-AUC",
+    "Mechanism & candidate set & score & PR-AUC & ROC-AUC",
     rows,
     "Local and baseline scores are mean lifts over the candidate footprint computed on the training 2-section. "
     "Sponsor activity is the sponsor's training out-degree; co-sponsor popularity is the mean training in-degree of the head. "
@@ -151,9 +151,9 @@ table(
     "118th Senate: paired PR-AUC contrasts between local scores, nested ERGMs and sender--receiver ERGMs.",
     "tab:senate-contrasts",
     "lllrrr",
-    r"Mask & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
+    r"Mechanism & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
     rows,
-    "Differences are means over 30 matched masks; intervals are percentile bootstrap intervals over masks "
+    "Differences are means over 30 matched random hidings; intervals are percentile bootstrap intervals over random hidings "
     "(Monte Carlo precision within the fixed record); $p$-values are two-sided sign-flip tests with 20,000 permutations.", resize=True)
 
 # ---------------------------------------------------------------- Table 3b political contrasts
@@ -175,7 +175,7 @@ table(
     "118th Senate: paired PR-AUC contrasts along the nested ERGMs.",
     "tab:political-contrast",
     "lllrrr",
-    r"Mask & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
+    r"Mechanism & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
     rows,
     "M5 adds party and state matching and absolute DW-NOMINATE distance to M4c; M6 adds sponsor-side majority-caucus "
     "and seniority terms; the last contrast removes mutuality alone. Intervals and tests as in the main text.",
@@ -209,10 +209,10 @@ table(
     "118th Senate: identification of the recorded sponsor among all single-initiator assignments of a bill's participants.",
     "tab:senate-role",
     "llrrl",
-    r"Mask & score & top-1 & MRR & top-1 minus chance [95\% CI]",
+    r"Mechanism & score & top-1 & MRR & top-1 minus chance [95\% CI]",
     rows,
     "Top-1 and reciprocal rank are expected values under random tie-breaking. Chance is computed bill by bill from the "
-    "number of participants. Intervals resample whole masks.",
+    "number of participants. Intervals resample whole random hidings.",
 )
 
 # ---------------------------------------------------------------- Ladder
@@ -254,10 +254,10 @@ for name, lab in [
         )
 table(
     "table_a3_mask_realisation.tex",
-    "Realised severity of the two omission mechanisms (means over 30 masks).",
+    "Realised severity of the two omission mechanisms (means over 30 random hidings).",
     "tab:mask-realisation",
     "llrrrr",
-    "Case & mask & hyperarc rate & record rate & arc removal & surviving footprints",
+    "Case & mechanism & hyperarc rate & record rate & arc removal & surviving footprints",
     rows,
     "A surviving footprint means every arc of a hidden hyperarc remains in the 2-section through another observed hyperarc; it is a "
     "property of the 2-section, not leakage of the hidden record.",
@@ -270,7 +270,7 @@ lab_g = {
     "both": "both survive",
     "true_only": "recorded hyperarc only",
     "sub_only": "substitute only",
-    "neither": "neither survives",
+    "neither": "neither visible",
 }
 for mech, ml in MECHS:
     M = S["mechs"][mech]
@@ -285,13 +285,13 @@ for mech, ml in MECHS:
         )
 table(
     "table_a5b_sponsor_recoverability.tex",
-    "118th Senate: preference for the recorded hyperarc over its substitute, by survival of the two footprints in the training 2-section.",
+    "118th Senate: preference for the hidden bill over its substitute, by survival of the two footprints in the training 2-section.",
     "tab:sponsor-recoverability",
     "llrlll",
-    "Mask & footprint pattern & share & M5 & S1 & degree product",
+    "Mechanism & footprint pattern & share & M5 & S1 & degree product",
     rows,
     "Each entry is the tie-aware probability that the score ranks the hidden recorded hyperarc above its substitute; "
-    "brackets are 95\\% mask-bootstrap intervals.",
+    "brackets are 95\\% bootstrap intervals over random hidings.",
     resize=True,
 )
 
@@ -317,7 +317,7 @@ table(
     "118th Senate: mean PR-AUC by coalition type. A hidden hyperarc is bipartisan if at least one original co-sponsor belongs to a different caucus from the sponsor.",
     "tab:bipartisan",
     "lllrrrrrll",
-    r"Mask & candidate set & coalition & party & M5 & S1 & dir.\ AA & deg.\ prod. & M5 minus M4c & S1 minus S0",
+    r"Mechanism & candidate set & coalition & party & M5 & S1 & dir.\ AA & deg.\ prod. & M5 minus M4c & S1 minus S0",
     rows,
     f"Independents are assigned to the Democratic caucus. Bipartisan hyperarcs form {100 * share:.1f}\\% of the hidden positives in the MCAR random candidate sets. "
     "PR-AUC is computed within each stratum; negatives keep their pairing with the positive.",
@@ -347,9 +347,9 @@ if C3:
         "118th Senate, bills with at most three original co-sponsors: paired PR-AUC contrasts.",
         "tab:senate-limit-sensitivity",
         "lllrrr",
-        r"Mask & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
+        r"Mechanism & candidate set & contrast & difference & 95\% CI & sign-flip $p$",
         rows,
-        "Separately constructed target of bills with at most three original co-sponsors, with the same actor universe, seeds and evaluation design (30 masks per mechanism).",
+        "Separately constructed target of bills with at most three original co-sponsors, with the same actor universe, seeds and evaluation design (30 random hidings per mechanism).",
     )
 
 # ---------------------------------------------------------------- extras: ttriple + static
@@ -364,7 +364,7 @@ table(
     "118th Senate: edges-plus-transitive-triple MPLE on every training 2-section.",
     "tab:mtt-check",
     "lrrrr",
-    r"Mask & fits & positive $\hat\theta_{tt}$ & mean $\hat\theta_{tt}$ & range",
+    r"Mechanism & fits & positive $\hat\theta_{tt}$ & mean $\hat\theta_{tt}$ & range",
     rows,
     "The covariate is the transitive-triple change statistic $t^{OI}_{ij}+t^{OO}_{ij}+t^{II}_{ij}$.",
 )
@@ -376,7 +376,7 @@ table(
     "lrr",
     "MPLE model & PR-AUC & ROC-AUC",
     rows,
-    "Thirty arc-level masks, in which 30\\% of arcs are hidden at random and paired with an equal number of random non-arcs; "
+    "Thirty arc-level random hidings, in which 30\\% of arcs are hidden at random and paired with an equal number of random non-arcs; "
     "scores are MPLE conditional tie probabilities on the remaining 2-section.",
 )
 
@@ -467,7 +467,7 @@ for mech, ml in MECHS:
         )
 table(
     "table_r2_case_results.tex",
-    "Main contrasts in all four cases: mean differences over 30 masks with 95\\% mask-bootstrap intervals.",
+    "Main contrasts in all four cases: mean differences over 30 random hidings with 95\\% bootstrap intervals over random hidings.",
     "tab:case-results",
     "lllll",
     "Contrast & " + " & ".join(lab for _, lab in CASES4),
@@ -500,7 +500,7 @@ if CA:
         "llrrrrrr",
         "Case & co-sponsor limit & hyperarcs & concepts & exact matches & concept arcs & bill arcs & Jaccard",
         rows,
-        "Concepts are enumerated on the 2-section of all recorded hyperarcs, including those above the head limit, with at most three senders and at most the stated number of receivers; an exact match requires identical ordered tail and head sets.",
+        "Concepts are enumerated on the 2-section of all bills, including those above the head limit, with at most three senders and at most the stated number of receivers; an exact match requires identical ordered tail and head sets.",
         resize=True,
     )
 print("tables written")

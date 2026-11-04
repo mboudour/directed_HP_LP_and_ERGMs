@@ -23,10 +23,10 @@ NAMES = {
     "aa_oi": "Adamic--Adar, two-paths",
     "degprod": "degree product",
     "sponsor_activity": "initiator out-degree",
-    "sponsor_bills": "initiator bill count",
-    "bills_null": "bill-count draw",
-    "observed_fraction": "observed footprint share",
-    "weighted_footprint": "weighted footprint",
+    "sponsor_bills": "bill count",
+    "bills_null": "draw weighted by bills",
+    "observed_fraction": "observed pair share",
+    "weighted_footprint": "weighted pair count",
     "party_share": "same-party share",
     "M5_t05": "M5, $\\tau=0.5$",
     "M4c": "M4c",
@@ -98,7 +98,7 @@ for k in ["chance", "bills_null"]:
     rows.append(NAMES[k] + " & " + " & ".join(cells))
 table(
     "v3_performance.tex",
-    "118th Senate: mean within-pair concordance on the random (R), party-matched (P), head-perturbation (H) and substitution (S) candidate sets, and top-1 accuracy on the role-assignment sets (A), over 30 masks per mechanism.",
+    "118th Senate: mean within-pair concordance on the random (R), party-matched (P), head-perturbation (H) and substitution (S) candidate sets, and top-1 accuracy on the role-assignment sets (A), over 30 random hidings per mechanism.",
     "tab:senate-performance",
     "l" + "r" * 10,
     [
@@ -106,9 +106,9 @@ table(
         r"Score & R & P & H & S & A & R & P & H & S & A \\",
     ],
     rows,
-    "Concordance is the share of pairs in which the recorded hyperarc scores above its alternative (ties count one half). "
-    "Model scores are $L_{1g}$ from fits to the training 2-section, M4c--M6 by MPLE with decay selected by profile pseudolikelihood (M5, $\\tau=0.5$: fixed decay); "
-    "S0, S1 and SI by exact MLE. The bill-count draw selects the initiator with probability proportional to the observed bill counts. Pooled PR-AUC values are in Supplementary Table~S4.",
+    "Concordance is the share of pairs in which the hidden bill scores above its alternative (ties count one half). "
+    "Model scores are $L_{1g}$ from fits to the training 2-section, M4c--M6 by MPLE with decay selected by profile pseudolikelihood (M5 with $\\tau=0.5$ has a fixed decay); "
+    "S0, S1 and SI by exact MLE. The draw weighted by bills selects the initiator with probability proportional to the observed bill counts. Pooled PR-AUC values are in Supplementary Table~S4.",
     resize=True,
 )
 
@@ -158,9 +158,9 @@ table(
     "118th Senate: paired contrasts of concordance (R, P, H, S) and of top-1 accuracy (A).",
     "tab:senate-contrasts",
     "lllrl",
-    [r"Mask & set & contrast & difference & 95\% interval \\"],
+    [r"Mechanism & set & contrast & difference & 95\% interval \\"],
     rows,
-    "Differences are means over 30 masks. Intervals are sponsor-bootstrap intervals, in which each bootstrap draw resamples the sponsors of the record, with all their hidden hyperarcs, and applies the resample to all masks.",
+    "Differences are means over 30 random hidings. Intervals are sponsor-bootstrap intervals, in which each bootstrap draw resamples the sponsors in the data, with all their hidden hyperarcs, and applies the resample to all random hidings.",
 )
 
 # ------------------------------------------------------------ bipartisan (party-matched sets)
@@ -182,7 +182,7 @@ table(
     "llrrrrr",
     [
         r" & & & \multicolumn{2}{c}{M5 $-$ M4c} & \multicolumn{2}{c}{S1 $-$ S0} \\",
-        r"Case & mask & bipartisan share & bipartisan & single-party & bipartisan & single-party \\",
+        r"Case & mechanism & bipartisan share & bipartisan & single-party & bipartisan & single-party \\",
     ],
     rows,
     "A hyperarc is bipartisan if at least one original co-sponsor belongs to another caucus than the sponsor; Independents belong to the Democratic caucus. "
@@ -224,7 +224,7 @@ items = [
     ("S1 $-$ M5, P", lambda M: M["matched_contrasts"]["S1 - M5"]["concordance"]),
     ("M5 $-$ directed AA, H", lambda M: M["perturb_contrasts"]["M5 - aa_total"]["concordance"]),
     (
-        "S1 $-$ weighted footprint, H",
+        "S1 $-$ weighted pair count, H",
         lambda M: M["perturb_contrasts"]["S1 - weighted_footprint"]["concordance"],
     ),
     ("M5 $-$ M5 ($\\tau=0.5$), H", lambda M: M["perturb_contrasts"]["M5 - M5_t05"]["concordance"]),
@@ -232,7 +232,7 @@ items = [
     ("S1 top-1 $-$ chance, A", lambda M: M["role_contrasts"]["S1 - chance"]["top1"]),
     ("M5 top-1 $-$ chance, A", lambda M: M["role_contrasts"]["M5 - chance"]["top1"]),
     ("S1 $-$ M5, A", lambda M: M["role_contrasts"]["S1 - M5"]["top1"]),
-    ("S1 $-$ bill-count draw, A", lambda M: M["role_contrasts"]["S1 - bills_null"]["top1"]),
+    ("S1 $-$ draw weighted by bills, A", lambda M: M["role_contrasts"]["S1 - bills_null"]["top1"]),
     (
         "S1 $-$ initiator out-degree, A",
         lambda M: M["role_contrasts"]["S1 - sponsor_activity"]["top1"],
@@ -244,7 +244,7 @@ for lab, fn in items:
     rows.append(lab + " & " + " & ".join(f3(fn(S[c][m])[0]) for c, _ in CASES for m, _ in MECHS))
 table(
     "v3_cases.tex",
-    "Main contrasts in all four cases: mean differences over 30 masks in concordance (R, P, H, S) or top-1 accuracy (A).",
+    "Main contrasts in all four cases: mean differences over 30 random hidings in concordance (R, P, H, S) or top-1 accuracy (A).",
     "tab:case-results",
     "l" + "r" * 8,
     [
@@ -266,7 +266,7 @@ for c, lab in CASES:
     )
 table(
     "v3_closure.tex",
-    "Recorded hyperarcs and the formal concepts generated by their heads in the 2-section of all recorded hyperarcs, without size limits.",
+    "Observed bills and the formal concepts generated by their heads in the directed 2-section of all bills, without size limits.",
     "tab:closure",
     "lrrrrrr",
     [
@@ -302,10 +302,10 @@ for c, lab in CASES:
             )
 table(
     "v3_cases_ci.tex",
-    "Main contrasts in all four cases with mask-bootstrap and sponsor-bootstrap intervals.",
+    "Main contrasts in all four cases with bootstrap over random hidings and sponsor-bootstrap intervals.",
     "tab:case-ci",
     "llllll",
-    [r"Case & mask & contrast & difference & masks & sponsors \\"],
+    [r"Case & mechanism & contrast & difference & random hidings & sponsors \\"],
     rows,
     "R, P, H, S and A denote the random, party-matched, head-perturbation, substitution and role-assignment candidate sets; concordance for R, P, H, S and top-1 accuracy for A.",
     size="scriptsize",
@@ -336,9 +336,9 @@ table(
     "118th Senate: effect of the political covariates on concordance by coalition type and number of original co-sponsors.",
     "tab:size-classes",
     "llllll",
-    [r"Mask & candidate set & class & share & M5 $-$ M4c & S1 $-$ S0 \\"],
+    [r"Mechanism & candidate set & class & share & M5 $-$ M4c & S1 $-$ S0 \\"],
     rows,
-    "The last class uses a share-based definition: at least 20\\% of the original co-sponsors belong to another caucus than the sponsor. Brackets give 95\\% mask-bootstrap intervals.",
+    "The last class uses a share-based definition: at least 20\\% of the original co-sponsors belong to another caucus than the sponsor. Brackets give 95\\% bootstrap intervals over random hidings.",
     resize=True,
 )
 
@@ -350,7 +350,7 @@ for m, ml in MECHS:
         for cl, cll in [
             ("pos_surv", "recorded survives"),
             ("pos_not_surv", "recorded does not survive"),
-            ("neither_surv", "neither survives"),
+            ("neither_surv", "neither visible"),
         ]:
             v = M[s_ + "_classes"][cl]
             cc = v["concordance"]
@@ -363,10 +363,10 @@ table(
     "tab:survival",
     "lllrrrrrr",
     [
-        r"Mask & set & stratum & share & M5 & S1 & directed AA & weighted footprint & observed share \\"
+        r"Mechanism & set & stratum & share & M5 & S1 & directed AA & weighted pair count & observed share \\"
     ],
     rows,
-    "A footprint survives if all its arcs are present in the training 2-section through other observed hyperarcs. The last stratum requires that neither the recorded hyperarc nor its alternative survives.",
+    "A footprint survives if all its arcs are present in the training 2-section through other observed hyperarcs. The last stratum requires that neither the hidden bill nor its alternative survives.",
     resize=True,
 )
 
@@ -466,7 +466,7 @@ if len(sys.argv) > 8:
         "tab:role-classes",
         "lllrrrrrrr",
         [
-            r"Case & mask & class & share & S1 & M5 & bill count & out-degree & bill-count draw & chance \\"
+            r"Case & mechanism & class & share & S1 & M5 & bill count & out-degree & draw weighted by bills & chance \\"
         ],
         rows,
         "With one original co-sponsor, role assignment asks which of two legislators filed the bill.",
@@ -489,9 +489,9 @@ if len(sys.argv) > 8:
         "118th Senate: gain in concordance over S0 on the party-matched sets from each political covariate alone and from all three (S1).",
         "tab:decomposition",
         "llrllll",
-        [r"Mask & coalition & S0 & $+$ party & $+$ state & $+$ ideology & S1 \\"],
+        [r"Mechanism & coalition & S0 & $+$ party & $+$ state & $+$ ideology & S1 \\"],
         rows,
-        "All models fitted by exact MLE with structural zeros. Brackets give 95\\% mask-bootstrap intervals. On party-matched sets both candidates have the same number of same-caucus arcs, so party matching can distinguish them only through Independents.",
+        "All models fitted by exact MLE with structural zeros. Brackets give 95\\% bootstrap intervals over random hidings. On party-matched sets both candidates have the same number of same-caucus arcs, so party matching can distinguish them only through Independents.",
         resize=True,
     )
     # sensitivity (third run)
@@ -523,7 +523,7 @@ if len(sys.argv) > 8:
         "lllrrrrr",
         [r"Analysis & mask & score & R & P & H & S & A \\"],
         rows,
-        "Head limit 3 is a separately constructed target of hyperarcs with at most three original co-sponsors. Training on all hyperarcs means that the training 2-section and the record counts also contain the hyperarcs above the head limit, which are never hidden.",
+        "Head limit 3 is a separately constructed target of hyperarcs with at most three original co-sponsors. Training on all hyperarcs means that the training 2-section and the bill counts also contain the hyperarcs above the head limit, which are never hidden.",
         resize=True,
     )
     # pooled PR-AUC (current run)
@@ -543,9 +543,9 @@ if len(sys.argv) > 8:
             r"Score & R & P & H & S & R & P & H & S \\",
         ],
         rows,
-        "Pooled PR-AUC compares candidates of different sizes and is a secondary metric; concordance is in Table~5 of the main text.",
+        "Pooled PR-AUC compares candidates of different sizes and is a secondary metric; concordance is in Table~6 of the main text.",
     )
-    # joint footprint scores
+    # joint pair scores
     rows = []
     for (_m, ml), Jm in zip(MECHS, J, strict=False):
         for key in ["M4c|random", "M4c|perturb", "M5|random", "M5|perturb"]:
@@ -560,11 +560,11 @@ if len(sys.argv) > 8:
             )
     table(
         "v3_joint.tex",
-        "118th Senate: within-pair concordance of the exact joint footprint score $L_J$ and of $L_{1g}$ for the degree-term models with the selected decay.",
+        "118th Senate: within-pair concordance of the exact joint pair score $L_J$ and of $L_{1g}$ for the degree-term models with the selected decay.",
         "tab:joint",
         "lllrrrr",
-        [r"Mask & model & candidate set & masks & $L_J$ & $L_{1g}$ & max.\ $|$difference$|$ \\"],
+        [r"Mechanism & model & candidate set & random hidings & $L_J$ & $L_{1g}$ & max.\ $|$difference$|$ \\"],
         rows,
-        "First ten masks of each mechanism. Within a pair both footprints have the same size, so normalization per arc does not change the comparison.",
+        "First ten random hidings of each mechanism. Within a pair both footprints have the same size, so normalization per arc does not change the comparison.",
     )
     print("extra SI tables written")

@@ -70,10 +70,10 @@ def supp_table(S):
 
 def hms_table(H):
     out = ["\\begin{table}[tbp]", "\\centering", "\\small",
-           "\\caption{Two-mode ERGM with the standard \\texttt{statnet} bipartite terms (edges, gwb1degree, gwb2degree, cycle(4), b1nodematch for party and state; decays selected by profile pseudolikelihood) against the two-mode ERGM of the main text (HM) and M5. Concordance on the random (R), party-matched (P) and head-perturbation (H) sets, means over 30 masks, and the mean cycle(4) coefficient.}",
+           "\\caption{Two-mode ERGM with the standard \\texttt{statnet} bipartite terms (edges, gwb1degree, gwb2degree, cycle(4), b1nodematch for party and state; decays selected by profile pseudolikelihood) against the two-mode ERGM of the main text (HM) and M5. Concordance on the random (R), party-matched (P) and head-perturbation (H) sets, means over 30 random hidings, and the mean cycle(4) coefficient.}",
            "\\label{tab:hms}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{llrrrrrrrrrr}", "\\toprule",
            " & & \\multicolumn{3}{c}{R} & \\multicolumn{3}{c}{P} & \\multicolumn{3}{c}{H} & \\\\",
-           "Case & mask & statnet & HM & M5 & statnet & HM & M5 & statnet & HM & M5 & cycle(4) \\\\", "\\midrule"]
+           "Case & mechanism & statnet & HM & M5 & statnet & HM & M5 & statnet & HM & M5 & cycle(4) \\\\", "\\midrule"]
     labs = {"s118": "118th Senate", "s117": "117th Senate", "s116": "116th Senate", "h118": "118th House"}
     for key, v in H.items():
         c, m = key.split("_", 1)

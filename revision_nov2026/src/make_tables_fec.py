@@ -23,8 +23,8 @@ NAMES = {
     "alignment": "partisan alignment",
     "degprod": "degree product",
     "bill_count": "committee's batch count",
-    "weighted_footprint": "weighted footprint",
-    "observed_fraction": "observed footprint share",
+    "weighted_footprint": "weighted pair count",
+    "observed_fraction": "observed pair share",
 }
 ROWS = ["BS0", "BS1", "BM", "BM_t05", "LR", "coparticipation", "cofunding", "bipartite_aa", "path3", "degprod", "popularity", "activity", "alignment", "proximity", "bill_count", "weighted_footprint", "observed_fraction"]
 CYC = [("fec24", "2023--24"), ("fec22", "2021--22")]
@@ -42,7 +42,7 @@ def ci(v):
 
 def performance(S):
     out = ["\\begin{table}[tbp]", "\\centering", "\\small",
-           "\\caption{Campaign contributions. Concordance on the random (R), party-matched (P) and head-perturbation (H) candidate sets. Means over 20 masks per cycle and mechanism; the highest value in each column is in bold.}",
+           "\\caption{Campaign contributions. Concordance on the random (R), party-matched (P) and head-perturbation (H) candidate sets. Means over 20 random hidings per cycle and mechanism; the highest value in each column is in bold.}",
            "\\label{tab:fec-performance}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{l" + "rrr" * 4 + "}", "\\toprule",
            " & " + " & ".join(f"\\multicolumn{{6}}{{c}}{{{lab}}}" for _, lab in CYC) + " \\\\",
            " & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{m}}}" for _ in CYC for _, m in MECH) + " \\\\",
@@ -62,11 +62,11 @@ def performance(S):
 
 
 def contrasts(S):
-    keys = [("coparticipation - BM", "co-participation $-$ BM"), ("coparticipation - cofunding", "co-participation $-$ co-funding"), ("BS1 - cofunding", "B1 $-$ co-funding"), ("BM - cofunding", "BM $-$ co-funding"), ("LR - cofunding", "logistic $-$ co-funding"), ("BS1 - BM", "B1 $-$ BM"), ("BM - BM_t05", "BM $-$ BM ($\\tau=0.5$)"), ("BS1 - BS0", "B1 $-$ B0"), ("BS1 - weighted_footprint", "B1 $-$ weighted footprint")]
+    keys = [("coparticipation - BM", "co-participation $-$ BM"), ("coparticipation - cofunding", "co-participation $-$ co-funding"), ("BS1 - cofunding", "B1 $-$ co-funding"), ("BM - cofunding", "BM $-$ co-funding"), ("LR - cofunding", "logistic $-$ co-funding"), ("BS1 - BM", "B1 $-$ BM"), ("BM - BM_t05", "BM $-$ BM ($\\tau=0.5$)"), ("BS1 - BS0", "B1 $-$ B0"), ("BS1 - weighted_footprint", "B1 $-$ weighted pair count")]
     out = ["\\begin{table}[tbp]", "\\centering", "\\scriptsize",
-           "\\caption{Campaign contributions. Paired contrasts in concordance with 95\\% committee-bootstrap intervals (each bootstrap draw resamples committees with all their evaluated hyperarcs and applies the same resample to all masks; fitted models held fixed).}",
+           "\\caption{Campaign contributions. Paired contrasts in concordance with 95\\% committee-bootstrap intervals (each bootstrap draw resamples committees with all their evaluated hyperarcs and applies the same resample to all random hidings; fitted models held fixed).}",
            "\\label{tab:fec-contrasts}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{lllll}", "\\toprule",
-           "Cycle, mask & Contrast & random & party-matched & head perturbation \\\\", "\\midrule"]
+           "Cycle, mechanism & Contrast & random & party-matched & head perturbation \\\\", "\\midrule"]
     for c, lab in CYC:
         for m, ml in MECH:
             for i, (k, kl) in enumerate(keys):
@@ -114,7 +114,7 @@ def classes(S):
            "\\caption{Campaign contributions. Concordance by partisan composition of the hidden hyperarc. A hyperarc is cross-party if at least one recipient belongs to the party other than the one most of the committee's observed recipients belong to.}",
            "\\label{tab:fec-classes}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{llrrrrrr}", "\\toprule",
            " & & & \\multicolumn{2}{c}{B1} & \\multicolumn{2}{c}{B1 $-$ B0} & co-funding \\\\",
-           "Cycle, mask & Candidate set & cross-party share & cross & aligned & cross & aligned & cross / aligned \\\\", "\\midrule"]
+           "Cycle, mechanism & Candidate set & cross-party share & cross & aligned & cross & aligned & cross / aligned \\\\", "\\midrule"]
     for c, lab in CYC:
         for m, ml in MECH:
             for s, sl in [("random", "random"), ("matched", "party-matched"), ("perturb", "head perturbation")]:
@@ -126,8 +126,8 @@ def classes(S):
 
 def tau_table(T):
     out = ["\\begin{table}[tbp]", "\\centering", "\\small",
-           "\\caption{Campaign contributions. Pseudolikelihood of BM (relative to $\\tau=4$) and its concordance for decays beyond the grid, in the first two masks of each cycle and mechanism (means over the two masks).}",
-           "\\label{tab:fec-tau}", "\\begin{tabular}{llrrrr}", "\\toprule", "Cycle, mask & $\\tau$ & $\\Delta$ log PL & random & party-matched & head perturbation \\\\", "\\midrule"]
+           "\\caption{Campaign contributions. Pseudolikelihood of BM (relative to $\\tau=4$) and its concordance for decays beyond the grid, in the first two random hidings of each cycle and mechanism (means over the two random hidings).}",
+           "\\label{tab:fec-tau}", "\\begin{tabular}{llrrrr}", "\\toprule", "Cycle, mechanism & $\\tau$ & $\\Delta$ log PL & random & party-matched & head perturbation \\\\", "\\midrule"]
     for cyc, lab in [("2024", "2023--24"), ("2022", "2021--22")]:
         for m in ["MCAR", "MNAR-out"]:
             ks = [k for k in T if k.startswith(f"{cyc}_{m}_")]
@@ -156,7 +156,7 @@ if __name__ == "__main__":
 def dime_table(D):
     names = {"BS1": "B1", "BM": "BM", "LR": "logistic regression", "cofunding": "co-funding similarity", "proximity": "ideological proximity"}
     out = ["\\begin{table}[tbp]", "\\centering", "\\small",
-           "\\caption{Campaign contributions. Concordance with committee ideology measured from the committee's training recipients (main specification) and from DIME contributor CFscores matched by committee name and state (DIME), on the first ten masks of each cycle and mechanism. The last rows give the B1 coefficients of partisan alignment, ideological distance and same state.}",
+           "\\caption{Campaign contributions. Concordance with committee ideology measured from the committee's training recipients (main specification) and from DIME contributor CFscores matched by committee name and state (DIME), on the first ten random hidings of each cycle and mechanism. The last rows give the B1 coefficients of partisan alignment, ideological distance and same state.}",
            "\\label{tab:fec-dime}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{ll" + "rr" * 4 + "}", "\\toprule",
            " & & " + " & ".join(f"\\multicolumn{{4}}{{c}}{{{lab}}}" for _, lab in CYC) + " \\\\",
            " & & " + " & ".join(f"\\multicolumn{{2}}{{c}}{{{m}}}" for _ in CYC for _, m in MECH) + " \\\\",
@@ -198,9 +198,9 @@ if __name__ == "__main__" and len(sys.argv) > 5:
 
 
 def week_table(Wk):
-    names = {"BS1": "B1", "BM": "BM", "LR": "logistic regression", "cofunding": "co-funding similarity", "path3": "three-paths", "weighted_footprint": "weighted footprint"}
+    names = {"BS1": "B1", "BM": "BM", "LR": "logistic regression", "cofunding": "co-funding similarity", "path3": "three-paths", "weighted_footprint": "weighted pair count"}
     out = ["\\begin{table}[tbp]", "\\centering", "\\small",
-           "\\caption{Campaign contributions with hyperarcs defined by committee and seven-day window instead of committee and date. Concordance on the random (R), party-matched (P) and head-perturbation (H) sets on the first ten masks of each cycle and mechanism, with the main specification (one date) on the same mask numbers.}",
+           "\\caption{Campaign contributions with hyperarcs defined by committee and seven-day window instead of committee and date. Concordance on the random (R), party-matched (P) and head-perturbation (H) sets on the first ten random hidings of each cycle and mechanism, with the main specification (one date) on the same mask numbers.}",
            "\\label{tab:fec-week}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{ll" + "rr" * 4 + "}", "\\toprule",
            " & & " + " & ".join(f"\\multicolumn{{4}}{{c}}{{{lab}}}" for _, lab in CYC) + " \\\\",
            " & & " + " & ".join(f"\\multicolumn{{2}}{{c}}{{{m}}}" for _ in CYC for _, m in MECH) + " \\\\",
