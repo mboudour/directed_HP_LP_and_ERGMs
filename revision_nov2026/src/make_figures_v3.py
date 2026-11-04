@@ -35,11 +35,7 @@ fig, axes = plt.subplots(2, 2, figsize=(10.5, 7.2), sharex=True)
 for ax, (panel, title) in zip(axes.ravel(), PANELS, strict=False):
     for k, (key, lab, col, mk) in enumerate(SERIES):
         if panel == "role":
-            vals = [
-                S[c][m]["role"][key]["top1"][0] - S[c][m]["role"]["chance"]["top1"][0]
-                for c, _ in CASES
-                for m, _ in MECHS
-            ]
+            vals = [S[c][m]["role"][key]["top1"][0] - S[c][m]["role"]["chance"]["top1"][0] for c, _ in CASES for m, _ in MECHS]
         else:
             vals = [S[c][m][panel][key]["concordance"][0] for c, _ in CASES for m, _ in MECHS]
         ax.plot(x + (k - 2) * 0.08, vals, mk, color=col, label=lab, markersize=5)

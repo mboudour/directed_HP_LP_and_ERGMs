@@ -98,8 +98,8 @@ def data_table(S):
         ("Committees in the generated concept, mean (median)", lambda c: f"{cl[c]['mean_tail']:.1f} ({cl[c]['median_tail']:.0f})"),
         ("Jaccard similarity of footprints, mean", lambda c: f"{cl[c]['mean_jaccard']:.3f}"),
         ("Head over committee's out-neighbourhood, mean", lambda c: f"{cl[c]['mean_head_over_outneighbourhood']:.3f}"),
-        ("Evaluated withheld hyperarcs per mask, MCAR", lambda c: f"{S[c]['MCAR']['evaluated']:,.0f}"),
-        ("Evaluated withheld hyperarcs per mask, MNAR-out", lambda c: f"{S[c]['MNAR-out']['evaluated']:,.0f}"),
+        ("Evaluated hidden hyperarcs per mask, MCAR", lambda c: f"{S[c]['MCAR']['evaluated']:,.0f}"),
+        ("Evaluated hidden hyperarcs per mask, MNAR-out", lambda c: f"{S[c]['MNAR-out']['evaluated']:,.0f}"),
         ("Recorded footprint not surviving (share), MCAR", lambda c: f"{S[c]['MCAR']['random_classes']['pos_not_surv']['share']:.3f}"),
         ("Recorded footprint not surviving (share), MNAR-out", lambda c: f"{S[c]['MNAR-out']['random_classes']['pos_not_surv']['share']:.3f}"),
     ]
@@ -111,7 +111,7 @@ def data_table(S):
 
 def classes(S):
     out = ["\\begin{table}[tbp]", "\\centering", "\\small",
-           "\\caption{Campaign contributions. Concordance by partisan composition of the withheld hyperarc. A hyperarc is cross-party if at least one recipient belongs to the party other than the one most of the committee's observed recipients belong to.}",
+           "\\caption{Campaign contributions. Concordance by partisan composition of the hidden hyperarc. A hyperarc is cross-party if at least one recipient belongs to the party other than the one most of the committee's observed recipients belong to.}",
            "\\label{tab:fec-classes}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{llrrrrrr}", "\\toprule",
            " & & & \\multicolumn{2}{c}{B1} & \\multicolumn{2}{c}{B1 $-$ B0} & co-funding \\\\",
            "Cycle, mask & Candidate set & cross-party share & cross & aligned & cross & aligned & cross / aligned \\\\", "\\midrule"]
@@ -180,7 +180,7 @@ if __name__ == "__main__" and len(sys.argv) > 4:
 def types_table(T):
     order = [("corporate", "corporate PACs"), ("trade/membership", "trade, membership, cooperative"), ("labor", "labor PACs"), ("nonconnected", "nonconnected committees"), ("leadership", "leadership PACs"), ("candidate", "candidate committees")]
     out = ["\\begin{table}[tbp]", "\\centering", "\\small",
-           "\\caption{Campaign contributions by kind of committee (FEC committee master file), MCAR. Committees, share of evaluated withheld hyperarcs, share of these that are cross-party, and concordance of B1 and co-funding similarity on the random (R) and party-matched (P) sets, with the gain of the covariates (B1 $-$ B0) on the random sets. Party committees (four and six) are omitted.}",
+           "\\caption{Campaign contributions by kind of committee (FEC committee master file), MCAR. Committees, share of evaluated hidden hyperarcs, share of these that are cross-party, and concordance of B1 and co-funding similarity on the random (R) and party-matched (P) sets, with the gain of the covariates (B1 $-$ B0) on the random sets. Party committees (four and six) are omitted.}",
            "\\label{tab:fec-types}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{llrrrrrrrr}", "\\toprule",
            "Cycle & Committees & number & share & cross-party & B1, R & co-funding, R & B1, P & co-funding, P & B1 $-$ B0, R \\\\", "\\midrule"]
     for c, lab in CYC:

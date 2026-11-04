@@ -107,7 +107,7 @@ for c, clab in CASES:
         rows.append(f"{clab} & {ml} & " + " & ".join(cells))
 table(
     "v4_uncap.tex",
-    "Training on all recorded hyperarcs, including those with more than ten original co-sponsors (which are never withheld): concordance on the random (R) and head-perturbation (H) sets and top-1 accuracy (A).",
+    "Training on all recorded hyperarcs, including those with more than ten original co-sponsors (which are never hidden): concordance on the random (R) and head-perturbation (H) sets and top-1 accuracy (A).",
     "tab:uncap",
     "ll" + "r" * 10,
     [r" & & \multicolumn{3}{c}{R} & \multicolumn{3}{c}{H} & \multicolumn{4}{c}{A} \\", r"Case & mask & M5 & S1 & weighted & M5 & S1 & weighted & M5 & S1 & bill count & chance \\"],

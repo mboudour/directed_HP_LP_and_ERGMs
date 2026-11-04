@@ -259,8 +259,8 @@ table(
     "llrrrr",
     "Case & mask & hyperarc rate & record rate & arc removal & surviving footprints",
     rows,
-    "A surviving footprint means every arc of a withheld hyperarc remains in the 2-section through another observed hyperarc; it is a "
-    "property of the 2-section, not leakage of the withheld record.",
+    "A surviving footprint means every arc of a hidden hyperarc remains in the 2-section through another observed hyperarc; it is a "
+    "property of the 2-section, not leakage of the hidden record.",
 resize=True,
 )
 
@@ -290,7 +290,7 @@ table(
     "llrlll",
     "Mask & footprint pattern & share & M5 & S1 & degree product",
     rows,
-    "Each entry is the tie-aware probability that the score ranks the withheld recorded hyperarc above its substitute; "
+    "Each entry is the tie-aware probability that the score ranks the hidden recorded hyperarc above its substitute; "
     "brackets are 95\\% mask-bootstrap intervals.",
     resize=True,
 )
@@ -314,12 +314,12 @@ for mech, ml in MECHS:
 share = S["mechs"]["MCAR"]["bipartisan"]["random"]["share_bipartisan"]
 table(
     "table_r3_bipartisan.tex",
-    "118th Senate: mean PR-AUC by coalition type. A withheld hyperarc is bipartisan if at least one original co-sponsor belongs to a different caucus from the sponsor.",
+    "118th Senate: mean PR-AUC by coalition type. A hidden hyperarc is bipartisan if at least one original co-sponsor belongs to a different caucus from the sponsor.",
     "tab:bipartisan",
     "lllrrrrrll",
     r"Mask & candidate set & coalition & party & M5 & S1 & dir.\ AA & deg.\ prod. & M5 minus M4c & S1 minus S0",
     rows,
-    f"Independents are assigned to the Democratic caucus. Bipartisan hyperarcs form {100 * share:.1f}\\% of the withheld positives in the MCAR random candidate sets. "
+    f"Independents are assigned to the Democratic caucus. Bipartisan hyperarcs form {100 * share:.1f}\\% of the hidden positives in the MCAR random candidate sets. "
     "PR-AUC is computed within each stratum; negatives keep their pairing with the positive.",
     resize=True,
 )
@@ -376,7 +376,7 @@ table(
     "lrr",
     "MPLE model & PR-AUC & ROC-AUC",
     rows,
-    "Thirty arc-level masks, in which 30\\% of arcs are withheld at random and paired with an equal number of random non-arcs; "
+    "Thirty arc-level masks, in which 30\\% of arcs are hidden at random and paired with an equal number of random non-arcs; "
     "scores are MPLE conditional tie probabilities on the remaining 2-section.",
 )
 

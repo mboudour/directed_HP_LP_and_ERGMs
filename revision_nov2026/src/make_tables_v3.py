@@ -160,7 +160,7 @@ table(
     "lllrl",
     [r"Mask & set & contrast & difference & 95\% interval \\"],
     rows,
-    "Differences are means over 30 masks. Intervals are sponsor-bootstrap intervals, in which each bootstrap draw resamples the sponsors of the record, with all their withheld hyperarcs, and applies the resample to all masks.",
+    "Differences are means over 30 masks. Intervals are sponsor-bootstrap intervals, in which each bootstrap draw resamples the sponsors of the record, with all their hidden hyperarcs, and applies the resample to all masks.",
 )
 
 # ------------------------------------------------------------ bipartisan (party-matched sets)
@@ -523,7 +523,7 @@ if len(sys.argv) > 8:
         "lllrrrrr",
         [r"Analysis & mask & score & R & P & H & S & A \\"],
         rows,
-        "Head limit 3 is a separately constructed target of hyperarcs with at most three original co-sponsors. Training on all hyperarcs means that the training 2-section and the record counts also contain the hyperarcs above the head limit, which are never withheld.",
+        "Head limit 3 is a separately constructed target of hyperarcs with at most three original co-sponsors. Training on all hyperarcs means that the training 2-section and the record counts also contain the hyperarcs above the head limit, which are never hidden.",
         resize=True,
     )
     # pooled PR-AUC (current run)
