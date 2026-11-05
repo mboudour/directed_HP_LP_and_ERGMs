@@ -46,6 +46,7 @@ The re-implementation reproduces the published 118th Senate outputs in
 | Training on all recorded bills, all cases | `src/run_v3.py s117uncap` (etc.) | `results/v3/summary_v3_sens.json` |
 | Exact simulation from the MLE of S0, S1, SI | `src/sim_p1.py` | `results/v3/sim_p1.json` |
 | Tables of the fourth run | `src/make_tables_v4.py` | `tables/` |
+| Hidden-supporter task (one supporter of a hidden bill or batch hidden; 9 most active and 10 random alternatives) with the ERGMs, hypergraph heuristics (co-citation, HPRA) and NHP-D; co-sponsorship and contributions | `src/run_member.py`, `src/run_member_fec.py`, `src/nhpd.py`, `src/summary_member.py`, `src/make_tables_member.py` | `results/summary_member.json` |
 
 The output paths in the table are working paths. The identifier-free aggregates
 committed in `results/` are:
@@ -118,3 +119,7 @@ A 118th Senate case takes about 3 minutes for all 60 splits on one core. The Hou
 ## Privacy
 
 Published outputs are aggregates. No actor identifiers, event rows or candidate panels are written to `results/` in this folder.
+
+NHP-D (`src/nhpd.py`) needs `torch` and `gensim` in addition to the packages above.
+Node2Vec with p = q = 1 is computed as uniform random walks followed by skip-gram
+training with gensim, which is equivalent and avoids a dependency that pins an older numpy.
