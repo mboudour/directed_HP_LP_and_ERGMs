@@ -31,8 +31,8 @@ def cell(S, c, m, sub, k):
 
 def main_table(S, mech="MCAR", label="tab:member"):
     cases = [c for c in CASES if c[0] in S and mech in S[c[0]]]
-    caption = ("Hidden-supporter task. Mean reciprocal rank of the hidden supporter, given the initiator and the other supporters, against all 19 alternatives (All, chance 0.180) and against the 10 alternatives drawn at random only (Random, chance 0.274), bills or batches hidden at random (MCAR), means over random hidings. The highest value in each column is in bold."
-               if mech == "MCAR" else "Hidden-supporter task under the omission of active sponsors' bills or active committees' batches (MNAR-out). Mean reciprocal rank against all 19 alternatives (All) and against the 10 random alternatives only (Random), means over random hidings. The highest value in each column is in bold.")
+    caption = ("Hidden-supporter task. Mean reciprocal rank of the hidden supporter, given the initiator and the other supporters, against all 19 alternatives (All, chance 0.180) and against the 10 alternatives drawn at random only (Random, chance 0.274), bills or batches hidden at random (MCAR), means over ten random hidings for co-sponsorship and five for contributions. The highest value in each column is in bold."
+               if mech == "MCAR" else "Hidden-supporter task under the omission of active sponsors' bills or active committees' batches (MNAR-out). Mean reciprocal rank against all 19 alternatives (All) and against the 10 random alternatives only (Random), means over ten random hidings for co-sponsorship and five for contributions. The highest value in each column is in bold.")
     out = ["\\begin{table}[tbp]", "\\centering", "\\small", f"\\caption{{{caption}}}", f"\\label{{{label}}}", "\\resizebox{\\textwidth}{!}{%",
            "\\begin{tabular}{l" + "rr" * len(cases) + "}", "\\toprule",
            " & " + " & ".join(f"\\multicolumn{{2}}{{c}}{{{lab}}}" for _, lab in cases) + " \\\\",
