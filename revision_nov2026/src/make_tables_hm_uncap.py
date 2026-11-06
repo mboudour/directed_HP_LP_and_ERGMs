@@ -14,7 +14,7 @@ SETS = [("random", "R"), ("matched", "P"), ("perturb", "H")]
 def main(js, out):
     U = json.load(open(js))
     L = ["{\\scriptsize", "\\begin{longtable}{llrrrrrll}",
-         "\\caption{Training on bills of all sizes. Concordance of the two-mode ERGM (HM), M5, S1 and the weighted pair count on the random (R), party-matched (P) and head-perturbation (H) sets when all bills, including those with more than ten original co-sponsors, are used for training, means over 30 random hidings, and paired differences of HM with M5 and S1 with 95\\% sponsor-bootstrap intervals.}\\label{tab:hm-uncap} \\\\",
+         "\\caption{Training on bills of all sizes. Concordance of the two-mode ERGM (HM), HM0 (without the closure term), M5, S1 and the weighted pair count on the random (R), party-matched (P) and head-perturbation (H) sets when all bills, including those with more than ten original co-sponsors, are used for training, means over 30 random hidings, and paired differences of HM with M5 and S1 with 95\\% sponsor-bootstrap intervals.}\\label{tab:hm-uncap} \\\\",
          "\\toprule", "Case and mechanism & Set & HM & HM0 & M5 & S1 & Weighted & HM $-$ M5 & HM $-$ S1 \\\\", "\\midrule", "\\endfirsthead",
          "\\toprule", "Case and mechanism & Set & HM & HM0 & M5 & S1 & Weighted & HM $-$ M5 & HM $-$ S1 \\\\", "\\midrule", "\\endhead"]
     for c, lab in CASES:
