@@ -18,6 +18,8 @@ are the target. Two stages:
           stores all scores.
 
 Usage: python temporal_cosp.py export CASE OUTDIR
+       python temporal_cosp.py fitpy CASE OUTDIR    (TERGM in Python, instead of tergm_forecast.R)
+       (environment TARGET_START=7 forecasts the last quarter instead of the last six months)
        python temporal_cosp.py score CASE OUTDIR
 """
 
@@ -37,7 +39,8 @@ import um
 from run_v2 import matched_negatives
 from run_v3 import MLE_MODELS, TAU_GRID, fit_mple, overlap_matrix, perturb_negatives
 
-TRAIN_Q, TARGET_Q = range(0, 6), (6, 7)
+T0 = int(os.environ.get("TARGET_START", "6"))  # first target quarter; 6 = last six months, 7 = last quarter
+TRAIN_Q, TARGET_Q = range(0, T0), tuple(range(T0, 8))
 
 
 def quarters(case):
@@ -61,13 +64,7 @@ def lagged(A_hist, n):
     inn = np.ones((n, 1)) * np.log1p(B.sum(0))[None, :]
     two = np.log1p(B @ B)
     np.fill_diagonal(two, 0)
-    return {
-        "history": np.log1p(H),
-        "hist_rev": np.log1p(H.T),
-        "out_lag": out,
-        "in_lag": inn,
-        "twopath_lag": two,
-    }
+    return {"history": np.log1p(H), "hist_rev": np.log1p(H.T), "out_lag": out, "in_lag": inn, "twopath_lag": two}
 
 
 def exo(case):
@@ -88,35 +85,28 @@ def export(name, outdir):
     X = exo(case)
     for k, M in X.items():
         np.savetxt(f"{outdir}/exo_{k}.csv", M, delimiter=",", fmt="%.6g")
-    for t in range(1, 6):
+    for t in range(1, T0):
         np.savetxt(f"{outdir}/net_{t}.csv", (A[t] > 0).astype(int), delimiter=",", fmt="%d")
         L = lagged(A[:t].sum(0), n)
         L["memory"] = (A[t - 1] > 0).astype(float)
         L["delrecip"] = (A[t - 1].T > 0).astype(float)
         for k, M in L.items():
             np.savetxt(f"{outdir}/lag_{t}_{k}.csv", M, delimiter=",", fmt="%.6g")
-    L = lagged(A[:6].sum(0), n)
-    L["memory"] = (A[5] > 0).astype(float)
-    L["delrecip"] = (A[5].T > 0).astype(float)
+    L = lagged(A[:T0].sum(0), n)
+    L["memory"] = (A[T0 - 1] > 0).astype(float)
+    L["delrecip"] = (A[T0 - 1].T > 0).astype(float)
     for k, M in L.items():
         np.savetxt(f"{outdir}/lag_target_{k}.csv", M, delimiter=",", fmt="%.6g")
-    tgt = (A[6] + A[7]) > 0
+    tgt = A[T0:].sum(0) > 0
     np.savetxt(f"{outdir}/net_target.csv", tgt.astype(int), delimiter=",", fmt="%d")
     pickle.dump({"quarters": q.tolist(), "n": n}, open(f"{outdir}/meta.pkl", "wb"))
-    print(
-        name,
-        "train bills",
-        int(np.isin(q, TRAIN_Q).sum()),
-        "target bills",
-        int((q >= 6).sum()),
-        flush=True,
-    )
+    print(name, "train bills", int(np.isin(q, TRAIN_Q).sum()), "target bills", int((q >= T0).sum()), flush=True)
 
 
 def score(name, outdir):
     case = runlib.make_case(name)
     q = quarters(case)
-    m = q >= 6
+    m = q >= T0
     case.mask = lambda mech, rep, _m=m: (_m, 0)
     n = case.n
     Y = np.zeros((n, n), np.int8)
@@ -178,33 +168,44 @@ def score(name, outdir):
         sp = sc(s, H)
         for nm, qq in (("random", negs[k]), ("matched", mneg[k]), ("perturb", pneg[k])):
             if qq is not None:
-                sets[nm].append(
-                    (
-                        sp,
-                        sc(*qq),
-                        {
-                            "sponsor": int(s),
-                            "other": sum(int(cov["caucus"][h] != cov["caucus"][s]) for h in H),
-                        },
-                    )
-                )
+                sets[nm].append((sp, sc(*qq), {"sponsor": int(s), "other": sum(int(cov["caucus"][h] != cov["caucus"][s]) for h in H)}))
         Pset = sorted(H | {s})
         role.append(([sc(x, frozenset(Pset) - {x}) for x in Pset], Pset.index(s), int(s)))
-    res = {
-        "info": {
-            "case": name,
-            "train": int((~m).sum()),
-            "target": int(m.sum()),
-            "evaluated": len(pos),
-            "tau_hat": tau_hat,
-        },
-        **sets,
-        "role": role,
-    }
+    res = {"info": {"case": name, "train": int((~m).sum()), "target": int(m.sum()), "evaluated": len(pos), "tau_hat": tau_hat}, **sets, "role": role}
     pickle.dump(res, open(f"{outdir}/scores.pkl", "wb"))
     print(name, res["info"], flush=True)
 
 
+def fitpy(name, outdir, R=100):
+    """Bootstrapped MPLE of the lagged TERGM with tergm_py (equivalent to btergm for these terms),
+    from the files written by export; writes forecast_P.csv and tergm_coef.csv."""
+    import csv
+    import glob
+
+    import tergm_py
+
+    rd = lambda f: np.loadtxt(f"{outdir}/{f}", delimiter=",")
+    lagk = sorted(os.path.basename(f)[6:-4] for f in glob.glob(f"{outdir}/lag_1_*.csv"))
+    exok = sorted(os.path.basename(f)[4:-4] for f in glob.glob(f"{outdir}/exo_*.csv"))
+    E = {k: rd(f"exo_{k}.csv") for k in exok}
+    n = E[exok[0]].shape[0]
+    off = ~np.eye(n, dtype=bool)
+    names = ["edges", *lagk, *exok]
+    blocks = []
+    for t in range(1, T0):
+        cols = [np.ones(off.sum(), np.float32)] + [rd(f"lag_{t}_{k}.csv")[off].astype(np.float32) for k in lagk] + [E[k][off].astype(np.float32) for k in exok]
+        blocks.append((np.stack(cols, 1), rd(f"net_{t}.csv")[off].astype(float)))
+    est, lo, hi = tergm_py.fit(blocks, R=int(R))
+    with open(f"{outdir}/tergm_coef.csv", "w", newline="") as f:
+        wr = csv.writer(f)
+        wr.writerow(["term", "estimate", "2.5%", "97.5%"])
+        for row in zip(names, est, lo, hi, strict=True):
+            wr.writerow([row[0], *[f"{v:.6g}" for v in row[1:]]])
+    eta = est[0] + sum(est[1 + j] * rd(f"lag_target_{k}.csv") for j, k in enumerate(lagk)) + sum(est[1 + len(lagk) + j] * E[k] for j, k in enumerate(exok))
+    np.savetxt(f"{outdir}/forecast_P.csv", 1 / (1 + np.exp(-eta)), delimiter=",", fmt="%.6g")
+    print(name, dict(zip(names, np.round(est, 3), strict=True)), flush=True)
+
+
 if __name__ == "__main__":
     stage, name, outdir = sys.argv[1:4]
-    export(name, outdir) if stage == "export" else score(name, outdir)
+    {"export": export, "score": score, "fitpy": fitpy}[stage](name, outdir)

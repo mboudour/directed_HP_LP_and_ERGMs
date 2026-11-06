@@ -9,7 +9,7 @@ import sys
 
 CASES = [("s118", "118th Senate"), ("s117", "117th Senate"), ("s116", "116th Senate"), ("h118", "118th House"), ("fec24", "Contributions 2023--24"), ("fec22", "Contributions 2021--22")]
 ROWS = [
-    ("HM", "HM (two-mode ERGM)"), ("UM", "UM (undirected ERGM)"), ("M5", "M5"), ("S1", "S1"), ("BM", "BM"), ("BS1", "B1"), ("LR", "LR"),
+    ("HM", "HM (two-mode ERGM)"), ("UM", "UM (undirected pairwise ERGM)"), ("M5", "M5"), ("S1", "S1"), ("BM", "BM"), ("BS1", "B1"), ("LR", "LR"),
     ("NHPD_maxmin", "NHP-D-maxmin+"), ("NHPD_mean", "NHP-D-mean"),
     ("coparticipation", "co-participation"), ("hpra", "HPRA"), ("cocitation", "co-citation"),
     ("cofunding", "co-funding similarity"), ("weighted_pair", "weighted pair count"), ("aa_total", "directed Adamic--Adar"), ("path3", "three-paths"), ("indegree", "in-degree"),

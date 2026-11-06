@@ -16,7 +16,7 @@ def ci(v):
 
 def table(S):
     out = ["\\begin{table}[tbp]", "\\centering", "\\small",
-           "\\caption{Pairwise and higher-order ERGMs. Concordance on the random (R) and head-perturbation (H) sets for the undirected pairwise ERGM (UM), the directed pairwise ERGMs (M5, S1) and the higher-order ERGM of the incidence network (HM); the difference HM $-$ M5 with 95\\% sponsor-bootstrap intervals; and top-1 accuracy of S1 and the role-labelled higher-order ERGM (HR) on the role-assignment sets. Means over 30 random hidings.}",
+           "\\caption{Pairwise and higher-order ERGMs. Concordance on the random (R) and head-perturbation (H) sets for the undirected pairwise ERGM (UM), the directed pairwise ERGMs (M5, S1) and the two-mode ERGM (HM); the difference HM $-$ M5 with 95\\% sponsor-bootstrap intervals; and top-1 accuracy of S1 and the role-labelled two-mode ERGM (HR) on the role-assignment sets. Means over 30 random hidings.}",
            "\\label{tab:grid}", "\\resizebox{\\textwidth}{!}{%", "\\begin{tabular}{llrrrrrrrrllrr}", "\\toprule",
            " & & \\multicolumn{4}{c}{R} & \\multicolumn{4}{c}{H} & \\multicolumn{2}{c}{HM $-$ M5} & \\multicolumn{2}{c}{Top-1} \\\\",
            "Case & mechanism & UM & M5 & S1 & HM & UM & M5 & S1 & HM & R & H & S1 & HR \\\\", "\\midrule"]
@@ -36,7 +36,7 @@ def table(S):
 
 def supp(S):
     out = ["{\\scriptsize", "\\begin{longtable}{lllll}",
-           "\\caption{Pairwise and higher-order ERGMs, paired contrasts with 95\\% sponsor-bootstrap intervals on the random, party-matched and head-perturbation sets, and initiator identification by the role-labelled higher-order ERGM (HR).}\\label{tab:grid-full} \\\\",
+           "\\caption{Pairwise and higher-order ERGMs, paired contrasts with 95\\% sponsor-bootstrap intervals on the random, party-matched and head-perturbation sets, and initiator identification by the role-labelled two-mode ERGM (HR).}\\label{tab:grid-full} \\\\",
            "\\toprule", "Case, mechanism & Contrast & random & party-matched & head perturbation \\\\", "\\midrule", "\\endfirsthead",
            "\\toprule", "Case, mechanism & Contrast & random & party-matched & head perturbation \\\\", "\\midrule", "\\endhead"]
     keys = [("HM - M5", "HM $-$ M5"), ("HM - S1", "HM $-$ S1"), ("HM - HM0", "HM $-$ HM0"), ("HM - coparticipation", "HM $-$ co-participation"), ("M5 - UM", "M5 $-$ UM"), ("HM - UM", "HM $-$ UM"), ("HM - LR", "HM $-$ logistic")]

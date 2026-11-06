@@ -47,6 +47,11 @@ The re-implementation reproduces the published 118th Senate outputs in
 | Exact simulation from the MLE of S0, S1, SI | `src/sim_p1.py` | `results/v3/sim_p1.json` |
 | Tables of the fourth run | `src/make_tables_v4.py` | `tables/` |
 | Hidden-supporter task (one supporter of a hidden bill or batch hidden; 9 most active and 10 random alternatives) with the ERGMs, hypergraph heuristics (co-citation, HPRA) and NHP-D; co-sponsorship and contributions | `src/run_member.py`, `src/run_member_fec.py`, `src/nhpd.py`, `src/summary_member.py`, `src/make_tables_member.py` | `results/summary_member.json` |
+| Hidden-supporter task with a full ranking against all active legislators; NHP-D also trained on random alternatives | `src/run_member_full.py`, `src/summary_member_full.py`, `src/make_tables_member_full.py` | `results/summary_member_full.json` |
+| Two-mode ERGM trained on all bills (run with CASE ending in `uncap`) | `src/run_hm.py`, `src/summary_hm_uncap.py`, `src/make_tables_hm_uncap.py` | `results/summary_hm_uncap.json` |
+| Valued ERGM of the weighted undirected 2-section (Poisson reference, dyad-independent) | `src/run_vm.py`, `src/summary_vm.py`, `src/make_tables_vm.py` | `results/summary_vm.json` |
+| Two-mode ERGM for campaign contributions (candidate ties to batches, case-control MPLE) | `src/run_hm_fec.py`, `src/summary_hm_fec.py`, `src/make_tables_hm_fec.py` | `results/summary_hm_fec.json` |
+| Forecasting the last quarter (`TARGET_START=7`; `temporal_cosp.py fitpy` fits the TERGM in Python) | `src/temporal_cosp.py`, `src/temporal_fec.py`, `src/summary_temporal.py` (`TEMPORAL_PREFIX=temporal7_`), `src/make_tables_temporal7.py` | `results/summary_temporal7.json` |
 
 The output paths in the table are working paths. The identifier-free aggregates
 committed in `results/` are:

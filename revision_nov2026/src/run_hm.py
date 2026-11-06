@@ -6,6 +6,7 @@ the random, party-matched and head-perturbation pairs (same seeds and constraint
 alignment with the stored pairs is checked through the weighted footprint.
 
 Usage: python run_hm.py CASE V3_DIR OUTDIR [REPS]
+(CASE ending in 'uncap' trains on all bills, as in run_v3.py.)
 """
 
 import os
@@ -33,10 +34,16 @@ def run_split(case, mech, rep):
             W[s, list(H)] += c
             events.append({s, *H})
             weights.append(c)
-    models = {
-        name: hm.fit(events, weights, n, case.cov, terms)
-        for name, terms in (("HM", hm.TERMS_HM), ("HM0", hm.TERMS_HM0))
-    }
+    if getattr(case, "train_uncapped", False):
+        noncap = set(case.noncap)
+        for (sb, Hb), c in case.all_types_count.items():
+            if (case.idx[sb], frozenset(case.idx[h] for h in Hb)) in noncap:
+                s, H = case.idx[sb], [case.idx[h] for h in Hb]
+                Y[s, H] = 1
+                W[s, H] += c
+                events.append({s, *H})
+                weights.append(c)
+    models = {name: hm.fit(events, weights, n, case.cov, terms) for name, terms in (("HM", hm.TERMS_HM), ("HM0", hm.TERMS_HM0))}
     R = benchmark.reach2(Y)
     held = [t for t, mm in zip(case.types, m, strict=False) if mm]
     pos = [t for t in held if R[np.ix_(list(t[1] | {t[0]}), list(t[1] | {t[0]}))].all()]
@@ -56,15 +63,18 @@ def run_split(case, mech, rep):
         for name, q in [("random", negs[k]), ("matched", mneg[k]), ("perturb", pneg[k])]:
             if q is not None:
                 sets[name].append((sp, score(*q)))
-    theta = {
-        k: dict(zip(md["terms"], md["theta"].tolist(), strict=True)) for k, md in models.items()
-    }
+    theta = {k: dict(zip(md["terms"], md["theta"].tolist(), strict=True)) for k, md in models.items()}
     return {"theta": theta, **sets}
 
 
 def main(name, v3dir, outdir, reps=30):
     os.makedirs(outdir, exist_ok=True)
-    case = runlib.make_case(name)
+    if name.endswith("uncap"):
+        case = runlib.make_case(name[:-5])
+        case.train_uncapped = True
+        case.name = name
+    else:
+        case = runlib.make_case(name)
     for mech in ["MCAR", "MNAR-out"]:
         for rep in range(1, reps + 1):
             f = f"{outdir}/{mech}_{rep:02d}.pkl"
@@ -78,14 +88,7 @@ def main(name, v3dir, outdir, reps=30):
                 b = [p[i]["weighted_footprint"] for p in old[k] for i in (0, 1)]
                 assert len(a) == len(b) and np.allclose(a, b), (name, mech, rep, k)
             pickle.dump(r, open(f, "wb"))
-            print(
-                name,
-                mech,
-                rep,
-                round(time.time() - t, 1),
-                {k: round(v, 3) for k, v in r["theta"]["HM"].items()},
-                flush=True,
-            )
+            print(name, mech, rep, round(time.time() - t, 1), {k: round(v, 3) for k, v in r["theta"]["HM"].items()}, flush=True)
 
 
 if __name__ == "__main__":

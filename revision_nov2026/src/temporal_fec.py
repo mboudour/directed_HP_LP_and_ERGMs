@@ -27,6 +27,8 @@ import fec_case as F
 import numpy as np
 import run_fec as R
 
+T0 = int(os.environ.get("TARGET_START", "6"))  # first target quarter; 6 = last six months, 7 = last quarter
+
 
 def quarter(d, cycle):
     try:
@@ -89,13 +91,13 @@ def export(fec_dir, dime, cycle, outdir):
     A = nets(case, bq)
     for k, M in exo(case).items():
         np.savetxt(f"{outdir}/exo_{k}.csv", M, delimiter=",", fmt="%.6g")
-    for t in range(1, 6):
+    for t in range(1, T0):
         np.savetxt(f"{outdir}/net_{t}.csv", (A[t] > 0).astype(int), delimiter=",", fmt="%d")
         for k, M in lagged(case, A[:t].sum(0), A[t - 1]).items():
             np.savetxt(f"{outdir}/lag_{t}_{k}.csv", M, delimiter=",", fmt="%.6g")
-    for k, M in lagged(case, A[:6].sum(0), A[5]).items():
+    for k, M in lagged(case, A[:T0].sum(0), A[T0 - 1]).items():
         np.savetxt(f"{outdir}/lag_target_{k}.csv", M, delimiter=",", fmt="%.6g")
-    tgt = np.array([all(q >= 6 for q in qs) for qs in bq])
+    tgt = np.array([all(q >= T0 for q in qs) for qs in bq])
     pickle.dump({"target": tgt.tolist()}, open(f"{outdir}/meta.pkl", "wb"))
     print(cycle, "types", len(case.types), "target types", int(tgt.sum()), flush=True)
 
@@ -103,14 +105,14 @@ def export(fec_dir, dime, cycle, outdir):
 def score(fec_dir, dime, cycle, outdir):
     case = F.build_case(fec_dir, dime, int(cycle))
     bq = batch_quarters(case)
-    m = np.array([all(q >= 6 for q in qs) for qs in bq])
+    m = np.array([all(q >= T0 for q in qs) for qs in bq])
     Y = np.zeros((case.C, case.K), np.int8)
     W = np.zeros((case.C, case.K))
     bills = np.zeros(case.C)
     for (s, H), qs, mm in zip(case.types, bq, m, strict=True):
         if mm:
             continue
-        c = sum(1 for q in qs if q <= 5)
+        c = sum(1 for q in qs if q <= T0 - 1)
         if c == 0:
             continue
         Y[s, list(H)] = 1
@@ -171,7 +173,7 @@ def fitpy(fec_dir, dime, cycle, outdir, R=100):
     X0 = exo(case)
     names = None
     blocks = []
-    for t in range(1, 6):
+    for t in range(1, T0):
         L = lagged(case, A[:t].sum(0), A[t - 1])
         keys = list(L) + list(X0)
         names = ["edges", *keys]
@@ -187,7 +189,7 @@ def fitpy(fec_dir, dime, cycle, outdir, R=100):
         wr.writerow(["term", "estimate", "2.5%", "97.5%"])
         for row in zip(names, est, lo, hi, strict=True):
             wr.writerow([row[0], *[f"{v:.6g}" for v in row[1:]]])
-    L = lagged(case, A[:6].sum(0), A[5])
+    L = lagged(case, A[:T0].sum(0), A[T0 - 1])
     eta = (
         est[0]
         + sum(est[1 + j] * L[k] for j, k in enumerate(L))
