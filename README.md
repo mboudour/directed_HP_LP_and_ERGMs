@@ -1,6 +1,6 @@
 # Directed HP, LP, and ERGMs
 
-> **Network Science article.** The code and aggregate results for *Predicting Participation and Leadership in Political Hypergraphs with Exponential Random Graph Models* (submitted to *Network Science*, special collection "Political Networks: New Trends & Directions") are in [`network_science_2026/`](network_science_2026/); see its README for how to run each analysis. The rest of this repository holds the earlier pipeline.
+> **Current analyses.** The code and aggregate results of the current analyses are in [`network_science_2026/`](network_science_2026/); see its README for how to run each analysis. The rest of this repository holds the earlier pipeline.
 
 A reproducible research repository for **directed link prediction (LP)**, **hyperlink prediction (HP)**, and **exponential random graph model (ERGM)** benchmarks under network missingness.
 
