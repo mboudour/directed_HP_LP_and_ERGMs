@@ -7,8 +7,8 @@ from sklearn.metrics import average_precision_score, roc_auc_score
 
 # Input folders (public data, never committed). Override with environment variables.
 _ROOT = Path(__file__).resolve().parents[2]
-RAW = os.environ.get("REVISION_RAW", str(_ROOT / "data" / "raw" / "revision_nov2026")) + "/"
-PROC = os.environ.get("REVISION_PROC", str(_ROOT / "data" / "processed" / "revision_nov2026")) + "/"
+RAW = os.environ.get("REVISION_RAW", str(_ROOT / "data" / "raw" / "network_science_2026")) + "/"
+PROC = os.environ.get("REVISION_PROC", str(_ROOT / "data" / "processed" / "network_science_2026")) + "/"
 LEG = [RAW + "legislators-current.yaml", RAW + "legislators-historical.yaml"]
 CASES = {
     "s118": ("bills_118-s.json", "sen", 118, ["S118", "S117", "H118", "H117", "H116"]),

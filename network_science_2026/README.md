@@ -80,8 +80,8 @@ All inputs are public. Download them into one folder (`RAW` in `src/runlib.py`):
 ## Running
 
 ```bash
-cd revision_nov2026/src
-export REVISION_RAW=/path/to/raw REVISION_PROC=/path/to/processed   # defaults: data/raw|processed/revision_nov2026
+cd network_science_2026/src
+export REVISION_RAW=/path/to/raw REVISION_PROC=/path/to/processed   # defaults: data/raw|processed/network_science_2026
 python -I parse_billstatus.py RAW/BILLSTATUS-118-s.zip PROC/bills_118-s.json   # likewise for the other archives
 python run_case.py s118 ../results/s118      # also s117, s116, h118, s118cap3, s118uncap
 python report.py  s118 ../results/s118
